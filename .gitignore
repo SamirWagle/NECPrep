@@ -178,3 +178,8 @@ datasets/debug_screenshot.png
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# Vite cache
+.vite/
+./vite/
+frontend/.vite/
