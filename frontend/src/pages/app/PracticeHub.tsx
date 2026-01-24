@@ -1,5 +1,24 @@
 import { Link } from 'react-router-dom';
-import { topics, mockTests, totalQuestions } from '../../data/topics';
+import { useState, useEffect } from 'react';
+import { getTopics, getMockTests, getUserProgress } from '../../services/api';
+import type { Topic, MockTest, UserTopicStats } from '../../types/database.types';
+
+// Loading skeleton component
+function LoadingSkeleton() {
+  return (
+    <div className="loading-skeleton">
+      <div className="skeleton-header">
+        <div className="skeleton-title"></div>
+        <div className="skeleton-subtitle"></div>
+      </div>
+      <div className="skeleton-grid">
+        {[1, 2, 3, 4, 5, 6].map(i => (
+          <div key={i} className="skeleton-card"></div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // Topic icon component
 function TopicIcon({ icon, color }: { icon: string; color: string }) {
@@ -103,6 +122,51 @@ function TopicIcon({ icon, color }: { icon: string; color: string }) {
 }
 
 export default function PracticeHub() {
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [mockTests, setMockTests] = useState<MockTest[]>([]);
+  const [topicProgress, setTopicProgress] = useState<Map<string, UserTopicStats>>(new Map());
+  const [loading, setLoading] = useState(true);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      try {
+        // Load all data in parallel
+        const [topicsData, mockTestsData, progressData] = await Promise.all([
+          getTopics(),
+          getMockTests(),
+          getUserProgress().catch(() => ({ overall: null, topics: [] }))
+        ]);
+        
+        setTopics(topicsData);
+        setMockTests(mockTestsData);
+        
+        // Calculate total questions
+        const total = topicsData.reduce((sum, t) => sum + (t.question_count || 0), 0);
+        setTotalQuestions(total);
+        
+        // Create progress map for easy lookup
+        const progressMap = new Map<string, UserTopicStats>();
+        progressData.topics.forEach(tp => {
+          progressMap.set(tp.topic_id, tp);
+        });
+        setTopicProgress(progressMap);
+        
+      } catch (err) {
+        console.error('Error loading practice data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
+
   return (
     <div className="practice-hub-page">
       {/* Page header */}
@@ -163,30 +227,36 @@ export default function PracticeHub() {
         <h2 id="topics-title">Practice by Topic</h2>
         <div className="topics-grid">
           {topics.map((topic) => {
-            // Mock progress
-            const progress = Math.floor(Math.random() * 50) + 10;
+            const stats = topicProgress.get(topic.id);
+            const progress = stats?.completion_percentage || 0;
+            const questionsAnswered = stats?.total_questions_attempted || 0;
+            
             return (
               <Link 
                 to={`/app/practice/topic/${topic.id}`}
                 key={topic.id}
                 className="topic-card"
               >
-                <TopicIcon icon={topic.icon} color={topic.color} />
+                <TopicIcon icon={topic.icon || 'book'} color={topic.color || '#6366f1'} />
                 <div className="topic-content">
-                  <h3>{topic.shortName}</h3>
+                  <h3>{topic.name}</h3>
                   <p>{topic.description}</p>
                   <div className="topic-meta">
-                    <span className="question-count">{topic.questionCount} questions</span>
-                    <span className="progress-badge" style={{ color: topic.color }}>
-                      {progress}% complete
-                    </span>
+                    <span className="question-count">{topic.question_count} questions</span>
+                    {questionsAnswered > 0 && (
+                      <span className="progress-badge" style={{ color: topic.color || '#6366f1' }}>
+                        {Math.round(progress)}% complete
+                      </span>
+                    )}
                   </div>
-                  <div className="progress-bar-container">
-                    <div 
-                      className="progress-bar-fill" 
-                      style={{ width: `${progress}%`, backgroundColor: topic.color }}
-                    />
-                  </div>
+                  {questionsAnswered > 0 && (
+                    <div className="progress-bar-container">
+                      <div 
+                        className="progress-bar-fill" 
+                        style={{ width: `${progress}%`, backgroundColor: topic.color || '#6366f1' }}
+                      />
+                    </div>
+                  )}
                 </div>
               </Link>
             );
