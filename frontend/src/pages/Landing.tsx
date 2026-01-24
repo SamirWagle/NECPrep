@@ -72,7 +72,7 @@ export default function Landing() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            onClick={() => navigate('/signin')}
+            onClick={() => navigate('/auth/login')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -127,7 +127,7 @@ export default function Landing() {
           >
             <motion.button
               className="btn-primary"
-              onClick={() => navigate('/signin')}
+              onClick={() => navigate('/auth/login')}
               whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(99, 102, 241, 0.5)' }}
               whileTap={{ scale: 0.95 }}
             >
@@ -226,7 +226,7 @@ export default function Landing() {
           </p>
           <motion.button
             className="btn-primary btn-large"
-            onClick={() => navigate('/signin')}
+            onClick={() => navigate('/auth/login')}
             whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' }}
             whileTap={{ scale: 0.95 }}
           >
