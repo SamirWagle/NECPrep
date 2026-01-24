@@ -1,0 +1,578 @@
+[
+  {
+    "qsns": "Which of the following is NOT a type of finite automaton?",
+    "opt1": "Deterministic Finite Automaton (DFA)",
+    "opt2": "Non-deterministic Finite Automaton (NFA)",
+    "opt3": "Pushdown Automaton (PDA)",
+    "opt4": "Mealy Machine",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In a DFA, each state has exactly one transition for each input symbol.",
+    "opt1": "True",
+    "opt2": "False",
+    "opt3": "Depends on the alphabet size",
+    "opt4": "Depends on the number of states",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The pumping lemma for regular languages is used to:",
+    "opt1": "Prove a language is regular",
+    "opt2": "Prove a language is not regular",
+    "opt3": "Convert NFA to DFA",
+    "opt4": "Minimize DFA",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The regular expression (a|b)* represents:",
+    "opt1": "Any string of a's followed by b's",
+    "opt2": "Any string of a's and b's",
+    "opt3": "Any string with equal number of a's and b's",
+    "opt4": "Any string with alternating a's and b's",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a regular language?",
+    "opt1": "All strings ending with 'ab'",
+    "opt2": "All strings with equal number of a's and b's",
+    "opt3": "All strings with even length",
+    "opt4": "All strings containing the substring 'aba'",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "State minimization in DFA is done to:",
+    "opt1": "Increase the language recognition capability",
+    "opt2": "Reduce the number of states without changing the language",
+    "opt3": "Convert NFA to DFA",
+    "opt4": "Make the automaton non-deterministic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about NFAs and DFAs?",
+    "opt1": "NFAs are more powerful than DFAs",
+    "opt2": "DFAs are more powerful than NFAs",
+    "opt3": "NFAs and DFAs have equivalent computational power",
+    "opt4": "NFAs can recognize context-free languages but DFAs cannot",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following can recognize the language {a^n b^n | n ≥ 1}?",
+    "opt1": "DFA",
+    "opt2": "NFA",
+    "opt3": "PDA",
+    "opt4": "Regular Expression",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A context-free grammar is ambiguous if:",
+    "opt1": "It has multiple production rules",
+    "opt2": "It can generate strings not in the language",
+    "opt3": "It has multiple parse trees for some string",
+    "opt4": "It has recursive production rules",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which parsing technique builds the parse tree from bottom to top?",
+    "opt1": "Top-down parsing",
+    "opt2": "Bottom-up parsing",
+    "opt3": "Recursive descent parsing",
+    "opt4": "Predictive parsing",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Chomsky Normal Form (CNF) restricts production rules to:",
+    "opt1": "A → BC or A → a",
+    "opt2": "A → aB or A → a",
+    "opt3": "A → a or A → ε",
+    "opt4": "A → B or A → a",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The pumping lemma for context-free languages is used to:",
+    "opt1": "Prove a language is context-free",
+    "opt2": "Prove a language is not context-free",
+    "opt3": "Convert CFG to PDA",
+    "opt4": "Minimize CFG",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Church-Turing thesis states that:",
+    "opt1": "All problems can be solved by a Turing machine",
+    "opt2": "Any algorithm can be simulated by a Turing machine",
+    "opt3": "Turing machines are more powerful than computers",
+    "opt4": "Computers are more powerful than Turing machines",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Universal Turing Machine can:",
+    "opt1": "Solve the halting problem",
+    "opt2": "Simulate any other Turing machine",
+    "opt3": "Recognize only regular languages",
+    "opt4": "Recognize only context-free languages",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Turing machine can:",
+    "opt1": "Read only",
+    "opt2": "Write only",
+    "opt3": "Both read and write",
+    "opt4": "Neither read nor write",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Turing machine consists of:",
+    "opt1": "Finite control, input tape, and stack",
+    "opt2": "Finite control, infinite tape, and read/write head",
+    "opt3": "Infinite control, finite tape, and read/write head",
+    "opt4": "Finite control, finite tape, and multiple heads",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a property of context-free languages?",
+    "opt1": "Closure under union",
+    "opt2": "Closure under intersection",
+    "opt3": "Closure under concatenation",
+    "opt4": "Closure under Kleene star",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Time complexity of a Turing machine is measured by:",
+    "opt1": "Number of states",
+    "opt2": "Number of transitions",
+    "opt3": "Number of steps to halt",
+    "opt4": "Length of the input tape",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "P is the class of problems that can be solved in:",
+    "opt1": "Polynomial time",
+    "opt2": "Exponential time",
+    "opt3": "Logarithmic time",
+    "opt4": "Constant time",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "NP is the class of problems that can be:",
+    "opt1": "Solved in polynomial time",
+    "opt2": "Verified in polynomial time",
+    "opt3": "Solved in exponential time",
+    "opt4": "Not solved by any algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "An NP-complete problem is:",
+    "opt1": "Easy to solve but hard to verify",
+    "opt2": "Hard to solve but easy to verify",
+    "opt3": "Both easy to solve and verify",
+    "opt4": "Both hard to solve and verify",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The basic unit of a raster display is:",
+    "opt1": "Line",
+    "opt2": "Pixel",
+    "opt3": "Vector",
+    "opt4": "Polygon",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is a raster display technology?",
+    "opt1": "Vector display",
+    "opt2": "CRT display",
+    "opt3": "Random scan display",
+    "opt4": "Calligraphic display",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Graphics standards are important for:",
+    "opt1": "Hardware compatibility",
+    "opt2": "Software portability",
+    "opt3": "Both A and B",
+    "opt4": "Neither A nor B",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Vector displays are characterized by:",
+    "opt1": "Drawing images pixel by pixel",
+    "opt2": "Drawing images line by line",
+    "opt3": "Refreshing the entire screen",
+    "opt4": "Low resolution",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT an input device for computer graphics?",
+    "opt1": "Mouse",
+    "opt2": "Joystick",
+    "opt3": "Printer",
+    "opt4": "Trackball",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "OpenGL is an example of:",
+    "opt1": "Graphics hardware",
+    "opt2": "Graphics API",
+    "opt3": "Display technology",
+    "opt4": "Input device",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 2D translation transformation:",
+    "opt1": "Changes the size of an object",
+    "opt2": "Changes the position of an object",
+    "opt3": "Changes the orientation of an object",
+    "opt4": "Changes the shape of an object",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 2D rotation transformation rotates an object around:",
+    "opt1": "X-axis",
+    "opt2": "Y-axis",
+    "opt3": "Z-axis",
+    "opt4": "Origin",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 2D scaling transformation:",
+    "opt1": "Changes the position of an object",
+    "opt2": "Changes the size of an object",
+    "opt3": "Changes the orientation of an object",
+    "opt4": "Changes the color of an object",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which transformation changes the shape of an object?",
+    "opt1": "Translation",
+    "opt2": "Rotation",
+    "opt3": "Scaling",
+    "opt4": "Shear",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A composite transformation is:",
+    "opt1": "A single transformation",
+    "opt2": "Multiple transformations applied in sequence",
+    "opt3": "A transformation that cannot be represented by a matrix",
+    "opt4": "A transformation that changes color",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 2D viewing pipeline converts:",
+    "opt1": "World coordinates to device coordinates",
+    "opt2": "Device coordinates to world coordinates",
+    "opt3": "World coordinates to 3D coordinates",
+    "opt4": "3D coordinates to 2D coordinates",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Cohen-Sutherland algorithm is used for:",
+    "opt1": "Line clipping",
+    "opt2": "Polygon clipping",
+    "opt3": "Circle clipping",
+    "opt4": "Text clipping",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Clipping in computer graphics is:",
+    "opt1": "Removing parts of objects outside the viewing window",
+    "opt2": "Joining multiple objects",
+    "opt3": "Changing object colors",
+    "opt4": "Rotating objects",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Liang-Barsky algorithm for line clipping is based on:",
+    "opt1": "Region codes",
+    "opt2": "Parametric line equations",
+    "opt3": "Midpoint subdivision",
+    "opt4": "Scan conversion",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "3D translation moves an object along:",
+    "opt1": "X and Y axes only",
+    "opt2": "X, Y, and Z axes",
+    "opt3": "Z axis only",
+    "opt4": "A circular path",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "3D rotation can be performed around:",
+    "opt1": "X-axis only",
+    "opt2": "Y-axis only",
+    "opt3": "Z-axis only",
+    "opt4": "X, Y, or Z axes",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In 3D scaling, if all scaling factors are equal, the transformation is:",
+    "opt1": "Non-uniform scaling",
+    "opt2": "Uniform scaling",
+    "opt3": "Reflection",
+    "opt4": "Shear",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 3D viewing pipeline converts:",
+    "opt1": "3D world coordinates to 2D device coordinates",
+    "opt2": "2D device coordinates to 3D world coordinates",
+    "opt3": "3D world coordinates to 3D device coordinates",
+    "opt4": "2D world coordinates to 3D device coordinates",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In orthographic projection:",
+    "opt1": "Parallel lines converge at a vanishing point",
+    "opt2": "Parallel lines remain parallel",
+    "opt3": "Objects appear larger as they get closer",
+    "opt4": "Objects appear smaller as they get closer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In perspective projection:",
+    "opt1": "Parallel lines remain parallel",
+    "opt2": "Parallel lines converge at a vanishing point",
+    "opt3": "All objects appear the same size regardless of distance",
+    "opt4": "There is no distortion of objects",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a type of projection?",
+    "opt1": "Orthographic",
+    "opt2": "Perspective",
+    "opt3": "Parallel",
+    "opt4": "Translational",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The minimum number of states required for a DFA to recognize the language of all strings ending with '01' is:",
+    "opt1": "2",
+    "opt2": "3",
+    "opt3": "4",
+    "opt4": "5",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following languages can be recognized by a DFA but not by a regular expression?",
+    "opt1": "All strings ending with 'ab'",
+    "opt2": "All strings with even number of a's",
+    "opt3": "All strings with equal number of a's and b's",
+    "opt4": "None, DFAs and regular expressions are equivalent",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT decidable for a Turing machine?",
+    "opt1": "Whether it accepts a specific input",
+    "opt2": "Whether it halts on a specific input",
+    "opt3": "Whether it accepts all inputs",
+    "opt4": "Whether it has a specific number of states",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about context-free grammars and regular grammars?",
+    "opt1": "All regular grammars are context-free",
+    "opt2": "All context-free grammars are regular",
+    "opt3": "Regular and context-free grammars are equivalent",
+    "opt4": "Regular and context-free grammars are disjoint",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A grammar with productions S → aSb | ε generates the language:",
+    "opt1": "a^n b^n for n ≥ 0",
+    "opt2": "a^n b^m for n, m ≥ 0",
+    "opt3": "a^n b^n for n > 0",
+    "opt4": "a^n b^m for n > m ≥ 0",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The resolution of a raster display is measured in:",
+    "opt1": "Dots per inch (DPI)",
+    "opt2": "Pixels",
+    "opt3": "Refresh rate",
+    "opt4": "Color depth",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a property of a Turing-recognizable language?",
+    "opt1": "It can be recognized by a Turing machine",
+    "opt2": "It is recursively enumerable",
+    "opt3": "It is decidable",
+    "opt4": "It may not be decidable",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The halting problem is:",
+    "opt1": "Decidable",
+    "opt2": "Undecidable",
+    "opt3": "NP-complete",
+    "opt4": "In P but not in NP",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which color model is based on light addition?",
+    "opt1": "RGB",
+    "opt2": "CMYK",
+    "opt3": "HSV",
+    "opt4": "YUV",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The frame buffer in a graphics system stores:",
+    "opt1": "Display processor instructions",
+    "opt2": "Pixel color values",
+    "opt3": "Transformation matrices",
+    "opt4": "Input device data",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a primitive in computer graphics?",
+    "opt1": "Point",
+    "opt2": "Line",
+    "opt3": "Polygon",
+    "opt4": "Algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In computer graphics, a transformation matrix for 2D transformations is of size:",
+    "opt1": "2×2",
+    "opt2": "3×3",
+    "opt3": "4×4",
+    "opt4": "Depends on the transformation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The homogeneous coordinate system is used in computer graphics to:",
+    "opt1": "Represent colors",
+    "opt2": "Represent 3D points with 4 coordinates",
+    "opt3": "Simplify transformation calculations",
+    "opt4": "Both B and C",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The z-buffer algorithm is used for:",
+    "opt1": "Line clipping",
+    "opt2": "Hidden surface removal",
+    "opt3": "Color interpolation",
+    "opt4": "Texture mapping",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Anti-aliasing techniques are used to:",
+    "opt1": "Increase rendering speed",
+    "opt2": "Reduce jagged edges in raster images",
+    "opt3": "Compress image data",
+    "opt4": "Enhance image brightness",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Bezier curves are used in computer graphics for:",
+    "opt1": "Representing straight lines",
+    "opt2": "Representing smooth curves",
+    "opt3": "Hidden surface removal",
+    "opt4": "Color interpolation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Ray tracing is a technique for:",
+    "opt1": "2D rendering",
+    "opt2": "Realistic 3D rendering",
+    "opt3": "Animation",
+    "opt4": "Image compression",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a characteristic of a Mealy machine?",
+    "opt1": "Output depends on current state and input",
+    "opt2": "Output depends only on current state",
+    "opt3": "It is a type of finite state machine",
+    "opt4": "It can be converted to a Moore machine",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Moore machine differs from a Mealy machine in that:",
+    "opt1": "Output depends only on current state",
+    "opt2": "Output depends on current state and input",
+    "opt3": "It has fewer states",
+    "opt4": "It cannot be minimized",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A pushdown automaton (PDA) differs from a finite automaton by having:",
+    "opt1": "Multiple states",
+    "opt2": "Multiple transitions",
+    "opt3": "A stack",
+    "opt4": "Multiple input tapes",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Backus-Naur Form (BNF) is used for:",
+    "opt1": "Describing regular languages",
+    "opt2": "Describing context-free grammars",
+    "opt3": "Minimizing DFAs",
+    "opt4": "Converting NFA to DFA",
+    "correct_option": "",
+    "correct_option_index": 0
+  }
+]

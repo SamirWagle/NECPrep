@@ -1,0 +1,596 @@
+[
+  {
+    "qsns": "Which number system has a base of 16?",
+    "opt1": "Binary",
+    "opt2": "Octal",
+    "opt3": "Decimal",
+    "opt4": "Hexadecimal",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the decimal equivalent of binary number 1101?",
+    "opt1": "13",
+    "opt2": "11",
+    "opt3": "15",
+    "opt4": "9",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which logic gate produces a HIGH output only when all inputs are LOW?",
+    "opt1": "AND",
+    "opt2": "OR",
+    "opt3": "NOR",
+    "opt4": "NAND",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Sum-of-Products (SOP) form consists of:",
+    "opt1": "Sum terms OR'd together",
+    "opt2": "Product terms AND'd together",
+    "opt3": "Product terms OR'd together",
+    "opt4": "Sum terms AND'd together",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Boolean expression for XOR gate is:",
+    "opt1": "A·B",
+    "opt2": "A+B",
+    "opt3": "A⊕B",
+    "opt4": "A'·B'",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which logic gate is known as the universal gate?",
+    "opt1": "AND",
+    "opt2": "OR",
+    "opt3": "XOR",
+    "opt4": "NAND",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which method is used to simplify Boolean expressions using a graphical approach?",
+    "opt1": "Truth Table",
+    "opt2": "Karnaugh Map",
+    "opt3": "Boolean Algebra",
+    "opt4": "Venn Diagram",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Product-of-Sums (POS) form consists of:",
+    "opt1": "Sum terms OR'd together",
+    "opt2": "Product terms AND'd together",
+    "opt3": "Product terms OR'd together",
+    "opt4": "Sum terms AND'd together",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A 4-to-1 multiplexer requires how many select lines?",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 2's complement of binary number 10110 is:",
+    "opt1": "01001",
+    "opt2": "01010",
+    "opt3": "10110",
+    "opt4": "01100",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In signed binary representation, the leftmost bit represents:",
+    "opt1": "Most significant bit",
+    "opt2": "Least significant bit",
+    "opt3": "Sign bit",
+    "opt4": "Parity bit",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which flip-flop has no stable states?",
+    "opt1": "RS flip-flop",
+    "opt2": "JK flip-flop",
+    "opt3": "D flip-flop",
+    "opt4": "T flip-flop",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The forbidden state in an RS flip-flop is when:",
+    "opt1": "R=0, S=0",
+    "opt2": "R=1, S=0",
+    "opt3": "R=0, S=1",
+    "opt4": "R=1, S=1",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Edge-triggered flip-flops respond to input signals:",
+    "opt1": "At any time",
+    "opt2": "Only when the clock is HIGH",
+    "opt3": "Only when the clock is LOW",
+    "opt4": "Only during clock transitions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which flip-flop is free from the forbidden state problem?",
+    "opt1": "RS flip-flop",
+    "opt2": "JK flip-flop",
+    "opt3": "T flip-flop",
+    "opt4": "Both B and C",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Master-Slave flip-flop is designed to prevent:",
+    "opt1": "Race condition",
+    "opt2": "Forbidden states",
+    "opt3": "Clock skew",
+    "opt4": "Signal attenuation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A device that converts 2^n input lines to n output lines is called:",
+    "opt1": "Encoder",
+    "opt2": "Decoder",
+    "opt3": "Multiplexer",
+    "opt4": "Demultiplexer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A shift register that can shift in both directions is called:",
+    "opt1": "SISO",
+    "opt2": "SIPO",
+    "opt3": "PISO",
+    "opt4": "Bidirectional shift register",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which register type converts serial data to parallel data?",
+    "opt1": "SISO",
+    "opt2": "SIPO",
+    "opt3": "PISO",
+    "opt4": "PIPO",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A 3-bit asynchronous counter can count up to:",
+    "opt1": "3",
+    "opt2": "6",
+    "opt3": "7",
+    "opt4": "8",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In an asynchronous counter, the clock signal is applied to:",
+    "opt1": "All flip-flops simultaneously",
+    "opt2": "Only the first flip-flop",
+    "opt3": "Only the last flip-flop",
+    "opt4": "Alternating flip-flops",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The main advantage of synchronous counters over asynchronous counters is:",
+    "opt1": "Lower power consumption",
+    "opt2": "Simpler design",
+    "opt3": "Higher speed operation",
+    "opt4": "Fewer components",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which register is commonly used in arithmetic operations?",
+    "opt1": "Accumulator",
+    "opt2": "Instruction register",
+    "opt3": "Program counter",
+    "opt4": "Status register",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In a synchronous counter, the clock signal is applied to:",
+    "opt1": "All flip-flops simultaneously",
+    "opt2": "Only the first flip-flop",
+    "opt3": "Only the last flip-flop",
+    "opt4": "Alternating flip-flops",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Arithmetic Logic Unit (ALU) is responsible for:",
+    "opt1": "Storing data",
+    "opt2": "Fetching instructions",
+    "opt3": "Mathematical and logical operations",
+    "opt4": "Controlling program flow",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The register that keeps track of the next instruction to be executed is:",
+    "opt1": "Accumulator",
+    "opt2": "Instruction register",
+    "opt3": "Program counter",
+    "opt4": "Status register",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Assembly language uses:",
+    "opt1": "Machine code",
+    "opt2": "Mnemonics",
+    "opt3": "High-level syntax",
+    "opt4": "Object code",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which component of a microprocessor decodes instructions?",
+    "opt1": "ALU",
+    "opt2": "Control unit",
+    "opt3": "Registers",
+    "opt4": "Cache",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which addressing mode uses the content of a register to point to the operand?",
+    "opt1": "Immediate addressing",
+    "opt2": "Direct addressing",
+    "opt3": "Register addressing",
+    "opt4": "Indirect addressing",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In immediate addressing mode, the operand is:",
+    "opt1": "In a register",
+    "opt2": "In memory",
+    "opt3": "Part of the instruction",
+    "opt4": "In accumulator",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which memory has the fastest access time?",
+    "opt1": "Hard disk",
+    "opt2": "RAM",
+    "opt3": "Cache",
+    "opt4": "ROM",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The memory hierarchy is organized based on:",
+    "opt1": "Cost",
+    "opt2": "Size",
+    "opt3": "Speed",
+    "opt4": "All of these",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "ROM is a type of:",
+    "opt1": "Volatile memory",
+    "opt2": "Non-volatile memory",
+    "opt3": "Secondary memory",
+    "opt4": "Virtual memory",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which interface allows multiple peripherals to share the same data lines?",
+    "opt1": "Serial interface",
+    "opt2": "Parallel interface",
+    "opt3": "USB interface",
+    "opt4": "Wireless interface",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 8255 is an example of:",
+    "opt1": "Microprocessor",
+    "opt2": "Programmable Peripheral Interface",
+    "opt3": "DMA controller",
+    "opt4": "Serial interface",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Direct Memory Access (DMA) is used to:",
+    "opt1": "Increase memory capacity",
+    "opt2": "Transfer data without CPU intervention",
+    "opt3": "Improve CPU processing speed",
+    "opt4": "Enhance memory security",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "RS-232 is an example of:",
+    "opt1": "Parallel interface standard",
+    "opt2": "Serial interface standard",
+    "opt3": "Wireless interface standard",
+    "opt4": "Network interface standard",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The main advantage of DMA is:",
+    "opt1": "Reduced memory usage",
+    "opt2": "Increased memory capacity",
+    "opt3": "Improved data transfer speed",
+    "opt4": "Enhanced security",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Asynchronous transmission:",
+    "opt1": "Requires a clock signal",
+    "opt2": "Uses start and stop bits",
+    "opt3": "Is faster than synchronous transmission",
+    "opt4": "Requires fewer overhead bits",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid number system?",
+    "opt1": "Binary",
+    "opt2": "Octal",
+    "opt3": "Decimal",
+    "opt4": "Duodecimal",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In serial communication, data is transmitted:",
+    "opt1": "One bit at a time",
+    "opt2": "One byte at a time",
+    "opt3": "Multiple bits in parallel",
+    "opt4": "Multiple bytes at once",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The octal equivalent of binary number 1010 is:",
+    "opt1": "10",
+    "opt2": "12",
+    "opt3": "8",
+    "opt4": "14",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Boolean expression A + A·B is equivalent to:",
+    "opt1": "A",
+    "opt2": "B",
+    "opt3": "A+B",
+    "opt4": "A·B",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Boolean expression A·(A+B) is equivalent to:",
+    "opt1": "A",
+    "opt2": "B",
+    "opt3": "A+B",
+    "opt4": "A·B",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "How many variables can be represented on a 4×4 Karnaugh map?",
+    "opt1": "2",
+    "opt2": "3",
+    "opt3": "4",
+    "opt4": "5",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A full adder can add:",
+    "opt1": "Two bits",
+    "opt2": "Two bits and a carry",
+    "opt3": "Three bits",
+    "opt4": "Four bits",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "How many select lines are needed for an 8-to-1 multiplexer?",
+    "opt1": "2",
+    "opt2": "3",
+    "opt3": "4",
+    "opt4": "8",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The 1's complement of binary number 10110 is:",
+    "opt1": "01001",
+    "opt2": "01010",
+    "opt3": "10110",
+    "opt4": "01100",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A 3-to-8 decoder has:",
+    "opt1": "3 inputs and 3 outputs",
+    "opt2": "3 inputs and 8 outputs",
+    "opt3": "8 inputs and 3 outputs",
+    "opt4": "8 inputs and 8 outputs",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In 2's complement representation, the range of 8-bit signed numbers is:",
+    "opt1": "0 to 255",
+    "opt2": "-127 to +127",
+    "opt3": "-128 to +127",
+    "opt4": "-255 to 0",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A JK flip-flop behaves like a T flip-flop when:",
+    "opt1": "J=0, K=0",
+    "opt2": "J=1, K=0",
+    "opt3": "J=0, K=1",
+    "opt4": "J=1, K=1",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A 4-bit ring counter requires:",
+    "opt1": "2 flip-flops",
+    "opt2": "3 flip-flops",
+    "opt3": "4 flip-flops",
+    "opt4": "5 flip-flops",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A D flip-flop is basically a:",
+    "opt1": "Delay element",
+    "opt2": "Memory element",
+    "opt3": "Both A and B",
+    "opt4": "Neither A nor B",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Johnson counter is also known as:",
+    "opt1": "Ring counter",
+    "opt2": "Twisted ring counter",
+    "opt3": "Ripple counter",
+    "opt4": "Synchronous counter",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The control bus in a microprocessor system:",
+    "opt1": "Carries data",
+    "opt2": "Carries addresses",
+    "opt3": "Carries control signals",
+    "opt4": "Carries clock signals",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a typical register in a microprocessor?",
+    "opt1": "Accumulator",
+    "opt2": "Program Counter",
+    "opt3": "DMA Controller",
+    "opt4": "Stack Pointer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The process of converting assembly language to machine code is called:",
+    "opt1": "Compilation",
+    "opt2": "Interpretation",
+    "opt3": "Assembly",
+    "opt4": "Linking",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which memory type loses its data when power is turned off?",
+    "opt1": "ROM",
+    "opt2": "EPROM",
+    "opt3": "RAM",
+    "opt4": "Flash memory",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Cache memory is located:",
+    "opt1": "Between CPU and main memory",
+    "opt2": "Between main memory and secondary storage",
+    "opt3": "Inside the ALU",
+    "opt4": "Inside the control unit",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a function of the 8255 PPI?",
+    "opt1": "Parallel I/O interface",
+    "opt2": "Serial I/O interface",
+    "opt3": "Programmable I/O ports",
+    "opt4": "Handshaking control signals",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about DMA operation?",
+    "opt1": "CPU is involved in data transfer",
+    "opt2": "CPU is halted during transfer",
+    "opt3": "CPU continues other operations",
+    "opt4": "CPU must acknowledge each transfer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The main difference between SRAM and DRAM is:",
+    "opt1": "SRAM is slower than DRAM",
+    "opt2": "SRAM requires refresh cycles",
+    "opt3": "SRAM uses flip-flops for storage",
+    "opt4": "SRAM has higher capacity than DRAM",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The DMA controller takes control of the system bus by:",
+    "opt1": "Interrupt request",
+    "opt2": "Bus request",
+    "opt3": "Reset signal",
+    "opt4": "Clock signal",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In synchronous serial communication:",
+    "opt1": "No clock signal is required",
+    "opt2": "A separate clock line is used",
+    "opt3": "Start and stop bits are used",
+    "opt4": "Data is transmitted in parallel",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A device that converts n input lines to 2^n output lines is called:",
+    "opt1": "Encoder",
+    "opt2": "Decoder",
+    "opt3": "Multiplexer",
+    "opt4": "Demultiplexer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which device routes data from a single input to one of several outputs?",
+    "opt1": "Multiplexer",
+    "opt2": "Demultiplexer",
+    "opt3": "Encoder",
+    "opt4": "Decoder",
+    "correct_option": "",
+    "correct_option_index": 0
+  }
+]

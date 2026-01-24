@@ -74,10 +74,12 @@ web_modules/
 
 # dotenv environment variable files
 .env
+.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
+frontend/.env
+frontend/.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -91,18 +93,17 @@ out
 .nuxt
 dist
 
+# Vite build output
+frontend/dist
+
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 .vuepress/dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # vitepress build output
 **/.vitepress/dist
@@ -134,3 +135,51 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# ===== Project Specific =====
+
+# Chrome profile data (Selenium/Playwright)
+chrome_profile/
+datasets/chrome_profile/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.eggs/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Debug files
+debug_screenshot.png
+page_source.html
+datasets/page_source.html
+datasets/debug_screenshot.png
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Vite cache
+.vite/
+./vite/
+frontend/.vite/

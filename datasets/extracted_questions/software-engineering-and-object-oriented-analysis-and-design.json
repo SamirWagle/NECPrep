@@ -1,0 +1,650 @@
+[
+  {
+    "qsns": "Which software process model emphasizes iterative development with rapid feedback?",
+    "opt1": "Waterfall Model",
+    "opt2": "Agile Model",
+    "opt3": "V-Model",
+    "opt4": "Big Bang Model",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Non-functional requirements specify:",
+    "opt1": "System services",
+    "opt2": "System functions",
+    "opt3": "System constraints",
+    "opt4": "System users",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Requirements elicitation techniques include:",
+    "opt1": "Interviews",
+    "opt2": "Questionnaires",
+    "opt3": "Observation",
+    "opt4": "All of these",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The software requirements document:",
+    "opt1": "Is optional in software development",
+    "opt2": "Specifies what the software should do",
+    "opt3": "Is only needed for large projects",
+    "opt4": "Is created after coding",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Functional requirements describe:",
+    "opt1": "How the system should perform",
+    "opt2": "What the system should do",
+    "opt3": "When the system should be delivered",
+    "opt4": "Who will use the system",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The V-Model in software development is characterized by:",
+    "opt1": "Parallel development activities",
+    "opt2": "Correspondence between development and testing phases",
+    "opt3": "Absence of testing phases",
+    "opt4": "Random development sequence",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Computer-Aided Software Engineering (CASE) tools are used for:",
+    "opt1": "Replacing programmers",
+    "opt2": "Automating software development tasks",
+    "opt3": "Hardware design",
+    "opt4": "Network administration",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a software quality attribute?",
+    "opt1": "Reliability",
+    "opt2": "Usability",
+    "opt3": "Maintainability",
+    "opt4": "Profitability",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Software design is concerned with:",
+    "opt1": "Defining requirements",
+    "opt2": "Specifying a solution that meets requirements",
+    "opt3": "Testing the software",
+    "opt4": "Maintaining the software",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Architectural design decisions involve:",
+    "opt1": "Detailed algorithm design",
+    "opt2": "User interface design",
+    "opt3": "System structure organization",
+    "opt4": "Code optimization",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Modular decomposition in software design aims to:",
+    "opt1": "Increase system complexity",
+    "opt2": "Reduce system maintainability",
+    "opt3": "Break the system into manageable components",
+    "opt4": "Eliminate the need for testing",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Requirements validation ensures that:",
+    "opt1": "Requirements are implemented correctly",
+    "opt2": "Requirements reflect what users want",
+    "opt3": "Requirements are documented",
+    "opt4": "Requirements are prioritized",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Unit testing involves:",
+    "opt1": "Testing individual components",
+    "opt2": "Testing the entire system",
+    "opt3": "Testing user acceptance",
+    "opt4": "Testing system integration",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Integration testing focuses on:",
+    "opt1": "Testing individual modules",
+    "opt2": "Testing interactions between modules",
+    "opt3": "Testing user requirements",
+    "opt4": "Testing system performance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Test case design techniques include:",
+    "opt1": "Black-box testing",
+    "opt2": "White-box testing",
+    "opt3": "Both A and B",
+    "opt4": "Neither A nor B",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Software cost estimation methods include:",
+    "opt1": "COCOMO model",
+    "opt2": "Function point analysis",
+    "opt3": "Expert judgment",
+    "opt4": "All of these",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Test automation:",
+    "opt1": "Eliminates the need for manual testing",
+    "opt2": "Uses software tools to control test execution",
+    "opt3": "Is only suitable for small projects",
+    "opt4": "Increases testing time",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Software quality assurance:",
+    "opt1": "Is only concerned with testing",
+    "opt2": "Is a comprehensive approach to ensuring quality",
+    "opt3": "Is only needed for critical systems",
+    "opt4": "Is performed only at the end of development",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Formal technical reviews in software development:",
+    "opt1": "Replace testing",
+    "opt2": "Are conducted by managers only",
+    "opt3": "Help identify defects early",
+    "opt4": "Are optional activities",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Configuration management in software engineering deals with:",
+    "opt1": "Hardware setup",
+    "opt2": "Managing changes to software artifacts",
+    "opt3": "Network configuration",
+    "opt4": "User interface design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Version control systems are used for:",
+    "opt1": "Tracking changes to source code",
+    "opt2": "Testing software",
+    "opt3": "Designing user interfaces",
+    "opt4": "Estimating project costs",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "CMMI stands for:",
+    "opt1": "Computer Managed Model Integration",
+    "opt2": "Capability Maturity Model Integration",
+    "opt3": "Complex Management Model Interface",
+    "opt4": "Comprehensive Maintenance Model Integration",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Object-oriented development is based on the concept of:",
+    "opt1": "Procedural programming",
+    "opt2": "Objects that encapsulate data and behavior",
+    "opt3": "Sequential execution",
+    "opt4": "Top-down design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "ISO 9001 is a standard related to:",
+    "opt1": "Programming languages",
+    "opt2": "Quality management systems",
+    "opt3": "Network protocols",
+    "opt4": "Database design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Use cases in object-oriented analysis:",
+    "opt1": "Describe system architecture",
+    "opt2": "Describe system behavior from a user's perspective",
+    "opt3": "Define programming language syntax",
+    "opt4": "Specify hardware requirements",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Unified Modeling Language (UML) is:",
+    "opt1": "A programming language",
+    "opt2": "A visual modeling language for software systems",
+    "opt3": "A testing framework",
+    "opt4": "A project management methodology",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A conceptual model in object-oriented analysis represents:",
+    "opt1": "System implementation details",
+    "opt2": "Real-world concepts and relationships",
+    "opt3": "Database schema",
+    "opt4": "User interface design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Associations in object-oriented modeling represent:",
+    "opt1": "Inheritance relationships",
+    "opt2": "Relationships between classes",
+    "opt3": "Method implementations",
+    "opt4": "Database tables",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "System behavior in object-oriented analysis can be represented using:",
+    "opt1": "Class diagrams",
+    "opt2": "Sequence diagrams",
+    "opt3": "Component diagrams",
+    "opt4": "Deployment diagrams",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Design patterns in object-oriented design are:",
+    "opt1": "Programming language features",
+    "opt2": "Reusable solutions to common problems",
+    "opt3": "Testing strategies",
+    "opt4": "User interface templates",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The transition from analysis to design in object-oriented development involves:",
+    "opt1": "Eliminating all analysis models",
+    "opt2": "Refining analysis models to include implementation details",
+    "opt3": "Starting design from scratch",
+    "opt4": "Skipping the design phase",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Visibility in object-oriented design refers to:",
+    "opt1": "User interface appearance",
+    "opt2": "Access control for attributes and methods",
+    "opt3": "System documentation",
+    "opt4": "Project transparency",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Collaboration diagrams in UML show:",
+    "opt1": "Static structure of the system",
+    "opt2": "Dynamic interactions between objects",
+    "opt3": "System deployment",
+    "opt4": "User interface layout",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A class diagram in UML shows:",
+    "opt1": "Object interactions",
+    "opt2": "System behavior",
+    "opt3": "Classes, attributes, methods, and relationships",
+    "opt4": "System deployment",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Mapping design to code involves:",
+    "opt1": "Translating UML diagrams to programming language constructs",
+    "opt2": "Skipping the design phase",
+    "opt3": "Eliminating object-oriented features",
+    "opt4": "Using only procedural programming",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Creating class definitions from design class diagrams involves:",
+    "opt1": "Ignoring the design",
+    "opt2": "Implementing attributes, methods, and relationships",
+    "opt3": "Using only global variables",
+    "opt4": "Avoiding encapsulation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Exception handling in object-oriented programming:",
+    "opt1": "Should be avoided",
+    "opt2": "Provides a mechanism for handling runtime errors",
+    "opt3": "Is only available in Java",
+    "opt4": "Decreases code reliability",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT an Agile software development methodology?",
+    "opt1": "Scrum",
+    "opt2": "Extreme Programming (XP)",
+    "opt3": "Waterfall",
+    "opt4": "Kanban",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Prototype Model in software development is characterized by:",
+    "opt1": "Sequential development phases",
+    "opt2": "Building a working model early",
+    "opt3": "Avoiding user feedback",
+    "opt4": "Minimal documentation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Big Bang Model in software development:",
+    "opt1": "Is highly structured",
+    "opt2": "Has well-defined phases",
+    "opt3": "Lacks planning and structure",
+    "opt4": "Is recommended for large projects",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Requirements management involves:",
+    "opt1": "Tracking and controlling changes to requirements",
+    "opt2": "Implementing requirements",
+    "opt3": "Testing requirements",
+    "opt4": "Designing system architecture",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Reference architectures in software design:",
+    "opt1": "Are specific to individual projects",
+    "opt2": "Provide templates for common system types",
+    "opt3": "Replace the need for design",
+    "opt4": "Are used only in small projects",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Interface specification in requirements engineering defines:",
+    "opt1": "System functionality",
+    "opt2": "How the system interacts with other systems",
+    "opt3": "System performance",
+    "opt4": "System reliability",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Design heuristics are:",
+    "opt1": "Formal design methods",
+    "opt2": "Rules of thumb that guide design decisions",
+    "opt3": "Automated design tools",
+    "opt4": "Design documentation templates",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Real-time software design focuses on:",
+    "opt1": "Systems with no time constraints",
+    "opt2": "Systems that must respond within specific time constraints",
+    "opt3": "User interface design",
+    "opt4": "Database design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Distributed object architectures:",
+    "opt1": "Centralize all processing",
+    "opt2": "Distribute objects across multiple systems",
+    "opt3": "Eliminate the need for objects",
+    "opt4": "Are only theoretical",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "System testing involves:",
+    "opt1": "Testing individual components",
+    "opt2": "Testing component interactions",
+    "opt3": "Testing the complete system",
+    "opt4": "Testing user acceptance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Multiprocessor architecture in software design deals with:",
+    "opt1": "Single-processor systems",
+    "opt2": "Systems with multiple processors",
+    "opt3": "User interface design",
+    "opt4": "Database design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Acceptance testing is performed by:",
+    "opt1": "Developers",
+    "opt2": "Testers",
+    "opt3": "Project managers",
+    "opt4": "Customers or users",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Metrics for testing include:",
+    "opt1": "Code coverage",
+    "opt2": "Defect density",
+    "opt3": "Test case effectiveness",
+    "opt4": "All of these",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The COCOMO model is used for:",
+    "opt1": "Software design",
+    "opt2": "Software testing",
+    "opt3": "Software cost estimation",
+    "opt4": "Software maintenance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Project staffing in software engineering involves:",
+    "opt1": "Determining the number and skills of personnel needed",
+    "opt2": "Designing the system architecture",
+    "opt3": "Testing the software",
+    "opt4": "Maintaining the software",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Statistical software quality assurance uses:",
+    "opt1": "Formal methods",
+    "opt2": "Statistical sampling and analysis",
+    "opt3": "User feedback",
+    "opt4": "Code reviews",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Change management in configuration management deals with:",
+    "opt1": "Organizational changes",
+    "opt2": "Controlling changes to software artifacts",
+    "opt3": "User interface changes",
+    "opt4": "Hardware changes",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Software metrics provide:",
+    "opt1": "Subjective assessments",
+    "opt2": "Quantitative measures of software attributes",
+    "opt3": "Design patterns",
+    "opt4": "Testing strategies",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Version and release management involves:",
+    "opt1": "Managing different versions of software artifacts",
+    "opt2": "Designing the system",
+    "opt3": "Testing the software",
+    "opt4": "Maintaining hardware",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The object-oriented development cycle typically includes:",
+    "opt1": "Analysis, design, implementation, testing",
+    "opt2": "Coding, testing, deployment",
+    "opt3": "Requirements, coding, maintenance",
+    "opt4": "Planning, execution, closure",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "CASE tools for configuration management assist in:",
+    "opt1": "Software design",
+    "opt2": "Managing software changes and versions",
+    "opt3": "Software testing",
+    "opt4": "User interface design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A conceptual model in object-oriented analysis focuses on:",
+    "opt1": "Implementation details",
+    "opt2": "Domain concepts and relationships",
+    "opt3": "User interface design",
+    "opt4": "Database schema",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In UML, a use case diagram shows:",
+    "opt1": "System classes",
+    "opt2": "System functionality from a user's perspective",
+    "opt3": "System implementation details",
+    "opt4": "System deployment",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Attributes in object-oriented modeling represent:",
+    "opt1": "Operations that objects can perform",
+    "opt2": "Properties of objects",
+    "opt3": "Relationships between objects",
+    "opt4": "Object inheritance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "System behavior in object-oriented analysis can be represented using:",
+    "opt1": "Class diagrams",
+    "opt2": "State diagrams",
+    "opt3": "Component diagrams",
+    "opt4": "Deployment diagrams",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Elaborating use cases in object-oriented design involves:",
+    "opt1": "Eliminating use cases",
+    "opt2": "Adding implementation details to use cases",
+    "opt3": "Replacing use cases with class diagrams",
+    "opt4": "Ignoring use cases",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A collaboration diagram in UML shows:",
+    "opt1": "Static structure",
+    "opt2": "Message exchanges between objects",
+    "opt3": "System deployment",
+    "opt4": "User interface",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Design patterns in object-oriented design:",
+    "opt1": "Should be avoided",
+    "opt2": "Provide reusable solutions to common problems",
+    "opt3": "Are specific to individual projects",
+    "opt4": "Replace the need for design",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A class diagram in object-oriented design shows:",
+    "opt1": "Object interactions",
+    "opt2": "System behavior",
+    "opt3": "Classes, attributes, methods, and relationships",
+    "opt4": "System deployment",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The programming and development process in object-oriented implementation:",
+    "opt1": "Ignores the design",
+    "opt2": "Translates design artifacts into code",
+    "opt3": "Replaces object-oriented concepts with procedural ones",
+    "opt4": "Eliminates the need for testing",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Visibility in object-oriented design includes concepts like:",
+    "opt1": "Public, private, protected",
+    "opt2": "Red, green, blue",
+    "opt3": "Small, medium, large",
+    "opt4": "Fast, medium, slow",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Creating methods from collaboration diagrams involves:",
+    "opt1": "Ignoring the diagrams",
+    "opt2": "Implementing the messages as methods",
+    "opt3": "Eliminating methods",
+    "opt4": "Using only global functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Exception handling in object-oriented programming:",
+    "opt1": "Should be avoided",
+    "opt2": "Provides a structured way to handle errors",
+    "opt3": "Is only available in C++",
+    "opt4": "Decreases code reliability",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Component-based software engineering focuses on:",
+    "opt1": "Building systems from pre-existing components",
+    "opt2": "Developing everything from scratch",
+    "opt3": "Eliminating the design phase",
+    "opt4": "Reducing user involvement",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Client-server architecture is characterized by:",
+    "opt1": "All processing done on one machine",
+    "opt2": "Distribution of processing between clients and servers",
+    "opt3": "Absence of network communication",
+    "opt4": "Single-user operation",
+    "correct_option": "",
+    "correct_option_index": 0
+  }
+]
