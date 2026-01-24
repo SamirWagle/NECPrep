@@ -1,0 +1,641 @@
+[
+  {
+    "qsns": "What is the primary goal of Artificial Intelligence?",
+    "opt1": "To replace human intelligence",
+    "opt2": "To create machines that can perform tasks requiring human intelligence",
+    "opt3": "To develop faster computers",
+    "opt4": "To automate all human jobs",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "An intelligent agent is:",
+    "opt1": "A human-like robot",
+    "opt2": "An entity that perceives its environment and takes actions to achieve goals",
+    "opt3": "A computer program that can learn",
+    "opt4": "A database of knowledge",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A model-based agent differs from a simple reflex agent by:",
+    "opt1": "Having no sensors",
+    "opt2": "Maintaining internal state",
+    "opt3": "Having no goals",
+    "opt4": "Being deterministic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a perspective of AI?",
+    "opt1": "Thinking humanly",
+    "opt2": "Thinking rationally",
+    "opt3": "Acting humanly",
+    "opt4": "Acting emotionally",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In a deterministic environment:",
+    "opt1": "The next state depends on random factors",
+    "opt2": "The next state is completely determined by the current state and agent's action",
+    "opt3": "The agent cannot determine the next state",
+    "opt4": "Multiple agents are required",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A simple reflex agent:",
+    "opt1": "Maintains internal state",
+    "opt2": "Acts based on current percepts only",
+    "opt3": "Has a model of the world",
+    "opt4": "Considers future consequences of actions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The PEAS description in AI stands for:",
+    "opt1": "Performance, Environment, Actuators, Sensors",
+    "opt2": "Perception, Execution, Action, Sensing",
+    "opt3": "Planning, Execution, Analysis, Synthesis",
+    "opt4": "Probability, Expectation, Analysis, Simulation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A multi-agent environment is one where:",
+    "opt1": "Multiple copies of the same agent exist",
+    "opt2": "The agent has multiple sensors",
+    "opt3": "Multiple agents operate in the same environment",
+    "opt4": "The agent has multiple goals",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Problem-solving in AI involves:",
+    "opt1": "Finding any solution",
+    "opt2": "Finding the optimal solution",
+    "opt3": "Defining the problem",
+    "opt4": "All of these",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A well-defined problem has:",
+    "opt1": "Initial state, actions, transition model, goal test, path cost",
+    "opt2": "Only an initial state and goal state",
+    "opt3": "Only actions and a goal state",
+    "opt4": "Only a transition model",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A state space search is:",
+    "opt1": "A search for states in physical space",
+    "opt2": "A search through a space of possible states to find a goal state",
+    "opt3": "A search for the initial state",
+    "opt4": "A search for the problem definition",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Depth-First Search (DFS) expands:",
+    "opt1": "The deepest unexpanded node",
+    "opt2": "The shallowest unexpanded node",
+    "opt3": "A random unexpanded node",
+    "opt4": "The node with the lowest cost",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Breadth-First Search (BFS) expands:",
+    "opt1": "The deepest unexpanded node",
+    "opt2": "The shallowest unexpanded node",
+    "opt3": "A random unexpanded node",
+    "opt4": "The node with the lowest cost",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A constraint satisfaction problem is characterized by:",
+    "opt1": "Variables, domains, and constraints",
+    "opt2": "Initial state and goal state",
+    "opt3": "Actions and transition model",
+    "opt4": "Path cost function",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Iterative Deepening Search combines the advantages of:",
+    "opt1": "BFS and uniform cost search",
+    "opt2": "DFS and BFS",
+    "opt3": "A* and greedy search",
+    "opt4": "Hill climbing and simulated annealing",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Informed search algorithms use:",
+    "opt1": "No information about the goal",
+    "opt2": "Heuristic information to guide the search",
+    "opt3": "Only the transition model",
+    "opt4": "Only the initial state",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Alpha-beta pruning:",
+    "opt1": "Changes the outcome of minimax",
+    "opt2": "Reduces the number of nodes evaluated by minimax",
+    "opt3": "Increases the number of nodes evaluated by minimax",
+    "opt4": "Is used in single-agent search",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A* search uses:",
+    "opt1": "f(n) = g(n) + h(n)",
+    "opt2": "f(n) = g(n) - h(n)",
+    "opt3": "f(n) = g(n) * h(n)",
+    "opt4": "f(n) = h(n)",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Knowledge representation in AI is:",
+    "opt1": "The process of acquiring knowledge",
+    "opt2": "The way knowledge is encoded for use by a computer system",
+    "opt3": "The process of learning from data",
+    "opt4": "The process of reasoning",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The minimax algorithm is used for:",
+    "opt1": "Single-agent search problems",
+    "opt2": "Multi-agent cooperative problems",
+    "opt3": "Adversarial search problems",
+    "opt4": "Constraint satisfaction problems",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Hill climbing is:",
+    "opt1": "A complete search algorithm",
+    "opt2": "An optimal search algorithm",
+    "opt3": "A local search algorithm",
+    "opt4": "An uninformed search algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Semantic nets represent knowledge as:",
+    "opt1": "Logical formulas",
+    "opt2": "Nodes and links",
+    "opt3": "Rules",
+    "opt4": "Frames",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Frames in knowledge representation are:",
+    "opt1": "Graphical representations",
+    "opt2": "Logical formulas",
+    "opt3": "Data structures that represent stereotyped situations",
+    "opt4": "Rules",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Unification in predicate logic is:",
+    "opt1": "The process of finding values for variables that make two expressions identical",
+    "opt2": "The process of proving a theorem",
+    "opt3": "The process of creating a knowledge base",
+    "opt4": "The process of inferring new facts",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Propositional logic deals with:",
+    "opt1": "Statements that are either true or false",
+    "opt2": "Statements with variables",
+    "opt3": "Statements about objects and their relationships",
+    "opt4": "Statements about probabilities",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A tautology in propositional logic is:",
+    "opt1": "A statement that is always false",
+    "opt2": "A statement that is always true",
+    "opt3": "A statement that can be either true or false",
+    "opt4": "A statement with variables",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Bayes' rule is used for:",
+    "opt1": "Logical inference",
+    "opt2": "Probabilistic inference",
+    "opt3": "Knowledge representation",
+    "opt4": "Problem formulation",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "First-Order Predicate Logic (FOPL) extends propositional logic by adding:",
+    "opt1": "Probabilities",
+    "opt2": "Variables, quantifiers, and predicates",
+    "opt3": "Frames",
+    "opt4": "Semantic nets",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Bayesian network is:",
+    "opt1": "A type of neural network",
+    "opt2": "A graphical model that represents probabilistic relationships",
+    "opt3": "A type of expert system",
+    "opt4": "A type of search algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "An expert system is:",
+    "opt1": "A system that performs better than human experts",
+    "opt2": "A system that uses knowledge from human experts to solve problems",
+    "opt3": "A system that learns from data",
+    "opt4": "A system that uses neural networks",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Declarative knowledge represents:",
+    "opt1": "How to do something",
+    "opt2": "Facts and relationships",
+    "opt3": "Procedures",
+    "opt4": "Algorithms",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The architecture of an expert system typically includes:",
+    "opt1": "Knowledge base and inference engine",
+    "opt2": "Neural network and training algorithm",
+    "opt3": "Search algorithm and heuristic function",
+    "opt4": "Problem formulation and solution",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Natural Language Understanding (NLU) focuses on:",
+    "opt1": "Generating human language",
+    "opt2": "Understanding the meaning of human language",
+    "opt3": "Translating between languages",
+    "opt4": "Speech recognition",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Procedural knowledge represents:",
+    "opt1": "Facts and relationships",
+    "opt2": "How to do something",
+    "opt3": "Declarative statements",
+    "opt4": "Semantic networks",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Natural Language Processing (NLP) deals with:",
+    "opt1": "Processing images",
+    "opt2": "Processing human language",
+    "opt3": "Processing sensor data",
+    "opt4": "Processing numerical data",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Machine vision is concerned with:",
+    "opt1": "Understanding human speech",
+    "opt2": "Understanding images and visual information",
+    "opt3": "Understanding text",
+    "opt4": "Understanding emotions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Robotics combines:",
+    "opt1": "Only AI techniques",
+    "opt2": "Only mechanical engineering",
+    "opt3": "AI, mechanical engineering, and electronics",
+    "opt4": "Only electronics",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Supervised learning uses:",
+    "opt1": "Unlabeled data",
+    "opt2": "Labeled data",
+    "opt3": "No data",
+    "opt4": "Reinforcement signals",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Machine Learning is:",
+    "opt1": "The process of manually programming a computer",
+    "opt2": "The field of study that gives computers the ability to learn without being explicitly programmed",
+    "opt3": "The process of creating expert systems",
+    "opt4": "The process of creating robots",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Unsupervised learning uses:",
+    "opt1": "Labeled data",
+    "opt2": "Unlabeled data",
+    "opt3": "Reinforcement signals",
+    "opt4": "No data",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Decision trees are used for:",
+    "opt1": "Clustering",
+    "opt2": "Classification and regression",
+    "opt3": "Reinforcement learning",
+    "opt4": "Unsupervised learning",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Reinforcement learning involves:",
+    "opt1": "Learning from labeled examples",
+    "opt2": "Learning from unlabeled examples",
+    "opt3": "Learning from rewards and punishments",
+    "opt4": "Learning from expert knowledge",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Naive Bayes model assumes:",
+    "opt1": "Features are dependent given the class",
+    "opt2": "Features are independent given the class",
+    "opt3": "Classes are independent given the features",
+    "opt4": "Classes and features are independent",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Fuzzy logic deals with:",
+    "opt1": "Binary truth values (true/false)",
+    "opt2": "Degrees of truth",
+    "opt3": "Only false values",
+    "opt4": "Only true values",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Genetic algorithms are inspired by:",
+    "opt1": "Neural networks",
+    "opt2": "Fuzzy logic",
+    "opt3": "Biological evolution",
+    "opt4": "Expert systems",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A fuzzy inference system:",
+    "opt1": "Uses only crisp values",
+    "opt2": "Maps inputs to outputs using fuzzy logic",
+    "opt3": "Uses only neural networks",
+    "opt4": "Uses only genetic algorithms",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Genetic algorithm operators include:",
+    "opt1": "Selection, crossover, mutation",
+    "opt2": "Addition, subtraction, multiplication",
+    "opt3": "Input, processing, output",
+    "opt4": "Learning, inference, prediction",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The fitness function in a genetic algorithm:",
+    "opt1": "Measures the physical fitness of the algorithm",
+    "opt2": "Evaluates how good a solution is",
+    "opt3": "Determines the stopping criterion",
+    "opt4": "Selects the initial population",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Artificial Neural Networks are inspired by:",
+    "opt1": "Electronic circuits",
+    "opt2": "Biological neural networks",
+    "opt3": "Computer networks",
+    "opt4": "Genetic algorithms",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The McCulloch-Pitts neuron is:",
+    "opt1": "A complex neural network",
+    "opt2": "A mathematical model of a biological neuron",
+    "opt3": "A type of genetic algorithm",
+    "opt4": "A type of fuzzy logic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "An activation function in a neural network:",
+    "opt1": "Initializes the network",
+    "opt2": "Determines the output of a neuron given its inputs",
+    "opt3": "Trains the network",
+    "opt4": "Selects the network architecture",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The perceptron is:",
+    "opt1": "A multi-layer neural network",
+    "opt2": "A single-layer neural network",
+    "opt3": "A type of genetic algorithm",
+    "opt4": "A type of fuzzy logic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Gradient descent is used to:",
+    "opt1": "Initialize the network",
+    "opt2": "Minimize the error function",
+    "opt3": "Select the network architecture",
+    "opt4": "Determine the number of layers",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The learning rate in neural networks:",
+    "opt1": "Determines how quickly the network learns",
+    "opt2": "Is always set to 1",
+    "opt3": "Is the same as the activation function",
+    "opt4": "Is the number of neurons",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The delta rule is used for:",
+    "opt1": "Training multi-layer networks",
+    "opt2": "Training single-layer networks",
+    "opt3": "Selecting the network architecture",
+    "opt4": "Initializing the network",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The Adaline network is:",
+    "opt1": "A multi-layer neural network",
+    "opt2": "A single-layer neural network with a linear activation function",
+    "opt3": "A type of genetic algorithm",
+    "opt4": "A type of fuzzy logic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Hebbian learning is based on the principle:",
+    "opt1": "Neurons that fire together, wire together",
+    "opt2": "Neurons that fire separately, wire together",
+    "opt3": "Neurons that fire together, wire separately",
+    "opt4": "Neurons that fire separately, wire separately",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A multilayer perceptron (MLP) has:",
+    "opt1": "Only an input layer",
+    "opt2": "Input and output layers only",
+    "opt3": "Input, hidden, and output layers",
+    "opt4": "Only hidden layers",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "The backpropagation algorithm is used to:",
+    "opt1": "Train single-layer networks",
+    "opt2": "Train multi-layer networks",
+    "opt3": "Select the network architecture",
+    "opt4": "Initialize the network",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A Hopfield network is:",
+    "opt1": "A feedforward network",
+    "opt2": "A recurrent network",
+    "opt3": "A single-layer network",
+    "opt4": "A type of genetic algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a type of intelligent agent?",
+    "opt1": "Simple reflex agent",
+    "opt2": "Model-based agent",
+    "opt3": "Goal-based agent",
+    "opt4": "Knowledge-based agent",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A utility-based agent:",
+    "opt1": "Has no goals",
+    "opt2": "Maximizes its expected utility",
+    "opt3": "Uses only reflexes",
+    "opt4": "Has no internal state",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "A static environment is one where:",
+    "opt1": "The environment changes while the agent is deliberating",
+    "opt2": "The environment does not change while the agent is deliberating",
+    "opt3": "The agent cannot change the environment",
+    "opt4": "The environment has no other agents",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In a stochastic environment:",
+    "opt1": "The next state is completely determined by the current state and agent's action",
+    "opt2": "The next state depends partly on the agent's action and partly on random factors",
+    "opt3": "The environment does not change",
+    "opt4": "The agent cannot affect the environment",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Greedy best-first search expands:",
+    "opt1": "The node with the lowest path cost",
+    "opt2": "The node closest to the goal according to the heuristic",
+    "opt3": "The node with the lowest f(n) = g(n) + h(n)",
+    "opt4": "A random node",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Simulated annealing:",
+    "opt1": "Always finds the global optimum",
+    "opt2": "Is a local search algorithm that can escape local optima",
+    "opt3": "Is an uninformed search algorithm",
+    "opt4": "Is guaranteed to find the optimal solution",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "In a fully observable environment:",
+    "opt1": "The agent can see part of the environment",
+    "opt2": "The agent can see the complete state of the environment",
+    "opt3": "The environment is visible to humans",
+    "opt4": "The environment cannot be observed",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Quantification in predicate logic includes:",
+    "opt1": "Only universal quantification",
+    "opt2": "Only existential quantification",
+    "opt3": "Both universal and existential quantification",
+    "opt4": "Neither universal nor existential quantification",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Knowledge acquisition for expert systems can be done through:",
+    "opt1": "Only interviews with experts",
+    "opt2": "Only reading textbooks",
+    "opt3": "Multiple methods including interviews, observation, and document analysis",
+    "opt4": "Only machine learning",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Bidirectional search:",
+    "opt1": "Searches in only one direction",
+    "opt2": "Searches from both the initial state and the goal state",
+    "opt3": "Always finds the optimal solution",
+    "opt4": "Is an uninformed search algorithm",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Resolution in propositional logic is:",
+    "opt1": "A method for proving theorems",
+    "opt2": "A method for representing knowledge",
+    "opt3": "A method for learning",
+    "opt4": "A method for problem formulation",
+    "correct_option": "",
+    "correct_option_index": 0
+  }
+]

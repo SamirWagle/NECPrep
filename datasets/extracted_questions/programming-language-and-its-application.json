@@ -1,0 +1,560 @@
+[
+  {
+    "qsns": "Which of the following is used to terminate a string in C?",
+    "opt1": "\\n",
+    "opt2": "\\0",
+    "opt3": "\\t",
+    "opt4": "EOF",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of a pointer in C?",
+    "opt1": "To store the address of another variable",
+    "opt2": "To store large values",
+    "opt3": "To perform arithmetic operations",
+    "opt4": "To declare functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the difference between a structure and a union in C?",
+    "opt1": "Structure uses less memory than union",
+    "opt2": "Union uses less memory than structure",
+    "opt3": "Structure cannot store different data types",
+    "opt4": "Union cannot store different data types",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the size of a 1-D array declared as int arr[5]?",
+    "opt1": "5 bytes",
+    "opt2": "10 bytes",
+    "opt3": "20 bytes",
+    "opt4": "Depends on the system architecture",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is a formatted input function in C?",
+    "opt1": "scanf()",
+    "opt2": "getchar()",
+    "opt3": "gets()",
+    "opt4": "fgets()",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the starting point of a C program execution?",
+    "opt1": "main() function",
+    "opt2": "start() function",
+    "opt3": "init() function",
+    "opt4": "execute() function",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which operator is used to access the value at the address stored in a pointer?",
+    "opt1": "*",
+    "opt2": "&",
+    "opt3": "->",
+    "opt4": "::",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What does the sizeof operator return?",
+    "opt1": "Size of a variable or data type",
+    "opt2": "Address of a variable",
+    "opt3": "Value of a variable",
+    "opt4": "Type of a variable",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid C token?",
+    "opt1": "Keywords",
+    "opt2": "Identifiers",
+    "opt3": "Operators",
+    "opt4": "Comments",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the default return type of a function in C if not specified?",
+    "opt1": "int",
+    "opt2": "void",
+    "opt3": "float",
+    "opt4": "char",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which keyword is used to define a recursive function?",
+    "opt1": "recursive",
+    "opt2": "repeat",
+    "opt3": "No specific keyword",
+    "opt4": "loop",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which loop is guaranteed to execute at least once?",
+    "opt1": "for loop",
+    "opt2": "while loop",
+    "opt3": "do-while loop",
+    "opt4": "None of the above",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the result of the expression 5 / 2 in C?",
+    "opt1": "2.5",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about file handling in C?",
+    "opt1": "Files can only be opened in read mode",
+    "opt2": "Files can be opened in read, write, or append mode",
+    "opt3": "Files cannot be closed once opened",
+    "opt4": "Files are automatically deleted after use",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a feature of Object-Oriented Programming?",
+    "opt1": "Encapsulation",
+    "opt2": "Inheritance",
+    "opt3": "Polymorphism",
+    "opt4": "Procedural programming",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of a namespace in C++?",
+    "opt1": "To define global variables",
+    "opt2": "To resolve naming conflicts",
+    "opt3": "To allocate memory dynamically",
+    "opt4": "To declare functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is a constructor in C++?",
+    "opt1": "A function that destroys an object",
+    "opt2": "A function that initializes an object",
+    "opt3": "A function that performs arithmetic operations",
+    "opt4": "A function that returns a value",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the default access specifier for members of a class in C++?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "default",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is operator overloading in C++?",
+    "opt1": "Defining multiple functions with the same name",
+    "opt2": "Defining multiple operators with the same name",
+    "opt3": "Redefining operators for user-defined types",
+    "opt4": "Overloading classes",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about inline functions?",
+    "opt1": "They increase execution time",
+    "opt2": "They reduce function call overhead",
+    "opt3": "They cannot have loops",
+    "opt4": "They are mandatory in C++",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which type of inheritance allows a derived class to inherit from multiple base classes?",
+    "opt1": "Single Inheritance",
+    "opt2": "Multiple Inheritance",
+    "opt3": "Multilevel Inheritance",
+    "opt4": "Hierarchical Inheritance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of a virtual function?",
+    "opt1": "To allow static binding",
+    "opt2": "To allow dynamic binding",
+    "opt3": "To reduce memory usage",
+    "opt4": "To define global functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is used to handle exceptions in C++?",
+    "opt1": "try-catch block",
+    "opt2": "if-else block",
+    "opt3": "switch-case block",
+    "opt4": "for loop",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is dynamic binding in C++?",
+    "opt1": "Binding at compile time",
+    "opt2": "Binding at runtime",
+    "opt3": "Binding using pointers",
+    "opt4": "Binding using references",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the role of a destructor in C++?",
+    "opt1": "To initialize an object",
+    "opt2": "To destroy an object",
+    "opt3": "To allocate memory",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'this' pointer in C++?",
+    "opt1": "To refer to the current object",
+    "opt2": "To refer to the next object",
+    "opt3": "To allocate memory dynamically",
+    "opt4": "To define global variables",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is true about pure virtual functions?",
+    "opt1": "They must be defined in the base class",
+    "opt2": "They make the class abstract",
+    "opt3": "They are used for static binding",
+    "opt4": "They cannot be overridden",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the STL in C++?",
+    "opt1": "Standard Template Library",
+    "opt2": "System Template Library",
+    "opt3": "Simple Template Library",
+    "opt4": "Static Template Library",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'throw' keyword in C++?",
+    "opt1": "To define a function",
+    "opt2": "To handle exceptions",
+    "opt3": "To throw an exception",
+    "opt4": "To allocate memory",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a container in STL?",
+    "opt1": "Vector",
+    "opt2": "Map",
+    "opt3": "Array",
+    "opt4": "Function",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the difference between a class and an object?",
+    "opt1": "A class is a blueprint, while an object is an instance",
+    "opt2": "An object is a blueprint, while a class is an instance",
+    "opt3": "There is no difference",
+    "opt4": "A class cannot have methods",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int x = 5; printf(\"%d\", ++x);",
+    "opt1": "5",
+    "opt2": "6",
+    "opt3": "4",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid way to pass arguments to a function in C?",
+    "opt1": "Pass by value",
+    "opt2": "Pass by reference",
+    "opt3": "Pass by pointer",
+    "opt4": "Pass by name",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the size of a pointer variable in a 32-bit system?",
+    "opt1": "2 bytes",
+    "opt2": "4 bytes",
+    "opt3": "8 bytes",
+    "opt4": "Depends on the data type",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'const' keyword in C++?",
+    "opt1": "To define constants",
+    "opt2": "To prevent modification of variables",
+    "opt3": "To allocate memory",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of inheritance?",
+    "opt1": "Single Inheritance",
+    "opt2": "Multiple Inheritance",
+    "opt3": "Circular Inheritance",
+    "opt4": "Multilevel Inheritance",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'friend' keyword in C++?",
+    "opt1": "To define private members",
+    "opt2": "To allow access to private members",
+    "opt3": "To define constructors",
+    "opt4": "To allocate memory",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of printf(\"%d\", 5 % 2)?",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "2",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the difference between 'struct' and 'class' in C++?",
+    "opt1": "Struct is for primitive data types, class is for objects",
+    "opt2": "Struct has public members by default, class has private members by default",
+    "opt3": "Struct cannot have methods, class can",
+    "opt4": "There is no difference",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'new' operator in C++?",
+    "opt1": "To allocate memory dynamically",
+    "opt2": "To deallocate memory",
+    "opt3": "To define functions",
+    "opt4": "To initialize variables",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid file opening mode in C?",
+    "opt1": "r",
+    "opt2": "w",
+    "opt3": "x",
+    "opt4": "a",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'delete' operator in C++?",
+    "opt1": "To deallocate memory",
+    "opt2": "To allocate memory",
+    "opt3": "To define functions",
+    "opt4": "To initialize variables",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 5; printf(\"%d\", a++);",
+    "opt1": "5",
+    "opt2": "6",
+    "opt3": "4",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid looping construct in C?",
+    "opt1": "for loop",
+    "opt2": "while loop",
+    "opt3": "do-while loop",
+    "opt4": "repeat-until loop",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 10; printf(\"%d\", a--);",
+    "opt1": "10",
+    "opt2": "9",
+    "opt3": "11",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'break' statement in C?",
+    "opt1": "To exit a loop",
+    "opt2": "To skip an iteration",
+    "opt3": "To continue execution",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of pointer in C?",
+    "opt1": "Void pointer",
+    "opt2": "Null pointer",
+    "opt3": "Wild pointer",
+    "opt4": "Static pointer",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'continue' statement in C?",
+    "opt1": "To exit a loop",
+    "opt2": "To skip an iteration",
+    "opt3": "To continue execution",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 5; printf(\"%d\", --a);",
+    "opt1": "5",
+    "opt2": "4",
+    "opt3": "6",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of exception handling in C++?",
+    "opt1": "try-catch block",
+    "opt2": "throw statement",
+    "opt3": "catch-all block",
+    "opt4": "switch-case block",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 10; printf(\"%d\", a + 5);",
+    "opt1": "10",
+    "opt2": "15",
+    "opt3": "5",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'volatile' keyword in C++?",
+    "opt1": "To prevent optimization of variables",
+    "opt2": "To allocate memory dynamically",
+    "opt3": "To define constants",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of template in C++?",
+    "opt1": "Function Template",
+    "opt2": "Class Template",
+    "opt3": "Variable Template",
+    "opt4": "Object Template",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 5; printf(\"%d\", a - 2);",
+    "opt1": "5",
+    "opt2": "3",
+    "opt3": "2",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'static' keyword in C++?",
+    "opt1": "To define constants",
+    "opt2": "To allocate memory dynamically",
+    "opt3": "To preserve variable values between function calls",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of stream in C++?",
+    "opt1": "Input Stream",
+    "opt2": "Output Stream",
+    "opt3": "Error Stream",
+    "opt4": "Static Stream",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'register' keyword in C?",
+    "opt1": "To store variables in CPU registers",
+    "opt2": "To allocate memory dynamically",
+    "opt3": "To define constants",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 10; printf(\"%d\", a * 2);",
+    "opt1": "10",
+    "opt2": "20",
+    "opt3": "5",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a valid type of iterator in STL?",
+    "opt1": "Input Iterator",
+    "opt2": "Output Iterator",
+    "opt3": "Forward Iterator",
+    "opt4": "Static Iterator",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the purpose of the 'mutable' keyword in C++?",
+    "opt1": "To allow modification of const objects",
+    "opt2": "To allocate memory dynamically",
+    "opt3": "To define constants",
+    "opt4": "To define functions",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "Which of the following is NOT a storage class in C?",
+    "opt1": "auto",
+    "opt2": "static",
+    "opt3": "extern",
+    "opt4": "dynamic",
+    "correct_option": "",
+    "correct_option_index": 0
+  },
+  {
+    "qsns": "What is the output of the following code: int a = 10; int *p = &a; printf(\"%d\", *p);",
+    "opt1": "10",
+    "opt2": "Address of a",
+    "opt3": "0",
+    "opt4": "Error",
+    "correct_option": "",
+    "correct_option_index": 0
+  }
+]
