@@ -1,11 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider';
-import { topics, totalQuestions } from '../../data/topics';
-
-// Skeleton loader component
-function Skeleton({ className = '' }: { className?: string }) {
-  return <div className={`skeleton ${className}`} aria-hidden="true" />;
-}
+import { getDashboardStats, getTopics } from '../../services/api';
+import type { Topic, StudySession, UserTopicStats, UserOverallStats } from '../../types/database.types';
+import { getUserDisplayName } from '../../types/database.types';
 
 // Stat card component
 function StatCard({ 
@@ -64,15 +62,63 @@ function QuickActionCard({
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const firstName = user?.displayName?.split(' ')[0] || 'Engineer';
+  const firstName = getUserDisplayName(user).split(' ')[0];
 
-  // Mock stats - in a real app these would come from a database
+  // Real data state
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [overallStats, setOverallStats] = useState<UserOverallStats | null>(null);
+  const [topicProgress, setTopicProgress] = useState<UserTopicStats[]>([]);
+  const [recentSessions, setRecentSessions] = useState<StudySession[]>([]);
+  const [_flashcardsDueCount, setFlashcardsDueCount] = useState(0);
+  const [_bookmarksCount, setBookmarksCount] = useState(0);
+  const [_loading, setLoading] = useState(true);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+
+  useEffect(() => {
+    async function loadDashboardData() {
+      setLoading(true);
+      try {
+        // Load topics and stats in parallel
+        const [topicsData, dashboardData] = await Promise.all([
+          getTopics(),
+          getDashboardStats().catch(() => ({
+            overall: null,
+            topicProgress: [],
+            recentSessions: [],
+            flashcardsDueCount: 0,
+            bookmarksCount: 0
+          }))
+        ]);
+        
+        setTopics(topicsData);
+        setTotalQuestions(topicsData.reduce((sum, t) => sum + (t.question_count || 0), 0));
+        
+        setOverallStats(dashboardData.overall);
+        setTopicProgress(dashboardData.topicProgress);
+        setRecentSessions(dashboardData.recentSessions);
+        setFlashcardsDueCount(dashboardData.flashcardsDueCount);
+        setBookmarksCount(dashboardData.bookmarksCount);
+        
+      } catch (err) {
+        console.error('Error loading dashboard:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    loadDashboardData();
+  }, []);
+
+  // Calculate stats from real data or show 0s
   const stats = {
-    questionsAttempted: 234,
-    accuracy: 76,
-    studyTime: 18,
-    topicsStarted: 6
+    questionsAttempted: overallStats?.total_questions_attempted || 0,
+    accuracy: Math.round(overallStats?.accuracy_percentage || 0),
+    studyTime: Math.round((overallStats?.total_study_time_seconds || 0) / 3600),
+    topicsStarted: topicProgress.length
   };
+
+  // Create a map for easy topic stats lookup
+  const topicStatsMap = new Map(topicProgress.map(tp => [tp.topic_id, tp]));
 
   return (
     <div className="dashboard-page">
@@ -212,8 +258,8 @@ export default function Dashboard() {
         </div>
         <div className="progress-grid">
           {topics.slice(0, 4).map((topic) => {
-            // Mock progress - in real app this would come from user data
-            const progress = Math.floor(Math.random() * 60) + 10;
+            const stats = topicStatsMap.get(topic.id);
+            const progress = Math.round(stats?.completion_percentage || 0);
             return (
               <Link 
                 to={`/app/practice/topic/${topic.id}`} 
@@ -221,15 +267,15 @@ export default function Dashboard() {
                 className="progress-card"
               >
                 <div className="progress-card-header">
-                  <span className="topic-name">{topic.shortName}</span>
-                  <span className="topic-questions">{topic.questionCount} questions</span>
+                  <span className="topic-name">{topic.name}</span>
+                  <span className="topic-questions">{topic.question_count} questions</span>
                 </div>
                 <div className="progress-bar-container">
                   <div 
                     className="progress-bar-fill" 
                     style={{ 
                       width: `${progress}%`,
-                      backgroundColor: topic.color 
+                      backgroundColor: topic.color || '#6366f1'
                     }}
                   />
                 </div>
@@ -244,14 +290,44 @@ export default function Dashboard() {
       <section className="dashboard-activity" aria-labelledby="activity-title">
         <h2 id="activity-title">Recent Activity</h2>
         <div className="activity-list">
-          <div className="activity-empty">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-            <p>No recent activity</p>
-            <span>Start practicing to see your activity here</span>
-          </div>
+          {recentSessions.length > 0 ? (
+            recentSessions.slice(0, 5).map((session) => (
+              <div key={session.id} className="activity-item">
+                <div className="activity-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    {session.session_type === 'practice' ? (
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                    ) : (
+                      <>
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                      </>
+                    )}
+                  </svg>
+                </div>
+                <div className="activity-content">
+                  <span className="activity-title">
+                    {session.session_type === 'practice' ? 'Practice Session' : 'Study Session'}
+                  </span>
+                  <span className="activity-detail">
+                    {session.questions_answered} questions answered • {Math.round(session.correct_answers / Math.max(session.questions_answered, 1) * 100)}% accuracy
+                  </span>
+                </div>
+                <span className="activity-time">
+                  {new Date(session.started_at).toLocaleDateString()}
+                </span>
+              </div>
+            ))
+          ) : (
+            <div className="activity-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <p>No recent activity</p>
+              <span>Start practicing to see your activity here</span>
+            </div>
+          )}
         </div>
       </section>
     </div>

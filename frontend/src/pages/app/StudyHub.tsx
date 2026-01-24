@@ -1,7 +1,26 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { topics } from '../../data/topics';
+import { getTopics } from '../../services/api';
+import type { Topic } from '../../types/database.types';
 
 export default function StudyHub() {
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadTopics() {
+      try {
+        const data = await getTopics();
+        setTopics(data);
+      } catch (err) {
+        console.error('Error loading topics:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadTopics();
+  }, []);
+
   return (
     <div className="study-hub-page">
       {/* Page header */}
@@ -62,47 +81,36 @@ export default function StudyHub() {
       {/* Topics grid */}
       <section className="study-topics" aria-labelledby="topics-title">
         <h2 id="topics-title">Study by Topic</h2>
-        <div className="topics-grid">
-          {topics.map((topic) => {
-            // Mock progress for study materials
-            const chaptersCompleted = Math.floor(Math.random() * 5);
-            const totalChapters = 8;
-            
-            return (
+        {loading ? (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading topics...</p>
+          </div>
+        ) : (
+          <div className="topics-grid">
+            {topics.map((topic) => (
               <Link 
                 to={`/app/study/topic/${topic.id}`}
                 key={topic.id}
                 className="topic-card"
               >
-                <div className="topic-icon" style={{ backgroundColor: `${topic.color}15`, color: topic.color }}>
+                <div className="topic-icon" style={{ backgroundColor: `${topic.color || '#6366f1'}15`, color: topic.color || '#6366f1' }}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                   </svg>
                 </div>
                 <div className="topic-content">
-                  <h3>{topic.shortName}</h3>
+                  <h3>{topic.name}</h3>
                   <p>{topic.description}</p>
                   <div className="topic-meta">
-                    <span className="chapter-count">{totalChapters} chapters</span>
-                    <span className="progress-text" style={{ color: topic.color }}>
-                      {chaptersCompleted}/{totalChapters} completed
-                    </span>
-                  </div>
-                  <div className="progress-bar-container">
-                    <div 
-                      className="progress-bar-fill" 
-                      style={{ 
-                        width: `${(chaptersCompleted / totalChapters) * 100}%`, 
-                        backgroundColor: topic.color 
-                      }}
-                    />
+                    <span className="chapter-count">{topic.question_count} questions</span>
                   </div>
                 </div>
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

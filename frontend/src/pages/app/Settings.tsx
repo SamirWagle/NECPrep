@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider';
+import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../../types/database.types';
 
 export default function Settings() {
   const { user, logout } = useAuth();
@@ -43,15 +44,15 @@ export default function Settings() {
         <h2>Account</h2>
         <div className="settings-card">
           <div className="account-info">
-            {user?.photoURL ? (
-              <img src={user.photoURL} alt="" className="account-avatar" />
+            {getUserAvatarUrl(user) ? (
+              <img src={getUserAvatarUrl(user)!} alt="" className="account-avatar" />
             ) : (
               <div className="account-avatar-placeholder">
-                {user?.displayName?.[0] || user?.email?.[0] || 'U'}
+                {getUserInitial(user)}
               </div>
             )}
             <div className="account-details">
-              <span className="account-name">{user?.displayName || 'User'}</span>
+              <span className="account-name">{getUserDisplayName(user)}</span>
               <span className="account-email">{user?.email}</span>
             </div>
           </div>

@@ -1,17 +1,45 @@
-import { topics } from '../../data/topics';
+import { useState, useEffect } from 'react';
+import { getTopics, getUserProgress } from '../../services/api';
+import type { Topic, UserTopicStats, UserOverallStats } from '../../types/database.types';
 
 export default function Progress() {
-  // Mock progress data
-  const overallProgress = {
-    questionsAttempted: 234,
-    totalQuestions: 1380,
-    correctAnswers: 178,
-    studyTimeHours: 18,
-    streakDays: 5
-  };
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [overallStats, setOverallStats] = useState<UserOverallStats | null>(null);
+  const [topicStats, setTopicStats] = useState<UserTopicStats[]>([]);
+  const [_loading, setLoading] = useState(true);
 
-  const accuracy = Math.round((overallProgress.correctAnswers / overallProgress.questionsAttempted) * 100);
-  const completionPercent = Math.round((overallProgress.questionsAttempted / overallProgress.totalQuestions) * 100);
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      try {
+        const [topicsData, progressData] = await Promise.all([
+          getTopics(),
+          getUserProgress().catch(() => ({ overall: null, topics: [] }))
+        ]);
+        
+        setTopics(topicsData);
+        setOverallStats(progressData.overall);
+        setTopicStats(progressData.topics);
+      } catch (err) {
+        console.error('Error loading progress:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Calculate totals
+  const totalQuestions = topics.reduce((sum, t) => sum + (t.question_count || 0), 0);
+  const questionsAttempted = overallStats?.total_questions_attempted || 0;
+  const correctAnswers = overallStats?.total_correct_answers || 0;
+  const studyTimeHours = Math.round((overallStats?.total_study_time_seconds || 0) / 3600);
+  
+  const accuracy = questionsAttempted > 0 ? Math.round((correctAnswers / questionsAttempted) * 100) : 0;
+  const completionPercent = totalQuestions > 0 ? Math.round((questionsAttempted / totalQuestions) * 100) : 0;
+
+  // Create map for topic stats lookup
+  const topicStatsMap = new Map(topicStats.map(ts => [ts.topic_id, ts]));
 
   return (
     <div className="progress-page">
@@ -49,7 +77,7 @@ export default function Progress() {
             <polyline points="14 2 14 8 20 8"/>
           </svg>
           <div className="stat-content">
-            <span className="stat-value">{overallProgress.questionsAttempted}</span>
+            <span className="stat-value">{questionsAttempted}</span>
             <span className="stat-label">Questions Attempted</span>
           </div>
         </div>
@@ -71,7 +99,7 @@ export default function Progress() {
             <polyline points="12 6 12 12 16 14"/>
           </svg>
           <div className="stat-content">
-            <span className="stat-value">{overallProgress.studyTimeHours}h</span>
+            <span className="stat-value">{studyTimeHours}h</span>
             <span className="stat-label">Study Time</span>
           </div>
         </div>
@@ -81,8 +109,8 @@ export default function Progress() {
             <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
           </svg>
           <div className="stat-content">
-            <span className="stat-value">{overallProgress.streakDays} days</span>
-            <span className="stat-label">Current Streak</span>
+            <span className="stat-value">{topicStats.length}</span>
+            <span className="stat-label">Topics Started</span>
           </div>
         </div>
       </section>
@@ -92,26 +120,27 @@ export default function Progress() {
         <h2>Progress by Topic</h2>
         <div className="topics-list">
           {topics.map((topic) => {
-            const progress = Math.floor(Math.random() * 60) + 10;
-            const attempted = Math.floor(topic.questionCount * (progress / 100));
+            const stats = topicStatsMap.get(topic.id);
+            const progress = Math.round(stats?.completion_percentage || 0);
+            const attempted = stats?.total_questions_attempted || 0;
             
             return (
               <div key={topic.id} className="topic-progress-card">
                 <div className="topic-header">
                   <div className="topic-info">
-                    <h3>{topic.shortName}</h3>
+                    <h3>{topic.name}</h3>
                     <span className="topic-stats">
-                      {attempted} / {topic.questionCount} questions
+                      {attempted} / {topic.question_count} questions
                     </span>
                   </div>
-                  <span className="progress-percent" style={{ color: topic.color }}>
+                  <span className="progress-percent" style={{ color: topic.color || '#6366f1' }}>
                     {progress}%
                   </span>
                 </div>
                 <div className="progress-bar-container">
                   <div 
                     className="progress-bar-fill"
-                    style={{ width: `${progress}%`, backgroundColor: topic.color }}
+                    style={{ width: `${progress}%`, backgroundColor: topic.color || '#6366f1' }}
                   />
                 </div>
               </div>

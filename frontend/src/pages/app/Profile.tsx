@@ -1,4 +1,5 @@
 import { useAuth } from '../../auth/AuthProvider';
+import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../../types/database.types';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -23,15 +24,15 @@ export default function Profile() {
       {/* Profile card */}
       <div className="profile-card">
         <div className="profile-header">
-          {user?.photoURL ? (
-            <img src={user.photoURL} alt="" className="profile-avatar" />
+          {getUserAvatarUrl(user) ? (
+            <img src={getUserAvatarUrl(user)!} alt="" className="profile-avatar" />
           ) : (
             <div className="profile-avatar-placeholder">
-              {user?.displayName?.[0] || user?.email?.[0] || 'U'}
+              {getUserInitial(user)}
             </div>
           )}
           <div className="profile-info">
-            <h2>{user?.displayName || 'User'}</h2>
+            <h2>{getUserDisplayName(user)}</h2>
             <p>{user?.email}</p>
             <span className="member-since">Member since {stats.memberSince}</span>
           </div>

@@ -375,10 +375,11 @@ export interface Database {
           user_id: string
           topic_id: string
           topic_name: string
-          questions_attempted: number
-          questions_correct: number
+          total_questions_attempted: number
+          total_correct_answers: number
           total_questions: number
-          progress_percent: number
+          completion_percentage: number
+          accuracy_percentage: number
         }
       }
       user_overall_stats: {
@@ -386,11 +387,11 @@ export interface Database {
           user_id: string
           streak_days: number
           rank: string
-          total_questions_answered: number
+          total_questions_attempted: number
           total_correct_answers: number
-          total_study_minutes: number
-          active_days: number
-          mock_tests_passed: number
+          total_study_time_seconds: number
+          accuracy_percentage: number
+          topics_started: number
         }
       }
     }
@@ -412,11 +413,59 @@ export type Views<T extends keyof Database['public']['Views']> = Database['publi
 // Convenience types
 export type Profile = Tables<'profiles'>
 export type Topic = Tables<'topics'>
-export type Question = Tables<'questions'>
+export type QuestionRow = Tables<'questions'>
 export type Bookmark = Tables<'bookmarks'>
-export type MockTest = Tables<'mock_tests'>
+export type MockTestRow = Tables<'mock_tests'>
 export type MockTestAttempt = Tables<'mock_test_attempts'>
 export type UserSettings = Tables<'user_settings'>
 export type StudySession = Tables<'study_sessions'>
 export type UserTopicStats = Views<'user_topic_stats'>
 export type UserOverallStats = Views<'user_overall_stats'>
+
+// Enhanced Question type with computed options array
+export interface Question extends QuestionRow {
+  options: string[];
+  correct_answer_index: number;
+}
+
+// Enhanced MockTest type with aliases
+export interface MockTest extends MockTestRow {
+  title: string;
+  time_limit_minutes: number;
+}
+
+// Helper to convert database question to enhanced question
+export function enhanceQuestion(q: QuestionRow): Question {
+  return {
+    ...q,
+    options: [q.option_1, q.option_2, q.option_3, q.option_4],
+    correct_answer_index: q.correct_option_index
+  };
+}
+
+// Helper to convert database mock test to enhanced mock test
+export function enhanceMockTest(mt: MockTestRow): MockTest {
+  return {
+    ...mt,
+    title: mt.name,
+    time_limit_minutes: mt.duration_minutes
+  };
+}
+
+// Helper to get Supabase user display properties (maps Firebase-style to Supabase)
+import type { User } from '@supabase/supabase-js';
+export function getUserDisplayName(user: User | null): string {
+  if (!user) return 'User';
+  return user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+}
+
+export function getUserAvatarUrl(user: User | null): string | null {
+  if (!user) return null;
+  return user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+}
+
+export function getUserInitial(user: User | null): string {
+  if (!user) return 'U';
+  const name = getUserDisplayName(user);
+  return name[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'U';
+}

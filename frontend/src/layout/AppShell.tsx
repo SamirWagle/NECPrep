@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
+import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../types/database.types';
 
 // Icon components
 const Icons = {
@@ -283,19 +284,19 @@ export default function AppShell() {
                 aria-expanded={userMenuOpen}
                 aria-haspopup="true"
               >
-                {user?.photoURL ? (
+                {getUserAvatarUrl(user) ? (
                   <img 
-                    src={user.photoURL} 
+                    src={getUserAvatarUrl(user)!} 
                     alt="" 
                     className="user-avatar"
                   />
                 ) : (
                   <div className="user-avatar-placeholder">
-                    {user?.displayName?.[0] || user?.email?.[0] || 'U'}
+                    {getUserInitial(user)}
                   </div>
                 )}
                 <span className="user-name desktop-only">
-                  {user?.displayName?.split(' ')[0] || 'User'}
+                  {getUserDisplayName(user).split(' ')[0]}
                 </span>
                 <Icons.ChevronDown />
               </button>
@@ -303,15 +304,15 @@ export default function AppShell() {
               {userMenuOpen && (
                 <div className="user-menu" role="menu">
                   <div className="user-menu-header">
-                    {user?.photoURL ? (
-                      <img src={user.photoURL} alt="" className="user-menu-avatar" />
+                    {getUserAvatarUrl(user) ? (
+                      <img src={getUserAvatarUrl(user)!} alt="" className="user-menu-avatar" />
                     ) : (
                       <div className="user-menu-avatar-placeholder">
-                        {user?.displayName?.[0] || user?.email?.[0] || 'U'}
+                        {getUserInitial(user)}
                       </div>
                     )}
                     <div className="user-menu-info">
-                      <span className="user-menu-name">{user?.displayName || 'User'}</span>
+                      <span className="user-menu-name">{getUserDisplayName(user)}</span>
                       <span className="user-menu-email">{user?.email}</span>
                     </div>
                   </div>
