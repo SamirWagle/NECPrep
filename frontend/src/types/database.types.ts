@@ -439,7 +439,7 @@ export function enhanceQuestion(q: QuestionRow): Question {
   return {
     ...q,
     options: [q.option_1, q.option_2, q.option_3, q.option_4],
-    correct_answer_index: q.correct_option_index
+    correct_answer_index: q.correct_option_index - 1  // Convert 1-based (1-4) to 0-based (0-3)
   };
 }
 
