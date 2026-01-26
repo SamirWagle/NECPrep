@@ -10,12 +10,23 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-// Create Supabase client without strict typing for flexibility
+// Create Supabase client with extended timeout and no realtime
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    autoRefreshToken: true,
+    autoRefreshToken: false, // Disable to prevent lock timeout
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: false,
+    storageKey: 'sb-auth-token',
+    storage: window.localStorage
+  },
+  db: {
+    schema: 'public'
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'license-exam-prep',
+      'apikey': supabaseAnonKey
+    }
   }
 });
 

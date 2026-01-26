@@ -32,12 +32,19 @@ async function getCurrentUserId(): Promise<string> {
 // ==================== TOPICS ====================
 
 export async function getTopics(): Promise<Topic[]> {
+  console.log('📡 API: Fetching topics from Supabase...');
+  
   const { data, error } = await supabase
     .from('topics')
     .select('*')
     .order('display_order');
 
-  if (error) throw error;
+  console.log('📡 API: Topics response:', { data, error });
+  if (error) {
+    console.error('❌ API: Error fetching topics:', error);
+    throw error;
+  }
+  console.log(`✅ API: Successfully fetched ${data?.length || 0} topics`);
   return data || [];
 }
 

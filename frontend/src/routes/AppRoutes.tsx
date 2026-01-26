@@ -5,10 +5,12 @@ import AppShell from '../layout/AppShell';
 // Public pages
 import Landing from '../pages/Landing';
 import Login from '../pages/auth/Login';
+import Diagnostic from '../pages/Diagnostic';
 
 // App pages
 import Dashboard from '../pages/app/Dashboard';
 import PracticeHub from '../pages/app/PracticeHub';
+import ChapterPracticeSelector from '../pages/app/ChapterPracticeSelector';
 import TopicPractice from '../pages/app/TopicPractice';
 import MockTests from '../pages/app/MockTests';
 import MockTestDetail from '../pages/app/MockTestDetail';
@@ -26,6 +28,7 @@ export default function AppRoutes() {
       {/* Public routes */}
       <Route path="/" element={<Landing />} />
       <Route path="/auth/login" element={<Login />} />
+      <Route path="/diagnostic" element={<Diagnostic />} />
       
       {/* Legacy redirect for old signin route */}
       <Route path="/signin" element={<Navigate to="/auth/login" replace />} />
@@ -45,6 +48,7 @@ export default function AppRoutes() {
         
         {/* Practice routes */}
         <Route path="practice" element={<PracticeHub />} />
+        <Route path="practice/chapter/:chapterId" element={<ChapterPracticeSelector />} />
         <Route path="practice/topic/:topicId" element={<TopicPractice />} />
         <Route path="practice/mock-tests" element={<MockTests />} />
         <Route path="practice/mock-tests/:testId" element={<MockTestDetail />} />

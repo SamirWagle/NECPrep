@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getTopic, getQuestionsByTopic, recordQuestionAttempt, addBookmark, removeBookmark, isBookmarked, startStudySession, updateStudySession, endStudySession } from '../../services/api';
 import type { Topic, Question } from '../../types/database.types';
@@ -15,6 +15,8 @@ function LoadingSpinner() {
 
 export default function TopicPractice() {
   const { topicId } = useParams<{ topicId: string }>();
+  const [searchParams] = useSearchParams();
+  const questionCount = parseInt(searchParams.get('count') || '30', 10);
   
   // Data state
   const [topic, setTopic] = useState<Topic | null>(null);
@@ -48,8 +50,8 @@ export default function TopicPractice() {
         }
         setTopic(topicData);
         
-        // Load questions for this topic
-        const { questions: questionsData } = await getQuestionsByTopic(topicId, 100);
+        // Load questions for this topic (with limit from URL parameter)
+        const { questions: questionsData } = await getQuestionsByTopic(topicId, questionCount);
         if (questionsData.length === 0) {
           setError('No questions found for this topic');
           return;
