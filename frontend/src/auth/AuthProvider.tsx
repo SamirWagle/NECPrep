@@ -76,27 +76,43 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Initialize auth state
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setState(prev => ({
-        ...prev,
-        user: session?.user ?? null,
-        session,
-        loading: false,
-      }));
-    });
+    let mounted = true;
+
+    console.log('🔄 Loading auth session...');
+
+    // Get initial session - NO TIMEOUT, let it take as long as needed
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (mounted) {
+          console.log('✅ Session loaded:', session ? 'User signed in' : 'No session');
+          setState(prev => ({
+            ...prev,
+            user: session?.user ?? null,
+            session,
+            loading: false,
+          }));
+        }
+      })
+      .catch((error) => {
+        console.error('❌ Error getting session:', error);
+        if (mounted) {
+          setState(prev => ({ ...prev, loading: false, user: null, session: null }));
+        }
+      });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state changed:', event);
+        console.log('Auth state changed:', event, 'Session:', session ? 'exists' : 'none');
         
-        setState(prev => ({
-          ...prev,
-          user: session?.user ?? null,
-          session,
-          loading: false,
-        }));
+        if (mounted) {
+          setState(prev => ({
+            ...prev,
+            user: session?.user ?? null,
+            session,
+            loading: false,
+          }));
+        }
 
         // Handle sign in - ensure profile exists
         if (event === 'SIGNED_IN' && session?.user) {
@@ -116,10 +132,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
             console.error('Error updating profile:', error);
           }
         }
+
+        // Handle sign out - clear state
+        if (event === 'SIGNED_OUT') {
+          console.log('User signed out - clearing state');
+          if (mounted) {
+            setState({
+              user: null,
+              session: null,
+              loading: false,
+              error: null,
+            });
+          }
+        }
       }
     );
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -156,12 +186,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Logout
   const logout = useCallback(async () => {
+    console.log('Logout initiated...');
     setState(prev => ({ ...prev, loading: true, error: null }));
     
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       
+      console.log('Logout successful');
       setState({
         user: null,
         session: null,
@@ -170,11 +202,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
     } catch (error) {
       console.error('Logout error:', error);
-      setState(prev => ({ 
-        ...prev, 
+      // Even if logout fails, clear the local state
+      setState({
+        user: null,
+        session: null,
+        loading: false,
         error: parseAuthError(error as Error),
-        loading: false 
-      }));
+      });
     }
   }, []);
 

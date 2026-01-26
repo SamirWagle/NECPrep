@@ -129,15 +129,31 @@ export default function PracticeHub() {
   const [totalQuestions, setTotalQuestions] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
+    
     async function loadData() {
+      console.log('🔄 Loading practice data...');
+      if (!isMounted) return;
+      
       setLoading(true);
       try {
-        // Load all data in parallel
-        const [topicsData, mockTestsData, progressData] = await Promise.all([
-          getTopics(),
-          getMockTests(),
-          getUserProgress().catch(() => ({ overall: null, topics: [] }))
-        ]);
+        console.log('📡 Calling getTopics()...');
+        const topicsData = await getTopics();
+        if (!isMounted) return;
+        console.log('✅ Topics loaded:', topicsData);
+        
+        console.log('📡 Calling getMockTests()...');
+        const mockTestsData = await getMockTests();
+        if (!isMounted) return;
+        console.log('✅ Mock tests loaded:', mockTestsData);
+        
+        console.log('📡 Calling getUserProgress()...');
+        const progressData = await getUserProgress().catch((err) => {
+          console.warn('⚠️ Progress data failed (non-critical):', err);
+          return { overall: null, topics: [] };
+        });
+        if (!isMounted) return;
+        console.log('✅ Progress loaded:', progressData);
         
         setTopics(topicsData);
         setMockTests(mockTestsData);
@@ -145,6 +161,7 @@ export default function PracticeHub() {
         // Calculate total questions
         const total = topicsData.reduce((sum, t) => sum + (t.question_count || 0), 0);
         setTotalQuestions(total);
+        console.log('📊 Total questions:', total);
         
         // Create progress map for easy lookup
         const progressMap = new Map<string, UserTopicStats>();
@@ -153,18 +170,44 @@ export default function PracticeHub() {
         });
         setTopicProgress(progressMap);
         
+        console.log('✅ All data loaded successfully!');
       } catch (err) {
-        console.error('Error loading practice data:', err);
+        console.error('❌ Error loading practice data:', err);
+        if (!isMounted) return;
+        
+        // Show user-friendly error
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        alert(`Failed to load practice data:\n\n${errorMessage}\n\nPlease:\n1. Check your internet connection\n2. Make sure you've run setup_chapters.sql in Supabase\n3. Refresh the page`);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          console.log('🏁 Setting loading to false');
+          setLoading(false);
+        }
       }
     }
     
     loadData();
+    
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  console.log('🎨 Rendering PracticeHub - loading:', loading, 'topics:', topics.length);
 
   if (loading) {
     return <LoadingSkeleton />;
+  }
+
+  if (topics.length === 0) {
+    return (
+      <div className="practice-hub-page">
+        <header className="page-header">
+          <h1>Practice Questions</h1>
+          <p>No topics found. Please check your database.</p>
+        </header>
+      </div>
+    );
   }
 
   return (
@@ -222,34 +265,48 @@ export default function PracticeHub() {
         </div>
       </section>
 
-      {/* Topics grid */}
+      {/* Chapters grid */}
       <section className="practice-topics" aria-labelledby="topics-title">
-        <h2 id="topics-title">Practice by Topic</h2>
+        <h2 id="topics-title">Practice by Chapter</h2>
+        <p className="section-subtitle">Select a chapter to practice. Questions are randomly selected from our dataset.</p>
         <div className="topics-grid">
           {topics.map((topic) => {
             const stats = topicProgress.get(topic.id);
             const progress = stats?.completion_percentage || 0;
             const questionsAnswered = stats?.total_questions_attempted || 0;
+            const isAvailable = topic.question_count > 0;
+            
+            // If chapter is available, make it a link. Otherwise, render as disabled div
+            const CardWrapper = isAvailable ? Link : 'div';
+            const cardProps = isAvailable 
+              ? { to: `/app/practice/chapter/${topic.id}` }
+              : {};
             
             return (
-              <Link 
-                to={`/app/practice/topic/${topic.id}`}
+              <CardWrapper
                 key={topic.id}
-                className="topic-card"
+                className={`topic-card ${!isAvailable ? 'disabled' : ''}`}
+                {...cardProps}
               >
-                <TopicIcon icon={topic.icon || 'book'} color={topic.color || '#6366f1'} />
+                <TopicIcon icon={topic.icon || 'Brain'} color={topic.color || '#6366f1'} />
                 <div className="topic-content">
                   <h3>{topic.name}</h3>
                   <p>{topic.description}</p>
                   <div className="topic-meta">
-                    <span className="question-count">{topic.question_count} questions</span>
-                    {questionsAnswered > 0 && (
-                      <span className="progress-badge" style={{ color: topic.color || '#6366f1' }}>
-                        {Math.round(progress)}% complete
-                      </span>
+                    {isAvailable ? (
+                      <>
+                        <span className="question-count">{topic.question_count} questions</span>
+                        {questionsAnswered > 0 && (
+                          <span className="progress-badge" style={{ color: topic.color || '#6366f1' }}>
+                            {Math.round(progress)}% complete
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <span className="coming-soon-badge">Coming Soon</span>
                     )}
                   </div>
-                  {questionsAnswered > 0 && (
+                  {isAvailable && questionsAnswered > 0 && (
                     <div className="progress-bar-container">
                       <div 
                         className="progress-bar-fill" 
@@ -258,7 +315,7 @@ export default function PracticeHub() {
                     </div>
                   )}
                 </div>
-              </Link>
+              </CardWrapper>
             );
           })}
         </div>
