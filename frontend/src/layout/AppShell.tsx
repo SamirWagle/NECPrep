@@ -5,9 +5,12 @@ import { useUser } from '../context/UserContext';
 // Icon components
 const Icons = {
   Logo: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2a9 9 0 0 1 9 9c0 3.074-1.676 5.59-3.442 7.395a20.194 20.194 0 0 1-2.398 2.064l-.353.256a1.5 1.5 0 0 1-1.614 0l-.353-.256a20.194 20.194 0 0 1-2.398-2.064C8.676 16.59 7 14.074 7 11a9 9 0 0 1 5-8.062"/>
-      <circle cx="12" cy="11" r="3"/>
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style={{ width: '28px', height: '28px' }}>
+      <rect width="32" height="32" rx="7" fill="#4F46E5"/>
+      <path d="M16 9 C13 9 10 10 8 11.5 L8 23 C10 21.5 13 21 16 21 C19 21 22 21.5 24 23 L24 11.5 C22 10 19 9 16 9Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
+      <line x1="16" y1="9" x2="16" y2="21" stroke="white" strokeWidth="1.5"/>
+      <circle cx="24" cy="24" r="5" fill="#22C55E"/>
+      <polyline points="21.5,24 23.2,25.8 26.5,22.5" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   ),
   Dashboard: () => (
@@ -184,9 +187,9 @@ export default function AppShell() {
         aria-label="Main navigation"
       >
         <div className="sidebar-header">
-          <NavLink to="/app" className="sidebar-logo" aria-label="EngLicense Dashboard">
+          <NavLink to="/app" className="sidebar-logo" aria-label="NECPrep Dashboard">
             <Icons.Logo />
-            {!sidebarCollapsed && <span>EngLicense</span>}
+            {!sidebarCollapsed && <span>NECPrep</span>}
           </NavLink>
           <button 
             className="sidebar-toggle desktop-only"

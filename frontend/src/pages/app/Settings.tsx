@@ -172,7 +172,7 @@ export default function Settings() {
 
       {/* App info */}
       <footer className="settings-footer">
-        <p>EngLicense v1.0.0</p>
+        <p>NECPrep v1.0.0</p>
         <div className="footer-links">
           <a href="/terms">Terms of Service</a>
           <span>•</span>
