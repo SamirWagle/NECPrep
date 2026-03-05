@@ -1,9 +1,16 @@
-import { useParams, Link, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { getTopic, getQuestionsByTopic, recordQuestionAttempt, addBookmark, removeBookmark, isBookmarked, startStudySession, updateStudySession, endStudySession } from '../../services/api';
-import type { Topic, Question } from '../../types/database.types';
+﻿import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  loadQuestionsSlice,
+  getTopicById,
+  recordAttempt,
+  addBookmark,
+  removeBookmark,
+  isBookmarked,
+  saveQuizResult,
+} from '../../services/localData';
+import type { Question } from '../../services/localData';
 
-// Loading spinner component
 function LoadingSpinner() {
   return (
     <div className="loading-container">
@@ -17,99 +24,117 @@ export default function TopicPractice() {
   const { topicId } = useParams<{ topicId: string }>();
   const [searchParams] = useSearchParams();
   const questionCount = parseInt(searchParams.get('count') || '30', 10);
-  
-  // Data state
-  const [topic, setTopic] = useState<Topic | null>(null);
+
+  const topic = topicId ? getTopicById(topicId) : undefined;
+
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Practice state
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
-  const [answeredQuestions, setAnsweredQuestions] = useState<number[]>([]);
-  const [bookmarkedQuestions, setBookmarkedQuestions] = useState<Set<string>>(new Set());
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [answeredSet, setAnsweredSet] = useState<Set<number>>(new Set());
+  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
+  const [quizDone, setQuizDone] = useState(false);
 
-  // Load topic and questions
   useEffect(() => {
-    async function loadData() {
-      if (!topicId) return;
-      
-      setLoading(true);
-      setError(null);
-      
-      try {
-        // Load topic details
-        const topicData = await getTopic(topicId);
-        if (!topicData) {
-          setError('Topic not found');
-          return;
-        }
-        setTopic(topicData);
-        
-        // Load questions for this topic (with limit from URL parameter)
-        const { questions: questionsData } = await getQuestionsByTopic(topicId, questionCount);
-        if (questionsData.length === 0) {
-          setError('No questions found for this topic');
-          return;
-        }
-        setQuestions(questionsData);
-        
-        // Start a study session
-        const session = await startStudySession(topicId, 'practice');
-        setSessionId(session.id);
-        
-      } catch (err) {
-        console.error('Error loading data:', err);
-        setError('Failed to load questions. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    }
-    
-    loadData();
-    
-    // End session when leaving
-    return () => {
-      if (sessionId) {
-        endStudySession(sessionId).catch(console.error);
-      }
-    };
-  }, [topicId]);
+    if (!topicId) return;
+    setLoading(true);
+    setError(null);
+    loadQuestionsSlice(topicId, questionCount)
+      .then((qs) => {
+        if (qs.length === 0) setError('No questions found for this topic.');
+        else setQuestions(qs);
+      })
+      .catch(() => setError('Failed to load questions. Please try again.'))
+      .finally(() => setLoading(false));
+  }, [topicId, questionCount]);
 
-  // Reset state when topic changes
   useEffect(() => {
-    setCurrentQuestionIndex(0);
+    setCurrentIdx(0);
     setSelectedAnswer(null);
     setShowResult(false);
     setScore(0);
-    setAnsweredQuestions([]);
-    setBookmarkedQuestions(new Set());
+    setAnsweredSet(new Set());
+    setBookmarkedIds(new Set());
+    setQuizDone(false);
   }, [topicId]);
 
-  // Check bookmark status for current question
   useEffect(() => {
-    async function checkBookmark() {
-      if (questions.length === 0) return;
-      const currentQuestion = questions[currentQuestionIndex];
-      try {
-        const bookmarked = await isBookmarked(currentQuestion.id);
-        if (bookmarked) {
-          setBookmarkedQuestions(prev => new Set(prev).add(currentQuestion.id));
-        }
-      } catch (err) {
-        // Ignore bookmark check errors
-      }
-    }
-    checkBookmark();
-  }, [currentQuestionIndex, questions]);
+    if (questions.length === 0) return;
+    const id = questions[currentIdx]?.id;
+    if (id && isBookmarked(id)) setBookmarkedIds(prev => new Set(prev).add(id));
+  }, [currentIdx, questions]);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  const handleAnswerSelect = (index: number) => {
+    if (answeredSet.has(currentIdx)) return;
+    setSelectedAnswer(index);
+  };
+
+  const handleSubmit = useCallback(() => {
+    if (selectedAnswer === null || answeredSet.has(currentIdx)) return;
+    const q = questions[currentIdx];
+    const hasAnswer = q.correctIndex >= 0;
+    const correct = hasAnswer && selectedAnswer === q.correctIndex;
+    setShowResult(true);
+    setAnsweredSet(prev => new Set(prev).add(currentIdx));
+    if (correct) setScore(s => s + 1);
+    if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
+  }, [selectedAnswer, currentIdx, answeredSet, questions]);
+
+  const handleToggleBookmark = () => {
+    const id = questions[currentIdx]?.id;
+    if (!id) return;
+    if (bookmarkedIds.has(id)) {
+      removeBookmark(id);
+      setBookmarkedIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+    } else {
+      addBookmark(id);
+      setBookmarkedIds(prev => new Set(prev).add(id));
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIdx < questions.length - 1) {
+      setCurrentIdx(i => i + 1);
+      setSelectedAnswer(null);
+      setShowResult(false);
+    } else if (answeredSet.has(currentIdx)) {
+      // quiz finished
+      // correct answer already counted above
+      if (topic) {
+        saveQuizResult({
+          topicId: topic.id,
+          topicName: topic.name,
+          score,
+          total: questions.length,
+          date: new Date().toISOString(),
+        });
+      }
+      setQuizDone(true);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIdx > 0) {
+      setCurrentIdx(i => i - 1);
+      setSelectedAnswer(null);
+      setShowResult(answeredSet.has(currentIdx - 1));
+    }
+  };
+
+  const getOptionClass = (index: number) => {
+    if (!showResult) return selectedAnswer === index ? 'selected' : '';
+    const q = questions[currentIdx];
+    if (q.correctIndex < 0) return selectedAnswer === index ? 'selected' : ''; // no answer key
+    if (index === q.correctIndex) return 'correct';
+    if (selectedAnswer === index) return 'incorrect';
+    return '';
+  };
+
+  if (loading) return <LoadingSpinner />;
 
   if (error || !topic) {
     return (
@@ -120,112 +145,48 @@ export default function TopicPractice() {
           <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
         <h2>{error || 'Topic not found'}</h2>
-        <p>The topic you're looking for doesn't exist or has no questions.</p>
+        <p>The topic you are looking for does not exist or has no questions.</p>
         <Link to="/app/practice" className="btn-primary">Back to Practice</Link>
       </div>
     );
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const isAnswered = answeredQuestions.includes(currentQuestionIndex);
-  const isCurrentBookmarked = bookmarkedQuestions.has(currentQuestion.id);
+  if (quizDone) {
+    const pct = Math.round((score / questions.length) * 100);
+    return (
+      <div className="quiz-complete">
+        <div className="quiz-complete-card">
+          <div className="complete-icon" style={{ color: pct >= 60 ? '#22c55e' : '#ef4444' }}>
+            {pct >= 60 ? '🎉' : '📚'}
+          </div>
+          <h2>Quiz Complete!</h2>
+          <p className="complete-topic">{topic.name}</p>
+          <div className="complete-score">
+            <span className="score-number">{score}</span>
+            <span className="score-total">/ {questions.length}</span>
+          </div>
+          <p className="complete-pct">{pct}% accuracy</p>
+          <div className="complete-actions">
+            <Link to={`/app/practice/chapter/${topic.id}`} className="btn-primary">Practice Again</Link>
+            <Link to="/app/practice" className="btn-secondary">Back to Practice</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  const handleAnswerSelect = (index: number) => {
-    if (isAnswered) return;
-    setSelectedAnswer(index);
-  };
-
-  const handleSubmitAnswer = async () => {
-    if (selectedAnswer === null || isAnswered) return;
-    
-    const isCorrect = selectedAnswer === currentQuestion.correct_answer_index;
-    
-    setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
-    setShowResult(true);
-    
-    if (isCorrect) {
-      setScore(score + 1);
-    }
-    
-    // Record the attempt in the database
-    try {
-      await recordQuestionAttempt(currentQuestion.id, topic.id, isCorrect);
-      
-      // Update study session
-      if (sessionId) {
-        await updateStudySession(sessionId, answeredQuestions.length + 1, score + (isCorrect ? 1 : 0));
-      }
-    } catch (err) {
-      console.error('Error recording attempt:', err);
-    }
-  };
-
-  const handleToggleBookmark = async () => {
-    try {
-      if (isCurrentBookmarked) {
-        await removeBookmark(currentQuestion.id);
-        setBookmarkedQuestions(prev => {
-          const next = new Set(prev);
-          next.delete(currentQuestion.id);
-          return next;
-        });
-      } else {
-        await addBookmark(currentQuestion.id, topic.id);
-        setBookmarkedQuestions(prev => new Set(prev).add(currentQuestion.id));
-      }
-    } catch (err) {
-      console.error('Error toggling bookmark:', err);
-    }
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer(null);
-      setShowResult(false);
-    }
-  };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setSelectedAnswer(null);
-      setShowResult(answeredQuestions.includes(currentQuestionIndex - 1));
-    }
-  };
-
-  const getOptionClass = (index: number) => {
-    if (!showResult) {
-      return selectedAnswer === index ? 'selected' : '';
-    }
-    
-    if (index === currentQuestion.correct_answer_index) {
-      return 'correct';
-    }
-    
-    if (selectedAnswer === index && index !== currentQuestion.correct_answer_index) {
-      return 'incorrect';
-    }
-    
-    return '';
-  };
-
-  // Build options from the question's options array
-  const options = currentQuestion.options.map((text, index) => ({
-    index,
-    text
-  }));
+  const currentQuestion = questions[currentIdx];
+  const isAnswered = answeredSet.has(currentIdx);
+  const isCurrentBookmarked = bookmarkedIds.has(currentQuestion.id);
 
   return (
     <div className="topic-practice-page">
-      {/* Breadcrumb */}
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link to="/app/practice">Practice</Link>
         <span className="separator">/</span>
         <span className="current">{topic.name}</span>
       </nav>
 
-      {/* Topic header */}
       <header className="topic-header" style={{ borderColor: `${topic.color}40` }}>
         <div className="topic-info">
           <h1>{topic.name}</h1>
@@ -233,7 +194,7 @@ export default function TopicPractice() {
         </div>
         <div className="topic-stats">
           <div className="stat">
-            <span className="value">{currentQuestionIndex + 1}/{questions.length}</span>
+            <span className="value">{currentIdx + 1}/{questions.length}</span>
             <span className="label">Question</span>
           </div>
           <div className="stat">
@@ -241,19 +202,16 @@ export default function TopicPractice() {
             <span className="label">Correct</span>
           </div>
           <div className="stat">
-            <span className="value">{answeredQuestions.length > 0 ? Math.round((score / answeredQuestions.length) * 100) : 0}%</span>
+            <span className="value">{answeredSet.size > 0 ? Math.round((score / answeredSet.size) * 100) : 0}%</span>
             <span className="label">Accuracy</span>
           </div>
         </div>
       </header>
 
-      {/* Question card */}
       <div className="question-card">
         <div className="question-header">
-          <div className="question-number">
-            Question {currentQuestionIndex + 1}
-          </div>
-          <button 
+          <div className="question-number">Question {currentIdx + 1}</div>
+          <button
             className={`bookmark-btn ${isCurrentBookmarked ? 'bookmarked' : ''}`}
             onClick={handleToggleBookmark}
             title={isCurrentBookmarked ? 'Remove bookmark' : 'Add bookmark'}
@@ -263,26 +221,26 @@ export default function TopicPractice() {
             </svg>
           </button>
         </div>
-        <h2 className="question-text">{currentQuestion.question_text}</h2>
-        
+        <h2 className="question-text">{currentQuestion.question}</h2>
+
         <div className="options-list" role="radiogroup" aria-label="Answer options">
-          {options.map((option) => (
+          {currentQuestion.options.map((optText, index) => (
             <button
-              key={option.index}
-              className={`option-btn ${getOptionClass(option.index)}`}
-              onClick={() => handleAnswerSelect(option.index)}
+              key={index}
+              className={`option-btn ${getOptionClass(index)}`}
+              onClick={() => handleAnswerSelect(index)}
               disabled={isAnswered}
               role="radio"
-              aria-checked={selectedAnswer === option.index}
+              aria-checked={selectedAnswer === index}
             >
-              <span className="option-letter">{String.fromCharCode(65 + option.index)}</span>
-              <span className="option-text">{option.text}</span>
-              {showResult && option.index === currentQuestion.correct_answer_index && (
+              <span className="option-letter">{String.fromCharCode(65 + index)}</span>
+              <span className="option-text">{optText}</span>
+              {showResult && index === currentQuestion.correctIndex && currentQuestion.correctIndex >= 0 && (
                 <svg className="result-icon correct" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               )}
-              {showResult && selectedAnswer === option.index && option.index !== currentQuestion.correct_answer_index && (
+              {showResult && selectedAnswer === index && index !== currentQuestion.correctIndex && (
                 <svg className="result-icon incorrect" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18"/>
                   <line x1="6" y1="6" x2="18" y2="18"/>
@@ -292,90 +250,32 @@ export default function TopicPractice() {
           ))}
         </div>
 
-        {/* Result message */}
         {showResult && (
-          <div className={`result-message ${selectedAnswer === currentQuestion.correct_answer_index ? 'correct' : 'incorrect'}`}>
-            {selectedAnswer === currentQuestion.correct_answer_index ? (
-              <>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                <span>Correct! Well done.</span>
-              </>
+          <div className={`result-message ${currentQuestion.correctIndex >= 0 ? (selectedAnswer === currentQuestion.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
+            {currentQuestion.correctIndex < 0 ? (
+              <p>Answer recorded. No answer key available for this topic yet.</p>
+            ) : selectedAnswer === currentQuestion.correctIndex ? (
+              <p>Correct! Well done.</p>
             ) : (
-              <>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="15" y1="9" x2="9" y2="15"/>
-                  <line x1="9" y1="9" x2="15" y2="15"/>
-                </svg>
-                <span>Incorrect. The correct answer is {currentQuestion.options[currentQuestion.correct_answer_index]}</span>
-              </>
-            )}
-            {currentQuestion.explanation && (
-              <p className="explanation">{currentQuestion.explanation}</p>
+              <p>Incorrect. The correct answer is <strong>{String.fromCharCode(65 + currentQuestion.correctIndex)}</strong>.</p>
             )}
           </div>
         )}
 
-        {/* Actions */}
         <div className="question-actions">
-          <button 
-            className="btn-secondary"
-            onClick={handlePreviousQuestion}
-            disabled={currentQuestionIndex === 0}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="19" y1="12" x2="5" y2="12"/>
-              <polyline points="12 19 5 12 12 5"/>
-            </svg>
-            Previous
-          </button>
-
+          <button className="btn-secondary" onClick={handlePrev} disabled={currentIdx === 0}>Previous</button>
           {!isAnswered ? (
-            <button 
-              className="btn-primary"
-              onClick={handleSubmitAnswer}
-              disabled={selectedAnswer === null}
-            >
-              Check Answer
-            </button>
+            <button className="btn-primary" onClick={handleSubmit} disabled={selectedAnswer === null}>Submit</button>
           ) : (
-            <button 
-              className="btn-primary"
-              onClick={handleNextQuestion}
-              disabled={currentQuestionIndex === questions.length - 1}
-            >
-              Next Question
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
+            <button className="btn-primary" onClick={handleNext}>
+              {currentIdx < questions.length - 1 ? 'Next' : 'Finish'}
             </button>
           )}
         </div>
       </div>
 
-      {/* Question navigator */}
-      <div className="question-navigator">
-        <h3>Questions</h3>
-        <div className="navigator-grid">
-          {questions.map((_, index) => (
-            <button
-              key={index}
-              className={`nav-dot ${index === currentQuestionIndex ? 'current' : ''} ${answeredQuestions.includes(index) ? 'answered' : ''}`}
-              onClick={() => {
-                setCurrentQuestionIndex(index);
-                setSelectedAnswer(null);
-                setShowResult(answeredQuestions.includes(index));
-              }}
-              aria-label={`Go to question ${index + 1}`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
+      <div className="question-progress-bar">
+        <div className="qpb-fill" style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }} />
       </div>
     </div>
   );

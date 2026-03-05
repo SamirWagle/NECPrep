@@ -1,16 +1,17 @@
-import { useAuth } from '../../auth/AuthProvider';
-import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../../types/database.types';
+import { useUser } from '../../context/UserContext';
+import { getOverallStats } from '../../services/localData';
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { name } = useUser();
+  const overall = getOverallStats();
 
   const stats = {
-    questionsAttempted: 234,
-    accuracy: 76,
-    studyTime: '18h 30m',
-    streak: 5,
-    rank: 'Advanced',
-    memberSince: 'January 2026'
+    questionsAttempted: overall.attempted,
+    accuracy: overall.attempted > 0 ? Math.round((overall.correct / overall.attempted) * 100) : 0,
+    studyTime: '--',
+    streak: 0,
+    rank: 'Learner',
+    memberSince: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   };
 
   return (
@@ -24,16 +25,12 @@ export default function Profile() {
       {/* Profile card */}
       <div className="profile-card">
         <div className="profile-header">
-          {getUserAvatarUrl(user) ? (
-            <img src={getUserAvatarUrl(user)!} alt="" className="profile-avatar" />
-          ) : (
-            <div className="profile-avatar-placeholder">
-              {getUserInitial(user)}
-            </div>
-          )}
+          <div className="profile-avatar-placeholder">
+            {name ? name[0].toUpperCase() : 'U'}
+          </div>
           <div className="profile-info">
-            <h2>{getUserDisplayName(user)}</h2>
-            <p>{user?.email}</p>
+            <h2>{name || 'User'}</h2>
+            <p>Local user</p>
             <span className="member-since">Member since {stats.memberSince}</span>
           </div>
         </div>

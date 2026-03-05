@@ -1,31 +1,15 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { getTopic } from '../../services/api';
-import type { Topic } from '../../types/database.types';
+import { useState } from 'react';
+import { getTopicById } from '../../services/localData';
 import ThreeBackground from '../../components/ThreeBackground';
 import './ChapterSelector.css';
 
 export default function ChapterPracticeSelector() {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
-  const [chapter, setChapter] = useState<Topic | null>(null);
-  const [loading, setLoading] = useState(true);
+  const chapter = chapterId ? getTopicById(chapterId) : null;
+  const loading = false;
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-
-  useEffect(() => {
-    async function loadChapter() {
-      if (!chapterId) return;
-      try {
-        const data = await getTopic(chapterId);
-        setChapter(data);
-      } catch (err) {
-        console.error('Error loading chapter:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadChapter();
-  }, [chapterId]);
 
   const handleStartPractice = (questionCount: number) => {
     setSelectedOption(questionCount);
@@ -130,7 +114,7 @@ export default function ChapterPracticeSelector() {
                     <path d="M9 11l3 3L22 4"/>
                     <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
                   </svg>
-                  <span>{chapter.question_count} Questions</span>
+                  <span>{chapter.questionCount} Questions</span>
                 </div>
                 <div className="stat-badge" style={{ backgroundColor: `${chapter.color}15`, color: chapter.color }}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -204,7 +188,7 @@ export default function ChapterPracticeSelector() {
               <line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
             <div>
-              <strong>Random Selection:</strong> Questions are randomly picked from {chapter.question_count} available questions to ensure variety in each practice session.
+              <strong>Random Selection:</strong> Questions are randomly picked from {chapter.questionCount} available questions to ensure variety in each practice session.
             </div>
           </div>
         </section>

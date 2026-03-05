@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthProvider';
-import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../../types/database.types';
+import { useUser } from '../../context/UserContext';
+import { clearAllData } from '../../services/localData';
 
 export default function Settings() {
-  const { user, logout } = useAuth();
+  const { name } = useUser();
   const navigate = useNavigate();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // Settings state
   const [settings, setSettings] = useState({
@@ -20,14 +19,14 @@ export default function Settings() {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      setIsLoggingOut(false);
+  const handleLeave = () => {
+    localStorage.removeItem('userName');
+    navigate('/');
+  };
+
+  const handleResetProgress = () => {
+    if (window.confirm('This will clear all your progress and bookmarks. Are you sure?')) {
+      clearAllData();
     }
   };
 
@@ -44,20 +43,16 @@ export default function Settings() {
         <h2>Account</h2>
         <div className="settings-card">
           <div className="account-info">
-            {getUserAvatarUrl(user) ? (
-              <img src={getUserAvatarUrl(user)!} alt="" className="account-avatar" />
-            ) : (
-              <div className="account-avatar-placeholder">
-                {getUserInitial(user)}
+            <div className="account-avatar-placeholder">
+                {name ? name[0].toUpperCase() : 'U'}
               </div>
-            )}
             <div className="account-details">
-              <span className="account-name">{getUserDisplayName(user)}</span>
-              <span className="account-email">{user?.email}</span>
+              <span className="account-name">{name || 'User'}</span>
+              <span className="account-email">Local session</span>
             </div>
           </div>
           <p className="account-note">
-            Signed in with Google. To change your profile photo or name, update your Google account.
+            Your progress is stored locally in this browser.
           </p>
         </div>
       </section>
@@ -144,7 +139,7 @@ export default function Settings() {
             </svg>
           </button>
 
-          <button className="setting-action danger">
+          <button className="setting-action danger" onClick={handleResetProgress}>
             <div className="setting-info">
               <span className="setting-name">Reset Progress</span>
               <span className="setting-desc">Clear all your learning progress</span>
@@ -162,24 +157,16 @@ export default function Settings() {
         <h2>Session</h2>
         <button 
           className="logout-btn"
-          onClick={handleLogout}
-          disabled={isLoggingOut}
+          onClick={handleLeave}
         >
-          {isLoggingOut ? (
-            <>
-              <span className="btn-spinner" />
-              Signing out...
-            </>
-          ) : (
             <>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                 <polyline points="16 17 21 12 16 7"/>
                 <line x1="21" y1="12" x2="9" y2="12"/>
               </svg>
-              Sign out
+              Leave
             </>
-          )}
         </button>
       </section>
 

@@ -1,0 +1,120 @@
+/**
+ * sync-chapters.mjs
+ * Scans frontend/public/data/books/ for ch*.json files and regenerates
+ * frontend/src/data/bookChapters.generated.ts automatically.
+ * Drop any chN.json directly into frontend/public/data/books/ and rebuild.
+ *
+ * Run via:  node scripts/sync-chapters.mjs
+ * Wired into:  npm run dev  and  npm run build  in frontend/package.json
+ */
+
+import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
+import { resolve, dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT       = resolve(__dirname, '..');
+const BOOKS_DIR  = join(ROOT, 'frontend', 'public', 'data', 'books');
+const GEN_TS     = join(ROOT, 'frontend', 'src', 'data', 'bookChapters.generated.ts');
+
+// Chapter colours cycle — extend as needed
+const COLORS = [
+  '#f59e0b', '#6366f1', '#22c55e', '#ec4899', '#06b6d4',
+  '#a855f7', '#f97316', '#10b981', '#3b82f6', '#8b5cf6',
+];
+
+// Icon cycle — must be values valid in the Topic['icon'] union
+const ICONS = [
+  'chip', 'chip', 'code', 'database', 'brain',
+  'network', 'monitor', 'calculator', 'book', 'settings',
+];
+
+/** Guess subject name + description from the first 30 question texts */
+function detectSubject(questions) {
+  const text = questions.slice(0, 30).map(q => q.qsns ?? '').join(' ').toLowerCase();
+  // Check digital logic FIRST (its questions can mention voltages too)
+  if (text.includes('boolean') || text.includes('logic gate') || text.includes('binary') || text.includes('number system') || text.includes('decimal number') || text.includes('sum of products') || text.includes('product of sum') || text.includes('flip-flop') || text.includes('karnaugh'))
+    return { name: 'Digital Logic & Number Systems', desc: 'Number systems, Boolean algebra, logic gates and digital electronics' };
+  if (text.includes('ohm') || text.includes('voltage') || text.includes('resistor') || (text.includes('electric') && !text.includes('electronics engineering')))
+    return { name: 'Basic Electrical & Electronics', desc: "Ohm\\'s Law, circuit analysis, AC/DC circuits and electronic components" };
+  if (text.includes('identifier') || text.includes('pointer') || text.includes('malloc') || text.includes('c programming') || text.includes('do-while') || text.includes('printf'))
+    return { name: 'C / C++ Programming', desc: 'C and C++ fundamentals, pointers, data types and OOP concepts' };
+  if (text.includes('tcp') || text.includes('ip address') || text.includes('subnet') || text.includes('protocol'))
+    return { name: 'Computer Networks & Security', desc: 'Network protocols, OSI model and network security concepts' };
+  if (text.includes('scheduling') || text.includes('deadlock') || text.includes('semaphore') || text.includes('operating system'))
+    return { name: 'Operating Systems & DBMS', desc: 'OS process management, memory, databases and algorithms' };
+  if (text.includes('machine learning') || text.includes('neural') || text.includes('perceptron') || text.includes('artificial intelligence'))
+    return { name: 'AI & Machine Learning', desc: 'Artificial intelligence, neural networks and machine learning concepts' };
+  return null;
+}
+
+async function main() {
+  await mkdir(BOOKS_DIR, { recursive: true });
+
+  if (!existsSync(BOOKS_DIR)) {
+    console.log('[sync-chapters] frontend/public/data/books/ not found — skipping.');
+    return;
+  }
+
+  const files = (await readdir(BOOKS_DIR))
+    .filter(f => /^ch\d+\.json$/i.test(f))
+    .sort((a, b) => parseInt(a.match(/\d+/)[0], 10) - parseInt(b.match(/\d+/)[0], 10));
+
+  if (files.length === 0) {
+    console.log('[sync-chapters] No ch*.json files found in frontend/public/data/books/.');
+    return;
+  }
+
+  const entries = [];
+  for (const file of files) {
+    const num      = parseInt(file.match(/\d+/)[0], 10);
+    const raw_text = await readFile(join(BOOKS_DIR, file), 'utf8');
+    if (!raw_text.trim()) {
+      console.log(`[sync-chapters] ch${num}: empty file — skipped`);
+      continue;
+    }
+    let raw;
+    try {
+      raw = JSON.parse(raw_text);
+    } catch (e) {
+      console.log(`[sync-chapters] ch${num}: invalid JSON — skipped (${e.message})`);
+      continue;
+    }
+    const count    = Array.isArray(raw) ? raw.length : 0;
+    const detected = detectSubject(raw);
+    const ci       = (num - 1) % COLORS.length;
+
+    entries.push({
+      id:            `book-ch${num}`,
+      name:          `Chapter ${num}${detected ? ': ' + detected.name : ''}`,
+      shortName:     `Ch${num} - ${detected ? detected.name : 'Chapter ' + num}`,
+      description:   detected ? detected.desc : `Questions from chapter ${num} of the engineering exam textbook`,
+      questionCount: count,
+      icon:          ICONS[(num - 1) % ICONS.length],
+      color:         COLORS[ci],
+      dataFile:      `books/ch${num}.json`,
+    });
+    console.log(`[sync-chapters] ch${num}: ${count} questions`);
+  }
+
+  const tsLines = [
+    '// AUTO-GENERATED by scripts/sync-chapters.mjs — DO NOT EDIT MANUALLY.',
+    '// Drop chN.json into frontend/public/data/books/ and run npm run dev or npm run build.',
+    "import type { Topic } from './topics';",
+    '',
+    'export const bookChapters: Topic[] = [',
+    ...entries.map(e =>
+      `  { id: '${e.id}', name: '${e.name}', shortName: '${e.shortName}', ` +
+      `description: '${e.description}', questionCount: ${e.questionCount}, ` +
+      `icon: '${e.icon}' as Topic['icon'], color: '${e.color}', dataFile: '${e.dataFile}' },`
+    ),
+    '];',
+    '',
+  ];
+
+  await writeFile(GEN_TS, tsLines.join('\n'), 'utf8');
+  console.log(`[sync-chapters] ✓ Generated ${files.length} chapter(s) → bookChapters.generated.ts`);
+}
+
+main().catch(e => { console.error(e); process.exit(1); });

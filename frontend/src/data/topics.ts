@@ -130,39 +130,36 @@ export interface MockTest {
   id: string;
   name: string;
   description: string;
-  questionCount: number;
-  duration: number; // in minutes
-  topics: string[]; // topic ids
+  questionsPerChapter: number; // questions drawn from each book chapter
+  duration: number;            // total time in minutes
 }
 
 export const mockTests: MockTest[] = [
   {
     id: 'full-mock-1',
     name: 'Full Mock Test 1',
-    description: 'Comprehensive test covering all engineering subjects',
-    questionCount: 100,
-    duration: 120,
-    topics: topics.map(t => t.id)
+    description: '10 random questions from every chapter — a fresh set each time',
+    questionsPerChapter: 10,
+    duration: 45,
   },
   {
     id: 'full-mock-2',
     name: 'Full Mock Test 2',
-    description: 'Complete exam simulation with mixed questions',
-    questionCount: 100,
-    duration: 120,
-    topics: topics.map(t => t.id)
+    description: '10 random questions per chapter — different selection to Mock 1',
+    questionsPerChapter: 10,
+    duration: 45,
   },
   {
     id: 'quick-test',
     name: 'Quick Assessment',
-    description: 'Short test to evaluate your preparation level',
-    questionCount: 25,
-    duration: 30,
-    topics: topics.map(t => t.id)
-  }
+    description: '5 questions per chapter for a fast readiness check',
+    questionsPerChapter: 5,
+    duration: 20,
+  },
 ];
 
-// Helper to get topic by ID
+// Helper to get topic by ID (exam topics only)
+// localData.ts extends this to also search bookChapters
 export function getTopicById(id: string): Topic | undefined {
   return topics.find(topic => topic.id === id);
 }
