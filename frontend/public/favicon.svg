@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="#4F46E5"/>
+
+  <!-- Open book shape -->
+  <path d="M16 9 C13 9 10 10 8 11.5 L8 23 C10 21.5 13 21 16 21 C19 21 22 21.5 24 23 L24 11.5 C22 10 19 9 16 9Z" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Book spine line -->
+  <line x1="16" y1="9" x2="16" y2="21" stroke="white" stroke-width="1.5"/>
+
+  <!-- Small circuit dots on cover -->
+  <circle cx="11" cy="15" r="1" fill="white" opacity="0.7"/>
+  <circle cx="13.5" cy="13" r="1" fill="white" opacity="0.7"/>
+  <line x1="11" y1="15" x2="13.5" y2="13" stroke="white" stroke-width="0.8" opacity="0.7"/>
+
+  <!-- Checkmark badge bottom-right -->
+  <circle cx="24" cy="24" r="5" fill="#22C55E"/>
+  <polyline points="21.5,24 23.2,25.8 26.5,22.5" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

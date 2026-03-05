@@ -1,9 +1,26 @@
 import { useState, type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Brain, Trophy, Users } from 'lucide-react';
+import { ArrowRight, BookOpen, Trophy, Users } from 'lucide-react';
 import ThreeBackground from '../components/ThreeBackground';
 import { useUser } from '../context/UserContext';
+
+// Inline brand icon — matches the favicon book+checkmark design
+function NECPrepIcon({ small }: { small?: boolean }) {
+  const size = small ? 24 : 32;
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="#4F46E5"/>
+      <path d="M16 9 C13 9 10 10 8 11.5 L8 23 C10 21.5 13 21 16 21 C19 21 22 21.5 24 23 L24 11.5 C22 10 19 9 16 9Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinejoin="round"/>
+      <line x1="16" y1="9" x2="16" y2="21" stroke="white" strokeWidth="1.5"/>
+      <circle cx="11" cy="15" r="1" fill="white" opacity="0.7"/>
+      <circle cx="13.5" cy="13" r="1" fill="white" opacity="0.7"/>
+      <line x1="11" y1="15" x2="13.5" y2="13" stroke="white" strokeWidth="0.8" opacity="0.7"/>
+      <circle cx="24" cy="24" r="5" fill="#22C55E"/>
+      <polyline points="21.5,24 23.2,25.8 26.5,22.5" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -19,12 +36,12 @@ export default function Landing() {
       description: 'Access curated content covering all engineering license exam topics.'
     },
     {
-      icon: <Brain className="w-8 h-8" />,
-      title: 'AI-Powered Practice',
-      description: 'Practice with intelligent question banks and get instant feedback.'
+      icon: <Trophy className="w-8 h-8" />,
+      title: 'Smart Practice',
+      description: 'Practice with curated question banks and get instant feedback.'
     },
     {
-      icon: <Trophy className="w-8 h-8" />,
+      icon: <ArrowRight className="w-8 h-8" />,
       title: 'Track Your Progress',
       description: 'Monitor your improvement with detailed analytics and insights.'
     },
@@ -99,8 +116,8 @@ export default function Landing() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Brain className="w-8 h-8 text-indigo-500" />
-            <span className="logo-text">EngLicense</span>
+            <NECPrepIcon />
+            <span className="logo-text">NECPrep</span>
           </motion.div>
           
           <motion.button
@@ -141,7 +158,7 @@ export default function Landing() {
             transition={{ duration: 0.6, delay: 0.5 }}
           >
             Master Your
-            <span className="gradient-text"> Engineering License </span>
+            <span className="gradient-text"> NEC License </span>
             Exam
           </motion.h1>
           
@@ -152,7 +169,7 @@ export default function Landing() {
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             The most comprehensive platform to study, practice, and ace your 
-            engineering license examination. Powered by AI and built by engineers, for engineers.
+            NEC license examination. Powered by proven study methods, built by engineers, for engineers.
           </motion.p>
           
           <motion.div 
@@ -326,11 +343,11 @@ export default function Landing() {
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-logo">
-            <Brain className="w-6 h-6 text-indigo-500" />
-            <span>EngLicense</span>
+            <NECPrepIcon small />
+            <span>NECPrep</span>
           </div>
           <p className="footer-text">
-            © 2026 EngLicense. Built for Nepal Engineering Council License Exam Preparation.
+            © 2026 NECPrep. Built for Nepal Engineering Council License Exam Preparation.
           </p>
         </div>
       </footer>
