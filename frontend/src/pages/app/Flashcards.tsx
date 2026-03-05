@@ -1,46 +1,73 @@
-import { useState } from 'react';
-import { topics } from '../../data/topics';
+import { useState, useEffect } from 'react';
+import { bookChapters, loadTopicQuestions } from '../../services/localData';
+import type { Question } from '../../services/localData';
 
-// Mock flashcard data
-const mockFlashcards = [
-  { id: 1, front: "What is Ohm's Law?", back: "V = IR (Voltage = Current × Resistance)", topicId: 'concept-of-basic-electrical-and-electronics-engineering' },
-  { id: 2, front: "What is the time complexity of binary search?", back: "O(log n)", topicId: 'data-structures-and-algorithm-database-system-and-operating-system' },
-  { id: 3, front: "What is TCP?", back: "Transmission Control Protocol - A connection-oriented protocol that provides reliable, ordered delivery of data", topicId: 'concept-of-computer-network-and-network-security-system' },
-  { id: 4, front: "What is a pointer in C?", back: "A variable that stores the memory address of another variable", topicId: 'programming-language-and-its-application' },
-  { id: 5, front: "What is SDLC?", back: "Software Development Life Cycle - A process used for planning, creating, testing, and deploying software", topicId: 'software-engineering-and-object-oriented-analysis-and-design' },
-];
+interface Flashcard {
+  id: string;
+  front: string;
+  back: string;
+}
+
+function questionsToFlashcards(questions: Question[]): Flashcard[] {
+  return questions
+    .filter(q => q.correctIndex >= 0 && q.options[q.correctIndex])
+    .map(q => ({
+      id: q.id,
+      front: q.question,
+      back: q.options[q.correctIndex],
+    }));
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 export default function Flashcards() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [selectedChapter, setSelectedChapter] = useState('');
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const filteredCards = selectedTopic 
-    ? mockFlashcards.filter(c => c.topicId === selectedTopic)
-    : mockFlashcards;
+  useEffect(() => {
+    if (!selectedChapter) {
+      setFlashcards([]);
+      return;
+    }
+    setLoading(true);
+    setCurrentIndex(0);
+    setIsFlipped(false);
+    loadTopicQuestions(selectedChapter).then(questions => {
+      setFlashcards(shuffle(questionsToFlashcards(questions)));
+      setLoading(false);
+    });
+  }, [selectedChapter]);
 
-  const currentCard = filteredCards[currentIndex];
+  const currentCard = flashcards[currentIndex];
 
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-  };
+  const handleFlip = () => setIsFlipped(f => !f);
 
   const handleNext = () => {
-    if (currentIndex < filteredCards.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+    if (currentIndex < flashcards.length - 1) {
+      setCurrentIndex(i => i + 1);
       setIsFlipped(false);
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+      setCurrentIndex(i => i - 1);
       setIsFlipped(false);
     }
   };
 
-  const handleTopicChange = (topicId: string | null) => {
-    setSelectedTopic(topicId);
+  const handleShuffle = () => {
+    setFlashcards(prev => shuffle([...prev]));
     setCurrentIndex(0);
     setIsFlipped(false);
   };
@@ -50,36 +77,71 @@ export default function Flashcards() {
       {/* Page header */}
       <header className="page-header">
         <h1>Flashcards</h1>
-        <p>Quick revision with interactive flashcards</p>
+        <p>Quick revision — select a chapter to get randomly shuffled questions</p>
       </header>
 
-      {/* Topic filter */}
+      {/* Chapter selector */}
       <div className="topic-filter">
-        <label htmlFor="topic-select" className="sr-only">Filter by topic</label>
-        <select 
+        <label htmlFor="topic-select" className="sr-only">Select chapter</label>
+        <select
           id="topic-select"
-          value={selectedTopic || ''}
-          onChange={(e) => handleTopicChange(e.target.value || null)}
+          value={selectedChapter}
+          onChange={e => setSelectedChapter(e.target.value)}
           className="topic-select"
         >
-          <option value="">All Topics</option>
-          {topics.map((topic) => (
-            <option key={topic.id} value={topic.id}>{topic.shortName}</option>
+          <option value="">— Select a chapter —</option>
+          {bookChapters.map(ch => (
+            <option key={ch.id} value={ch.id}>{ch.shortName}</option>
           ))}
         </select>
-        <span className="card-count">{filteredCards.length} cards</span>
+        {flashcards.length > 0 && (
+          <span className="card-count">{flashcards.length} cards</span>
+        )}
+        {flashcards.length > 0 && (
+          <button className="shuffle-btn" onClick={handleShuffle} aria-label="Shuffle cards">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="16 3 21 3 21 8"/>
+              <line x1="4" y1="20" x2="21" y2="3"/>
+              <polyline points="21 16 21 21 16 21"/>
+              <line x1="15" y1="15" x2="21" y2="21"/>
+            </svg>
+            Shuffle
+          </button>
+        )}
       </div>
 
-      {/* Flashcard area */}
-      {filteredCards.length > 0 ? (
+      {/* Initial prompt */}
+      {!selectedChapter && (
+        <div className="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M10 4v4"/>
+            <path d="M2 8h20"/>
+            <path d="M6 4v4"/>
+          </svg>
+          <h3>Select a chapter to begin</h3>
+          <p>Choose a chapter from the dropdown above to load randomly shuffled flashcards</p>
+        </div>
+      )}
+
+      {/* Loading */}
+      {selectedChapter && loading && (
+        <div className="flashcard-loading">
+          <div className="loading-spinner" />
+          <p>Loading flashcards…</p>
+        </div>
+      )}
+
+      {/* Cards */}
+      {selectedChapter && !loading && flashcards.length > 0 && (
         <>
           <div className="flashcard-container">
-            <div 
+            <div
               className={`flashcard ${isFlipped ? 'flipped' : ''}`}
               onClick={handleFlip}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && handleFlip()}
+              onKeyDown={e => e.key === 'Enter' && handleFlip()}
               aria-label={isFlipped ? 'Click to see question' : 'Click to see answer'}
             >
               <div className="flashcard-inner">
@@ -99,7 +161,7 @@ export default function Flashcards() {
 
           {/* Navigation */}
           <div className="flashcard-nav">
-            <button 
+            <button
               className="nav-btn"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
@@ -109,15 +171,11 @@ export default function Flashcards() {
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
             </button>
-            
-            <span className="card-progress">
-              {currentIndex + 1} / {filteredCards.length}
-            </span>
-            
-            <button 
+            <span className="card-progress">{currentIndex + 1} / {flashcards.length}</span>
+            <button
               className="nav-btn"
               onClick={handleNext}
-              disabled={currentIndex === filteredCards.length - 1}
+              disabled={currentIndex === flashcards.length - 1}
               aria-label="Next card"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -128,13 +186,13 @@ export default function Flashcards() {
 
           {/* Actions */}
           <div className="flashcard-actions">
-            <button className="action-btn know">
+            <button className="action-btn know" onClick={handleNext}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
               I know this
             </button>
-            <button className="action-btn review">
+            <button className="action-btn review" onClick={handleNext}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M2.5 2v6h6M21.5 22v-6h-6"/>
                 <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2"/>
@@ -143,7 +201,10 @@ export default function Flashcards() {
             </button>
           </div>
         </>
-      ) : (
+      )}
+
+      {/* No cards after load */}
+      {selectedChapter && !loading && flashcards.length === 0 && (
         <div className="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -152,7 +213,7 @@ export default function Flashcards() {
             <path d="M6 4v4"/>
           </svg>
           <h3>No flashcards available</h3>
-          <p>No flashcards found for the selected topic</p>
+          <p>This chapter has no questions with answer data yet</p>
         </div>
       )}
     </div>

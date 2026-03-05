@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { getTopicById } from '../../data/topics';
+import { getTopicById } from '../../services/localData';
 
 // Mock chapters for study
 const mockChapters = [
