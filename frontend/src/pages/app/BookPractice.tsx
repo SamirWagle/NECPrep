@@ -273,15 +273,6 @@ export default function BookPractice() {
         </div>
       </section>
 
-      <div className="upload-hint">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 5v14M5 12l7-7 7 7" />
-        </svg>
-        <p>
-          More chapters coming soon. Drop new <code>chN.json</code> files in{' '}
-          <code>datasets/BooksQuestions/</code> and they'll appear here automatically.
-        </p>
-      </div>
     </div>
   );
 }
