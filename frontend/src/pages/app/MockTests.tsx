@@ -1,30 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getMockTests, getMockTestHistory } from '../../services/api';
-import type { MockTest, MockTestAttempt } from '../../types/database.types';
+﻿import { Link } from 'react-router-dom';
+import { mockTests as allMockTests, getQuizHistory, bookChapters } from '../../services/localData';
 
 export default function MockTests() {
-  const [mockTests, setMockTests] = useState<MockTest[]>([]);
-  const [attempts, setAttempts] = useState<(MockTestAttempt & { mock_test: MockTest })[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const [testsData, attemptsData] = await Promise.all([
-          getMockTests(),
-          getMockTestHistory().catch(() => [])
-        ]);
-        setMockTests(testsData);
-        setAttempts(attemptsData);
-      } catch (err) {
-        console.error('Error loading mock tests:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
+  const mockTests = allMockTests;
+  const attempts = getQuizHistory();
+  const loading = false;
 
   return (
     <div className="mock-tests-page">
@@ -75,12 +55,12 @@ export default function MockTests() {
                     </svg>
                   </div>
                   <div className="test-badges">
-                    <span className="badge badge-questions">{test.question_count} questions</span>
-                    <span className="badge badge-time">{test.time_limit_minutes} min</span>
+                    <span className="badge badge-questions">{bookChapters.length * test.questionsPerChapter} questions</span>
+                    <span className="badge badge-time">{test.duration} min</span>
                   </div>
                 </div>
                 
-                <h3>{test.title}</h3>
+                <h3>{test.name}</h3>
                 <p>{test.description}</p>
 
                 <div className="test-meta">
@@ -89,12 +69,12 @@ export default function MockTests() {
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                       <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
-                    Pass: {test.passing_score}%
+                    Pass: {60}%
                   </span>
                 </div>
 
                 <div className="test-actions">
-                  <Link to={`/app/practice/mock-tests/${test.id}`} className="btn-start-test">
+                  <Link to={`/app/mock-tests/${test.id}`} className="btn-start-test">
                     Start Test
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <polygon points="5 3 19 12 5 21 5 3"/>
@@ -112,26 +92,26 @@ export default function MockTests() {
         <h2>Your Past Attempts</h2>
         {attempts.length > 0 ? (
           <div className="attempts-list">
-            {attempts.map((attempt) => (
-              <div key={attempt.id} className={`attempt-card ${attempt.is_passed ? 'passed' : 'failed'}`}>
-                <div className="attempt-info">
-                  <h4>{attempt.mock_test?.title}</h4>
-                  <span className="attempt-date">{new Date(attempt.started_at).toLocaleDateString()}</span>
+            {attempts.map((attempt, i) => {
+              const pct = Math.round((attempt.score / attempt.total) * 100);
+              return (
+                <div key={i} className={`attempt-card ${pct >= 60 ? 'passed' : 'failed'}`}>
+                  <div className="attempt-info">
+                    <h4>{attempt.topicName}</h4>
+                    <span className="attempt-date">{new Date(attempt.date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="attempt-stats">
+                    <span className="score">{pct}%</span>
+                    <span className={`status ${pct >= 60 ? 'passed' : 'failed'}`}>
+                      {pct >= 60 ? 'Passed' : 'Failed'}
+                    </span>
+                  </div>
+                  <div className="attempt-details">
+                    <span>{attempt.score}/{attempt.total} correct</span>
+                  </div>
                 </div>
-                <div className="attempt-stats">
-                  <span className="score">{attempt.score}%</span>
-                  <span className={`status ${attempt.is_passed ? 'passed' : 'failed'}`}>
-                    {attempt.is_passed ? 'Passed' : 'Failed'}
-                  </span>
-                </div>
-                <div className="attempt-details">
-                  <span>{attempt.correct_answers}/{attempt.total_questions} correct</span>
-                  {attempt.time_taken_seconds && (
-                    <span>{Math.round(attempt.time_taken_seconds / 60)} min</span>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="empty-state">
@@ -150,3 +130,5 @@ export default function MockTests() {
     </div>
   );
 }
+
+

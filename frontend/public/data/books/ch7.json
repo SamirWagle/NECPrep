@@ -1,0 +1,623 @@
+[
+  {
+    "qsns": "Which data structure follows the Last-In-First-Out (LIFO) principle?",
+    "opt1": "Queue",
+    "opt2": "Stack",
+    "opt3": "Linked List",
+    "opt4": "Tree",
+    "correct_option": "Stack",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The postfix expression for the infix expression A+B*C is:",
+    "opt1": "ABC+*",
+    "opt2": "AB+C*",
+    "opt3": "ABC*+",
+    "opt4": "+A*BC",
+    "correct_option": "ABC*+",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which data structure follows the First-In-First-Out (FIFO) principle?",
+    "opt1": "Queue",
+    "opt2": "Stack",
+    "opt3": "Linked List",
+    "opt4": "Tree",
+    "correct_option": "Queue",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "An AVL tree is:",
+    "opt1": "A binary search tree",
+    "opt2": "A balanced binary search tree",
+    "opt3": "A complete binary tree",
+    "opt4": "A full binary tree",
+    "correct_option": "A balanced binary search tree",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In a singly linked list, each node contains:",
+    "opt1": "Data and a pointer to the previous node",
+    "opt2": "Data and a pointer to the next node",
+    "opt3": "Data and pointers to both previous and next nodes",
+    "opt4": "Only data",
+    "correct_option": "Data and a pointer to the next node",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which notation is used to represent the upper bound of an algorithm's time complexity?",
+    "opt1": "Big Oh (O)",
+    "opt2": "Omega (Ω)",
+    "opt3": "Theta (Θ)",
+    "opt4": "Delta (Δ)",
+    "correct_option": "Big Oh (O)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is NOT a type of linked list?",
+    "opt1": "Singly Linked List",
+    "opt2": "Doubly Linked List",
+    "opt3": "Circular Linked List",
+    "opt4": "Binary Linked List",
+    "correct_option": "Binary Linked List",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The height of a complete binary tree with n nodes is:",
+    "opt1": "log₂n",
+    "opt2": "n/2",
+    "opt3": "⌊log₂n⌋",
+    "opt4": "n-1",
+    "correct_option": "⌊log₂n⌋",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which sorting algorithm has the best average-case time complexity?",
+    "opt1": "Bubble Sort",
+    "opt2": "Insertion Sort",
+    "opt3": "Quick Sort",
+    "opt4": "Selection Sort",
+    "correct_option": "Quick Sort",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which traversal of a binary tree visits the root node first?",
+    "opt1": "In-order",
+    "opt2": "Pre-order",
+    "opt3": "Post-order",
+    "opt4": "Level-order",
+    "correct_option": "Pre-order",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The time complexity of binary search is:",
+    "opt1": "O(n)",
+    "opt2": "O(log n)",
+    "opt3": "O(n log n)",
+    "opt4": "O(n²)",
+    "correct_option": "O(log n)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Binary search can be applied to:",
+    "opt1": "Any list",
+    "opt2": "Sorted list only",
+    "opt3": "Linked list only",
+    "opt4": "Unsorted list only",
+    "correct_option": "Sorted list only",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A collision in hashing occurs when:",
+    "opt1": "Two different keys hash to the same value",
+    "opt2": "A key cannot be hashed",
+    "opt3": "The hash table is full",
+    "opt4": "The hash function returns a negative value",
+    "correct_option": "Two different keys hash to the same value",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Hashing is used for:",
+    "opt1": "Sorting data",
+    "opt2": "Fast data retrieval",
+    "opt3": "Data compression",
+    "opt4": "Data encryption",
+    "correct_option": "Fast data retrieval",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which algorithm finds the shortest path from a single source to all other vertices in a weighted graph?",
+    "opt1": "Prim's algorithm",
+    "opt2": "Kruskal's algorithm",
+    "opt3": "Dijkstra's algorithm",
+    "opt4": "Warshall's algorithm",
+    "correct_option": "Dijkstra's algorithm",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Topological sorting can be applied to:",
+    "opt1": "Any graph",
+    "opt2": "Undirected graph",
+    "opt3": "Directed acyclic graph",
+    "opt4": "Complete graph",
+    "correct_option": "Directed acyclic graph",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which traversal of a graph uses a queue?",
+    "opt1": "Depth-First Search",
+    "opt2": "Breadth-First Search",
+    "opt3": "Both A and B",
+    "opt4": "Neither A nor B",
+    "correct_option": "Breadth-First Search",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A minimum spanning tree of a graph is:",
+    "opt1": "A tree that connects all vertices with minimum total edge weight",
+    "opt2": "A tree with the minimum number of edges",
+    "opt3": "A tree with the minimum number of vertices",
+    "opt4": "A tree with the minimum height",
+    "correct_option": "A tree that connects all vertices with minimum total edge weight",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Data abstraction in database systems refers to:",
+    "opt1": "Physical data organization",
+    "opt2": "Hiding implementation details",
+    "opt3": "Data compression",
+    "opt4": "Data encryption",
+    "correct_option": "Hiding implementation details",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In an E-R diagram, an entity is represented by:",
+    "opt1": "Rectangle",
+    "opt2": "Ellipse",
+    "opt3": "Diamond",
+    "opt4": "Triangle",
+    "correct_option": "Rectangle",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The primary key of a relation is:",
+    "opt1": "Any attribute",
+    "opt2": "An attribute that uniquely identifies each tuple",
+    "opt3": "The first attribute",
+    "opt4": "An attribute with the most values",
+    "correct_option": "An attribute that uniquely identifies each tuple",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A weak entity in an E-R model is one that:",
+    "opt1": "Has few attributes",
+    "opt2": "Depends on another entity for identification",
+    "opt3": "Has no primary key",
+    "opt4": "Is not important to the database",
+    "correct_option": "Depends on another entity for identification",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A relation is in First Normal Form (1NF) if:",
+    "opt1": "It has no repeating groups",
+    "opt2": "It has no partial dependencies",
+    "opt3": "It has no transitive dependencies",
+    "opt4": "It has no multi-valued dependencies",
+    "correct_option": "It has no repeating groups",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A relation is in Second Normal Form (2NF) if:",
+    "opt1": "It is in 1NF and has no repeating groups",
+    "opt2": "It is in 1NF and has no partial dependencies",
+    "opt3": "It is in 1NF and has no transitive dependencies",
+    "opt4": "It is in 1NF and has no multi-valued dependencies",
+    "correct_option": "It is in 1NF and has no partial dependencies",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "SQL stands for:",
+    "opt1": "Structured Query Language",
+    "opt2": "Simple Query Language",
+    "opt3": "Standard Query Language",
+    "opt4": "System Query Language",
+    "correct_option": "Structured Query Language",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A relation is in Third Normal Form (3NF) if:",
+    "opt1": "It is in 2NF and has no repeating groups",
+    "opt2": "It is in 2NF and has no partial dependencies",
+    "opt3": "It is in 2NF and has no transitive dependencies",
+    "opt4": "It is in 2NF and has no multi-valued dependencies",
+    "correct_option": "It is in 2NF and has no transitive dependencies",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which SQL command is used to modify existing data in a table?",
+    "opt1": "MODIFY",
+    "opt2": "ALTER",
+    "opt3": "CHANGE",
+    "opt4": "UPDATE",
+    "correct_option": "UPDATE",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "A view in SQL is:",
+    "opt1": "A physical table",
+    "opt2": "A virtual table based on a query",
+    "opt3": "A graphical representation of data",
+    "opt4": "A database schema",
+    "correct_option": "A virtual table based on a query",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which SQL command is used to create a new table?",
+    "opt1": "CREATE TABLE",
+    "opt2": "NEW TABLE",
+    "opt3": "ADD TABLE",
+    "opt4": "INSERT TABLE",
+    "correct_option": "CREATE TABLE",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which SQL command is used to add new data to a table?",
+    "opt1": "ADD",
+    "opt2": "CREATE",
+    "opt3": "INSERT",
+    "opt4": "UPDATE",
+    "correct_option": "INSERT",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Relational algebra is:",
+    "opt1": "A procedural query language",
+    "opt2": "A non-procedural query language",
+    "opt3": "A data definition language",
+    "opt4": "A data manipulation language",
+    "correct_option": "A procedural query language",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Query optimization in databases aims to:",
+    "opt1": "Reduce the size of the database",
+    "opt2": "Improve query execution efficiency",
+    "opt3": "Simplify query syntax",
+    "opt4": "Increase database security",
+    "correct_option": "Improve query execution efficiency",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Serializability in transaction processing ensures:",
+    "opt1": "Transactions are executed in a specific order",
+    "opt2": "Concurrent transactions produce the same result as if executed serially",
+    "opt3": "Transactions are converted to a serial format",
+    "opt4": "Transactions are executed as quickly as possible",
+    "correct_option": "Concurrent transactions produce the same result as if executed serially",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "ACID properties in transaction processing stand for:",
+    "opt1": "Atomicity, Consistency, Isolation, Durability",
+    "opt2": "Availability, Consistency, Integrity, Durability",
+    "opt3": "Atomicity, Correctness, Integrity, Durability",
+    "opt4": "Availability, Consistency, Isolation, Distribution",
+    "correct_option": "Atomicity, Consistency, Isolation, Durability",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A deadlock in database systems occurs when:",
+    "opt1": "The database is full",
+    "opt2": "Two or more transactions are waiting for each other to release locks",
+    "opt3": "A transaction is aborted",
+    "opt4": "The database server crashes",
+    "correct_option": "Two or more transactions are waiting for each other to release locks",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Log-based recovery in database systems is used to:",
+    "opt1": "Prevent deadlocks",
+    "opt2": "Optimize queries",
+    "opt3": "Recover from system failures",
+    "opt4": "Encrypt data",
+    "correct_option": "Recover from system failures",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT a type of operating system?",
+    "opt1": "Batch Operating System",
+    "opt2": "Time-Sharing Operating System",
+    "opt3": "Distributed Operating System",
+    "opt4": "Sequential Operating System",
+    "correct_option": "Sequential Operating System",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The main function of an operating system is:",
+    "opt1": "To provide a user interface",
+    "opt2": "To manage computer resources",
+    "opt3": "To run application programs",
+    "opt4": "To provide internet connectivity",
+    "correct_option": "To manage computer resources",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A process in an operating system is:",
+    "opt1": "A program in execution",
+    "opt2": "A program stored on disk",
+    "opt3": "A processor",
+    "opt4": "A thread",
+    "correct_option": "A program in execution",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The process state when it is ready to run but waiting for the CPU is:",
+    "opt1": "Running",
+    "opt2": "Ready",
+    "opt3": "Blocked",
+    "opt4": "Terminated",
+    "correct_option": "Ready",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which scheduling algorithm gives the CPU to the process with the shortest expected processing time?",
+    "opt1": "First-Come-First-Served",
+    "opt2": "Shortest Job First",
+    "opt3": "Round Robin",
+    "opt4": "Priority Scheduling",
+    "correct_option": "Shortest Job First",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A thread is:",
+    "opt1": "A heavy-weight process",
+    "opt2": "A light-weight process",
+    "opt3": "A program",
+    "opt4": "An operating system",
+    "correct_option": "A light-weight process",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A critical region in concurrent programming is:",
+    "opt1": "A region of memory that cannot be accessed",
+    "opt2": "A segment of code that accesses shared resources",
+    "opt3": "A region of the disk that contains critical data",
+    "opt4": "A part of the operating system that manages critical processes",
+    "correct_option": "A segment of code that accesses shared resources",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A race condition occurs when:",
+    "opt1": "Two processes compete for CPU time",
+    "opt2": "The outcome depends on the relative timing of events",
+    "opt3": "A process is running too fast",
+    "opt4": "A process is waiting for an event",
+    "correct_option": "The outcome depends on the relative timing of events",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Mutual exclusion ensures that:",
+    "opt1": "All processes can access shared resources simultaneously",
+    "opt2": "Only one process can access a shared resource at a time",
+    "opt3": "Processes are executed in a specific order",
+    "opt4": "Processes are excluded from execution",
+    "correct_option": "Only one process can access a shared resource at a time",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A semaphore is used for:",
+    "opt1": "Process creation",
+    "opt2": "Memory allocation",
+    "opt3": "Process synchronization",
+    "opt4": "File management",
+    "correct_option": "Process synchronization",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The difference between a mutex and a semaphore is:",
+    "opt1": "A mutex can only be used for mutual exclusion, while a semaphore can be used for both mutual exclusion and synchronization",
+    "opt2": "A semaphore can only be used for mutual exclusion, while a mutex can be used for both mutual exclusion and synchronization",
+    "opt3": "A mutex is faster than a semaphore",
+    "opt4": "A semaphore is used in Windows, while a mutex is used in Unix",
+    "correct_option": "A mutex can only be used for mutual exclusion, while a semaphore can be used for both mutual exclusion and synchronization",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The dining philosophers problem is an example of:",
+    "opt1": "Deadlock",
+    "opt2": "Race condition",
+    "opt3": "Starvation",
+    "opt4": "All of these",
+    "correct_option": "All of these",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Virtual memory is:",
+    "opt1": "A type of main memory",
+    "opt2": "A technique that allows execution of processes that may not be completely in memory",
+    "opt3": "A memory that does not physically exist",
+    "opt4": "A memory used for virtual machines",
+    "correct_option": "A technique that allows execution of processes that may not be completely in memory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Demand paging is:",
+    "opt1": "Loading pages into memory only when they are needed",
+    "opt2": "Loading all pages of a process before execution",
+    "opt3": "A technique to reduce page faults",
+    "opt4": "A page replacement algorithm",
+    "correct_option": "Loading pages into memory only when they are needed",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A page fault occurs when:",
+    "opt1": "A page is corrupted",
+    "opt2": "A process accesses a page not in memory",
+    "opt3": "The page table is full",
+    "opt4": "A process terminates abnormally",
+    "correct_option": "A process accesses a page not in memory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The Least Recently Used (LRU) algorithm is used for:",
+    "opt1": "CPU scheduling",
+    "opt2": "Memory allocation",
+    "opt3": "Page replacement",
+    "opt4": "Disk scheduling",
+    "correct_option": "Page replacement",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A file in an operating system is:",
+    "opt1": "A collection of related records",
+    "opt2": "A named collection of related information",
+    "opt3": "A physical storage unit",
+    "opt4": "A system program",
+    "correct_option": "A named collection of related information",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A directory in a file system is:",
+    "opt1": "A file containing other files",
+    "opt2": "A special type of file that contains file names and pointers",
+    "opt3": "A physical location on disk",
+    "opt4": "A memory location",
+    "correct_option": "A special type of file that contains file names and pointers",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "File allocation methods include:",
+    "opt1": "Contiguous, linked, and indexed allocation",
+    "opt2": "Sequential, random, and direct allocation",
+    "opt3": "Primary, secondary, and tertiary allocation",
+    "opt4": "Fixed, dynamic, and static allocation",
+    "correct_option": "Contiguous, linked, and indexed allocation",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Fragmentation in file systems refers to:",
+    "opt1": "Breaking a file into fragments",
+    "opt2": "Wasted space due to allocation methods",
+    "opt3": "Corrupted files",
+    "opt4": "File system errors",
+    "correct_option": "Wasted space due to allocation methods",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is NOT a responsibility of a system administrator?",
+    "opt1": "User account management",
+    "opt2": "System startup and shutdown",
+    "opt3": "Application development",
+    "opt4": "Backup management",
+    "correct_option": "Application development",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The time complexity of searching in a binary search tree in the worst case is:",
+    "opt1": "O(1)",
+    "opt2": "O(log n)",
+    "opt3": "O(n)",
+    "opt4": "O(n²)",
+    "correct_option": "O(n)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The time complexity of insertion in a singly linked list at the beginning is:",
+    "opt1": "O(1)",
+    "opt2": "O(log n)",
+    "opt3": "O(n)",
+    "opt4": "O(n²)",
+    "correct_option": "O(1)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is NOT a collision resolution technique in hashing?",
+    "opt1": "Open addressing",
+    "opt2": "Chaining",
+    "opt3": "Double hashing",
+    "opt4": "Sorting",
+    "correct_option": "Sorting",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which normal form deals with multi-valued dependencies?",
+    "opt1": "3NF",
+    "opt2": "BCNF",
+    "opt3": "4NF",
+    "opt4": "5NF",
+    "correct_option": "4NF",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The time complexity of Prim's algorithm for finding a minimum spanning tree using an adjacency matrix is:",
+    "opt1": "O(V²)",
+    "opt2": "O(E log V)",
+    "opt3": "O(V + E)",
+    "opt4": "O(V log E)",
+    "correct_option": "O(V²)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which SQL clause is used to filter rows?",
+    "opt1": "SELECT",
+    "opt2": "FROM",
+    "opt3": "WHERE",
+    "opt4": "GROUP BY",
+    "correct_option": "WHERE",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A trigger in SQL is:",
+    "opt1": "A type of query",
+    "opt2": "A stored procedure that automatically executes when an event occurs",
+    "opt3": "A constraint on a table",
+    "opt4": "A type of join",
+    "correct_option": "A stored procedure that automatically executes when an event occurs",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is NOT a process state?",
+    "opt1": "New",
+    "opt2": "Ready",
+    "opt3": "Running",
+    "opt4": "Idle",
+    "correct_option": "Idle",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The two-phase locking protocol is used for:",
+    "opt1": "Deadlock prevention",
+    "opt2": "Ensuring serializability",
+    "opt3": "Query optimization",
+    "opt4": "Data recovery",
+    "correct_option": "Ensuring serializability",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Context switching refers to:",
+    "opt1": "Changing the context of a program",
+    "opt2": "Switching from user mode to kernel mode",
+    "opt3": "Saving the state of one process and loading the state of another",
+    "opt4": "Switching between different user interfaces",
+    "correct_option": "Saving the state of one process and loading the state of another",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The worst-case time complexity of Quicksort is:",
+    "opt1": "O(n)",
+    "opt2": "O(n log n)",
+    "opt3": "O(n²)",
+    "opt4": "O(n³)",
+    "correct_option": "O(n²)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which sorting algorithm is based on the divide-and-conquer strategy?",
+    "opt1": "Insertion Sort",
+    "opt2": "Selection Sort",
+    "opt3": "Bubble Sort",
+    "opt4": "Merge Sort",
+    "correct_option": "Merge Sort",
+    "correct_option_index": 4
+  }
+]

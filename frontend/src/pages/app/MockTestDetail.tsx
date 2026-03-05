@@ -1,12 +1,10 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getMockTestById } from '../../data/topics';
-import { useState } from 'react';
+import { getMockTestById, bookChapters } from '../../services/localData';
 
 export default function MockTestDetail() {
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const test = testId ? getMockTestById(testId) : null;
-  const [isStarting, setIsStarting] = useState(false);
 
   if (!test) {
     return (
@@ -18,19 +16,14 @@ export default function MockTestDetail() {
         </svg>
         <h2>Test not found</h2>
         <p>The mock test you're looking for doesn't exist.</p>
-        <Link to="/app/practice/mock-tests" className="btn-primary">Back to Mock Tests</Link>
+        <Link to="/app/mock-tests" className="btn-primary">Back to Mock Tests</Link>
       </div>
     );
   }
 
   const handleStartTest = () => {
-    setIsStarting(true);
-    // Simulate loading, then would navigate to actual test session
-    setTimeout(() => {
-      setIsStarting(false);
-      // In production, this would start the test session
-      alert('Test would start now. This feature is coming soon!');
-    }, 1000);
+    if (!testId) return;
+    navigate(`/app/mock-tests/${testId}/quiz`);
   };
 
   return (
@@ -39,7 +32,7 @@ export default function MockTestDetail() {
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <Link to="/app/practice">Practice</Link>
         <span className="separator">/</span>
-        <Link to="/app/practice/mock-tests">Mock Tests</Link>
+        <Link to="/app/mock-tests">Mock Tests</Link>
         <span className="separator">/</span>
         <span className="current">{test.name}</span>
       </nav>
@@ -60,7 +53,7 @@ export default function MockTestDetail() {
               </svg>
             </div>
             <div className="detail-content">
-              <span className="detail-value">{test.questionCount}</span>
+              <span className="detail-value">{bookChapters.length * test.questionsPerChapter}</span>
               <span className="detail-label">Questions</span>
             </div>
           </div>
@@ -86,8 +79,8 @@ export default function MockTestDetail() {
               </svg>
             </div>
             <div className="detail-content">
-              <span className="detail-value">{test.topics.length}</span>
-              <span className="detail-label">Topics</span>
+              <span className="detail-value">{bookChapters.length}</span>
+              <span className="detail-label">Chapters</span>
             </div>
           </div>
         </div>
@@ -96,7 +89,7 @@ export default function MockTestDetail() {
         <div className="test-instructions">
           <h3>Instructions</h3>
           <ul>
-            <li>This test contains {test.questionCount} multiple-choice questions.</li>
+            <li>This test contains {bookChapters.length * test.questionsPerChapter} questions across {bookChapters.length} chapters ({test.questionsPerChapter} per chapter).</li>
             <li>You have {test.duration} minutes to complete the test.</li>
             <li>Each question carries equal marks.</li>
             <li>There is no negative marking for wrong answers.</li>
@@ -120,21 +113,14 @@ export default function MockTestDetail() {
           <button 
             onClick={handleStartTest}
             className="btn-primary btn-start"
-            disabled={isStarting}
+            disabled={false}
           >
-            {isStarting ? (
-              <>
-                <span className="btn-spinner" />
-                Starting...
-              </>
-            ) : (
-              <>
-                Start Test
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-              </>
-            )}
+            <>
+              Start Test
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </>
           </button>
         </div>
       </div>

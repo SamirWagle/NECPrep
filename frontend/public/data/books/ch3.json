@@ -1,0 +1,3591 @@
+[
+  {
+    "qsns": "What is an Identifier in C programming?",
+    "opt1": "A keyword that has a specific meaning in the language",
+    "opt2": "A symbol used to represent a variable, function, or structure in a C program",
+    "opt3": "A constant value that cannot be changed during program execution",
+    "opt4": "None of above",
+    "correct_option": "A symbol used to represent a variable, function, or structure in a C program",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is a constant in C programming?",
+    "opt1": "A keyword that has a specific meaning in the language",
+    "opt2": "A symbol used to represent a variable, function, or structure in a C program",
+    "opt3": "A value that cannot be changed during program execution",
+    "opt4": "All of above",
+    "correct_option": "A value that cannot be changed during program execution",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is an operator in C programming?",
+    "opt1": "A symbol used to perform operations on variables, constants, and expressions",
+    "opt2": "A symbol used to define variables, functions, and structures",
+    "opt3": "A symbol used to control the flow of a program",
+    "opt4": "None of above",
+    "correct_option": "A symbol used to perform operations on variables, constants, and expressions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What are some examples of operators in C programming?",
+    "opt1": "Arithmetic, relational, logical, and bitwise operators",
+    "opt2": "Assignment, conditional, and loop operators",
+    "opt3": "Structural, pointer, and memory operators",
+    "opt4": "All of above",
+    "correct_option": "Arithmetic, relational, logical, and bitwise operators",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a keyword in C programming?",
+    "opt1": "A symbol used to perform operations on variables, constants, and expressions",
+    "opt2": "A symbol used to define variables, functions, and structures",
+    "opt3": "A word that has a specific meaning in the language and cannot be used as an identifier",
+    "opt4": "None of above",
+    "correct_option": "A word that has a specific meaning in the language and cannot be used as an identifier",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What are some examples of keywords in C programming?",
+    "opt1": "int, float, char, if, for, while",
+    "opt2": "add, subtract, multiply, divide, modulus",
+    "opt3": "input, output, execute, stop",
+    "opt4": "Both a and b",
+    "correct_option": "int, float, char, if, for, while",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between keywords and identifiers in C programming?",
+    "opt1": "Keywords have a specific meaning in the language, while identifiers do not",
+    "opt2": "Keywords are used to define variables, functions, and structures, while identifiers are not",
+    "opt3": "Keywords cannot be used as identifiers, while identifiers can be used as keywords",
+    "opt4": "All of above",
+    "correct_option": "Keywords cannot be used as identifiers, while identifiers can be used as keywords",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between constants and variables in C programming?",
+    "opt1": "Constants have a fixed value that cannot be changed, while variables have a value that can be changed",
+    "opt2": "Constants are used to perform operations, while variables are used to store data",
+    "opt3": "Constants are used to define functions, while variables are used to define structures",
+    "opt4": "All of above",
+    "correct_option": "Constants have a fixed value that cannot be changed, while variables have a value that can be changed",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between an operator and a function in C programming?",
+    "opt1": "An operator performs an operation on one or more operands, while a function performs a set of operations on input data",
+    "opt2": "A function performs an operation on one or more operands, while an operator performs a set of operations on input data",
+    "opt3": "Operators are written in uppercase, while functions are not",
+    "opt4": "Functions are written in uppercase, while operators are not",
+    "correct_option": "An operator performs an operation on one or more operands, while a function performs a set of operations on input data",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of a semicolon at the end of a statement in C programming?",
+    "opt1": "To indicate the end of a statement",
+    "opt2": "To separate two statements",
+    "opt3": "To define a function",
+    "opt4": "To declare a variable",
+    "correct_option": "To indicate the end of a statement",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a token in C programming?",
+    "opt1": "A symbol or keyword used in a C program",
+    "opt2": "A variable used in a C program",
+    "opt3": "A function used in a C program",
+    "opt4": "A structure used in a C program",
+    "correct_option": "A symbol or keyword used in a C program",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What are some examples of tokens in C programming?",
+    "opt1": "Keywords, identifiers, constants, and operators",
+    "opt2": "Functions, loops, and conditionals",
+    "opt3": "Variables, arrays, and structures",
+    "opt4": "All of above",
+    "correct_option": "Keywords, identifiers, constants, and operators",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of arithmetic operators in C programming?",
+    "opt1": "To perform basic mathematical operations such as addition, subtraction, multiplication, and division",
+    "opt2": "To compare values and make decisions based on the comparison results",
+    "opt3": "To manipulate bits and perform bitwise operations on binary data",
+    "opt4": "All of above",
+    "correct_option": "To perform basic mathematical operations such as addition, subtraction, multiplication, and division",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of relational operators in C programming?",
+    "opt1": "To perform basic mathematical operations such as addition, subtraction, multiplication, and division",
+    "opt2": "To compare values and make decisions based on the comparison results",
+    "opt3": "To manipulate bits and perform bitwise operations on binary data",
+    "opt4": "All of above",
+    "correct_option": "To compare values and make decisions based on the comparison results",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of logical operators in C programming?",
+    "opt1": "To perform basic mathematical operations such as addition, subtraction, multiplication, and division",
+    "opt2": "To compare values and make decisions based on the comparison results",
+    "opt3": "To perform logical operations such as AND, OR, and NOT on boolean values",
+    "opt4": "All of above",
+    "correct_option": "To perform logical operations such as AND, OR, and NOT on boolean values",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of bitwise operators in C programming?",
+    "opt1": "To perform basic mathematical operations such as addition, subtraction, multiplication, and division",
+    "opt2": "To compare values and make decisions based on the comparison results",
+    "opt3": "To manipulate bits and perform bitwise operations on binary data",
+    "opt4": "All of above",
+    "correct_option": "To manipulate bits and perform bitwise operations on binary data",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between the logical AND operator (&&) and the bitwise AND operator (&) in C programming?",
+    "opt1": "The logical AND operator performs a logical operation on boolean values, while the bitwise AND operator performs a bitwise operation on binary data",
+    "opt2": "The logical AND operator performs a bitwise operation on boolean values, while the bitwise AND operator performs a logical operation on binary data",
+    "opt3": "There is no difference between the logical AND operator and the bitwise AND operator in C programming",
+    "opt4": "All of above",
+    "correct_option": "The logical AND operator performs a logical operation on boolean values, while the bitwise AND operator performs a bitwise operation on binary data",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between the logical OR operator (||) and the bitwise OR operator (|) in C programming?",
+    "opt1": "The logical OR operator performs a logical operation on boolean values, while the bitwise OR operator performs a bitwise operation on binary data",
+    "opt2": "The logical OR operator performs a bitwise operation on boolean values, while the bitwise OR operator performs a logical operation on binary data",
+    "opt3": "There is no difference between the logical OR operator and the bitwise OR operator in C programming",
+    "opt4": "All of above",
+    "correct_option": "The logical OR operator performs a logical operation on boolean values, while the bitwise OR operator performs a bitwise operation on binary data",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the result of the following expression: 5 & 6",
+    "opt1": "5",
+    "opt2": "6",
+    "opt3": "4",
+    "opt4": "1",
+    "correct_option": "4",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the result of the following expression: 5<6",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "True",
+    "opt4": "False",
+    "correct_option": "1",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the conditional operator (?:) in C programming?",
+    "opt1": "To perform a conditional operation based on the value of a condition",
+    "opt2": "To perform arithmetic operations",
+    "opt3": "To declare a variable",
+    "opt4": "To assign a value to a variable",
+    "correct_option": "To perform a conditional operation based on the value of a condition",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between the bitwise AND operator (&) and the bitwise OR operator (|) in C programming?",
+    "opt1": "The bitwise AND operator performs a bitwise AND operation, while the bitwise OR operator performs a bitwise OR operation",
+    "opt2": "The bitwise OR operator performs a bitwise AND operation, while the bitwise AND operator performs a bitwise OR operation",
+    "opt3": "Bitwise AND operators are written in uppercase, while bitwise OR operators are not",
+    "opt4": "Bitwise OR operators are written in uppercase, while bitwise AND operators are not",
+    "correct_option": "The bitwise AND operator performs a bitwise AND operation, while the bitwise OR operator performs a bitwise OR operation",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the assignment operator (=) in C programming?",
+    "opt1": "To compare two values",
+    "opt2": "To assign a value to a variable",
+    "opt3": "To perform mathematical operations",
+    "opt4": "To declare a variable",
+    "correct_option": "To assign a value to a variable",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the result of the following expression: 5 + 7 * 2",
+    "opt1": "19",
+    "opt2": "26",
+    "opt3": "16",
+    "opt4": "9",
+    "correct_option": "19",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between formatted and unformatted input/output in C programming?",
+    "opt1": "Formatted input/output is used to input/output data in a specific format, while unformatted input/output is used to input/output data without any format.",
+    "opt2": "Formatted input/output is used to input/output data without any format, while unformatted input/output is used to input/output data in a specific format.",
+    "opt3": "There is no difference between formatted and unformatted input/output in C programming.",
+    "opt4": "None of above",
+    "correct_option": "Formatted input/output is used to input/output data in a specific format, while unformatted input/output is used to input/output data without any format.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What are some examples of formatted input functions in C programming?",
+    "opt1": "scanf(), gets(), and fscanf()",
+    "opt2": "getchar(), gets(), and fgetc()",
+    "opt3": "printf(), puts(), and fprintf()",
+    "opt4": "All of above",
+    "correct_option": "scanf(), gets(), and fscanf()",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What are some examples of formatted output functions in C programming?",
+    "opt1": "scanf(), gets(), and fscanf()",
+    "opt2": "getchar(), gets(), and fgetc()",
+    "opt3": "printf(), puts(), and fprintf()",
+    "opt4": "All of above",
+    "correct_option": "printf(), puts(), and fprintf()",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the scanf() function in C programming?",
+    "opt1": "To output data to the standard output device",
+    "opt2": "To input data from the standard input device",
+    "opt3": "To input/output data to/from a file",
+    "opt4": "All of above",
+    "correct_option": "To input data from the standard input device",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the printf() function in C programming?",
+    "opt1": "To output data to the standard output device",
+    "opt2": "To input data from the standard input device",
+    "opt3": "To input/output data to/from a file",
+    "opt4": "All of above",
+    "correct_option": "To output data to the standard output device",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between the gets() and scanf() functions in C programming?",
+    "opt1": "The gets() function inputs data without any format, while the scanf() function inputs data in a specific format.",
+    "opt2": "The gets() function inputs data in a specific format, while the scanf() function inputs data without any format.",
+    "opt3": "There is no difference between the gets() and scanf() functions in C programming.",
+    "opt4": "Both a and b",
+    "correct_option": "The gets() function inputs data without any format, while the scanf() function inputs data in a specific format.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between the puts() and printf() functions in C programming?",
+    "opt1": "The puts() function outputs data without any format, while the printf() function outputs data in a specific format.",
+    "opt2": "The puts() function outputs data in a specific format, while the printf() function outputs data without any format.",
+    "opt3": "There is no difference between the puts() and printf() functions in C programming.",
+    "opt4": "Both a and b",
+    "correct_option": "The puts() function outputs data without any format, while the printf() function outputs data in a specific format.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the fscanf() function in C programming?",
+    "opt1": "To input data from the standard input device",
+    "opt2": "To output data to the standard output device",
+    "opt3": "To input/output data to/from a file",
+    "opt4": "All of above",
+    "correct_option": "To input/output data to/from a file",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the standard library function used to read a string from the user in C?",
+    "opt1": "scanf()",
+    "opt2": "gets()",
+    "opt3": "fgets()",
+    "opt4": "sprintf()",
+    "correct_option": "gets()",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following functions is used to print a string to the screen in C?",
+    "opt1": "puts()",
+    "opt2": "printf()",
+    "opt3": "fprintf()",
+    "opt4": "getchar()",
+    "correct_option": "puts()",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between scanf() and fscanf() in C?",
+    "opt1": "scanf() reads from the standard input and fscanf() reads from a file",
+    "opt2": "scanf() reads from a file and fscanf() reads from the standard input",
+    "opt3": "Both functions have the same functionality",
+    "opt4": "None of the above",
+    "correct_option": "scanf() reads from the standard input and fscanf() reads from a file",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the %d format specifier in the printf() function in C?",
+    "opt1": "To print an integer",
+    "opt2": "To print a string",
+    "opt3": "To print a float",
+    "opt4": "To print a double",
+    "correct_option": "To print an integer",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the %f format specifier in the printf() function in C?",
+    "opt1": "To print an integer",
+    "opt2": "To print a string",
+    "opt3": "To print a float",
+    "opt4": "To print a double",
+    "correct_option": "To print a float",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the %lf format specifier in the printf() function in C?",
+    "opt1": "To print a string",
+    "opt2": "To print an integer",
+    "opt3": "To print a float",
+    "opt4": "To print a double",
+    "correct_option": "To print a double",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following functions is used to read a single character from the standard input in C?",
+    "opt1": "scanf()",
+    "opt2": "gets()",
+    "opt3": "getchar()",
+    "opt4": "fgetc()",
+    "correct_option": "getchar()",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the fopen() function in C?",
+    "opt1": "To open a file for reading",
+    "opt2": "To open a file for writing",
+    "opt3": "To open a file for reading and writing",
+    "opt4": "None of the above",
+    "correct_option": "To open a file for reading",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the fclose() function in C?",
+    "opt1": "To close a file that was opened for reading",
+    "opt2": "To close a file that was opened for writing",
+    "opt3": "To close a file that was opened for reading and writing",
+    "opt4": "None of the above",
+    "correct_option": "To close a file that was opened for reading and writing",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between fprintf() and sprintf() in C?",
+    "opt1": "fprintf() writes to a file and sprintf() writes to a string",
+    "opt2": "fprintf() writes to a string and sprintf() writes to a file",
+    "opt3": "Both functions have the same functionality",
+    "opt4": "None of the above",
+    "correct_option": "fprintf() writes to a file and sprintf() writes to a string",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the if statement in C programming?",
+    "opt1": "To execute a block of code only if a certain condition is met",
+    "opt2": "To execute a block of code only if a certain condition is not met",
+    "opt3": "To execute a block of code if a certain condition is true",
+    "opt4": "None of the above",
+    "correct_option": "To execute a block of code if a certain condition is true",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the else statement in C programming?",
+    "opt1": "To execute a block of code regardless of the condition",
+    "opt2": "To execute a block of code if a condition is false",
+    "opt3": "To terminate the program if a condition is false",
+    "opt4": "To skip a block of code if a condition is true",
+    "correct_option": "To execute a block of code if a condition is false",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the switch statement in C programming?",
+    "opt1": "To execute one of several blocks of code based on the value of an expression",
+    "opt2": "To execute all of the blocks of code in a switch statement",
+    "opt3": "To execute only the first block of code in a switch statement",
+    "opt4": "None of the above",
+    "correct_option": "To execute one of several blocks of code based on the value of an expression",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the break statement in C programming?",
+    "opt1": "To exit a loop",
+    "opt2": "To exit a switch statement",
+    "opt3": "To exit a function",
+    "opt4": "To exit the program",
+    "correct_option": "To exit a switch statement",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the continue statement in C programming?",
+    "opt1": "To exit a loop",
+    "opt2": "To exit a switch statement",
+    "opt3": "To skip an iteration of a loop",
+    "opt4": "To exit the program",
+    "correct_option": "To skip an iteration of a loop",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the for loop in C programming?",
+    "opt1": "To execute a block of code a specified number of times",
+    "opt2": "To execute a block of code indefinitely",
+    "opt3": "To execute a block of code based on a condition",
+    "opt4": "None of the above",
+    "correct_option": "To execute a block of code a specified number of times",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the while loop in C programming?",
+    "opt1": "To execute a block of code a specified number of times",
+    "opt2": "To execute a block of code indefinitely until a condition is met",
+    "opt3": "To execute a block of code based on a condition",
+    "opt4": "None of the above",
+    "correct_option": "To execute a block of code indefinitely until a condition is met",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is an if statement in C programming used for?",
+    "opt1": "To execute a block of code only if a certain condition is met",
+    "opt2": "To execute a block of code only if a certain condition is not met",
+    "opt3": "To execute a block of code if a certain condition is met, and execute another block of code if the condition is not met",
+    "opt4": "To declare variables",
+    "correct_option": "To execute a block of code if a certain condition is met, and execute another block of code if the condition is not met",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the do-while loop in C programming?",
+    "opt1": "To execute a block of code a specified number of times",
+    "opt2": "To execute a block of code indefinitely until a condition is met",
+    "opt3": "To execute a block of code at least once, and then repeatedly until a condition is met",
+    "opt4": "None of the above",
+    "correct_option": "To execute a block of code at least once, and then repeatedly until a condition is met",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between the for loop and the while loop in C programming?",
+    "opt1": "The for loop is used for a specified number of iterations, while the while loop is used until a condition is met",
+    "opt2": "The for loop is used until a condition is met, while the while loop is used for a specified number of iterations",
+    "opt3": "Both loops have the same functionality",
+    "opt4": "None of the above",
+    "correct_option": "The for loop is used for a specified number of iterations, while the while loop is used until a condition is met",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What does the \"if\" statement in C do?",
+    "opt1": "Executes a block of code if a condition is true",
+    "opt2": "Executes a block of code regardless of the condition",
+    "opt3": "Skips a block of code if a condition is false",
+    "opt4": "Terminates the program if a condition is true",
+    "correct_option": "Executes a block of code if a condition is true",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the syntax of the \"if\" statement in C?",
+    "opt1": "if (condition) { statements }",
+    "opt2": "if condition { statements }",
+    "opt3": "if {condition} (statements)",
+    "opt4": "if (condition) { statements };",
+    "correct_option": "if (condition) { statements }",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the \"else\" statement in C?",
+    "opt1": "To execute a block of code if a condition is false",
+    "opt2": "To execute a block of code regardless of the condition",
+    "opt3": "To execute a block of code if the condition in the if statement is true",
+    "opt4": "To execute a block of code if the condition in the if statement is false",
+    "correct_option": "To execute a block of code if the condition in the if statement is false",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the syntax of the \"switch\" statement in C?",
+    "opt1": "switch (expression) { case constant-expression: statements; break; default: statements; }",
+    "opt2": "switch expression { case constant-expression: statements; break; default: statements; }",
+    "opt3": "switch (expression) case constant-expression: statements; break; default: statements;",
+    "opt4": "switch expression case constant-expression: statements; break; default: statements;",
+    "correct_option": "switch (expression) { case constant-expression: statements; break; default: statements; }",
+    "correct_option_index": 1
+  },
+  
+  {
+    "qsns": "What is the index of the first element in a one-dimensional array in C?",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "2",
+    "opt4": "3",
+    "correct_option": "0",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the syntax for declaring a two-dimensional integer array of size 3x4 in C?",
+    "opt1": "int arr[3][4];",
+    "opt2": "int arr[4][3];",
+    "opt3": "int arr[3,4];",
+    "opt4": "int arr[4,3];",
+    "correct_option": "int arr[3][4];",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you access the value of the 3rd element of the 2nd row of a two-dimensional array in C?",
+    "opt1": "arr[1][2]",
+    "opt2": "arr[2][1]",
+    "opt3": "arr[2][3]",
+    "opt4": "arr[3][2]",
+    "correct_option": "arr[1][2]",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between a one-dimensional array and a two-dimensional array in C?",
+    "opt1": "A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.",
+    "opt2": "A one-dimensional array has multiple rows and multiple columns, whereas a two-dimensional array has one row and multiple columns.",
+    "opt3": "A one-dimensional array has multiple rows and one column, whereas a two-dimensional array has one row and one column.",
+    "opt4": "A one-dimensional array has one row and one column, whereas a two-dimensional array has multiple rows and multiple columns.",
+    "correct_option": "A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the syntax for initializing a one-dimensional array in C?",
+    "opt1": "int arr[] = {1,2,3,4,5};",
+    "opt2": "int arr[5] = (1,2,3,4,5);",
+    "opt3": "int arr[5] = {1,2,3,4};",
+    "opt4": "int arr = {1, 2, 3, 4, 5};",
+    "correct_option": "int arr[] = {1,2,3,4,5};",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you find the number of elements in a one-dimensional array in C?",
+    "opt1": "sizeof(arr)",
+    "opt2": "sizeof(arr[0])",
+    "opt3": "sizeof(arr)/sizeof(arr[0])",
+    "opt4": "sizeof(arr[])/sizeof(arr[0])",
+    "correct_option": "sizeof(arr)/sizeof(arr[0])",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the syntax for declaring a multidimensional array in C?",
+    "opt1": "int arr[][][];",
+    "opt2": "int arr;",
+    "opt3": "int arr[];",
+    "opt4": "int arr[...][...][...];",
+    "correct_option": "int arr[...][...][...];",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the use of the strlen() function in C when working with arrays?",
+    "opt1": "To find the length of a one-dimensional array",
+    "opt2": "To find the length of a two-dimensional array",
+    "opt3": "To find the length of a string",
+    "opt4": "To find the length of a multidimensional array",
+    "correct_option": "To find the length of a string",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a one-dimensional array in C?",
+    "opt1": "A set of values of the same data type stored in a contiguous block of memory",
+    "opt2": "A set of values of different data types stored in a contiguous block of memory",
+    "opt3": "A set of values of the same data type stored in non-contiguous memory locations",
+    "opt4": "A set of values of different data types stored in non-contiguous memory locations",
+    "correct_option": "A set of values of the same data type stored in a contiguous block of memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you access the value at the third position of a one-dimensional array named \"array\"?",
+    "opt1": "array[2]",
+    "opt2": "array[3]",
+    "opt3": "array[0]",
+    "opt4": "array[1]",
+    "correct_option": "array[2]",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a two-dimensional array in C?",
+    "opt1": "An array of arrays",
+    "opt2": "A set of values of the same data type stored in non-contiguous memory locations",
+    "opt3": "A set of values of different data types stored in a contiguous block of memory",
+    "opt4": "A set of values of the same data type stored in a single contiguous block of memory",
+    "correct_option": "An array of arrays",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you access the value at the first row and second column of a two-dimensional array named \"array\"?",
+    "opt1": "array[0][1]",
+    "opt2": "array[1][0]",
+    "opt3": "array[1][2]",
+    "opt4": "array[2][1]",
+    "correct_option": "array[0][1]",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a multidimensional array in C?",
+    "opt1": "An array of arrays of arrays",
+    "opt2": "A set of values of different data types stored in non-contiguous memory locations",
+    "opt3": "A set of values of the same data type stored in a single contiguous block of memory",
+    "opt4": "A set of values of different data types stored in a single contiguous block of memory",
+    "correct_option": "An array of arrays of arrays",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between a one-dimensional array and a two-dimensional array in C?",
+    "opt1": "A two-dimensional array has more dimensions than a one-dimensional array",
+    "opt2": "A one-dimensional array has more dimensions than a two-dimensional array",
+    "opt3": "There is no difference between a one-dimensional array and a two-dimensional array",
+    "opt4": "A two-dimensional array can store more values than a one-dimensional array",
+    "correct_option": "A two-dimensional array has more dimensions than a one-dimensional array",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the \"malloc\" function in C programming?",
+    "opt1": "To free memory",
+    "opt2": "To allocate memory",
+    "opt3": "To initialize memory",
+    "opt4": "To reset memory",
+    "correct_option": "To allocate memory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the \"free\" function in C programming?",
+    "opt1": "To allocate memory",
+    "opt2": "To free memory",
+    "opt3": "To initialize memory",
+    "opt4": "To reset memory",
+    "correct_option": "To free memory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the difference between an array and a pointer in C programming?",
+    "opt1": "An array is a set of values stored in a contiguous block of memory, while a pointer is a variable that stores the address of another variable",
+    "opt2": "A pointer is a set of values stored in a contiguous block of memory, while an array is a variable that stores the address of another variable",
+    "opt3": "There is no difference between an array and a pointer in C programming",
+    "opt4": "An array is a variable that stores the address of another variable, while a pointer is a set of values stored in a contiguous block of memory",
+    "correct_option": "An array is a set of values stored in a contiguous block of memory, while a pointer is a variable that stores the address of another variable",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a string in C programming?",
+    "opt1": "A sequence of characters enclosed in quotes",
+    "opt2": "An array of characters",
+    "opt3": "A single character",
+    "opt4": "None of above",
+    "correct_option": "An array of characters",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How can you find the length of a string in C programming?",
+    "opt1": "By using the length() function",
+    "opt2": "By using the strlen() function",
+    "opt3": "By using the sizeof() operator",
+    "opt4": "None of above",
+    "correct_option": "By using the strlen() function",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How can you concatenate two strings in C programming?",
+    "opt1": "By using the + operator",
+    "opt2": "By using the strcat() function",
+    "opt3": "By using the strcpy() function",
+    "opt4": "None of above",
+    "correct_option": "By using the strcat() function",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What does the strcpy() function do in C programming?",
+    "opt1": "Copies one string to another",
+    "opt2": "Concatenates two strings",
+    "opt3": "Compares two strings",
+    "opt4": "None of above",
+    "correct_option": "Copies one string to another",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between the strcpy() and strcat() functions in C programming?",
+    "opt1": "strcpy() copies one string to another, while strcat() concatenates two strings",
+    "opt2": "strcpy() concatenates two strings, while strcat() copies one string to another",
+    "opt3": "Both functions copy one string to another",
+    "opt4": "None of above",
+    "correct_option": "strcpy() copies one string to another, while strcat() concatenates two strings",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you compare two strings in C programming?",
+    "opt1": "By using the strcmp() function",
+    "opt2": "By using the strcat() function",
+    "opt3": "By using the strcpy() function",
+    "opt4": "Both a and b",
+    "correct_option": "By using the strcmp() function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the return value of the strcmp() function when two strings are equal?",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "-1",
+    "opt4": "null",
+    "correct_option": "0",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the return value of the strcmp() function when the first string is greater than the second string?",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "-1",
+    "opt4": "null",
+    "correct_option": "1",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the return value of the strcmp() function when the first string is less than the second string?",
+    "opt1": "0",
+    "opt2": "1",
+    "opt3": "-1",
+    "opt4": "null",
+    "correct_option": "-1",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "How can you reverse a string in C programming?",
+    "opt1": "By using the strrev() function",
+    "opt2": "By using a loop and swapping characters",
+    "opt3": "There is no built-in function to reverse a string in C programming",
+    "opt4": "None of above",
+    "correct_option": "By using a loop and swapping characters",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the strcat() function in C programming?",
+    "opt1": "To copy a string to another string.",
+    "opt2": "To concatenate two strings.",
+    "opt3": "To find the length of a string.",
+    "opt4": "To compare two strings.",
+    "correct_option": "To concatenate two strings.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the strcmp() function in C programming?",
+    "opt1": "To copy a string to another string.",
+    "opt2": "To find the length of a string.",
+    "opt3": "To concatenate two strings.",
+    "opt4": "To compare two strings.",
+    "correct_option": "To compare two strings.",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of the strcpy() function in C programming?",
+    "opt1": "To copy a string to another string.",
+    "opt2": "To find the length of a string.",
+    "opt3": "To concatenate two strings.",
+    "opt4": "To compare two strings.",
+    "correct_option": "To copy a string to another string.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the strlen() function in C programming?",
+    "opt1": "To compare two strings.",
+    "opt2": "To concatenate two strings.",
+    "opt3": "To find the length of a string.",
+    "opt4": "To copy a string to another string.",
+    "correct_option": "To find the length of a string.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the strstr() function in C programming?",
+    "opt1": "To find a substring in a string.",
+    "opt2": "To compare two strings.",
+    "opt3": "To find the first occurrence of a character in a string.",
+    "opt4": "To reverse a string.",
+    "correct_option": "To find a substring in a string.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you reverse a string in C programming?",
+    "opt1": "By using the strrev() function.",
+    "opt2": "By using a loop and swapping characters.",
+    "opt3": "By using the strcat() function.",
+    "opt4": "By using the strcmp() function.",
+    "correct_option": "By using a loop and swapping characters.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How can you convert a string to uppercase in C programming?",
+    "opt1": "By using the toupper() function.",
+    "opt2": "By using a loop and converting each character.",
+    "opt3": "By using the strcat() function.",
+    "opt4": "By using the strcmp() function.",
+    "correct_option": "By using a loop and converting each character.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How can you convert a string to lowercase in C programming?",
+    "opt1": "By using the tolower() function.",
+    "opt2": "By using a loop and converting each character.",
+    "opt3": "By using the strcat() function.",
+    "opt4": "By using the strcmp() function.",
+    "correct_option": "By using a loop and converting each character.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the sprintf() function in C programming?",
+    "opt1": "To format and store a string in a buffer.",
+    "opt2": "To concatenate two string",
+    "opt3": "To find the length of a string.",
+    "opt4": "To compare two strings.",
+    "correct_option": "To format and store a string in a buffer.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the sscanf() function in C programming?",
+    "opt1": "To read formatted input from a string.",
+    "opt2": "To concatenate two strings.",
+    "opt3": "To find the length of a string.",
+    "opt4": "To compare two strings.",
+    "correct_option": "To read formatted input from a string.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? int a = 10; int *p = &a; printf(\"%p\", p);",
+    "opt1": "10",
+    "opt2": "0",
+    "opt3": "Address of a",
+    "opt4": "Undefined",
+    "correct_option": "Address of a",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the output of the following code? int a = 10; int *p = &a; printf(\"%d\", *p);",
+    "opt1": "10",
+    "opt2": "0",
+    "opt3": "Address of a",
+    "opt4": "Undefined",
+    "correct_option": "10",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the correct way to declare a pointer to a character in C?",
+    "opt1": "char *str;",
+    "opt2": "char *str();",
+    "opt3": "char str*;",
+    "opt4": "char (*str)();",
+    "correct_option": "char *str;",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? int arr[5] = {1, 2, 3, 4, 5}; int *p = arr; printf(\"%d\", *(p+3));",
+    "opt1": "4",
+    "opt2": "3",
+    "opt3": "5",
+    "opt4": "Undefined",
+    "correct_option": "4",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? int arr[5] = {1, 2, 3, 4, 5}; int *p = arr + 2; printf(\"%d\", *(p-1));",
+    "opt1": "2",
+    "opt2": "3",
+    "opt3": "4",
+    "opt4": "Undefined",
+    "correct_option": "2",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? int a = 10; int *p = &a; int **q = &p; printf(\"%d\", **q);",
+    "opt1": "10",
+    "opt2": "0",
+    "opt3": "Address of a",
+    "opt4": "Undefined",
+    "correct_option": "10",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a valid way to declare a pointer to an integer array of size 5?",
+    "opt1": "int (*arr)[5];",
+    "opt2": "int *arr[5];",
+    "opt3": "int **arr[5];",
+    "opt4": "int arr*[5];",
+    "correct_option": "int (*arr)[5];",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr + 1; printf(\"%d\", *(p--));",
+    "opt1": "2",
+    "opt2": "1",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr + 2; printf(\"%d\", *(--p));",
+    "opt1": "2",
+    "opt2": "1",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr; printf(\"%d\", *p++);",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "1",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about pointer arithmetic in C?",
+    "opt1": "Addition and subtraction operations can be performed on pointers",
+    "opt2": "Multiplication and division operations can be performed on pointers",
+    "opt3": "Bitwise AND and OR operations can be performed on pointers",
+    "opt4": "None of the above",
+    "correct_option": "Addition and subtraction operations can be performed on pointers",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "If 'ptr' is a pointer to an integer variable, what will be the output of the following code? printf(\"%d\", ptr+1);",
+    "opt1": "The memory address of ptr",
+    "opt2": "The value of ptr",
+    "opt3": "The memory address of the integer variable ptr is pointing to",
+    "opt4": "The value of the integer variable ptr+1 is pointing to",
+    "correct_option": "The value of the integer variable ptr+1 is pointing to",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "If 'ptr' is a pointer to an integer variable, what will be the output of the following code? printf(\"%d\", *(ptr+1));",
+    "opt1": "The memory address of ptr",
+    "opt2": "The value of ptr",
+    "opt3": "The memory address of the integer variable ptr is pointing to",
+    "opt4": "The value of the integer variable ptr+1 is pointing to",
+    "correct_option": "The value of the integer variable ptr+1 is pointing to",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr; printf(\"%d\", *(p++));",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "1",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr; printf(\"%d\", *(p-2));",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "Undefined",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr; printf(\"%d\", *(p+4));",
+    "opt1": "1",
+    "opt2": "3",
+    "opt3": "4",
+    "opt4": "Undefined",
+    "correct_option": "Undefined",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the result of the following code? int a = 5, b = 10; int *p1 = &a; int *p2 = &b; int *temp; temp = p1; p1 = p2; p2 = temp; printf(\"%d %d\", *p1, *p2);",
+    "opt1": "5 10",
+    "opt2": "10 5",
+    "opt3": "Undefined",
+    "opt4": "Error",
+    "correct_option": "10 5",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the output of the following code? int a = 10; int *p = &a; (*p)++; printf(\"%d\", a);",
+    "opt1": "9",
+    "opt2": "10",
+    "opt3": "11",
+    "opt4": "Undefined",
+    "correct_option": "11",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr + 2; printf(\"%d\", p[-1]);",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4, 5}; int *p = arr + 2; printf(\"%d\", *p);",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "3",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the data type of the pointer variable in the following code? char *p;",
+    "opt1": "char",
+    "opt2": "int",
+    "opt3": "float",
+    "opt4": "double",
+    "correct_option": "char",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the result of the following code? int x = 10, y = 20, z; int *p = &x, *q = &y; z = *p + (*q)++; printf(\"%d %d %d\", x, y, z);",
+    "opt1": "11 20 30",
+    "opt2": "10 21 31",
+    "opt3": "11 21 30",
+    "opt4": "10 20 31",
+    "correct_option": "10 21 30",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4, 5}; int *p = &arr[3]; printf(\"%d\", *(p-2));",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4, 5}; int *p = arr; printf(\"%d\", *(++p));",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4, 5}; int *p = arr; printf(\"%d\", *(p+2));",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "3",
+    "correct_option_index": 3
+  },
+  
+  {
+    "qsns": "Which of the following is true about structures in C?",
+    "opt1": "Structures can contain only variables of the same data type",
+    "opt2": "Structures can contain variables of different data types",
+    "opt3": "Structures cannot be passed as function arguments",
+    "opt4": "Structures cannot be returned by functions",
+    "correct_option": "Structures can contain variables of different data types",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How do you declare a structure in C?",
+    "opt1": "struct {name, age};",
+    "opt2": "struct (name, age);",
+    "opt3": "struct person { char name[20]; int age; };",
+    "opt4": "struct {person name, person age};",
+    "correct_option": "struct person { char name[20]; int age; };",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is used to access the members of a structure?",
+    "opt1": "&",
+    "opt2": ".",
+    "opt3": ":",
+    "opt4": "->",
+    "correct_option": ".",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How do you assign values to members of a structure in C?",
+    "opt1": "using the assignment operator",
+    "opt2": "using the dot operator",
+    "opt3": "using the arrow operator ->",
+    "opt4": "using the asterisk operator*",
+    "correct_option": "using the assignment operator",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of typedef in C structures?",
+    "opt1": "to declare a new variable",
+    "opt2": "to define a new data type",
+    "opt3": "to initialize a structure",
+    "opt4": "to allocate memory for a structure",
+    "correct_option": "to define a new data type",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true regarding the size of a structure in C?",
+    "opt1": "The size of a structure is the sum of the sizes of its members",
+    "opt2": "The size of a structure is always 4 bytes",
+    "opt3": "The size of a structure is the size of its largest member",
+    "opt4": "The size of a structure is the size of its smallest member",
+    "correct_option": "The size of a structure is the sum of the sizes of its members",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the operator used to dynamically allocate memory for a structure in C?",
+    "opt1": ".",
+    "opt2": "&",
+    "opt3": "->",
+    "opt4": "malloc()",
+    "correct_option": "malloc()",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the operator used to deallocate memory allocated for a structure in C?",
+    "opt1": "&",
+    "opt2": ".",
+    "opt3": "free()",
+    "opt4": "calloc()",
+    "correct_option": "free()",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of a union in C?",
+    "opt1": "to combine multiple structures",
+    "opt2": "to create a new data type",
+    "opt3": "to declare a variable",
+    "opt4": "to share the same memory location for different data types",
+    "correct_option": "to share the same memory location for different data types",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is true about nested structures in C?",
+    "opt1": "Nested structures are not allowed in C",
+    "opt2": "Nested structures can only contain variables of the same data type",
+    "opt3": "Nested structures can be defined inside another structure",
+    "opt4": "Nested structures can only contain pointers to other structures",
+    "correct_option": "Nested structures can be defined inside another structure",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a structure in C programming?",
+    "opt1": "A data type that groups variables of different types",
+    "opt2": "A data type that groups variables of the same type",
+    "opt3": "A data type that groups variables of the same size",
+    "opt4": "A data type that groups variables of different sizes",
+    "correct_option": "A data type that groups variables of different types",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the correct syntax to access a member of a nested structure?",
+    "opt1": "outer_structure.inner_structure.member_name",
+    "opt2": "inner_structure.member_name.outer_structure",
+    "opt3": "member_name.outer_structure.inner_structure",
+    "opt4": "None of the above",
+    "correct_option": "outer_structure.inner_structure.member_name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the size of an empty structure in C programming?",
+    "opt1": "0 bytes",
+    "opt2": "1 byte",
+    "opt3": "4 bytes",
+    "opt4": "8 bytes",
+    "correct_option": "0 bytes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a valid way to initialize a structure variable in C programming?",
+    "opt1": "struct book b = {\"C Programming\", \"John Doe\", 100};",
+    "opt2": "struct book b = {.name = \"C Programming\", .author = \"John Doe\", .price = 100};",
+    "opt3": "struct book b = {\"C Programming\", price=100};",
+    "opt4": "struct book b; b = {\"C Programming\", \"John Doe\", 100};",
+    "correct_option": "struct book b; b = {\"C Programming\", \"John Doe\", 100};",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is a nested structure in C programming?",
+    "opt1": "A structure that has no members",
+    "opt2": "A structure that is defined inside another structure",
+    "opt3": "A structure that has only one member",
+    "opt4": "A structure that has members of different data types",
+    "correct_option": "A structure that is defined inside another structure",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In C programming, which keyword is used to define a structure?",
+    "opt1": "typedef",
+    "opt2": "define",
+    "opt3": "structdef",
+    "opt4": "struct",
+    "correct_option": "struct",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following statements is true about passing a structure to a function in C programming?",
+    "opt1": "Structures cannot be passed to a function.",
+    "opt2": "Structures are passed by value to a function.",
+    "opt3": "Structures are passed by reference to a function.",
+    "opt4": "Structures are passed as arrays to a function.",
+    "correct_option": "Structures are passed by value to a function.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a valid way to declare a pointer to a structure in C programming?",
+    "opt1": "struct *book b;",
+    "opt2": "struct book *b;",
+    "opt3": "typedef struct book *bookptr;",
+    "opt4": "typedef struct book booktype;",
+    "correct_option": "struct *book b;",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the keyword used to access the address of a structure variable in C programming?",
+    "opt1": "&",
+    "opt2": "*",
+    "opt3": "#",
+    "opt4": "$",
+    "correct_option": "&",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the main difference between a structure and a union in C programming?",
+    "opt1": "A structure allows for multiple members to be accessed at once, while a union only allows for one member to be accessed at a time.",
+    "opt2": "A union allows for multiple members to be accessed at once, while a structure only allows for one member to be accessed at a time.",
+    "opt3": "There is no difference between a structure and a union in C programming.",
+    "opt4": "None of above",
+    "correct_option": "A structure allows for multiple members to be accessed at once, while a union only allows for one member to be accessed at a time.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is the correct way to access a structure member using a pointer to a structure?",
+    "opt1": "structure_pointer->member_name",
+    "opt2": "*structure_pointer.member_name",
+    "opt3": "structure_pointer.member_name",
+    "opt4": "None of the above",
+    "correct_option": "structure_pointer->member_name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between passing a structure by value and passing a structure by pointer in C?",
+    "opt1": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
+    "opt2": "When a structure is passed by value, any modifications made to it in the function are retained when the function returns. When a structure is passed by pointer, the modifications are lost.",
+    "opt3": "There is no difference between passing a structure by value and passing a structure by pointer in C.",
+    "opt4": "None of the above",
+    "correct_option": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In a structure, what is the default visibility of its members?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "None of the above",
+    "correct_option": "Public",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In a union, how much memory is allocated for the union itself?",
+    "opt1": "The size of the largest member",
+    "opt2": "The size of all members combined",
+    "opt3": "The size of the smallest member",
+    "opt4": "The size of the union is not allocated in memory",
+    "correct_option": "The size of the largest member",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the main advantage of using a union over a structure?",
+    "opt1": "It uses less memory",
+    "opt2": "It is easier to declare and use",
+    "opt3": "It can hold more types of data",
+    "opt4": "It is faster to access its members",
+    "correct_option": "It uses less memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In a union, can two or more members be accessed simultaneously?",
+    "opt1": "Yes, always",
+    "opt2": "Yes, but only if they are of the same type",
+    "opt3": "No, only one member can be accessed at a time",
+    "opt4": "Yes, but only if the member is a pointer",
+    "correct_option": "No, only one member can be accessed at a time",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of declaring a bit field in a structure?",
+    "opt1": "To save memory",
+    "opt2": "To improve performance",
+    "opt3": "To store binary data",
+    "opt4": "To limit the number of possible values for a member",
+    "correct_option": "To save memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a structure or union contain a member that is itself a structure or union?",
+    "opt1": "Yes, there is no restriction on the type of members",
+    "opt2": "No, structures and unions cannot contain other structures or unions",
+    "opt3": "Yes, but only if the member is declared as static",
+    "opt4": "None of above",
+    "correct_option": "Yes, there is no restriction on the type of members",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you access a member of a structure or union using a pointer?",
+    "opt1": "-> operator",
+    "opt2": ". operator",
+    "opt3": "& operator",
+    "opt4": "* operator",
+    "correct_option": "-> operator",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In a union, what is the value of a member that was not explicitly set?",
+    "opt1": "Zero",
+    "opt2": "Garbage value",
+    "opt3": "Undefined",
+    "opt4": "The value of the previous member",
+    "correct_option": "Garbage value",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true about the size of a structure or union in C programming?",
+    "opt1": "The size of a structure or union is the sum of the sizes of its members",
+    "opt2": "The size of a structure or union is always a multiple of the size of its largest member",
+    "opt3": "The size of a structure or union depends on the alignment requirements of its members",
+    "opt4": "The size of a structure or union is always equal to the size of its largest member",
+    "correct_option": "The size of a structure or union depends on the alignment requirements of its members",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between a structure and a union in C programming?",
+    "opt1": "A structure allows for multiple members to be accessed at once, while a union only allows for one member to be accessed at a time.",
+    "opt2": "A union allows for multiple members to be accessed at once, while a structure only allows for one member to be accessed at a time.",
+    "opt3": "There is no difference between a structure and a union in C programming.",
+    "opt4": "None of above",
+    "correct_option": "A structure allows for multiple members to be accessed at once, while a union only allows for one member to be accessed at a time.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the size of a structure in C programming?",
+    "opt1": "The size of a structure is equal to the sum of the sizes of its members.",
+    "opt2": "The size of a structure is equal to the size of its largest member.",
+    "opt3": "The size of a structure is equal to the size of its smallest member.",
+    "opt4": "None of above",
+    "correct_option": "The size of a structure is equal to the sum of the sizes of its members.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you access a member of a structure in C programming?",
+    "opt1": "Using the dot (.) operator.",
+    "opt2": "Using the arrow (->) operator.",
+    "opt3": "Using the asterisk (*) operator.",
+    "opt4": "None of above",
+    "correct_option": "Using the dot (.) operator.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the keyword used to define a structure in C programming?",
+    "opt1": "struct",
+    "opt2": "union",
+    "opt3": "typedef",
+    "opt4": "None of above",
+    "correct_option": "struct",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements about unions is true in C programming?",
+    "opt1": "Unions can contain members of different types.",
+    "opt2": "Unions cannot contain members.",
+    "opt3": "Unions can only contain members of the same type.",
+    "opt4": "None of above",
+    "correct_option": "Unions can contain members of different types.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between a structure and a typedef struct in C programming?",
+    "opt1": "There is no difference.",
+    "opt2": "Typedef struct can only be used to define new data types.",
+    "opt3": "Typedef struct is a faster way to create a new structure type.",
+    "opt4": "None of above",
+    "correct_option": "Typedef struct is a faster way to create a new structure type.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Can a structure contain a pointer to itself in C programming?",
+    "opt1": "Yes",
+    "opt2": "No",
+    "opt3": "It depends on the compiler used.",
+    "opt4": "It depends on Interpreter used.",
+    "correct_option": "Yes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about the alignment of structure members in C programming?",
+    "opt1": "Members of a structure are always aligned to the nearest byte boundary.",
+    "opt2": "Members of a structure are aligned based on their size and type.",
+    "opt3": "Members of a structure are not aligned in C programming.",
+    "opt4": "None of above",
+    "correct_option": "Members of a structure are aligned based on their size and type.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of a bit-field in a structure in C programming?",
+    "opt1": "To allow the structure to store more data than its size would normally allow.",
+    "opt2": "To create a member that is only one bit in size.",
+    "opt3": "To allow the structure to be accessed in a bit-wise manner.",
+    "opt4": "None of above",
+    "correct_option": "To create a member that is only one bit in size.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of a valid structure declaration in C programming?",
+    "opt1": "struct person {char name[50]; int age;}",
+    "opt2": "struct person (char name[50]; int age;)",
+    "opt3": "person_struct {char name[50]; int age;}",
+    "opt4": "None of above",
+    "correct_option": "struct person {char name[50]; int age;}",
+    "correct_option_index": 1
+  },
+  
+  {
+    "qsns": "What is the syntax for declaring an array of structures in C?",
+    "opt1": "struct array_name[size];",
+    "opt2": "array_name[size] struct;",
+    "opt3": "array_name[size] struct;",
+    "opt4": "struct[size] array_name;",
+    "correct_option": "struct array_name[size];",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In C programming, how do you access a particular member of a structure within an array of structures?",
+    "opt1": "array_name[index].member_name",
+    "opt2": "member_name.array_name[index]",
+    "opt3": "struct.array_name[index].member_name",
+    "opt4": "member_name[index].array_name",
+    "correct_option": "array_name[index].member_name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of using an array of structures in C?",
+    "opt1": "To group similar data types together in a single entity.",
+    "opt2": "To group different data types together in a single entity.",
+    "opt3": "To make the code easier to read and maintain.",
+    "opt4": "To create a single variable that can hold multiple values.",
+    "correct_option": "To group similar data types together in a single entity.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you initialize an array of structures in C?",
+    "opt1": "By setting each member of the array individually.",
+    "opt2": "By setting the values of the first member of the array, which automatically sets the values of the rest of the members.",
+    "opt3": "By using a loop to set the values of each member of the array.",
+    "opt4": "By using a pointer to set the values of each member of the array.",
+    "correct_option": "By setting each member of the array individually.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the maximum number of dimensions that an array of structures can have in C?",
+    "opt1": "One",
+    "opt2": "Two",
+    "opt3": "Three",
+    "opt4": "There is no limit",
+    "correct_option": "There is no limit",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of using a typedef with an array of structures in C?",
+    "opt1": "To make it easier to declare variables of that type.",
+    "opt2": "To make the code more readable.",
+    "opt3": "To make it easier to access the members of the array.",
+    "opt4": "To create a new data type.",
+    "correct_option": "To create a new data type.",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a valid way to access a member of a structure within an array of structures in C?",
+    "opt1": "array_name.member_name[index]",
+    "opt2": "array_name[index].member_name",
+    "opt3": "member_name.array_name[index]",
+    "opt4": "struct.array_name[index].member_name",
+    "correct_option": "array_name[index].member_name",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How do you declare a pointer to an array of structures in C?",
+    "opt1": "struct *array_name[size];",
+    "opt2": "struct (*array_name)[size];",
+    "opt3": "struct *array_name[size];",
+    "opt4": "struct (*array_name)[size];",
+    "correct_option": "struct (*array_name)[size];",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "In C programming, how do you access a particular member of a structure within a pointer to an array of structures?",
+    "opt1": "pointer_name->member_name[index]",
+    "opt2": "pointer_name[index]->member_name",
+    "opt3": "pointer_name.member_name[index]",
+    "opt4": "pointer_name[index].member_name",
+    "correct_option": "pointer_name[index].member_name",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "How do you dynamically allocate memory for an array of structures in C?",
+    "opt1": "By using the malloc() function.",
+    "opt2": "By using the calloc() function.",
+    "opt3": "By using the realloc() function.",
+    "opt4": "By using the free() function.",
+    "correct_option": "By using the malloc() function.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you declare an array of structures in C?",
+    "opt1": "struct Array = {...}",
+    "opt2": "struct *Array = {...}",
+    "opt3": "struct Array[] = {...}",
+    "opt4": "struct Array {...}",
+    "correct_option": "struct Array[] = {...}",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the correct syntax for accessing the member variable \"age\" of the first structure in an array of structures named \"people\"?",
+    "opt1": "people.age[0]",
+    "opt2": "people[0].age",
+    "opt3": "people.age->0",
+    "opt4": "age[0].people",
+    "correct_option": "people[0].age",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the maximum number of elements that can be stored in an array of structures?",
+    "opt1": "There is no maximum number",
+    "opt2": "The maximum number is determined by the size of each element",
+    "opt3": "The maximum number is 1024",
+    "opt4": "The maximum number is determined by the amount of available memory",
+    "correct_option": "The maximum number is determined by the amount of available memory",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a valid way to initialize an array of structures in C?",
+    "opt1": "struct person[] = {{1, \"John\"}, {2, \"Jane\"}}",
+    "opt2": "struct person[] = { 1, \"John\" , {2, \"Jane\"}, {3, \"Bob\"}}",
+    "opt3": "struct person = [1] = {1, \"John\"}, [2]= {2, \"Jane\"}",
+    "opt4": "All of the above",
+    "correct_option": "struct person[] = {{1, \"John\"}, {2, \"Jane\"}}",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the size of the following structure? struct student { char name[50]; int age; float gpa; };",
+    "opt1": "54 bytes",
+    "opt2": "60 bytes",
+    "opt3": "62 bytes",
+    "opt4": "64 bytes",
+    "correct_option": "60 bytes",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which operator is used to access a member of a structure through a pointer to the structure?",
+    "opt1": ".",
+    "opt2": "->",
+    "opt3": "*",
+    "opt4": "&",
+    "correct_option": "->",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the correct syntax for declaring a pointer to a structure?",
+    "opt1": "struct *p;",
+    "opt2": "struct p;",
+    "opt3": "struct pointer;",
+    "opt4": "struct person *p;",
+    "correct_option": "struct person *p;",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "How can you dynamically allocate memory for an array of structures in C?",
+    "opt1": "struct array = (struct *) malloc(sizeof(struct) * n);",
+    "opt2": "struct array = (struct**) malloc(n * sizeof(struct));",
+    "opt3": "struct array = (struct*) malloc(n);",
+    "opt4": "struct array = (struct*) malloc(sizeof(struct));",
+    "correct_option": "struct array = (struct *) malloc(sizeof(struct) * n);",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How can you access the last element in an array of structures with n elements?",
+    "opt1": "arr[n]",
+    "opt2": "arr[n-1]",
+    "opt3": "arr.last",
+    "opt4": "arr.end",
+    "correct_option": "arr[n-1]",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an array of structures instead of multiple individual structures?",
+    "opt1": "Easier to manage",
+    "opt2": "Easier to pass to functions",
+    "opt3": "Requires less memory",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the syntax for passing a structure to a function in C?",
+    "opt1": "function(struct s)",
+    "opt2": "function(struct *s)",
+    "opt3": "function(*s)",
+    "opt4": "function(&s)",
+    "correct_option": "function(struct s)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you declare a function that takes a structure as an argument in C?",
+    "opt1": "void myFunction(struct myStruct);",
+    "opt2": "void myFunction(struct myStruct *);",
+    "opt3": "void myFunction(*myStruct);",
+    "opt4": "void myFunction(&myStruct);",
+    "correct_option": "void myFunction(struct myStruct);",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can you pass an array of structures to a function in C?",
+    "opt1": "No, C does not support passing arrays of structures to functions",
+    "opt2": "Yes, you can pass an array of structures to a function using a pointer",
+    "opt3": "Yes, you can pass an array of structures to a function by value",
+    "opt4": "Yes, you can pass an array of structures to a function using the & operator",
+    "correct_option": "Yes, you can pass an array of structures to a function using a pointer",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How does passing a structure to a function by reference (i.e. using a pointer) differ from passing it by value?",
+    "opt1": "Passing by reference creates a copy of the structure, while passing by value does not",
+    "opt2": "Passing by reference allows the function to modify the original structure, while passing by value does not",
+    "opt3": "Passing by reference is slower than passing by value",
+    "opt4": "Passing by reference is not allowed in C",
+    "correct_option": "Passing by reference allows the function to modify the original structure, while passing by value does not",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the advantage of passing a structure to a function by reference instead of by value?",
+    "opt1": "Passing by reference is faster",
+    "opt2": "Passing by reference allows the function to modify the original structure",
+    "opt3": "Passing by reference is easier to write",
+    "opt4": "Passing by reference requires less memory",
+    "correct_option": "Passing by reference is faster",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How do you access a structure member inside a function that takes a pointer to the structure as an argument?",
+    "opt1": "s.member",
+    "opt2": "(*s).member",
+    "opt3": "&s->member",
+    "opt4": "s->member",
+    "correct_option": "s->member",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the correct way to pass a structure to a function by reference?",
+    "opt1": "function(struct s)",
+    "opt2": "function(struct *s)",
+    "opt3": "function(&s)",
+    "opt4": "function(*s)",
+    "correct_option": "function(&s)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Can a function return a structure in C?",
+    "opt1": "Yes, by using the & operator",
+    "opt2": "Yes, but it requires passing a pointer to the structure as an argument",
+    "opt3": "Yes, by returning a pointer to the structure",
+    "opt4": "No, C does not support returning structures from functions",
+    "correct_option": "Yes, by returning a pointer to the structure",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "How do you initialize a structure variable inside a function?",
+    "opt1": "struct s = {...}",
+    "opt2": "s = {...}",
+    "opt3": "Pass by value",
+    "opt4": "Pass by reference",
+    "correct_option": "struct s = {...}",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the advantage of passing a structure by pointer to a function in C?",
+    "opt1": "It reduces the size of the structure",
+    "opt2": "It increases the speed of the program",
+    "opt3": "It allows the function to modify the original structure",
+    "opt4": "None of the above",
+    "correct_option": "It allows the function to modify the original structure",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is the correct syntax to pass a structure by value to a function in C?",
+    "opt1": "function_name(&structure_variable)",
+    "opt2": "function_name(*structure_variable)",
+    "opt3": "function_name(structure_variable)",
+    "opt4": "function_name(structure_pointer)",
+    "correct_option": "function_name(structure_variable)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is the correct syntax to pass a structure by reference to a function in C?",
+    "opt1": "function_name(&structure_variable)",
+    "opt2": "function_name(*structure_variable)",
+    "opt3": "function_name(structure_variable)",
+    "opt4": "function_name(structure_pointer)",
+    "correct_option": "function_name(&structure_variable)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is the correct syntax to pass a structure by pointer to a function in C?",
+    "opt1": "function_name(&structure_variable)",
+    "opt2": "function_name(structure_variable)",
+    "opt3": "function_name(structure_pointer)",
+    "opt4": "function_name(*structure_variable)",
+    "correct_option": "function_name(structure_pointer)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is the correct way to access a structure member using a pointer to a structure?",
+    "opt1": "structure_pointer->member_name",
+    "opt2": "*structure_pointer.member_name",
+    "opt3": "structure_pointer.member_name",
+    "opt4": "None of the above",
+    "correct_option": "structure_pointer->member_name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between passing a structure by value and passing a structure by pointer in C?",
+    "opt1": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
+    "opt2": "When a structure is passed by value, any modifications made to it in the function are retained when the function returns. When a structure is passed by pointer, the modifications are lost.",
+    "opt3": "There is no difference between passing a structure by value and passing a structure by pointer in C.",
+    "opt4": "None of the above",
+    "correct_option": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a namespace in C++?",
+    "opt1": "It is a block of code that is used to group related variables and functions",
+    "opt2": "It is a feature that allows a class to inherit from multiple base classes",
+    "opt3": "It is a mechanism for managing the scope of identifiers in large programs",
+    "opt4": "It is a type of loop in C++",
+    "correct_option": "It is a mechanism for managing the scope of identifiers in large programs",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which keyword is used to define a namespace in C++?",
+    "opt1": "namespace",
+    "opt2": "define",
+    "opt3": "namespace scope",
+    "opt4": "using namespace",
+    "correct_option": "namespace",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true regarding namespaces in C++?",
+    "opt1": "You can have multiple namespaces with the same name in the same program",
+    "opt2": "Namespaces can only contain function declarations",
+    "opt3": "You can define a namespace within a function",
+    "opt4": "The contents of a namespace can be accessed using the dot operator",
+    "correct_option": "You can have multiple namespaces with the same name in the same program",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of using the using keyword with namespaces in C++?",
+    "opt1": "To create an alias for a namespace",
+    "opt2": "To bring all the members of a namespace into the current scope",
+    "opt3": "To hide certain members of a namespace",
+    "opt4": "To define a new namespace within an existing namespace",
+    "correct_option": "To bring all the members of a namespace into the current scope",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the scope resolution operator in C++?",
+    "opt1": ":",
+    "opt2": "::",
+    "opt3": "->",
+    "opt4": "#",
+    "correct_option": "::",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true regarding the scope resolution operator in C++?",
+    "opt1": "It is used to access the members of a namespace",
+    "opt2": "It is used to access the members of a class",
+    "opt3": "It is used to access the elements of an array",
+    "opt4": "It is used to access the elements of a linked list",
+    "correct_option": "It is used to access the members of a namespace",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the unnamed namespace in C++?",
+    "opt1": "To make a function or variable global",
+    "opt2": "To limit the visibility of a function or variable to a single source file",
+    "opt3": "To create a new namespace within an existing namespace",
+    "opt4": "To create a namespace with a name that cannot be accessed by the user",
+    "correct_option": "To limit the visibility of a function or variable to a single source file",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a benefit of using namespaces in C++?",
+    "opt1": "They prevent naming conflicts between classes",
+    "opt2": "They allow you to define variables with the same name in different functions",
+    "opt3": "They improve the performance of the program",
+    "opt4": "They allow you to define variables with the same name in the same scope",
+    "correct_option": "They prevent naming conflicts between classes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using namespaces in C++?",
+    "opt1": "They can make the code more difficult to read and understand",
+    "opt2": "They increase the size of the executable file",
+    "opt3": "They make it more difficult to reuse code in different projects",
+    "opt4": "They increase the likelihood of naming conflicts between classes",
+    "correct_option": "They can make the code more difficult to read and understand",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true regarding the global namespace in C++?",
+    "opt1": "All variables and functions defined outside of a namespace belong to the global namespace",
+    "opt2": "The global namespace is automatically included in every program",
+    "opt3": "The global namespace can be used to define variables and functions that can be accessed from any part of the program",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is a namespace in C++?",
+    "opt1": "A container that holds a group of related variables and functions",
+    "opt2": "A type of loop that iterates over a collection of elements",
+    "opt3": "A method of creating a new object from an existing object",
+    "opt4": "A way to specify the data type of a variable",
+    "correct_option": "A container that holds a group of related variables and functions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which keyword is used to define a namespace in C++?",
+    "opt1": "using",
+    "opt2": "namespace",
+    "opt3": "define",
+    "opt4": "typedef",
+    "correct_option": "namespace",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true regarding namespaces in C++?",
+    "opt1": "Nested namespaces are not allowed",
+    "opt2": "A namespace can only contain functions",
+    "opt3": "Namespaces are only used in object-oriented programming",
+    "opt4": "Namespace members are accessed using the :: operator",
+    "correct_option": "Namespace members are accessed using the :: operator",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of using a namespace in C++?",
+    "opt1": "To avoid naming conflicts between variables and functions",
+    "opt2": "To allocate memory dynamically",
+    "opt3": "To overload operators for a class",
+    "opt4": "To declare a global variable",
+    "correct_option": "To avoid naming conflicts between variables and functions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the default namespace in C++?",
+    "opt1": "std",
+    "opt2": "default",
+    "opt3": "main",
+    "opt4": "none of the above",
+    "correct_option": "std",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a namespace be defined across multiple files in C++?",
+    "opt1": "Yes, by using the using directive",
+    "opt2": "Yes, by using the namespace keyword",
+    "opt3": "No, a namespace must be defined in a single file",
+    "opt4": "No, a namespace can only be defined within a function",
+    "correct_option": "Yes, by using the namespace keyword",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a valid way to alias a namespace in C++?",
+    "opt1": "namespace A::B",
+    "opt2": "using A::B",
+    "opt3": "namespace B = A",
+    "opt4": "using namespace A::B",
+    "correct_option": "namespace B = A",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an advantage of using namespaces in C++?",
+    "opt1": "They allow for faster program execution",
+    "opt2": "They make it easier to reuse code",
+    "opt3": "They help to reduce the size of the program",
+    "opt4": "They prevent type conversion errors",
+    "correct_option": "They make it easier to reuse code",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true regarding the scope of a namespace in C++?",
+    "opt1": "A namespace can be used anywhere in the program",
+    "opt2": "A namespace can only be used within the file it is defined in",
+    "opt3": "A namespace can only be used within the class it is defined in",
+    "opt4": "A namespace can only be used within the function it is defined in",
+    "correct_option": "A namespace can be used anywhere in the program",
+    "correct_option_index": 1
+  },
+  
+  {
+    "qsns": "Which of the following statements is true about function overloading in C++?",
+    "opt1": "Only the function name should be the same for overloaded functions",
+    "opt2": "Overloaded functions can differ in the number of parameters",
+    "opt3": "Overloaded functions cannot have the same return type",
+    "opt4": "All of the above",
+    "correct_option": "Overloaded functions can differ in the number of parameters",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which operator cannot be overloaded in C++?",
+    "opt1": "&& and ||",
+    "opt2": ":: and ->",
+    "opt3": "+ and -",
+    "opt4": "All of the above",
+    "correct_option": ":: and ->",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a valid way of differentiating between overloaded functions?",
+    "opt1": "Number of parameters",
+    "opt2": "Order of parameters",
+    "opt3": "Return type",
+    "opt4": "None of the above",
+    "correct_option": "Return type",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements is true about function overloading in C++? (Repeated concept)",
+    "opt1": "Overloaded functions must have the same access level",
+    "opt2": "Access levels do not affect function overloading",
+    "opt3": "Overloaded functions must have different access levels",
+    "opt4": "None of the above",
+    "correct_option": "Access levels do not affect function overloading",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the benefit of function overloading in C++?",
+    "opt1": "It reduces the number of functions in a program",
+    "opt2": "It makes the code easier to read and understand",
+    "opt3": "It allows the same function name to be used for different operations",
+    "opt4": "All of the above",
+    "correct_option": "It allows the same function name to be used for different operations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about function overloading? (Repeated concept)",
+    "opt1": "Overloaded functions can have different names",
+    "opt2": "Overloaded functions can have the same number and types of parameters",
+    "opt3": "Overloaded functions must have the same return type",
+    "opt4": "None of the above",
+    "correct_option": "None of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of function overloading in C++?",
+    "opt1": "int add(int a, int b)",
+    "opt2": "float add(float a, float b)",
+    "opt3": "void add(int a, int b)",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is function overloading in C++?",
+    "opt1": "Defining a function with the same name and same parameters as an existing function",
+    "opt2": "Defining a function with the same name but different parameters as an existing function",
+    "opt3": "Defining a function with a different name but the same parameters as an existing function",
+    "opt4": "Defining a function with a different name and different parameters as an existing function",
+    "correct_option": "Defining a function with the same name but different parameters as an existing function",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a valid way to overload a function in C++?",
+    "opt1": "Changing the number of parameters in the function",
+    "opt2": "Changing the return type of the function",
+    "opt3": "Changing the order of the parameters in the function",
+    "opt4": "Changing the type of the parameters in the function",
+    "correct_option": "Changing the return type of the function",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of function overloading in C++?",
+    "opt1": "To create new functions with different names",
+    "opt2": "To create functions that have different return types",
+    "opt3": "To allow functions to work with different types of data",
+    "opt4": "To allow functions to be used with different sets of parameters",
+    "correct_option": "To allow functions to be used with different sets of parameters",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of function overloading in C++? (Repeated concept)",
+    "opt1": "int add(int x, int y)",
+    "opt2": "float add(float x, float y)",
+    "opt3": "char add(char x, char y)",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Can two functions in C++ have the same name and the same set of parameters?",
+    "opt1": "Yes, as long as they have different return types",
+    "opt2": "Yes, as long as they are declared in different namespaces",
+    "opt3": "No, it is not allowed in C++",
+    "opt4": "Yes, as long as they are declared in different classes",
+    "correct_option": "No, it is not allowed in C++",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about function overloading in C++? (Repeated concept)",
+    "opt1": "Overloaded functions must have the same name",
+    "opt2": "Overloaded functions must have different return types",
+    "opt3": "Overloaded functions must have the same number of parameters",
+    "opt4": "Overloaded functions must have different parameter types or different number of parameters",
+    "correct_option": "Overloaded functions must have different parameter types or different number of parameters",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the benefit of using function overloading in C++?",
+    "opt1": "It allows you to create functions with different names",
+    "opt2": "It allows you to create functions with different return types",
+    "opt3": "It allows you to write more efficient code",
+    "opt4": "It allows you to create more versatile functions",
+    "correct_option": "It allows you to create more versatile functions",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following operators can be overloaded in C++?",
+    "opt1": "+",
+    "opt2": "=",
+    "opt3": "[]",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Can you overload a member function in C++?",
+    "opt1": "Yes, you can overload both member and non-member functions in C++",
+    "opt2": "No, member functions cannot be overloaded in C++",
+    "opt3": "Yes, but only if the functions have different return types",
+    "opt4": "Yes, but only if the functions have different parameters",
+    "correct_option": "Yes, you can overload both member and non-member functions in C++",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an example of function overloading?",
+    "opt1": "int add(int x, int y) { return x + y; } int add(int x, int y, int z) { return x+y+z;}",
+    "opt2": "int add(int x, int y) { return x + y; } float add(int x, int y) { return x + y;}",
+    "opt3": "int add(int x, int y) { return x + y; } int subtract(int x, int y) { return x - y; }",
+    "opt4": "All of the above",
+    "correct_option": "int add(int x, int y) { return x + y; } int add(int x, int y, int z) { return x+y+z;}",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is an inline function in C++?",
+    "opt1": "A function that takes an argument of type inline",
+    "opt2": "A function that is defined with the inline keyword",
+    "opt3": "A function that is executed sequentially",
+    "opt4": "A function that is expanded inline by the compiler",
+    "correct_option": "A function that is defined with the inline keyword",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the advantage of using an inline function?",
+    "opt1": "It reduces the size of the program",
+    "opt2": "It reduces the function call overhead",
+    "opt3": "It increases the performance of the program",
+    "opt4": "It allows for recursion",
+    "correct_option": "It reduces the function call overhead",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which keyword is used to declare an inline function in C++?",
+    "opt1": "function",
+    "opt2": "inline",
+    "opt3": "def",
+    "opt4": "define",
+    "correct_option": "inline",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Can a function that returns void be inline in C++?",
+    "opt1": "Yes, any function can be declared inline",
+    "opt2": "No, only functions that return a value can be inline",
+    "opt3": "It depends on the implementation",
+    "opt4": "None of the above",
+    "correct_option": "Yes, any function can be declared inline",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about inline functions in C++?",
+    "opt1": "Inline functions cannot be recursive",
+    "opt2": "Inline functions cannot contain loops",
+    "opt3": "Inline functions cannot be overloaded",
+    "opt4": "Inline functions cannot have default arguments",
+    "correct_option": "Inline functions cannot be recursive",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How does the compiler treat inline functions in C++?",
+    "opt1": "It generates a separate function call for each call to the inline function",
+    "opt2": "It replaces the function call with the actual function code at the point of the call",
+    "opt3": "It generates an error if the function is not defined inline",
+    "opt4": "It generates a jump instruction to the function code at the point of the call",
+    "correct_option": "It replaces the function call with the actual function code at the point of the call",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Can a function that is defined in a separate source file be inline in C++?",
+    "opt1": "Yes, as long as the function is declared inline in the header file",
+    "opt2": "No, inline functions must be defined in the same source file as the caller",
+    "opt3": "It depends on the implementation of the compiler",
+    "opt4": "None of the above",
+    "correct_option": "No, inline functions must be defined in the same source file as the caller",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of an inline function in C++?",
+    "opt1": "int add(int a, int b) { return a + b; }",
+    "opt2": "void print_hello() { std::cout << \"Hello, world!\" << std::endl; }",
+    "opt3": "double square(double x) {return x*x;}",
+    "opt4": "class Rectangle { public: inline int area() { return width * height; } };",
+    "correct_option": "class Rectangle { public: inline int area() { return width * height; } };",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using inline functions in C++?",
+    "opt1": "It can increase the size of the program",
+    "opt2": "It can decrease the performance of the program",
+    "opt3": "It can lead to code bloat",
+    "opt4": "It can lead to name collisions",
+    "correct_option": "It can increase the size of the program",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a good candidate for an inline function in C++?",
+    "opt1": "A function that performs complex calculations",
+    "opt2": "A function that is called frequently and has a short body",
+    "opt3": "A function that takes a long time to execute",
+    "opt4": "A function that is rarely called and has a long body",
+    "correct_option": "A function that is called frequently and has a short body",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is an inline function in C++? (Repeated concept)",
+    "opt1": "A function defined with the \"inline\" keyword, which is a suggestion to the compiler to perform inline expansion of the function",
+    "opt2": "A function defined with the \"inline\" keyword, which is a requirement for the compiler to perform inline expansion of the function",
+    "opt3": "A function that is always expanded inline by the compiler, regardless of how it is defined",
+    "opt4": "A function that is never expanded inline by the compiler, regardless of how it is defined",
+    "correct_option": "A function defined with the \"inline\" keyword, which is a suggestion to the compiler to perform inline expansion of the function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the advantage of using inline functions in C++? (Repeated concept)",
+    "opt1": "They are faster than regular functions",
+    "opt2": "They reduce the executable size of a program",
+    "opt3": "They can be used to define function templates",
+    "opt4": "They make it easier to overload functions",
+    "correct_option": "They are faster than regular functions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "When should you use an inline function in C++?",
+    "opt1": "When the function is small and simple",
+    "opt2": "When the function is called frequently",
+    "opt3": "When the function has a lot of parameters",
+    "opt4": "When the function is large and complex",
+    "correct_option": "When the function is small and simple",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a virtual function be inline in C++?",
+    "opt1": "When the function is used in only one place in the program",
+    "opt2": "No, virtual functions cannot be inline in C++",
+    "opt3": "Yes, as long as it is defined with the \"inline\" keyword only",
+    "opt4": "It depends on the compiler",
+    "correct_option": "No, virtual functions cannot be inline in C++",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the syntax for defining an inline function in C++?",
+    "opt1": "inline int function_name(int param1, int param2) {}",
+    "opt2": "void inline function_name(int param1, int param2) {}",
+    "opt3": "int inline function_name(int param1, int param2) {}",
+    "opt4": "inline function_name(int param1, int param2) {}",
+    "correct_option": "inline int function_name(int param1, int param2) {}",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a member function of a class be inline in C++?",
+    "opt1": "Yes, as long as it is defined with the \"inline\" keyword",
+    "opt2": "No, member functions cannot be inline in C++",
+    "opt3": "Yes, as long as it is defined with the \"inline\" keyword and the function body is defined inside the class definition",
+    "opt4": "It depends on the implementation",
+    "correct_option": "Yes, as long as it is defined with the \"inline\" keyword and the function body is defined inside the class definition",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the \"inline\" keyword in C++?",
+    "opt1": "To indicate that a function is a friend of a class",
+    "opt2": "To require the compiler to perform inline expansion of a function",
+    "opt3": "To suggest to the compiler to perform inline expansion of a function",
+    "opt4": "To indicate that a function is a virtual function",
+    "correct_option": "To suggest to the compiler to perform inline expansion of a function",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using inline functions in C++? (Repeated concept)",
+    "opt1": "They can increase the size of the executable code",
+    "opt2": "They can slow down the program execution",
+    "opt3": "They can make debugging more difficult",
+    "opt4": "There are no disadvantages to using inline functions",
+    "correct_option": "They can increase the size of the executable code",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a function defined in a header file be inline in C++?",
+    "opt1": "Yes, as long as it is defined with the \"inline\" keyword",
+    "opt2": "No, functions defined in header files cannot be inline in C++",
+    "opt3": "Yes, as long as it is defined with the \"inline\" keyword and the function body is defined inside the header file",
+    "opt4": "It depends on the compiler",
+    "correct_option": "Yes, as long as it is defined with the \"inline\" keyword and the function body is defined inside the header file",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a default argument in C++?",
+    "opt1": "An argument that is automatically assigned the value 0",
+    "opt2": "An argument that is assigned the value of the previous argument",
+    "opt3": "An argument that is assigned a value if no other value is provided",
+    "opt4": "An argument that is assigned a random value",
+    "correct_option": "An argument that is assigned a value if no other value is provided",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about default arguments?",
+    "opt1": "They must be specified in the function declaration and definition",
+    "opt2": "They can only be of basic data types such as int and float",
+    "opt3": "They must always come at the beginning of the argument list",
+    "opt4": "They cannot be of array types",
+    "correct_option": "They must be specified in the function declaration and definition",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an example of a function that uses a default argument?",
+    "opt1": "int add(int x, int y)",
+    "opt2": "float divide(float a, float b, float c = 1.0)",
+    "opt3": "void print()",
+    "opt4": "char getChar(char c = 'a')",
+    "correct_option": "float divide(float a, float b, float c = 1.0)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the order in which arguments are passed to a function?",
+    "opt1": "Regular arguments first, followed by default arguments",
+    "opt2": "Default arguments first, followed by regular arguments",
+    "opt3": "Random order",
+    "opt4": "None of the above",
+    "correct_option": "Regular arguments first, followed by default arguments",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about default arguments in relation to function overloading?",
+    "opt1": "Default arguments are not allowed in function overloading",
+    "opt2": "Default arguments must be the same for all functions in an overload set",
+    "opt3": "Default arguments are allowed, but only for one function in an overload set",
+    "opt4": "Default arguments must be different for all functions in an overload set",
+    "correct_option": "Default arguments are allowed, but only for one function in an overload set",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the benefit of using default arguments?",
+    "opt1": "It makes the code more efficient",
+    "opt2": "It allows for fewer function overloads",
+    "opt3": "It improves code readability",
+    "opt4": "It allows for more complex programs",
+    "correct_option": "It allows for fewer function overloads",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What happens if a default argument is specified in both the function declaration and definition?",
+    "opt1": "The code will not compile",
+    "opt2": "The argument specified in the definition will be used",
+    "opt3": "The argument specified in the declaration will be used",
+    "opt4": "The default argument will be ignored",
+    "correct_option": "The code will not compile",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about default arguments and templates?",
+    "opt1": "Default arguments are not allowed in templates",
+    "opt2": "Default arguments can be used in templates, but only for one parameter",
+    "opt3": "Default arguments can be used in templates for any number of parameters",
+    "opt4": "Default arguments in templates must be the same for all instantiations",
+    "correct_option": "Default arguments can be used in templates for any number of parameters",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What are default arguments in C++? (Repeated concept)",
+    "opt1": "Arguments that are automatically initialized with a default value.",
+    "opt2": "Arguments that are passed by value.",
+    "opt3": "Arguments that are passed by reference.",
+    "opt4": "Arguments that are passed by pointer.",
+    "correct_option": "Arguments that are automatically initialized with a default value.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Where should default arguments be specified in a function declaration?",
+    "opt1": "Before the function name.",
+    "opt2": "After the function name.",
+    "opt3": "Before the return type.",
+    "opt4": "After the return type.",
+    "correct_option": "After the function name.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of default arguments? (Repeated concept)",
+    "opt1": "To make functions more efficient.",
+    "opt2": "To make it easier to pass arguments to a function.",
+    "opt3": "To allow a function to be overloaded.",
+    "opt4": "To provide a default value for a parameter if one is not specified.",
+    "correct_option": "To provide a default value for a parameter if one is not specified.",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "When are default arguments evaluated?",
+    "opt1": "At runtime.",
+    "opt2": "At compile time.",
+    "opt3": "At link time.",
+    "opt4": "At load time.",
+    "correct_option": "At runtime.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What happens if a default argument is specified in both the function declaration and the function definition? (Repeated concept)",
+    "opt1": "The program will not compile.",
+    "opt2": "The default argument specified in the function definition will be used.",
+    "opt3": "The default argument specified in the function declaration will be used.",
+    "opt4": "Both default arguments will be used.",
+    "correct_option": "The program will not compile.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the syntax for specifying a default argument?",
+    "opt1": "argumentType argumentName = defaultValue",
+    "opt2": "argumentType defaultValue argumentName",
+    "opt3": "defaultValue argumentType argumentName",
+    "opt4": "argumentName = defaultValue",
+    "correct_option": "argumentType argumentName = defaultValue",
+    "correct_option_index": 1
+  },
+  
+  {
+    "qsns": "Which of the following is true about classes in C++?",
+    "opt1": "A class is a blueprint for objects",
+    "opt2": "A class is an object",
+    "opt3": "A class is a function",
+    "opt4": "A class is a data type",
+    "correct_option": "A class is a blueprint for objects",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following keywords is used to create an object of a class?",
+    "opt1": "new",
+    "opt2": "this",
+    "opt3": "object",
+    "opt4": "none of the above",
+    "correct_option": "new",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following access specifiers is used to make class members accessible only within the same class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "none of the above",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a constructor?",
+    "opt1": "A function that is used to create an object of a class",
+    "opt2": "A function that is used to destroy an object of a class",
+    "opt3": "A function that is used to allocate memory for an object of a class",
+    "opt4": "A function that is used to deallocate memory for an object of a class",
+    "correct_option": "A function that is used to create an object of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is encapsulation in C++?",
+    "opt1": "Combining data members and member functions in a single unit",
+    "opt2": "Making class members accessible only within the same class",
+    "opt3": "Creating objects of a class",
+    "opt4": "None of the above",
+    "correct_option": "Combining data members and member functions in a single unit",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a class in C++?",
+    "opt1": "A user-defined data type",
+    "opt2": "A built-in data type",
+    "opt3": "A function",
+    "opt4": "A pointer to a variable",
+    "correct_option": "A user-defined data type",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about a static member of a class?",
+    "opt1": "It is shared by all objects of the class",
+    "opt2": "It is specific to each object of the class",
+    "opt3": "It can be accessed using the object of the class",
+    "opt4": "It cannot be accessed using the object of the class",
+    "correct_option": "It is shared by all objects of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is used to create a copy of an object in C++?",
+    "opt1": "Object cloning",
+    "opt2": "Object duplication",
+    "opt3": "Object copying",
+    "opt4": "Object creation",
+    "correct_option": "Object copying",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is used to initialize the data members of an object of a class?",
+    "opt1": "Constructors",
+    "opt2": "Destructors",
+    "opt3": "assignment operators",
+    "opt4": "Copy constructors",
+    "correct_option": "Constructors",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about friend functions in C++?",
+    "opt1": "Friend functions are class members",
+    "opt2": "Friend functions can access private and protected members of a class",
+    "opt3": "Friend functions can be called using an object of the class",
+    "opt4": "Friend functions cannot be defined outside the class",
+    "correct_option": "Friend functions can access private and protected members of a class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is an object in C++?",
+    "opt1": "An instance of a class",
+    "opt2": "A type of data",
+    "opt3": "A function",
+    "opt4": "A pointer to a variable",
+    "correct_option": "An instance of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following access specifiers in C++ allows the member to be accessed by any function or class in the program?",
+    "opt1": "Private",
+    "opt2": "Protected",
+    "opt3": "Public",
+    "opt4": "Friend",
+    "correct_option": "Public",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which access specifier in C++ allows a member function or variable to be accessed only by the same class and its friends?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Private",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which access specifier in C++ allows a member function or variable to be accessed by the same class, its derived classes, and its friends?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Protected",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about access specifiers in C++?",
+    "opt1": "They determine the visibility of a member outside of the class.",
+    "opt2": "They determine the data type of a member.",
+    "opt3": "They determine the scope of a member within the class.",
+    "opt4": "They determine the storage location of a member.",
+    "correct_option": "They determine the visibility of a member outside of the class.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following access specifiers is used to hide the implementation details of a class from the user?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Private",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which access specifier in C++ allows a member function or variable to be accessed by any class or function that is declared as a friend of the class?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Friend",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which access specifier in C++ allows a member function or variable to be accessed by the same class and its derived classes?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Protected",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which access specifier in C++ allows a member function or variable to be accessed by any function or class within the same namespace?",
+    "opt1": "Private",
+    "opt2": "Public",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Public",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following access specifiers in C++ is used to prevent a member from being accessed outside of the class definition?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which access specifier allows access to a class member only within the class definition?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which access specifier allows access to a class member from any function outside the class definition?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "public",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which access specifier allows a derived class to access the protected members of its base class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "protected",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which access specifier allows access to a class member from a derived class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "protected",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which access specifier allows a member function to access all members of a class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the default access specifier for a class in C++?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which access specifier allows a friend function to access all members of a class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "friend",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which access specifier allows access to a class member from any class?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "public",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which access specifier should be used for class members that need to be accessed by functions outside the class definition?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "public",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which access specifier should be used for class members that should only be accessed within the class definition?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "friend",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the dot operator used for in C++?",
+    "opt1": "To declare objects",
+    "opt2": "To access a member of an object",
+    "opt3": "To access a function of a class",
+    "opt4": "To access a class variable",
+    "correct_option": "To access a member of an object",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of an object?",
+    "opt1": "int x;",
+    "opt2": "string s;",
+    "opt3": "MyClass obj;",
+    "opt4": "double y;",
+    "correct_option": "MyClass obj;",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following operators is used to access a member of an object?",
+    "opt1": ".",
+    "opt2": "->",
+    "opt3": "::",
+    "opt4": ":",
+    "correct_option": ".",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is used to initialize an object?",
+    "opt1": "The constructor",
+    "opt2": "The destructor",
+    "opt3": "The copy constructor",
+    "opt4": "The assignment operator",
+    "correct_option": "The constructor",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following access specifiers allows a member to be accessed from any function?",
+    "opt1": "Public",
+    "opt2": "Private",
+    "opt3": "Protected",
+    "opt4": "Friend",
+    "correct_option": "Public",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the keyword used to declare a class in C++?",
+    "opt1": "class",
+    "opt2": "object",
+    "opt3": "struct",
+    "opt4": "member",
+    "correct_option": "class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is used to destroy an object?",
+    "opt1": "The constructor",
+    "opt2": "The destructor",
+    "opt3": "The copy constructor",
+    "opt4": "The assignment operator",
+    "correct_option": "The destructor",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true about an object in C++?",
+    "opt1": "It is an instance of a class",
+    "opt2": "It cannot be passed as a parameter to a function",
+    "opt3": "It does not have any data members or member functions",
+    "opt4": "It can be created without a class definition",
+    "correct_option": "It is an instance of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following operators can be overloaded to provide custom member access behavior?",
+    "opt1": ".",
+    "opt2": "->",
+    "opt3": "::",
+    "opt4": ":",
+    "correct_option": "->",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the difference between the dot operator (.) and the arrow operator (->) in C++?",
+    "opt1": "The dot operator is used with pointers, while the arrow operator is used with objects.",
+    "opt2": "The dot operator is used to access static members, while the arrow operator is used to access non-static members.",
+    "opt3": "The dot operator is used to access non-static members, while the arrow operator is used with pointers to access non-static members.",
+    "opt4": "The dot operator is used to access public members, while the arrow operator is used to access private members.",
+    "correct_option": "The dot operator is used to access non-static members, while the arrow operator is used with pointers to access non-static members.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which operator is used to access the members of an object in C++?",
+    "opt1": ".",
+    "opt2": "&",
+    "opt3": "->",
+    "opt4": "::",
+    "correct_option": ".",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which keyword is used to define a member function outside the class definition in C++?",
+    "opt1": "here",
+    "opt2": "that",
+    "opt3": "this",
+    "opt4": "none of the above",
+    "correct_option": "none of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is true about object-oriented programming in C++?",
+    "opt1": "It is a procedural programming language",
+    "opt2": "Objects encapsulate data and behavior",
+    "opt3": "It supports only single inheritance",
+    "opt4": "All of the above",
+    "correct_option": "Objects encapsulate data and behavior",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true about a member function in C++?",
+    "opt1": "It can be defined inside or outside the class definition",
+    "opt2": "It can only be defined inside the class definition",
+    "opt3": "It can only be defined outside the class definition",
+    "opt4": "None of the above",
+    "correct_option": "It can be defined inside or outside the class definition",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which keyword is used to access the data members of an object inside a member function in C++?",
+    "opt1": "private",
+    "opt2": "public",
+    "opt3": "protected",
+    "opt4": "this",
+    "correct_option": "this",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is true about object creation in C++?",
+    "opt1": "It is done using the new operator",
+    "opt2": "It is done using the malloc() function",
+    "opt3": "It is done using the class constructor",
+    "opt4": "None of the above",
+    "correct_option": "It is done using the class constructor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about constructors in C++?",
+    "opt1": "They are used to allocate memory for objects",
+    "opt2": "They are used to initialize the data members of an object",
+    "opt3": "They are used to deallocate memory for objects",
+    "opt4": "None of the above",
+    "correct_option": "They are used to initialize the data members of an object",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true about destructors in C++?",
+    "opt1": "They are used to allocate memory for objects",
+    "opt2": "They are used to initialize the data members of an object",
+    "opt3": "They are used to deallocate memory for objects",
+    "opt4": "None of the above",
+    "correct_option": "They are used to deallocate memory for objects",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about static member functions in C++?",
+    "opt1": "They can access only static data members of a class",
+    "opt2": "They can access only non-static data members of a class",
+    "opt3": "They can access both static and non-static data members of a class",
+    "opt4": "None of the above",
+    "correct_option": "They can access only static data members of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about friend functions in C++?",
+    "opt1": "They are member functions of a class",
+    "opt2": "They can access private and protected members of a class",
+    "opt3": "They can access only public members of a class",
+    "opt4": "None of the above",
+    "correct_option": "They can access private and protected members of a class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is a member function in C++?",
+    "opt1": "A function that can only be used outside of a class",
+    "opt2": "A function that belongs to a class",
+    "opt3": "A function that can only be used inside of a class",
+    "opt4": "A function that belongs to the global namespace",
+    "correct_option": "A function that belongs to a class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How are member functions defined in C++?",
+    "opt1": "Inside the class definition",
+    "opt2": "Outside the class definition",
+    "opt3": "Both A and B",
+    "opt4": "Neither A nor B",
+    "correct_option": "Both A and B",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which keyword is used to define a member function outside of a class in C++?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "none of the above",
+    "correct_option": "none of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a valid syntax for defining a member function outside of a class in C++?",
+    "opt1": "void MyClass::myFunction() {}",
+    "opt2": "MyClass: void myFunction() {}",
+    "opt3": "void myFunction() ::MyClass {}",
+    "opt4": "None of the above",
+    "correct_option": "void MyClass::myFunction() {}",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about member functions in C++?",
+    "opt1": "They have access to the private data members of a class",
+    "opt2": "They can only access public data members of a class",
+    "opt3": "They cannot access any data members of a class",
+    "opt4": "None of the above",
+    "correct_option": "They have access to the private data members of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the implicit parameter in a member function in C++?",
+    "opt1": "A pointer to the object that called the function",
+    "opt2": "A pointer to the object that contains the function",
+    "opt3": "A pointer to the object that was passed as an argument to the function",
+    "opt4": "None of the above",
+    "correct_option": "A pointer to the object that called the function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which keyword is used to access the implicit parameter in a member function in C++?",
+    "opt1": "this",
+    "opt2": "that",
+    "opt3": "here",
+    "opt4": "none of the above",
+    "correct_option": "this",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about the this pointer in C++?",
+    "opt1": "It is a constant pointer",
+    "opt2": "It points to the object that called the member function",
+    "opt3": "It is an integer value that represents the memory address of the object",
+    "opt4": "None of the above",
+    "correct_option": "It points to the object that called the member function",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true about inline member functions in C++?",
+    "opt1": "They are defined outside the class definition",
+    "opt2": "They are always faster than non-inline member functions",
+    "opt3": "They are used for small functions that are called frequently",
+    "opt4": "None of the above",
+    "correct_option": "They are used for small functions that are called frequently",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about const member functions in C++?",
+    "opt1": "They cannot modify the data members of a class",
+    "opt2": "They are declared using the const keyword after the parameter list",
+    "opt3": "They can only be used inside the class definition",
+    "opt4": "None of the above",
+    "correct_option": "They cannot modify the data members of a class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a member function in C++? (Repeated Question)",
+    "opt1": "A function that is defined inside a class definition",
+    "opt2": "A function that is defined outside a class definition",
+    "opt3": "A function that is not related to any class",
+    "opt4": "None of the above",
+    "correct_option": "A function that is defined inside a class definition",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How is a member function defined inside a class definition in C++?",
+    "opt1": "using the :: operator",
+    "opt2": "using the -> operator",
+    "opt3": "using the . operator",
+    "opt4": "using the function name and parameter list",
+    "correct_option": "using the function name and parameter list",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of the \"this\" pointer in C++?",
+    "opt1": "It points to the object on which the member function is called",
+    "opt2": "It points to the class definition",
+    "opt3": "It points to the current function",
+    "opt4": "None of the above",
+    "correct_option": "It points to the object on which the member function is called",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How is a member function defined outside a class definition in C++?",
+    "opt1": "using the function name and parameter list",
+    "opt2": "using the scope resolution operator and the class name",
+    "opt3": "using the class name and parameter list",
+    "opt4": "None of the above",
+    "correct_option": "using the scope resolution operator and the class name",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the syntax for calling a member function of an object in C++?",
+    "opt1": "object.member_function()",
+    "opt2": "object->member_function()",
+    "opt3": "both A and B",
+    "opt4": "None of the above",
+    "correct_option": "both A and B",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the default access specifier for a member function in C++?",
+    "opt1": "public",
+    "opt2": "private",
+    "opt3": "protected",
+    "opt4": "None of the above",
+    "correct_option": "private",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Can a member function be overloaded in C++?",
+    "opt1": "Yes",
+    "opt2": "No",
+    "opt3": "It depends on the access specifier",
+    "opt4": "None of the above",
+    "correct_option": "Yes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a member function be declared inside a class definition and defined outside the class definition in C++?",
+    "opt1": "Yes",
+    "opt2": "No",
+    "opt3": "It depends on the access specifier",
+    "opt4": "None of the above",
+    "correct_option": "Yes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a member function access the private data members of a class in C++?",
+    "opt1": "Yes",
+    "opt2": "No",
+    "opt3": "depends on the access specifier",
+    "opt4": "None of the above",
+    "correct_option": "Yes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the const keyword in a member function declaration in C++?",
+    "opt1": "It indicates that the function is a constructor",
+    "opt2": "It indicates that the function is a destructor",
+    "opt3": "It indicates that the function does not modify the object on which it is called",
+    "opt4": "None of the above",
+    "correct_option": "It indicates that the function does not modify the object on which it is called",
+    "correct_option_index": 3
+  },
+  
+  {
+    "qsns": "What is a constructor in C++?",
+    "opt1": "A function that is used to allocate memory for an object",
+    "opt2": "A function that is used to initialize the data members of an object",
+    "opt3": "A function that is used to deallocate memory for an object",
+    "opt4": "None of the above",
+    "correct_option": "A function that is used to initialize the data members of an object",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the name of the constructor function in C++?",
+    "opt1": "init()",
+    "opt2": "constructor()",
+    "opt3": "the same as the class name",
+    "opt4": "None of the above",
+    "correct_option": "the same as the class name",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "How many constructors can a class have in C++?",
+    "opt1": "Only one",
+    "opt2": "More than one",
+    "opt3": "It depends on the size of the class",
+    "opt4": "None of the above",
+    "correct_option": "More than one",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of constructor is called automatically when an object is created in C++?",
+    "opt1": "Copy constructor",
+    "opt2": "Parameterized constructor",
+    "opt3": "Default constructor",
+    "opt4": "None of the above",
+    "correct_option": "Default constructor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the copy constructor in C++?",
+    "opt1": "It is used to create a copy of an existing object",
+    "opt2": "It is used to allocate memory for an object",
+    "opt3": "It is used to delete an existing object",
+    "opt4": "None of the above",
+    "correct_option": "It is used to create a copy of an existing object",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a constructor be declared as private in C++?",
+    "opt1": "Yes",
+    "opt2": "No",
+    "opt3": "It depends on the type of constructor",
+    "opt4": "None of the above",
+    "correct_option": "Yes",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about the default constructor in C++?",
+    "opt1": "It takes no arguments",
+    "opt2": "It has an empty body",
+    "opt3": "It is provided by the compiler if no other constructor is defined",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is true about the parameterized constructor in C++?",
+    "opt1": "It takes no arguments",
+    "opt2": "It has an empty body",
+    "opt3": "It takes one or more arguments",
+    "opt4": "None of the above",
+    "correct_option": "It takes one or more arguments",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the syntax for calling a constructor in C++?",
+    "opt1": "class_name.constructor_name()",
+    "opt2": "class_name::constructor_name()",
+    "opt3": "class_name object_name(argument_list)",
+    "opt4": "None of the above",
+    "correct_option": "class_name object_name(argument_list)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true about the destructor in C++?",
+    "opt1": "It is used to allocate memory for an object",
+    "opt2": "It is used to deallocate memory for an object",
+    "opt3": "It is used to initialize the data members of an object",
+    "opt4": "None of the above",
+    "correct_option": "It is used to deallocate memory for an object",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the this pointer in C++?",
+    "opt1": "A pointer to the current object",
+    "opt2": "A pointer to the current function",
+    "opt3": "A pointer to the current class",
+    "opt4": "None of the above",
+    "correct_option": "A pointer to the current object",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of the this pointer in C++?",
+    "opt1": "To refer to the object's own data members",
+    "opt2": "To refer to a different object's data members",
+    "opt3": "To refer to a different function",
+    "opt4": "None of the above",
+    "correct_option": "To refer to the object's own data members",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the syntax for using the this pointer in C++?",
+    "opt1": "this->data_member;",
+    "opt2": "(*this).data_member",
+    "opt3": "Both A and B",
+    "opt4": "None of the above",
+    "correct_option": "Both A and B",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Can the this pointer be modified in C++?",
+    "opt1": "Yes, it can be modified like any other pointer",
+    "opt2": "No, it is a constant pointer",
+    "opt3": "It can be modified only within the same class",
+    "opt4": "None of above",
+    "correct_option": "No, it is a constant pointer",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the data type of the this pointer in C++?",
+    "opt1": "Class type pointer",
+    "opt2": "Integer pointer",
+    "opt3": "Void pointer",
+    "opt4": "None of the above",
+    "correct_option": "Class type pointer",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What happens if a member function does not use the this pointer in C++?",
+    "opt1": "It can cause a compile-time error",
+    "opt2": "It may still work, but it will not be able to access the object's data members",
+    "opt3": "The program will crash at runtime",
+    "opt4": "None of the above",
+    "correct_option": "None of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "How is the this pointer passed to a member function in C++?",
+    "opt1": "It is implicitly passed to the function",
+    "opt2": "It is passed as an argument to the function",
+    "opt3": "It is not passed to the function",
+    "opt4": "None of above",
+    "correct_option": "It is implicitly passed to the function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the size of the this pointer in C++?",
+    "opt1": "It is always 4 bytes",
+    "opt2": "It is always 8 bytes",
+    "opt3": "It depends on the size of the object",
+    "opt4": "None of the above",
+    "correct_option": "It depends on the size of the object",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Can the this pointer be used in static member functions in C++?",
+    "opt1": "No, the this pointer is not applicable to static member functions",
+    "opt2": "Yes, but only if the static function takes an object as a parameter",
+    "opt3": "It can be used only within the same class",
+    "opt4": "None of above",
+    "correct_option": "No, the this pointer is not applicable to static member functions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In which operator overload function can the this pointer be used in C++?",
+    "opt1": "Overloading the assignment operator",
+    "opt2": "Overloading the equality operator",
+    "opt3": "Both A and B",
+    "opt4": "None of the above",
+    "correct_option": "Both A and B",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is this pointer in C++?",
+    "opt1": "It is a pointer to the current object",
+    "opt2": "It is a pointer to the current function",
+    "opt3": "It is a pointer to the base class",
+    "opt4": "None of the above",
+    "correct_option": "It is a pointer to the current object",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In which part of a C++ class is this pointer implicitly passed?",
+    "opt1": "Constructor",
+    "opt2": "Destructor",
+    "opt3": "Member functions",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the type of this pointer in C++?",
+    "opt1": "void",
+    "opt2": "int",
+    "opt3": "ClassName",
+    "opt4": "None of the above",
+    "correct_option": "ClassName",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a valid use of this pointer in C++?",
+    "opt1": "To access member variables of the current object",
+    "opt2": "To access member functions of the current object",
+    "opt3": "To access static variables of the current object",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of this pointer in C++?",
+    "opt1": "To resolve naming conflicts between member variables and parameters of a function",
+    "opt2": "To access private member variables of a class",
+    "opt3": "To access static member variables of a class",
+    "opt4": "None of the above",
+    "correct_option": "To resolve naming conflicts between member variables and parameters of a function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about this pointer in C++?",
+    "opt1": "It can be modified by the programmer",
+    "opt2": "It cannot be modified by the programmer",
+    "opt3": "It can be null",
+    "opt4": "None of the above",
+    "correct_option": "It cannot be modified by the programmer",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What happens if this pointer is dereferenced when it is null?",
+    "opt1": "A compile-time error occurs",
+    "opt2": "A runtime error occurs",
+    "opt3": "Undefined behavior occurs",
+    "opt4": "None of the above",
+    "correct_option": "Undefined behavior occurs",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the use of this pointer in operator overloading in C++?",
+    "opt1": "To overload the -> operator",
+    "opt2": "To overload the . operator",
+    "opt3": "Both A and B",
+    "opt4": "None of the above",
+    "correct_option": "To overload the -> operator",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code?",
+    "opt1": "The address of obj1 and obj2 are the same",
+    "opt2": "The address of obj1 and obj2 are different",
+    "opt3": "The program will not compile",
+    "opt4": "The program will crash at runtime",
+    "correct_option": "The address of obj1 and obj2 are different",
+    "correct_option_index": 2
+  },
+  
+  {
+    "qsns": "What is a static data member in C++?",
+    "opt1": "A data member that is unique to each instance of a class",
+    "opt2": "A data member that is shared among all instances of a class",
+    "opt3": "A data member that can be accessed only by static functions",
+    "opt4": "A data member that cannot be accessed from outside the class",
+    "correct_option": "A data member that is shared among all instances of a class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How is a static data member declared in C++?",
+    "opt1": "Using the keyword static before the data type",
+    "opt2": "Using the keyword static before the class name",
+    "opt3": "Using the keyword static after the data type",
+    "opt4": "None of the above",
+    "correct_option": "Using the keyword static before the data type",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about static data members in C++?",
+    "opt1": "They are not initialized by default",
+    "opt2": "They are initialized to 0 by default",
+    "opt3": "They are initialized to 1 by default",
+    "opt4": "None of the above",
+    "correct_option": "They are initialized to 0 by default",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How is a static function declared in C++?",
+    "opt1": "Using the keyword static before the return type",
+    "opt2": "Using the keyword static before the function name",
+    "opt3": "Using the keyword static after the return type",
+    "opt4": "None of the above",
+    "correct_option": "Using the keyword static before the return type",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about static functions in C++?",
+    "opt1": "They can access only static data members of the class",
+    "opt2": "They can access only non-static data members of the class",
+    "opt3": "They cannot access any data members of the class",
+    "opt4": "None of the above",
+    "correct_option": "They can access only static data members of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a static function in C++ access non-static data members of the class?",
+    "opt1": "Yes, using the this pointer",
+    "opt2": "Yes, using the static_cast operator",
+    "opt3": "No, static functions cannot access non-static data members",
+    "opt4": "None of the above",
+    "correct_option": "No, static functions cannot access non-static data members",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements is true about static data members in C++?",
+    "opt1": "They can be initialized inside the class definition",
+    "opt2": "They must be initialized inside the class definition",
+    "opt3": "They can be initialized only outside the class definition",
+    "opt4": "None of the above",
+    "correct_option": "They can be initialized only outside the class definition",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements is true about static functions in C++?",
+    "opt1": "They cannot access non-static data members",
+    "opt2": "They can access non-static data members",
+    "opt3": "They can be virtual",
+    "opt4": "They can be called using an instance of the class",
+    "correct_option": "They cannot access non-static data members",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about static data members in C++?",
+    "opt1": "They can be accessed using the object of the class",
+    "opt2": "They can be accessed using the class name and the scope resolution operator",
+    "opt3": "They can be accessed using the pointer to the object of the class",
+    "opt4": "All of the above are true",
+    "correct_option": "All of the above are true",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the output of the following code? (Code involves MyClass::count++, incrementCount called twice)",
+    "opt1": "Count: 2",
+    "opt2": "Count: 0",
+    "opt3": "Count: 1",
+    "opt4": "None of the above",
+    "correct_option": "Count: 2",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a static data member in C++?",
+    "opt1": "A data member that can be accessed only by static functions",
+    "opt2": "A data member that belongs to the class and not to any instance of the class",
+    "opt3": "A data member that is created dynamically at runtime",
+    "opt4": "None of the above",
+    "correct_option": "A data member that belongs to the class and not to any instance of the class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How is a static data member declared In C++?",
+    "opt1": "With the keyword 'static' and the name of the member",
+    "opt2": "With the keyword 'static' and the data type of the member",
+    "opt3": "With the keyword 'static' and the access specifier of the member",
+    "opt4": "None of the above",
+    "correct_option": "With the keyword 'static' and the data type of the member",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true about static data members in C++?",
+    "opt1": "They are initialized to zero by default",
+    "opt2": "They cannot be initialized inside the class declaration",
+    "opt3": "They are initialized to their default values by default",
+    "opt4": "None of the above",
+    "correct_option": "They are initialized to zero by default",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a static function in C++?",
+    "opt1": "A function that can be accessed only by static data members",
+    "opt2": "A function that belongs to the class and not to any instance of the class",
+    "opt3": "A function that is created dynamically at runtime",
+    "opt4": "None of the above",
+    "correct_option": "A function that belongs to the class and not to any instance of the class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "How is a static function declared in C++?",
+    "opt1": "With the keyword 'static' and the return type of the function",
+    "opt2": "With the keyword 'static' and the access specifier of the function",
+    "opt3": "With the keyword 'static' and the name of the function",
+    "opt4": "None of the above",
+    "correct_option": "With the keyword 'static' and the return type of the function",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about static functions in C++?",
+    "opt1": "They can be virtual",
+    "opt2": "They cannot be virtual",
+    "opt3": "They can be pure virtual",
+    "opt4": "None of the above",
+    "correct_option": "They cannot be virtual",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of static data members and static functions in C++?",
+    "opt1": "To save memory by sharing data across all instances of the class",
+    "opt2": "To make the code more modular and easier to maintain",
+    "opt3": "To create multiple instances of the class with different data",
+    "opt4": "None of the above",
+    "correct_option": "To save memory by sharing data across all instances of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about the scope of a static data member in C++?",
+    "opt1": "It has class scope and can be accessed using the class name and the scope resolution operator (::)",
+    "opt2": "It has instance scope and can be accessed using the instance name and the dot operator (.)",
+    "opt3": "It has global scope and can be accessed from any part of the program",
+    "opt4": "None of the above",
+    "correct_option": "It has class scope and can be accessed using the class name and the scope resolution operator (::)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about the initialization of a static data member in C++?",
+    "opt1": "It can be initialized Inside the class declaration using an assignment statement",
+    "opt2": "It must be initialized outside the class declaration using an assignment statement",
+    "opt3": "It cannot be initialized",
+    "opt4": "None of the above",
+    "correct_option": "It must be initialized outside the class declaration using an assignment statement",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is a constant member function in C++?",
+    "opt1": "A member function that cannot modify any data members of the class",
+    "opt2": "A member function that can modify any data members of the class",
+    "opt3": "A member function that cannot be called by const objects of the class",
+    "opt4": "None of the above",
+    "correct_option": "A member function that cannot modify any data members of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How is a constant member function declared in C++?",
+    "opt1": "Using the keyword const after the function declaration",
+    "opt2": "Using the keyword const before the function declaration",
+    "opt3": "Using the keyword const before the return type",
+    "opt4": "None of the above",
+    "correct_option": "Using the keyword const after the function declaration",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about constant member functions in C++?",
+    "opt1": "They can be called only by constant objects of the class",
+    "opt2": "They can be called only by non-constant objects of the class",
+    "opt3": "They can be called by both constant and non-constant objects of the class",
+    "opt4": "None of the above",
+    "correct_option": "They can be called by both constant and non-constant objects of the class",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Can a constant member function modify a static data member of the class?",
+    "opt1": "Yes, as long as the static data member is declared as mutable",
+    "opt2": "Yes, as long as the static data member is declared as const",
+    "opt3": "No, constant member functions cannot modify any data members of the class",
+    "opt4": "Yes, because static members are not part of the object's state",
+    "correct_option": "Yes, because static members are not part of the object's state",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following statements is true about constant objects in C++?",
+    "opt1": "They cannot modify any data members of the class",
+    "opt2": "They can modify only constant data members of the class",
+    "opt3": "They can modify any data members of the class",
+    "opt4": "None of the above",
+    "correct_option": "They cannot modify any data members of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How is a constant object declared in C++?",
+    "opt1": "Using the keyword const before the object name",
+    "opt2": "Using the keyword const after the object name",
+    "opt3": "Using the keyword const before the class name",
+    "opt4": "None of the above",
+    "correct_option": "Using the keyword const before the object name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about constant member functions in C++? (Overloading)",
+    "opt1": "They can be overloaded with non-constant member functions of the same name",
+    "opt2": "They cannot be overloaded with non-constant member functions of the same name",
+    "opt3": "They can be overloaded only with other constant member functions of the same name",
+    "opt4": "None of the above",
+    "correct_option": "They can be overloaded with non-constant member functions of the same name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? (const MyClass obj = {5}; obj.value = 10;)",
+    "opt1": "5 followed by a compilation error",
+    "opt2": "5 followed by 10",
+    "opt3": "Compilation error followed by 5",
+    "opt4": "None of the above",
+    "correct_option": "5 followed by a compilation error",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a constant member function in C++?",
+    "opt1": "A member function that cannot be modified",
+    "opt2": "A member function that can be called on a constant object only",
+    "opt3": "A member function that does not have any return type",
+    "opt4": "None of the above",
+    "correct_option": "A member function that cannot be modified",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How is a constant member function declared in C++?",
+    "opt1": "Using the keyword const after the function name",
+    "opt2": "Using the keyword const after the return type",
+    "opt3": "Using the keyword const before the function name",
+    "opt4": "None of the above",
+    "correct_option": "Using the keyword const after the function name",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about constant objects in C++?",
+    "opt1": "They cannot modify the data members of the class",
+    "opt2": "They can modify the data members of the class",
+    "opt3": "They can modify the data members of the class only if they are declared mutable",
+    "opt4": "None of the above",
+    "correct_option": "They cannot modify the data members of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Can a non-constant member function be called on a constant object in C++?",
+    "opt1": "Yes, but only if the function does not modify any data members of the class",
+    "opt2": "No, a non-constant member function cannot be called on a constant object",
+    "opt3": "Yes, but only if the function is declared const",
+    "opt4": "None of the above",
+    "correct_option": "No, a non-constant member function cannot be called on a constant object",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true about constant objects in C++?",
+    "opt1": "They can be created using the const keyword before the class name",
+    "opt2": "They can be created using the const keyword after the object name",
+    "opt3": "They can be created using the const keyword before the object name",
+    "opt4": "None of the above",
+    "correct_option": "They can be created using the const keyword before the object name",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements is true about constant objects in C++?",
+    "opt1": "They can call non-constant member functions of the class",
+    "opt2": "They cannot call non-constant member functions of the class",
+    "opt3": "They can call non-constant member functions of the class only if the functions are declared const",
+    "opt4": "None of the above",
+    "correct_option": "They cannot call non-constant member functions of the class",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is true about constant objects in C++?",
+    "opt1": "They can access only constant member functions of the class",
+    "opt2": "They can access only non-constant member functions of the class",
+    "opt3": "They can access both constant and non-constant member functions of the class",
+    "opt4": "None of the above",
+    "correct_option": "They can access only constant member functions of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements is true about constant member functions in C++? (Duplicate logic)",
+    "opt1": "They cannot modify the data members of the class",
+    "opt2": "They can modify the data members of the class only if they are declared mutable",
+    "opt3": "They can modify the data members of the class",
+    "opt4": "None of the above",
+    "correct_option": "They cannot modify the data members of the class",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the output of the following code? (const MyClass obj = {10}; obj.printValue();)",
+    "opt1": "Value: 10",
+    "opt2": "Value: 0",
+    "opt3": "The code will not compile because the object is declared const",
+    "opt4": "None of the above",
+    "correct_option": "Value: 10",
+    "correct_option_index": 1
+  }
+]

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthProvider';
-import { getUserDisplayName, getUserAvatarUrl, getUserInitial } from '../types/database.types';
+import { useUser } from '../context/UserContext';
 
 // Icon components
 const Icons = {
@@ -73,6 +72,14 @@ const Icons = {
       <line x1="21" y1="12" x2="9" y2="12"/>
     </svg>
   ),
+  Books: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      <line x1="12" y1="6" x2="16" y2="6"/>
+      <line x1="12" y1="10" x2="16" y2="10"/>
+    </svg>
+  ),
   Menu: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <line x1="3" y1="12" x2="21" y2="12"/>
@@ -109,6 +116,7 @@ const Icons = {
 const navItems = [
   { path: '/app', icon: Icons.Dashboard, label: 'Dashboard', end: true },
   { path: '/app/practice', icon: Icons.Practice, label: 'Practice' },
+  { path: '/app/books', icon: Icons.Books, label: 'Books' },
   { path: '/app/study', icon: Icons.Study, label: 'Study' },
   { path: '/app/flashcards', icon: Icons.Flashcards, label: 'Flashcards' },
   { path: '/app/progress', icon: Icons.Progress, label: 'Progress' },
@@ -121,7 +129,7 @@ const secondaryNavItems = [
 ];
 
 export default function AppShell() {
-  const { user, logout } = useAuth();
+  const { name } = useUser();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -151,14 +159,13 @@ export default function AppShell() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    navigate('/');
   };
+
+  const displayName = name || 'Guest';
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="app-shell">
@@ -233,12 +240,12 @@ export default function AppShell() {
         </nav>
 
         <div className="sidebar-footer">
-          <button 
+          <button
             className="nav-link logout-btn"
             onClick={handleLogout}
           >
             <Icons.Logout />
-            {!sidebarCollapsed && <span>Sign out</span>}
+            {!sidebarCollapsed && <span>Leave</span>}
           </button>
         </div>
       </aside>
@@ -278,25 +285,15 @@ export default function AppShell() {
               ref={userMenuRef}
               onKeyDown={handleUserMenuKeyDown}
             >
-              <button 
+              <button
                 className="user-menu-trigger"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 aria-expanded={userMenuOpen}
                 aria-haspopup="true"
               >
-                {getUserAvatarUrl(user) ? (
-                  <img 
-                    src={getUserAvatarUrl(user)!} 
-                    alt="" 
-                    className="user-avatar"
-                  />
-                ) : (
-                  <div className="user-avatar-placeholder">
-                    {getUserInitial(user)}
-                  </div>
-                )}
+                <div className="user-avatar-placeholder">{initial}</div>
                 <span className="user-name desktop-only">
-                  {getUserDisplayName(user).split(' ')[0]}
+                  {displayName.split(' ')[0]}
                 </span>
                 <Icons.ChevronDown />
               </button>
@@ -304,16 +301,11 @@ export default function AppShell() {
               {userMenuOpen && (
                 <div className="user-menu" role="menu">
                   <div className="user-menu-header">
-                    {getUserAvatarUrl(user) ? (
-                      <img src={getUserAvatarUrl(user)!} alt="" className="user-menu-avatar" />
-                    ) : (
-                      <div className="user-menu-avatar-placeholder">
-                        {getUserInitial(user)}
-                      </div>
-                    )}
+                    <div className="user-menu-avatar-placeholder">
+                      {initial}
+                    </div>
                     <div className="user-menu-info">
-                      <span className="user-menu-name">{getUserDisplayName(user)}</span>
-                      <span className="user-menu-email">{user?.email}</span>
+                      <span className="user-menu-name">{displayName}</span>
                     </div>
                   </div>
                   
@@ -347,7 +339,7 @@ export default function AppShell() {
                     onClick={handleLogout}
                   >
                     <Icons.Logout />
-                    <span>Sign out</span>
+                    <span>Leave</span>
                   </button>
                 </div>
               )}

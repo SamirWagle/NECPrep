@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { getTopics, getMockTests, getUserProgress } from '../../services/api';
-import type { Topic, MockTest, UserTopicStats } from '../../types/database.types';
+import { Link, useNavigate } from 'react-router-dom';
+import { bookChapters as allBookChapters, mockTests as allMockTests, getProgress } from '../../services/localData';
 
 // Loading skeleton component
 function LoadingSkeleton() {
@@ -122,84 +120,22 @@ function TopicIcon({ icon, color }: { icon: string; color: string }) {
 }
 
 export default function PracticeHub() {
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [mockTests, setMockTests] = useState<MockTest[]>([]);
-  const [topicProgress, setTopicProgress] = useState<Map<string, UserTopicStats>>(new Map());
-  const [loading, setLoading] = useState(true);
-  const [totalQuestions, setTotalQuestions] = useState(0);
+  const navigate = useNavigate();
+  const bookChapters = allBookChapters;
+  const mockTests = allMockTests;
+  const progress = getProgress();
+  const totalQuestions = bookChapters.reduce((s, t) => s + t.questionCount, 0);
+  const loading = false;
 
-  useEffect(() => {
-    let isMounted = true;
-    
-    async function loadData() {
-      console.log('🔄 Loading practice data...');
-      if (!isMounted) return;
-      
-      setLoading(true);
-      try {
-        console.log('📡 Calling getTopics()...');
-        const topicsData = await getTopics();
-        if (!isMounted) return;
-        console.log('✅ Topics loaded:', topicsData);
-        
-        console.log('📡 Calling getMockTests()...');
-        const mockTestsData = await getMockTests();
-        if (!isMounted) return;
-        console.log('✅ Mock tests loaded:', mockTestsData);
-        
-        console.log('📡 Calling getUserProgress()...');
-        const progressData = await getUserProgress().catch((err) => {
-          console.warn('⚠️ Progress data failed (non-critical):', err);
-          return { overall: null, topics: [] };
-        });
-        if (!isMounted) return;
-        console.log('✅ Progress loaded:', progressData);
-        
-        setTopics(topicsData);
-        setMockTests(mockTestsData);
-        
-        // Calculate total questions
-        const total = topicsData.reduce((sum, t) => sum + (t.question_count || 0), 0);
-        setTotalQuestions(total);
-        console.log('📊 Total questions:', total);
-        
-        // Create progress map for easy lookup
-        const progressMap = new Map<string, UserTopicStats>();
-        progressData.topics.forEach(tp => {
-          progressMap.set(tp.topic_id, tp);
-        });
-        setTopicProgress(progressMap);
-        
-        console.log('✅ All data loaded successfully!');
-      } catch (err) {
-        console.error('❌ Error loading practice data:', err);
-        if (!isMounted) return;
-        
-        // Show user-friendly error
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-        alert(`Failed to load practice data:\n\n${errorMessage}\n\nPlease:\n1. Check your internet connection\n2. Make sure you've run setup_chapters.sql in Supabase\n3. Refresh the page`);
-      } finally {
-        if (isMounted) {
-          console.log('🏁 Setting loading to false');
-          setLoading(false);
-        }
-      }
-    }
-    
-    loadData();
-    
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  console.log('🎨 Rendering PracticeHub - loading:', loading, 'topics:', topics.length);
-
+  // Keep the same variable name used in JSX
+  const topicProgress = new Map(
+    Object.entries(progress).map(([tId, entry]) => [tId, { attempted: entry.attempted.length }])
+  );
   if (loading) {
     return <LoadingSkeleton />;
   }
 
-  if (topics.length === 0) {
+  if (bookChapters.length === 0) {
     return (
       <div className="practice-hub-page">
         <header className="page-header">
@@ -222,7 +158,7 @@ export default function PracticeHub() {
       <section className="practice-modes" aria-labelledby="modes-title">
         <h2 id="modes-title" className="sr-only">Practice Modes</h2>
         <div className="modes-grid">
-          <Link to="/app/practice/mock-tests" className="mode-card mode-mock">
+          <Link to="/app/mock-tests" className="mode-card mode-mock">
             <div className="mode-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/>
@@ -236,7 +172,7 @@ export default function PracticeHub() {
             <span className="mode-badge">{mockTests.length} tests</span>
           </Link>
 
-          <div className="mode-card mode-quick">
+          <div className="mode-card mode-quick" onClick={() => navigate('/app/practice/quick')} style={{ cursor: 'pointer' }}>
             <div className="mode-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -246,10 +182,10 @@ export default function PracticeHub() {
               <h3>Quick Practice</h3>
               <p>10 random questions across all topics</p>
             </div>
-            <button className="mode-btn">Start</button>
+            <button className="mode-btn" onClick={e => { e.stopPropagation(); navigate('/app/practice/quick'); }}>Start</button>
           </div>
 
-          <div className="mode-card mode-custom">
+          <div className="mode-card mode-custom" onClick={() => navigate('/app/practice/custom')} style={{ cursor: 'pointer' }}>
             <div className="mode-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="3"/>
@@ -260,7 +196,7 @@ export default function PracticeHub() {
               <h3>Custom Practice</h3>
               <p>Choose topics and number of questions</p>
             </div>
-            <button className="mode-btn">Configure</button>
+            <button className="mode-btn" onClick={e => { e.stopPropagation(); navigate('/app/practice/custom'); }}>Configure</button>
           </div>
         </div>
       </section>
@@ -270,23 +206,17 @@ export default function PracticeHub() {
         <h2 id="topics-title">Practice by Chapter</h2>
         <p className="section-subtitle">Select a chapter to practice. Questions are randomly selected from our dataset.</p>
         <div className="topics-grid">
-          {topics.map((topic) => {
+          {bookChapters.map((topic) => {
             const stats = topicProgress.get(topic.id);
-            const progress = stats?.completion_percentage || 0;
-            const questionsAnswered = stats?.total_questions_attempted || 0;
-            const isAvailable = topic.question_count > 0;
-            
-            // If chapter is available, make it a link. Otherwise, render as disabled div
-            const CardWrapper = isAvailable ? Link : 'div';
-            const cardProps = isAvailable 
-              ? { to: `/app/practice/chapter/${topic.id}` }
-              : {};
+            const progress = 0 || 0;
+            const questionsAnswered = stats?.attempted || 0;
+            const isAvailable = topic.questionCount > 0;
             
             return (
-              <CardWrapper
+              <Link
                 key={topic.id}
+                to={`/app/practice/chapter/${topic.id}`}
                 className={`topic-card ${!isAvailable ? 'disabled' : ''}`}
-                {...cardProps}
               >
                 <TopicIcon icon={topic.icon || 'Brain'} color={topic.color || '#6366f1'} />
                 <div className="topic-content">
@@ -295,7 +225,7 @@ export default function PracticeHub() {
                   <div className="topic-meta">
                     {isAvailable ? (
                       <>
-                        <span className="question-count">{topic.question_count} questions</span>
+                        <span className="question-count">{topic.questionCount} questions</span>
                         {questionsAnswered > 0 && (
                           <span className="progress-badge" style={{ color: topic.color || '#6366f1' }}>
                             {Math.round(progress)}% complete
@@ -315,7 +245,7 @@ export default function PracticeHub() {
                     </div>
                   )}
                 </div>
-              </CardWrapper>
+              </Link>
             );
           })}
         </div>
@@ -323,3 +253,5 @@ export default function PracticeHub() {
     </div>
   );
 }
+
+
