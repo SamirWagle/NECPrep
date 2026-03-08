@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import { bookChapters, getOverallStats, getProgress, getQuizHistory } from '../../services/localData';
+import { getOverallStats, getProgress, getQuizHistory } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 function StatCard({ icon, value, label, color }: { icon: React.ReactNode; value: string | number; label: string; color: string }) {
   return (
@@ -30,13 +31,14 @@ export default function Dashboard() {
   const firstName = (name || 'Student').split(' ')[0];
   const [stats, setStats] = useState({ attempted: 0, correct: 0, totalAvailable: 0 });
   const [recentHistory, setRecentHistory] = useState<{ topicId: string; topicName: string; score: number; total: number; date: string }[]>([]);
+  const bookChapters = useChapters();
   const progress = getProgress();
   const topicsStarted = Object.keys(progress).length;
 
   useEffect(() => {
-    setStats(getOverallStats());
+    setStats(getOverallStats(bookChapters));
     setRecentHistory(getQuizHistory().slice(0, 5));
-  }, []);
+  }, [bookChapters]);
 
   const accuracy = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
 

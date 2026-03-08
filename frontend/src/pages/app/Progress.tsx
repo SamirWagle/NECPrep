@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import { bookChapters, getOverallStats, getTopicProgress } from '../../services/localData';
+import { getOverallStats, getTopicProgress } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 export default function Progress() {
-  const overall = getOverallStats();
+  const bookChapters = useChapters();
+  const overall = getOverallStats(bookChapters);
   const totalQuestions = overall.totalAvailable;
   const questionsAttempted = overall.attempted;
   const correctAnswers = overall.correct;

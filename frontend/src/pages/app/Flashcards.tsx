@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { bookChapters, loadTopicQuestions } from '../../services/localData';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { loadTopicQuestions } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 import type { Question } from '../../services/localData';
 
 interface Flashcard {
@@ -28,6 +29,7 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function Flashcards() {
+  const bookChapters = useChapters();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [selectedChapter, setSelectedChapter] = useState('');
@@ -50,7 +52,23 @@ export default function Flashcards() {
 
   const currentCard = flashcards[currentIndex];
 
-  const handleFlip = () => setIsFlipped(f => !f);
+  const lastFlipTime = useRef(0);
+
+  const handleFlip = useCallback((e?: React.SyntheticEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    // Prevent double-firing ghost clicks by enforcing a 400ms cooldown
+    const now = Date.now();
+    if (now - lastFlipTime.current < 400) {
+      return;
+    }
+    lastFlipTime.current = now;
+
+    setIsFlipped(f => !f);
+  }, []);
 
   const handleNext = () => {
     if (currentIndex < flashcards.length - 1) {

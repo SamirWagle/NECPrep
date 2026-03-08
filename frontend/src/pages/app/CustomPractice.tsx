@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import {
-  bookChapters,
   loadQuestionsSlice,
   recordAttempt,
   addBookmark,
@@ -9,11 +8,9 @@ import {
   isBookmarked,
   saveQuizResult,
 } from '../../services/localData';
-import type { Topic, Question } from '../../services/localData';
+import type { Question } from '../../services/localData';
 
-// Only use book chapters — exam topic JSONs have no answer data
-const ALL_SOURCES: Topic[] = [...bookChapters];
-
+import { useChapters } from '../../hooks/useChapters';
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -26,12 +23,19 @@ function shuffle<T>(arr: T[]): T[] {
 type Phase = 'config' | 'quiz' | 'done';
 
 export default function CustomPractice() {
+  const ALL_SOURCES = useChapters();
   const [phase, setPhase] = useState<Phase>('config');
 
   // ── Config state ───────────────────────────────────────────────────────────
-  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(
-    new Set(ALL_SOURCES.map(t => t.id))
-  );
+  // We initialize with empty array on first render, but will sync in effect
+  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
+  
+  // Initialize selected topics once ALL_SOURCES is loaded
+  useEffect(() => {
+    if (selectedTopics.size === 0 && ALL_SOURCES.length > 0) {
+      setSelectedTopics(new Set(ALL_SOURCES.map(t => t.id)));
+    }
+  }, [ALL_SOURCES.length]);
   const [count, setCount] = useState(20);
   const [configError, setConfigError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

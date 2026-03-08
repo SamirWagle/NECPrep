@@ -147,7 +147,7 @@ export function getTopicProgress(topicId: string): ProgressEntry {
   return progress[topicId] || { attempted: [], correct: [] };
 }
 
-export function getOverallStats() {
+export function getOverallStats(chapters: Topic[] = bookChapters) {
   const progress = getProgress();
   let attempted = 0;
   let correct = 0;
@@ -155,7 +155,7 @@ export function getOverallStats() {
     attempted += entry.attempted.length;
     correct += entry.correct.length;
   }
-  const totalAvailable = bookChapters.reduce((s, c) => s + c.questionCount, 0);
+  const totalAvailable = chapters.reduce((s, c) => s + c.questionCount, 0);
   return { attempted, correct, totalAvailable };
 }
 
