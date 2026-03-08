@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { bookChapters as allBookChapters, mockTests as allMockTests, getProgress } from '../../services/localData';
+import { mockTests as allMockTests, getProgress } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 // Loading skeleton component
 function LoadingSkeleton() {
@@ -121,7 +122,7 @@ function TopicIcon({ icon, color }: { icon: string; color: string }) {
 
 export default function PracticeHub() {
   const navigate = useNavigate();
-  const bookChapters = allBookChapters;
+  const bookChapters = useChapters();
   const mockTests = allMockTests;
   const progress = getProgress();
   const totalQuestions = bookChapters.reduce((s, t) => s + t.questionCount, 0);

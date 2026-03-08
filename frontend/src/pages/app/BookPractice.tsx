@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { bookChapters, getTopicProgress } from '../../services/localData';
+import { getTopicProgress } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 const SYLLABUS = [
   {
@@ -136,6 +137,7 @@ const SYLLABUS = [
 ];
 
 export default function BookPractice() {
+  const bookChapters = useChapters();
   const [expandedChapter, setExpandedChapter] = useState<number | null>(null);
 
   const toggleChapter = (num: number) => {

@@ -646,5 +646,536 @@
     "opt4": "Single-user operation",
     "correct_option": "Distribution of processing between clients and servers",
     "correct_option_index": 2
+  },
+  {
+    "qsns": "The testing in which code is checked",
+    "opt1": "Black box testing",
+    "opt2": "White box testing",
+    "opt3": "Red box testing",
+    "opt4": "Green box testing",
+    "correct_option": "White box testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Acceptance testing is also known as",
+    "opt1": "Grey box testing",
+    "opt2": "White box testing",
+    "opt3": "Alpha Testing",
+    "opt4": "Beta testing",
+    "correct_option": "Beta testing",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is non-functional testing?",
+    "opt1": "Black box testing",
+    "opt2": "Performance testing",
+    "opt3": "Unit testing",
+    "opt4": "None of the mentioned",
+    "correct_option": "Performance testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Beta testing is done at",
+    "opt1": "User’s end",
+    "opt2": "Developer’s end",
+    "opt3": "User’s & Developer’s end",
+    "opt4": "None of the mentioned",
+    "correct_option": "User’s end",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Unit testing is done by",
+    "opt1": "Users",
+    "opt2": "Developers",
+    "opt3": "Customers",
+    "opt4": "None of the mentioned",
+    "correct_option": "Developers",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Behavioral testing is",
+    "opt1": "White box testing",
+    "opt2": "Black box testing",
+    "opt3": "Grey box testing",
+    "opt4": "None of the mentioned",
+    "correct_option": "Black box testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is black box testing",
+    "opt1": "Basic path testing",
+    "opt2": "Boundary value analysis",
+    "opt3": "Code path analysis",
+    "opt4": "None of the mentioned",
+    "correct_option": "Boundary value analysis",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not used in measuring the size of the software",
+    "opt1": "KLOC",
+    "opt2": "Function Points",
+    "opt3": "Size of module",
+    "opt4": "None of the mentioned",
+    "correct_option": "Size of module",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Test cases should uncover errors like",
+    "opt1": "Nonexistent loop termination",
+    "opt2": "Comparison of different data types",
+    "opt3": "Incorrect logical operators or precedence",
+    "opt4": "All of the mentioned",
+    "correct_option": "Nonexistent loop termination",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following errors should not be tested when error handling is evaluated?",
+    "opt1": "Error description is unintelligible",
+    "opt2": "Error noted does not correspond to error encountered",
+    "opt3": "Error condition causes system intervention prior to error handling",
+    "opt4": "Error description provide enough information to assist in the location of the cause of the error",
+    "correct_option": "Error description is unintelligible",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In which testing level the focus is on customer usage?",
+    "opt1": "Alpha Testing",
+    "opt2": "Beta Testing",
+    "opt3": "Validation Testing",
+    "opt4": "Both Alpha and Beta",
+    "correct_option": "Both Alpha and Beta",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "A ______________ is the second phase of software testing in which a sampling of the intended audience tests the product.",
+    "opt1": "Alpha",
+    "opt2": "Beta",
+    "opt3": "Gamma",
+    "opt4": "Delta",
+    "correct_option": "Beta",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Beta Testing is also known as _________ testing.",
+    "opt1": "Field",
+    "opt2": "Unit",
+    "opt3": "Functional",
+    "opt4": "Box",
+    "correct_option": "Field",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "___________ is a type of software testing which verifies that software, which was previously developed and tested, still performs correctly after it was changed or interfaced with other software.",
+    "opt1": "Unit Testing",
+    "opt2": "Regression Testing",
+    "opt3": "Stress Testing",
+    "opt4": "Functional Testing",
+    "correct_option": "Regression Testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Software Testing with real data in real environment is known as",
+    "opt1": "alpha testing",
+    "opt2": "beta testing",
+    "opt3": "regression testing",
+    "opt4": "none of the mentioned",
+    "correct_option": "beta testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following testing tools examine program systematically & automatically?",
+    "opt1": "Code Inspector",
+    "opt2": "Static Analyzer",
+    "opt3": "Standard Enforcer",
+    "opt4": "Coverage Analyzer",
+    "correct_option": "Static Analyzer",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Beta Testing is done by",
+    "opt1": "Developers",
+    "opt2": "Testers",
+    "opt3": "Users",
+    "opt4": "All of the mentioned",
+    "correct_option": "Users",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The testing in which code is checked",
+    "opt1": "Black box testing",
+    "opt2": "White box testing",
+    "opt3": "Red box testing",
+    "opt4": "Green box testing",
+    "correct_option": "White box testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Testing done without planning and Documentation is called",
+    "opt1": "Unit testing",
+    "opt2": "Regression testing",
+    "opt3": "Ad-hoc testing",
+    "opt4": "None of the mentioned",
+    "correct_option": "Ad-hoc testing",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following term describes testing?",
+    "opt1": "Finding broken code",
+    "opt2": "Evaluating deliverable to find errors",
+    "opt3": "A stage of all projects",
+    "opt4": "None of the mentioned",
+    "correct_option": "Evaluating deliverable to find errors",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is Cyclomatic complexity? (Note: Cyclomatic complexity measures the amount of decision logic in the program module. Cyclomatic complexity gives the minimum number of paths that can generate all possible paths through the module.)",
+    "opt1": "Black box testing",
+    "opt2": "White box testing",
+    "opt3": "Yellow box testing",
+    "opt4": "Green box testing",
+    "correct_option": "White box testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "White Box techniques are also classified as",
+    "opt1": "Design based testing",
+    "opt2": "Structural testing",
+    "opt3": "Error guessing technique",
+    "opt4": "None of the mentioned",
+    "correct_option": "Structural testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is/are White box technique?",
+    "opt1": "Statement Testing",
+    "opt2": "Decision Testing",
+    "opt3": "Condition Coverage",
+    "opt4": "All of the mentioned",
+    "correct_option": "All of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What are the various Testing Levels?",
+    "opt1": "Unit Testing",
+    "opt2": "System Testing",
+    "opt3": "Integration Testing",
+    "opt4": "All of the mentioned",
+    "correct_option": "All of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Software Maintenance includes",
+    "opt1": "Error corrections",
+    "opt2": "Enhancements of capabilities",
+    "opt3": "Deletion of obsolete capabilities",
+    "opt4": "All of the mentioned",
+    "correct_option": "All of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What type of software testing is generally used in Software Maintenance?",
+    "opt1": "Regression Testing",
+    "opt2": "System Testing",
+    "opt3": "Integration Testing",
+    "opt4": "Unit Testing",
+    "correct_option": "Regression Testing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is testing process’ first goal?",
+    "opt1": "Bug prevention",
+    "opt2": "Testing",
+    "opt3": "Execution",
+    "opt4": "Analyses",
+    "correct_option": "Bug prevention",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Name an evaluation technique to assess the quality of test cases.",
+    "opt1": "Mutation analysis",
+    "opt2": "Validation",
+    "opt3": "Verification",
+    "opt4": "Performance analysis",
+    "correct_option": "Mutation analysis",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Test should be conducted for every possible",
+    "opt1": "data",
+    "opt2": "case",
+    "opt3": "variable",
+    "opt4": "All of the mentioned",
+    "correct_option": "All of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a part of bug report?",
+    "opt1": "Test case",
+    "opt2": "Output",
+    "opt3": "Software Version",
+    "opt4": "LOC",
+    "correct_option": "LOC",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which is a black box testing technique appropriate to all levels of testing?",
+    "opt1": "Acceptance testing",
+    "opt2": "Regression testing",
+    "opt3": "Equivalence partitioning",
+    "opt4": "Quality assurance",
+    "correct_option": "Equivalence partitioning",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is the way of ensuring that the tests are actually testing code?",
+    "opt1": "Control structure testing",
+    "opt2": "Complex path testing",
+    "opt3": "Code coverage",
+    "opt4": "Quality assurance of software",
+    "correct_option": "Code coverage",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Effective testing will reduce _______ cost.",
+    "opt1": "maintenance",
+    "opt2": "design",
+    "opt3": "coding",
+    "opt4": "documentation",
+    "correct_option": "maintenance",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a SQA plan for a project?",
+    "opt1": "evaluations to be performed",
+    "opt2": "amount of technical work",
+    "opt3": "audits and reviews to be performed",
+    "opt4": "documents to be produced by the SQA group",
+    "correct_option": "amount of technical work",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Degree to which design specifications are followed in manufacturing the product is called",
+    "opt1": "Quality Control",
+    "opt2": "Quality of conformance",
+    "opt3": "Quality Assurance",
+    "opt4": "None of the mentioned",
+    "correct_option": "Quality of conformance",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not an appraisal cost in SQA?",
+    "opt1": "inter-process inspection",
+    "opt2": "maintenance",
+    "opt3": "quality planning",
+    "opt4": "testing",
+    "correct_option": "quality planning",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Who identifies, documents, and verifies that corrections have been made to the software?",
+    "opt1": "Project manager",
+    "opt2": "Project team",
+    "opt3": "SQA group",
+    "opt4": "All of the mentioned",
+    "correct_option": "SQA group",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The primary objective of formal technical reviews is to find _________ during the process so that they do not become defects after release of the software.",
+    "opt1": "errors",
+    "opt2": "equivalent faults",
+    "opt3": "failure cause",
+    "opt4": "none of the mentioned",
+    "correct_option": "errors",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not an effective project manager quality?",
+    "opt1": "Problem solving",
+    "opt2": "Managerial identity",
+    "opt3": "Influence and team building",
+    "opt4": "None of the mentioned",
+    "correct_option": "None of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Quality Management in software engineering is also known as",
+    "opt1": "SQA",
+    "opt2": "SQM",
+    "opt3": "SQI",
+    "opt4": "SQA and SQM",
+    "correct_option": "SQA",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Quality also can be looked at in terms of user satisfaction which includes",
+    "opt1": "A compliant product",
+    "opt2": "Good quality output",
+    "opt3": "Delivery within budget and schedule",
+    "opt4": "All of the mentioned",
+    "correct_option": "All of the mentioned",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Inspections and testing are what kinds of Quality Costs?",
+    "opt1": "Prevention",
+    "opt2": "Internal Failure",
+    "opt3": "External Failure",
+    "opt4": "Appraisal",
+    "correct_option": "Appraisal",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "According to Pareto’s principle, x% of defects can be traced to y% of all causes. What are the values of x and y?",
+    "opt1": "60, 40",
+    "opt2": "70, 30",
+    "opt3": "80, 20",
+    "opt4": "No such principle exists",
+    "correct_option": "80, 20",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is Six Sigma?",
+    "opt1": "It is the most widely used strategy for statistical quality assurance",
+    "opt2": "The “Six Sigma” refers to six standard deviations",
+    "opt3": "It is the most widely used strategy for statistical quality assurance AND The “Six Sigma” refers to six standard deviations",
+    "opt4": "A Formal Technical Review(FTR) guideline for quality walkthrough or inspection",
+    "correct_option": "It is the most widely used strategy for statistical quality assurance AND The “Six Sigma” refers to six standard deviations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a core step of Six Sigma?",
+    "opt1": "Define",
+    "opt2": "Control",
+    "opt3": "Measure",
+    "opt4": "Analyse",
+    "correct_option": "Control",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What kind of quality cost is incurred when an error is detected in a product prior to shipment?",
+    "opt1": "Prevention",
+    "opt2": "Internal Failure",
+    "opt3": "External Failure",
+    "opt4": "Appraisal",
+    "correct_option": "Internal Failure",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Non-conformance to software requirements is known as",
+    "opt1": "Software availability",
+    "opt2": "Software reliability",
+    "opt3": "Software failure",
+    "opt4": "None of the mentioned",
+    "correct_option": "Software failure",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "According to ISO 9001, inspection and testing comes under which management responsibility?",
+    "opt1": "Process control",
+    "opt2": "Document control",
+    "opt3": "Control of nonconforming products",
+    "opt4": "Servicing",
+    "correct_option": "Process control",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which granularity level of testing checks the behavior of module cooperation?",
+    "opt1": "Unit Testing",
+    "opt2": "Integration Testing",
+    "opt3": "Acceptance Testing",
+    "opt4": "Regression Testing",
+    "correct_option": "Integration Testing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a black box testing strategy?",
+    "opt1": "All Statements Coverage",
+    "opt2": "Control Structure Coverage",
+    "opt3": "Cause-Effect Graphs",
+    "opt4": "All Paths Coverage",
+    "correct_option": "Cause-Effect Graphs",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A set of inputs, execution preconditions and expected outcomes is known as a",
+    "opt1": "Test plan",
+    "opt2": "Test case",
+    "opt3": "Test document",
+    "opt4": "Test Suite",
+    "correct_option": "Test case",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In which test design each input is tested at both ends of its valid range and just outside its valid range?",
+    "opt1": "Boundary value testing",
+    "opt2": "Equivalence class partitioning",
+    "opt3": "Boundary value testing AND Equivalence class partitioning",
+    "opt4": "Decision tables",
+    "correct_option": "Boundary value testing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a part of a test design document?",
+    "opt1": "Test Plan",
+    "opt2": "Test Design Specification",
+    "opt3": "Test Case Specification",
+    "opt4": "Test Log",
+    "correct_option": "Test Log",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "CMM stands for",
+    "opt1": "Capability Management Module",
+    "opt2": "Conservative Maturity Model",
+    "opt3": "Capability Maturity Module",
+    "opt4": "Capability Maturity Model",
+    "correct_option": "Capability Maturity Model",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "According to ISO 9001, the causes of nonconforming product should be",
+    "opt1": "deleted",
+    "opt2": "eliminated",
+    "opt3": "identified",
+    "opt4": "eliminated and identified",
+    "correct_option": "eliminated and identified",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following requires design control measures, such as holding and recording design reviews and qualification tests?",
+    "opt1": "CMM",
+    "opt2": "ISO 9001",
+    "opt3": "ISO 9000-3",
+    "opt4": "None of the mentioned",
+    "correct_option": "ISO 9000-3",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "_______ states that, where appropriate, adequate statistical techniques are identified and used to verify the acceptability of process capability and product characteristics.",
+    "opt1": "ISO 9001",
+    "opt2": "ISO 9000-4",
+    "opt3": "CMM",
+    "opt4": "All of the mentioned",
+    "correct_option": "ISO 9001",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following uses empirically derived formulas to predict effort as a function of LOC or FP?",
+    "opt1": "FP-Based Estimation",
+    "opt2": "Process-Based Estimation",
+    "opt3": "COCOMO",
+    "opt4": "Both FP-Based Estimation and COCOMO",
+    "correct_option": "Both FP-Based Estimation and COCOMO",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which one is not a size measure for software product?",
+    "opt1": "LOC",
+    "opt2": "Halstead’s program length",
+    "opt3": "Function Count",
+    "opt4": "Cyclomatic Complexity",
+    "correct_option": "Cyclomatic Complexity",
+    "correct_option_index": 4
   }
 ]

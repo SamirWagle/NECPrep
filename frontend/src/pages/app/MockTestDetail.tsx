@@ -1,7 +1,9 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getMockTestById, bookChapters } from '../../services/localData';
+import { getMockTestById } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 export default function MockTestDetail() {
+  const bookChapters = useChapters();
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const test = testId ? getMockTestById(testId) : null;

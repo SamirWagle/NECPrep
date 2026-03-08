@@ -1,8 +1,10 @@
-﻿import { Link } from 'react-router-dom';
-import { mockTests as allMockTests, getQuizHistory, bookChapters } from '../../services/localData';
+import { Link } from 'react-router-dom';
+import { mockTests as allMockTests, getQuizHistory } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 export default function MockTests() {
   const mockTests = allMockTests;
+  const bookChapters = useChapters();
   const attempts = getQuizHistory();
   const loading = false;
 

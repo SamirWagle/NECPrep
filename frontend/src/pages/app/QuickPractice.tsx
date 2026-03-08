@@ -1,7 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import {
-  bookChapters,
   loadQuestionsSlice,
   recordAttempt,
   addBookmark,
@@ -11,8 +10,7 @@ import {
 } from '../../services/localData';
 import type { Question } from '../../services/localData';
 
-// Only use book chapters — exam topic JSONs have no answer data
-const ALL_SOURCES = [...bookChapters];
+import { useChapters } from '../../hooks/useChapters';
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -24,6 +22,7 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function QuickPractice() {
+  const ALL_SOURCES = useChapters();
   const [searchParams] = useSearchParams();
   const count = Math.min(50, Math.max(5, parseInt(searchParams.get('count') || '10', 10)));
 
@@ -40,6 +39,7 @@ export default function QuickPractice() {
   const [done, setDone]           = useState(false);
 
   useEffect(() => {
+    if (ALL_SOURCES.length === 0) return;
     const perTopic = Math.max(1, Math.ceil(count / ALL_SOURCES.length));
     Promise.all(ALL_SOURCES.map(s => loadQuestionsSlice(s.id, perTopic)))
       .then(results => {
@@ -49,7 +49,7 @@ export default function QuickPractice() {
       })
       .catch(() => setError('Failed to load questions. Please try again.'))
       .finally(() => setLoading(false));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ALL_SOURCES.length]);
 
   useEffect(() => {
     if (questions.length === 0) return;

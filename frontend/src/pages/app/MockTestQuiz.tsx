@@ -1,13 +1,13 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import {
-  bookChapters,
   getMockTestById,
   loadQuestionsSlice,
   recordAttempt,
   saveQuizResult,
 } from '../../services/localData';
 import type { Question } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 const PAGE_SIZE = 10;
 
@@ -27,6 +27,7 @@ function shuffle<T>(arr: T[]): T[] {
 export default function MockTestQuiz() {
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
+  const bookChapters = useChapters();
   const test = testId ? getMockTestById(testId) : null;
   const qPerChapter = test?.questionsPerChapter ?? 10;
 
@@ -36,7 +37,7 @@ export default function MockTestQuiz() {
   const [loadErr, setLoadErr]     = useState<string | null>(null);
 
   useEffect(() => {
-    if (!test) return;
+    if (!test || bookChapters.length === 0) return;
     Promise.all(bookChapters.map(ch => loadQuestionsSlice(ch.id, qPerChapter)))
       .then(results => {
         const combined: Question[] = [];

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { bookChapters } from '../../services/localData';
+import { useChapters } from '../../hooks/useChapters';
 
 export default function StudyHub() {
+  const bookChapters = useChapters();
   return (
     <div className="study-hub-page">
       {/* Page header */}

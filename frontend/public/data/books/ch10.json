@@ -628,5 +628,1553 @@
     "opt4": "Does not depreciate the asset",
     "correct_option": "Depreciates an asset equally each year",
     "correct_option_index": 2
+  },
+  {
+    "qsns": "Cash flow increase or decrease in constant amount is",
+    "opt1": "Geometric gradient series",
+    "opt2": "Uniform cash flow",
+    "opt3": "Uniform gradient series",
+    "opt4": "Series cash flow",
+    "correct_option": "Uniform gradient series",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "First chart analysis used in project management is",
+    "opt1": "Bar chart",
+    "opt2": "Milestone chart",
+    "opt3": "PERT",
+    "opt4": "Linked Bar Chart",
+    "correct_option": "Bar chart",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A property fetches Rs.9000/- deduction of all outgoings. If the rate of interest is 10% per annum the capitalized value of the property is...",
+    "opt1": "Rs. 9,000",
+    "opt2": "Rs. 90,000",
+    "opt3": "Rs.1,90,000",
+    "opt4": "Rs.1,12,500",
+    "correct_option": "Rs. 90,000",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which is not not the characteristic of professionalism?",
+    "opt1": "Competence",
+    "opt2": "Individualism growth",
+    "opt3": "Integrity",
+    "opt4": "Accountability",
+    "correct_option": "Individualism growth",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Where the bids are to be evaluated on technical and financial grounds and price is taken into account after technical evaluation, the bidding process used is",
+    "opt1": "Single stage one envelope procedure",
+    "opt2": "Single stage double envelope",
+    "opt3": "Two stage bidding procedure",
+    "opt4": "Two stage two envelope bidding procedure",
+    "correct_option": "Single stage double envelope",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "A regular cone is placed on V.P on its base a section plane is parallel to H.P and section plane is 2 cm away from the axis the section will be",
+    "opt1": "ellipse",
+    "opt2": "hyperbola",
+    "opt3": "circle",
+    "opt4": "triangle",
+    "correct_option": "hyperbola",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "According to NEC, what is the definition of the Engineering Profession?",
+    "opt1": "means the profession to be practiced by the engineers who have acquired technical knowledge and skills in the subjects",
+    "opt2": "means the profession to be practiced by the sub engineers and engineers who have acquired technical knowledge and skills in the subjects",
+    "opt3": "means the profession to be practiced by the engineering professionals who have acquired technical knowledge and skills in the subjects",
+    "opt4": "means the profession to be practiced by anyone who have acquired technical knowledge and skills in the subjects",
+    "correct_option": "means the profession to be practiced by the engineers who have acquired technical knowledge and skills in the subjects",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "If an ant moves radially outward while the circle is moving in circular motion, the locus of the ant will be:",
+    "opt1": "A circle",
+    "opt2": "A spiral",
+    "opt3": "A straight line",
+    "opt4": "An ellipse",
+    "correct_option": "A spiral",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is correct?",
+    "opt1": "All contracts are agreements, and all agreements are contracts.",
+    "opt2": "All agreements are contracts, but all contracts are not agreements.",
+    "opt3": "All contracts are agreements, but all agreements are not contracts.",
+    "opt4": "None of the above.",
+    "correct_option": "All contracts are agreements, but all agreements are not contracts.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the statements below is false?",
+    "opt1": "The NPV decision criterion is true when all projects are independent and the company has a sufficient source of funds to accept all positive NPV projects.",
+    "opt2": "Projects are mutually exclusive if picking one project eliminates the ability to pick the other project",
+    "opt3": "two projects are mutually exclusive if the acceptance of one project has no bearing on the acceptance or rejection of the other project",
+    "opt4": "If a company has constrained capital, then it can only take on a limited number of projects",
+    "correct_option": "two projects are mutually exclusive if the acceptance of one project has no bearing on the acceptance or rejection of the other project",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Insurance of Risk of labor for a contractor is",
+    "opt1": "Risk acceptance",
+    "opt2": "Risk mitigation",
+    "opt3": "Risk transference",
+    "opt4": "Risk segregation",
+    "correct_option": "Risk transference",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A Public-private partnership is a partnership between",
+    "opt1": "Public and private sector company",
+    "opt2": "Government and private-sector company",
+    "opt3": "Government and Non-Governmental Organizations (NGOS)",
+    "opt4": "Private companies and International organizations",
+    "correct_option": "Government and private-sector company",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The value the owner sells the property for less than the market value is called?",
+    "opt1": "Book Value",
+    "opt2": "Market Value",
+    "opt3": "Salvage Value",
+    "opt4": "Distress Value",
+    "correct_option": "Distress Value",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which is not the scope of NEC?",
+    "opt1": "Accreditation of certificates of academic qualifications",
+    "opt2": "Preparing questions for engineering bodies",
+    "opt3": "Recognition of the academic institutions",
+    "opt4": "Licensing (Registration) of Engineers",
+    "correct_option": "Preparing questions for engineering bodies",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "NEC can be dissolved by the government if",
+    "opt1": "Council has failed to exercise the powers conferred to it.",
+    "opt2": "Council abused the powers or excercised more power than those conferred to it.",
+    "opt3": "It fails to adhere with the standards of NEC Act 2055.",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Determining present value of property is:",
+    "opt1": "Valuation",
+    "opt2": "Selling price",
+    "opt3": "Depreciation",
+    "opt4": "None of the above",
+    "correct_option": "Valuation",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The return rate given to the investor can be represented by",
+    "opt1": "MARR",
+    "opt2": "IRR",
+    "opt3": "ERR",
+    "opt4": "NPV",
+    "correct_option": "IRR",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Vulnerability analysis is done which phase:",
+    "opt1": "Mitigation",
+    "opt2": "Preparedness",
+    "opt3": "Rehabilitation",
+    "opt4": "All",
+    "correct_option": "Preparedness",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If in contract occur a fraudulent practice, without consent then contract is called",
+    "opt1": "Valid",
+    "opt2": "Void",
+    "opt3": "Voidable",
+    "opt4": "Null",
+    "correct_option": "Voidable",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The Depreciation remains constant according to which method?",
+    "opt1": "Sum of years digit Method",
+    "opt2": "Units of production",
+    "opt3": "Declining Balance Method",
+    "opt4": "Straight Line Method",
+    "correct_option": "Straight Line Method",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not intellectual property right",
+    "opt1": "Trademark",
+    "opt2": "Birthmark",
+    "opt3": "Patent right",
+    "opt4": "Copyright",
+    "correct_option": "Birthmark",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Chairperson of Labor board advisory",
+    "opt1": "Director of labor department",
+    "opt2": "Ministry Of Labour, Employment and Social Security",
+    "opt3": "Secretary of labor department",
+    "opt4": "Specialist in related field",
+    "correct_option": "Ministry Of Labour, Employment and Social Security",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If you have two projects to choose from, and you can only select one at a time, which term best describes this scenario?",
+    "opt1": "Mutually exclusive",
+    "opt2": "Independent",
+    "opt3": "Dependent",
+    "opt4": "Contingent",
+    "correct_option": "Mutually exclusive",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The minimum value of benefit-cost ratio for the selection of any project should be",
+    "opt1": "less than one",
+    "opt2": "one",
+    "opt3": "greater than one",
+    "opt4": "none of the above",
+    "correct_option": "greater than one",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What percent of the total budget is allocated for office management in construction projects?",
+    "opt1": "2.5%",
+    "opt2": "4%",
+    "opt3": "10%",
+    "opt4": "12%",
+    "correct_option": "4%",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not an essential element of society?",
+    "opt1": "Definite boundary",
+    "opt2": "Co-operation",
+    "opt3": "Inter-dependency",
+    "opt4": "Likeness",
+    "correct_option": "Definite boundary",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "An ant starts from the top of the rim of the cylindrical section of pipe and reaches a point directly below its starting point after making three complete revolutions around the pipe. The path traced by ant viewed from top is",
+    "opt1": "Helical",
+    "opt2": "Spiral",
+    "opt3": "Circular",
+    "opt4": "Straight line",
+    "correct_option": "Circular",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A revised estimate is prepared when original sanctioned detail estimate exceeds by",
+    "opt1": "2.5%",
+    "opt2": "5%",
+    "opt3": "7.5%",
+    "opt4": "10%",
+    "correct_option": "5%",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The time by which activity completion time can be delayed without affecting the start of succeeding activities is",
+    "opt1": "Total Float",
+    "opt2": "Interfering Float",
+    "opt3": "Free Float",
+    "opt4": "Independent Float",
+    "correct_option": "Free Float",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Number of meeting of NEC",
+    "opt1": "Four times in a year",
+    "opt2": "Three times in a year",
+    "opt3": "Two times in a year",
+    "opt4": "Six times in a year",
+    "correct_option": "Four times in a year",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "For project to be feasible SPI and CPI value should be",
+    "opt1": "Less than 1",
+    "opt2": "Greater than 1",
+    "opt3": "Equal to 1",
+    "opt4": "Zero",
+    "correct_option": "Greater than 1",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In a project equal investment is done for future value then it is called",
+    "opt1": "Future investment",
+    "opt2": "Capital recovery",
+    "opt3": "Sinking fund",
+    "opt4": "All of the above",
+    "correct_option": "Sinking fund",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Foreign Engineers are kept in which category?",
+    "opt1": "Category A",
+    "opt2": "Category B",
+    "opt3": "Category C",
+    "opt4": "Category D",
+    "correct_option": "Category C",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "When was the NEC Act published in the gazette?",
+    "opt1": "2055/11/27",
+    "opt2": "2079/5/5",
+    "opt3": "2066/6/23",
+    "opt4": "2075/11/19",
+    "correct_option": "2055/11/27",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following scales is a reducing scale?",
+    "opt1": "1:5",
+    "opt2": "10:1",
+    "opt3": "2:1",
+    "opt4": "1:1",
+    "correct_option": "1:5",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Liquidated damage refers to",
+    "opt1": "Damage of walls, plasters and paints due to gushing of liquid or rain",
+    "opt2": "Penalty cost to rectify dampness in the buildings",
+    "opt3": "Penalty cost rectify substandard quality of work",
+    "opt4": "Penalty of delaying the work beyond agreed date",
+    "correct_option": "Penalty of delaying the work beyond agreed date",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The money deposited by the successful bidder is called...",
+    "opt1": "Bid bond",
+    "opt2": "Performance security",
+    "opt3": "Bid security",
+    "opt4": "Earnest money",
+    "correct_option": "Performance security",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Qualification required to register as General Engineer?",
+    "opt1": "Bachelor in engineering",
+    "opt2": "Master's degree",
+    "opt3": "Diploma in engineering along with 3 years of work experience",
+    "opt4": "All of the above",
+    "correct_option": "Bachelor in engineering",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Obsolescence in technology is which category of depreciation",
+    "opt1": "Functional degradation",
+    "opt2": "Physical depreciation",
+    "opt3": "Liquidity",
+    "opt4": "Distress",
+    "correct_option": "Functional degradation",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "R in dimensioning represents",
+    "opt1": "Diameter in dimensioning",
+    "opt2": "Radius",
+    "opt3": "Runoff coefficient",
+    "opt4": "Integers",
+    "correct_option": "Radius",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Nepal Engineers Association is",
+    "opt1": "Government body to support NEC",
+    "opt2": "Independent organization of Nepalese engineers",
+    "opt3": "Private body which works for betterment of Engineers",
+    "opt4": "Non-government organization",
+    "correct_option": "Independent organization of Nepalese engineers",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "EPC stands for",
+    "opt1": "Engineering, Procurement and Construction",
+    "opt2": "Engineering, Procurement and Contract",
+    "opt3": "Economic, Profit and Cost",
+    "opt4": "All of the above",
+    "correct_option": "Engineering, Procurement and Construction",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The process of determining the fair price, or value is",
+    "opt1": "Depreciation",
+    "opt2": "Inflation",
+    "opt3": "Valuation",
+    "opt4": "All of the above",
+    "correct_option": "Valuation",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Completion of an activity on CPM network diagram, is generally known",
+    "opt1": "Event",
+    "opt2": "Node",
+    "opt3": "Connector",
+    "opt4": "All of the above",
+    "correct_option": "Event",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "CPM is",
+    "opt1": "Event oriented",
+    "opt2": "Activity oriented",
+    "opt3": "Both",
+    "opt4": "None",
+    "correct_option": "Activity oriented",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "First chairman of Nepal Engineering Council is",
+    "opt1": "Er. Ram babu Sharma",
+    "opt2": "Er. Padam Bahadur Shahi",
+    "opt3": "Er. Shiva Mangal Giri",
+    "opt4": "Er. Ajaya Kumar Jha",
+    "correct_option": "Er. Ram babu Sharma",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In third angle projection, the object is imagined to be placed",
+    "opt1": "Below H.P, behind V.P",
+    "opt2": "Above H.P, behind V.P",
+    "opt3": "Above H.P, in front of V.P",
+    "opt4": "Below H.P. in front of V.P",
+    "correct_option": "Below H.P, behind V.P",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The area of A0 size paper is",
+    "opt1": "0.25 m2",
+    "opt2": "0.5 m2",
+    "opt3": "0.75 m2",
+    "opt4": "1 m2",
+    "correct_option": "1 m2",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Initial work and construction lines are drawn using pencil.",
+    "opt1": "3H",
+    "opt2": "4H",
+    "opt3": "H",
+    "opt4": "2H",
+    "correct_option": "2H",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "If an Isometric drawing is made use of an Isometric scale, then the drawings are called",
+    "opt1": "Isometric projection",
+    "opt2": "Isometric View",
+    "opt3": "Isometric perception",
+    "opt4": "Orthographic View",
+    "correct_option": "Isometric projection",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a critical path?",
+    "opt1": "Path that operates from the starting node to end node.",
+    "opt2": "It is a mixture of all the paths",
+    "opt3": "It is the longest path",
+    "opt4": "It is the shortest path",
+    "correct_option": "It is the longest path",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A debenture",
+    "opt1": "is a long-term loan",
+    "opt2": "does not require security",
+    "opt3": "is a short-term loan",
+    "opt4": "both (a) & (b)",
+    "correct_option": "is a long-term loan",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an enlarging factor?",
+    "opt1": "1:1",
+    "opt2": "5:1",
+    "opt3": "1:5",
+    "opt4": "None of these",
+    "correct_option": "5:1",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In resource leveling, which of the following is constraint?",
+    "opt1": "Time",
+    "opt2": "Money",
+    "opt3": "Resources",
+    "opt4": "Both time and resources",
+    "correct_option": "Time",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "For increment increase analysis, initial investment must be",
+    "opt1": "Maximum",
+    "opt2": "Average",
+    "opt3": "Minimum",
+    "opt4": "Zero",
+    "correct_option": "Minimum",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a characteristic of a profession?",
+    "opt1": "It enjoys a high level of public trust and condense.",
+    "opt2": "It is organized into associations.",
+    "opt3": "There are published authoritative performance and ethical standards.",
+    "opt4": "All of the above are characteristics of a profession.",
+    "correct_option": "All of the above are characteristics of a profession.",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "IRR is calculated",
+    "opt1": "When NPV is less than zero",
+    "opt2": "When NPV is more than zero",
+    "opt3": "When NPV is equal to zero",
+    "opt4": "When NPV equal to MARR",
+    "correct_option": "When NPV is equal to zero",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which method of project planning was invented first?",
+    "opt1": "Bar chart",
+    "opt2": "Milestone chart",
+    "opt3": "CPM",
+    "opt4": "PERT",
+    "correct_option": "Bar chart",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In Incremental analysis, which project is selected as a base alternative?",
+    "opt1": "Project having lower investment",
+    "opt2": "Project having higher investment",
+    "opt3": "Any one of these",
+    "opt4": "None of these",
+    "correct_option": "Project having lower investment",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The ratio obtained by dividing 'quick assets' by current liabilities is called",
+    "opt1": "Turnover ratio",
+    "opt2": "Acid test ratio",
+    "opt3": "Solvency ratio",
+    "opt4": "None of these",
+    "correct_option": "Acid test ratio",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If part of contract work is assigned to another party, it is called",
+    "opt1": "Sub-contracting",
+    "opt2": "Joint venture",
+    "opt3": "Both",
+    "opt4": "None of these",
+    "correct_option": "Sub-contracting",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which is the first stage in a project formulation?",
+    "opt1": "Planning",
+    "opt2": "Setting objectives",
+    "opt3": "Controlling",
+    "opt4": "Evaluating",
+    "correct_option": "Setting objectives",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Salvage value is defined as:",
+    "opt1": "value of dismantled materials of a property at the end of its utility period",
+    "opt2": "estimated value of a built-up property at the end of its useful life without being dismantled",
+    "opt3": "value of the property shown in the account book in that particular year",
+    "opt4": "present value of a property considering it to be replaced at the current market rates",
+    "correct_option": "estimated value of a built-up property at the end of its useful life without being dismantled",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In which of the following, minimum value is taken?",
+    "opt1": "Forward pass",
+    "opt2": "Backward pass",
+    "opt3": "Both",
+    "opt4": "None of the above",
+    "correct_option": "Backward pass",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Nepal Government handed over the fast-track project to Nepal Army. After handing in, what type of contract was it",
+    "opt1": "BOT",
+    "opt2": "BOOT",
+    "opt3": "Build and Design",
+    "opt4": "Build, Design, Procurement, Subcontracting and all works",
+    "correct_option": "BOOT",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which is not a professional engineering body?",
+    "opt1": "Nepal Engineering Association (NEA)",
+    "opt2": "Society of Electrical & Electronics Association (SEEN)",
+    "opt3": "Society of Public Health Engineers Nepal (SOPHEN)",
+    "opt4": "Society of Consulting Architectural & Engineering Firms (SCAEF)",
+    "correct_option": "Society of Electrical & Electronics Association (SEEN)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Symbol for Centerline is",
+    "opt1": "Continuous Thin Line",
+    "opt2": "Thin Chain Line",
+    "opt3": "Thick or Thin Dashed Line",
+    "opt4": "Continuous Thick Line",
+    "correct_option": "Thin Chain Line",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Number of female members in NEC committee 2079 is",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "1",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In which phase, detailed risk analysis is done?",
+    "opt1": "Feasibility study",
+    "opt2": "Planning phase",
+    "opt3": "Evaluation phase",
+    "opt4": "Implementation phase",
+    "correct_option": "Planning phase",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Project performance consists of",
+    "opt1": "Time",
+    "opt2": "Cost",
+    "opt3": "Quality",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The techniques for free hand sketch to drawing circle is",
+    "opt1": "Fixing a fixed point and arc",
+    "opt2": "Fixing the perimeter",
+    "opt3": "Fixing the radius only",
+    "opt4": "None of the above",
+    "correct_option": "Fixing a fixed point and arc",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "For a financial institution the most important study of a project to be taken for risks management is",
+    "opt1": "Appraisal",
+    "opt2": "Environmental and social",
+    "opt3": "Technical",
+    "opt4": "Financial and economical",
+    "correct_option": "Appraisal",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "A Milestone chart",
+    "opt1": "Shows the interdependencies of various jobs",
+    "opt2": "Depicts the delay of jobs, if any",
+    "opt3": "Points outgoing ahead of schedule of jobs, if any",
+    "opt4": "None of these",
+    "correct_option": "None of these",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The technique for establishing and maintaining priorities among the various jobs of a project, is known",
+    "opt1": "Event flow scheduling technique",
+    "opt2": "Critical ratio scheduling",
+    "opt3": "Slotting technique for scheduling",
+    "opt4": "Short interval scheduling",
+    "correct_option": "Critical ratio scheduling",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If initial investment for a machine is Rs 10000 and depreciation amount per year is Rs 1600, then calculate the book value at the end of 5 years.",
+    "opt1": "Rs 1500",
+    "opt2": "Rs 2000",
+    "opt3": "Rs 2500",
+    "opt4": "Rs 8000",
+    "correct_option": "Rs 2000",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Who is the 1st registrar of NEC?",
+    "opt1": "Bindeshwar Yadav",
+    "opt2": "Padma Bahadur Shahi",
+    "opt3": "Shiwa Mangal Giri",
+    "opt4": "Hari Bahadur Darlami",
+    "correct_option": "Bindeshwar Yadav",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is true about Dummy?",
+    "opt1": "It doesn't consume resources.",
+    "opt2": "It doesn't have a head and tail event.",
+    "opt3": "It can be added anywhere on the network.",
+    "opt4": "It simplifies the network.",
+    "correct_option": "It doesn't consume resources.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The assessment done by the implementing agency to check the eligibility of firms to carry out contracts.",
+    "opt1": "Pre-qualification",
+    "opt2": "Tender-assessment",
+    "opt3": "Post-Qualification",
+    "opt4": "Contract assessment",
+    "correct_option": "Pre-qualification",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The size of the letter means the",
+    "opt1": "thickness",
+    "opt2": "height",
+    "opt3": "length",
+    "opt4": "Width",
+    "correct_option": "height",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The top view of orthographic drawing lies on",
+    "opt1": "HP",
+    "opt2": "VP",
+    "opt3": "pp",
+    "opt4": "All",
+    "correct_option": "HP",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Non-Nepali Engineer definition according to NEC",
+    "opt1": "Non-Nepali engineer working under engineering institutions.",
+    "opt2": "Nepali engineer working abroad.",
+    "opt3": "Freelancer engineer",
+    "opt4": "Nepali engineer working under engineering institutions",
+    "correct_option": "Non-Nepali engineer working under engineering institutions.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In which phase of the project most of the money and manpower are required?",
+    "opt1": "Initiation phase",
+    "opt2": "Planning phase",
+    "opt3": "Execution phase",
+    "opt4": "Closing phase",
+    "correct_option": "Execution phase",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not the function of NEC?",
+    "opt1": "Prepare and implement the policy, plan and programmes",
+    "opt2": "Recognize the academic institutions.",
+    "opt3": "Opening the college",
+    "opt4": "To prescribe the basic conditions of student admission",
+    "correct_option": "Opening the college",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Sinking fund is",
+    "opt1": "The fund for rebuilding a structure when its economic life is over",
+    "opt2": "Raised to meet maintenance costs",
+    "opt3": "The total sum to be paid to the municipal authorities by the tenants",
+    "opt4": "A part of the money kept in reserve for providing additional structures and structural modifications",
+    "correct_option": "The fund for rebuilding a structure when its economic life is over",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Variability in the rate of return is known as",
+    "opt1": "Return",
+    "opt2": "Risk",
+    "opt3": "Interest",
+    "opt4": "Volatility",
+    "correct_option": "Risk",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Resource smoothing is",
+    "opt1": "An optimization and economical utilization of resources",
+    "opt2": "An adjustment of resources without affecting project duration",
+    "opt3": "A gradual increase in resources",
+    "opt4": "A gradual decrease in resources",
+    "correct_option": "An adjustment of resources without affecting project duration",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the definition of mitigation in the context of risk management?",
+    "opt1": "The process of identifying and assessing potential risks",
+    "opt2": "The complete elimination of all risks within a system",
+    "opt3": "The implementation of strategies to reduce the impact or likelihood of identified risks",
+    "opt4": "The transfer of risks to external parties through insurance",
+    "correct_option": "The implementation of strategies to reduce the impact or likelihood of identified risks",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What type of sketch shows the front in true shape?",
+    "opt1": "Isometric",
+    "opt2": "Perspective",
+    "opt3": "Oblique",
+    "opt4": "Axonometric",
+    "correct_option": "Oblique",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "How much % new college should score at least to get temporary affiliation form NEC?",
+    "opt1": "50%",
+    "opt2": "60%",
+    "opt3": "70%",
+    "opt4": "80%",
+    "correct_option": "60%",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the inclination of inclined lettering?",
+    "opt1": "75 degree",
+    "opt2": "65 degree",
+    "opt3": "45 degree",
+    "opt4": "85 degree",
+    "correct_option": "75 degree",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The aspect ratio of a letter refers to the ratio of its",
+    "opt1": "height to its width",
+    "opt2": "width to height",
+    "opt3": "length to width",
+    "opt4": "width to length",
+    "correct_option": "height to its width",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Professional codes of conduct issued by Nec have",
+    "opt1": "8 articles",
+    "opt2": "6 articles",
+    "opt3": "7 articles",
+    "opt4": "11 article",
+    "correct_option": "11 article",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Capital budgeting is",
+    "opt1": "Reversible",
+    "opt2": "Unimportant",
+    "opt3": "Irreversible",
+    "opt4": "All of the above",
+    "correct_option": "Irreversible",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "In PERT analysis, the time estimates of activities and probability of their occurrence follow.",
+    "opt1": "Normal distribution curve",
+    "opt2": "Poisson's distribution curve",
+    "opt3": "Beta distribution curve",
+    "opt4": "None of the above",
+    "correct_option": "Beta distribution curve",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The President of NEA is an office member in which council.",
+    "opt1": "NEC",
+    "opt2": "SONA",
+    "opt3": "SCAFF",
+    "opt4": "NPC",
+    "correct_option": "NEC",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the indication for the upward and downward direction of cash flow diagram?",
+    "opt1": "Upward= positive cash flow, downward = negative cash flow",
+    "opt2": "Upward= inflows, downward = outflows",
+    "opt3": "Upward income, downward = expenses",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which one is incorrect",
+    "opt1": "Arrow from left to right in scale",
+    "opt2": "Tail of arrow indicates start of activity",
+    "opt3": "Head of arrow indicates end of activity",
+    "opt4": "Each activity consume time",
+    "correct_option": "Arrow from left to right in scale",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Minimum time period allocated by GoN For formation of new council after the dissolution of current NEC is",
+    "opt1": "3 month",
+    "opt2": "6 month",
+    "opt3": "9 month",
+    "opt4": "1 year",
+    "correct_option": "3 month",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Number of code of conduct in NEC included in 2079 BS updated",
+    "opt1": "5",
+    "opt2": "8",
+    "opt3": "11",
+    "opt4": "13",
+    "correct_option": "11",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The relation between total float, free float and interfering float is",
+    "opt1": "Interfering Float = Total Float + Free Float",
+    "opt2": "Interfering Float = Total Float - Free Float",
+    "opt3": "Interfering Float = Total Float - Free Float- Duration",
+    "opt4": "Free Float Total Float+Interfering Float",
+    "correct_option": "Interfering Float = Total Float - Free Float",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "As the benefit cost ratio of a project increases the attractiveness of the project increases. But the minimum value of benefit cost ratio should be ....... for acceptance of the project.",
+    "opt1": "less than one",
+    "opt2": "one",
+    "opt3": "greater than one",
+    "opt4": "none of the above",
+    "correct_option": "one",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Sinking fund is",
+    "opt1": "The fund for rebuilding a structure when its economic life is over",
+    "opt2": "Raised to meet maintenance costs",
+    "opt3": "The total sum to be paid to the municipal authorities by the tenants",
+    "opt4": "A part of the money kept in reserve for providing additional structures and structural modifications",
+    "correct_option": "The fund for rebuilding a structure when its economic life is over",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The rules of Ethics are also called as a",
+    "opt1": "Rules",
+    "opt2": "Law",
+    "opt3": "Responsibility",
+    "opt4": "None of the above",
+    "correct_option": "Law",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statement(s) is/are incorrect? (i) Earliest start of an activity is the early event time of the node it leaves. (ii) Latest finish of an activity is the late event time of the node it enters. (iii) Latest start of an activity is its latest finish minus its duration",
+    "opt1": "Only (i)",
+    "opt2": "(i) and (ii)",
+    "opt3": "(ii) and (iii)",
+    "opt4": "None",
+    "correct_option": "None",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Pick up the incorrect statement from the following:",
+    "opt1": "The activity is the time-consuming part of a project",
+    "opt2": "The beginning and end of a job, are called events",
+    "opt3": "The activity which consumes maximum time, is called a node",
+    "opt4": "Logically and sequentially connected activities and events form a network",
+    "correct_option": "The activity which consumes maximum time, is called a node",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Risk management is a process that includes",
+    "opt1": "Hazard identification",
+    "opt2": "Interactive exchange of information and opinions",
+    "opt3": "Hazard characterization",
+    "opt4": "Evaluation of policy alternatives",
+    "correct_option": "Evaluation of policy alternatives",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Resource smoothing is",
+    "opt1": "An optimization and economical utilization of resources",
+    "opt2": "An adjustment of resources without affecting project duration",
+    "opt3": "A gradual increase in resources",
+    "opt4": "A gradual decrease in resources",
+    "correct_option": "An adjustment of resources without affecting project duration",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The estimated time Te can be found if To. Tp and Tm are given in PERT activity as",
+    "opt1": "Te=(To+Tp+2 Tm)/6",
+    "opt2": "Te=(2To+2Tp+4 Tm)/6",
+    "opt3": "Te=(To+4Tp+Tm)/6",
+    "opt4": "Te=(To+Tp+4 Tm)/6",
+    "correct_option": "Te=(To+Tp+4 Tm)/6",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The minimum qualification of general engineer required to register in Nepal Engineering council is",
+    "opt1": "Bachelor's Degree",
+    "opt2": "Diploma",
+    "opt3": "Masters Degree",
+    "opt4": "Bachelor's Degree along with two years of work experience",
+    "correct_option": "Bachelor's Degree",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Qualification of vice chairman of Nepal Engineering Council is",
+    "opt1": "B.E+15 years of experience",
+    "opt2": "M.E+7 years of experience",
+    "opt3": "B.E+7 years of experience",
+    "opt4": "B.E+10 years of experience",
+    "correct_option": "B.E+10 years of experience",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Paper is designated by which letter?",
+    "opt1": "A",
+    "opt2": "B",
+    "opt3": "C",
+    "opt4": "D",
+    "correct_option": "A",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following best defines free float?",
+    "opt1": "The total amount of time a task can be delayed without affecting the final project delivery date",
+    "opt2": "The amount of time a task can be delayed without impacting other tasks in the path",
+    "opt3": "both a. and b.",
+    "opt4": "Neither a. nor b.",
+    "correct_option": "The amount of time a task can be delayed without impacting other tasks in the path",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What term denotes reduction of risk to a threshold level?",
+    "opt1": "mitigation",
+    "opt2": "acceptance",
+    "opt3": "transfer",
+    "opt4": "none of the above",
+    "correct_option": "mitigation",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How many categories of NEA memberships are there?",
+    "opt1": "3",
+    "opt2": "5",
+    "opt3": "7",
+    "opt4": "2",
+    "correct_option": "3",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Sealed quotations are used for projects up to?",
+    "opt1": "20 million",
+    "opt2": "2 million",
+    "opt3": "1 million",
+    "opt4": "5 million",
+    "correct_option": "2 million",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If the EST=5 LST=7, and duration =1, then what is TF?",
+    "opt1": "2",
+    "opt2": "0",
+    "opt3": "1",
+    "opt4": "3",
+    "correct_option": "2",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Who appoints the chairman of NEC?",
+    "opt1": "the Government of Nepal",
+    "opt2": "the President of Nepal",
+    "opt3": "ministry of home affairs",
+    "opt4": "the supreme court",
+    "correct_option": "the Government of Nepal",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Given a Gumbel's distribution with mu=0 and beta= 1, find the probability that X is less than or equal to 2.",
+    "opt1": "0.873",
+    "opt2": "0.564",
+    "opt3": "1.124",
+    "opt4": "0.665",
+    "correct_option": "0.873",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Formula of SPI is?",
+    "opt1": "BCWP/BCWS or Earned value/planned value",
+    "opt2": "ACWP/BCWS or Earned value/planned value",
+    "opt3": "BCWP/ACWS or Earned value/planned value",
+    "opt4": "None of the above",
+    "correct_option": "BCWP/BCWS or Earned value/planned value",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "We can not draw an angle using a set square?",
+    "opt1": "20 degree",
+    "opt2": "15 degree",
+    "opt3": "30 degree",
+    "opt4": "60 degree",
+    "correct_option": "20 degree",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which province of Nepal has more number of Engineering colleges Recognized by NEC?",
+    "opt1": "Bagmati",
+    "opt2": "Lumbini",
+    "opt3": "Koshi",
+    "opt4": "Sudur paschim",
+    "correct_option": "Bagmati",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The Formula for effective interest rate is?",
+    "opt1": "ieff=(1+i/n)^n-1",
+    "opt2": "ieff=(1+i/n)^n-2",
+    "opt3": "ieff=(1+1/n)^i-1",
+    "opt4": "ieff=(2+i/n)^n-1",
+    "correct_option": "ieff=(1+i/n)^n-1",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Future sum of present investing is called?",
+    "opt1": "Compounding",
+    "opt2": "Discounting",
+    "opt3": "dividing",
+    "opt4": "Adding money",
+    "correct_option": "Compounding",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which should be considered while selecting consultancy",
+    "opt1": "Quality,",
+    "opt2": "Quality and cost,",
+    "opt3": "cost",
+    "opt4": "All of the above",
+    "correct_option": "Quality and cost,",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Activities P, Q, and R instantly follow activity M, and their current starting times are 12, 19, and 10. So, what is the latest finishing time for activity M?",
+    "opt1": "11",
+    "opt2": "10",
+    "opt3": "18",
+    "opt4": "Cannot be determined",
+    "correct_option": "10",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the Function OF Nepal Engineering Council?",
+    "opt1": "to make the profession effective by mobilizing it in a more systematic and scientific and also to register the engineers as per their qualifications",
+    "opt2": "to make the engineering profession effective by mobilizing it in a more systematic and scientific and also to register the engineers as per their qualifications",
+    "opt3": "to punish the engineering profession effective by mobilizing it in a more systematic and scientific and also to register the engineers as per their qualifications",
+    "opt4": "all of the above",
+    "correct_option": "all of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "1st Amended of NEC act",
+    "opt1": "2066/10/07",
+    "opt2": "2075/11/19",
+    "opt3": "2079/05/05",
+    "opt4": "2076/09/06",
+    "correct_option": "2079/05/05",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "A point 'P' is above the Horizontal Plane (HP) and in front of the Vertical Plane (VP). The point is in",
+    "opt1": "First quadrant",
+    "opt2": "Second quadrant",
+    "opt3": "Third quadrant",
+    "opt4": "Fourth quadrant",
+    "correct_option": "First quadrant",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "If SPI <1, CPI<1 then which of the following is true ?",
+    "opt1": "Project is ahead of schedule and in less budget",
+    "opt2": "Project is behind the schedule and over budget",
+    "opt3": "Project is ahead of schedule and over budget",
+    "opt4": "None of the above",
+    "correct_option": "Project is behind the schedule and over budget",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Risk in project management is defined as",
+    "opt1": "An uncertain event that, if it occurs, has a positive effect on project objectives",
+    "opt2": "An uncertain event that, if it occurs, has a negative effect on project objectives",
+    "opt3": "An uncertain event that, if it occurs, has a positive or negative effect on project objectives",
+    "opt4": "An uncertain event that do not have any effect on project objectives",
+    "correct_option": "An uncertain event that, if it occurs, has a positive or negative effect on project objectives",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "In National Competitive bidding, notice shall be published in national newspaper by giving a period of at least",
+    "opt1": "15 days",
+    "opt2": "30 days",
+    "opt3": "35 days",
+    "opt4": "45 days",
+    "correct_option": "30 days",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "NEC Submit its report to ...",
+    "opt1": "Government of Nepal",
+    "opt2": "Prime minister office",
+    "opt3": "Ministry of physical infrastructure",
+    "opt4": "All of the above",
+    "correct_option": "Government of Nepal",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which one of the following is the example of a regulatory body?",
+    "opt1": "Company Act",
+    "opt2": "Intellectual Property Right",
+    "opt3": "Building Codes and Bylaws",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The optimistic time is 15 days and pessimistic time is 30 days then standard deviation of project is",
+    "opt1": "2.9",
+    "opt2": "2.6",
+    "opt3": "2.5",
+    "opt4": "2.1",
+    "correct_option": "2.5",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Activities A, B, and C are the immediate predecessors for Y activity. If the earliest finishing time for the three activities are 12, 15, and 10, then what will be the earliest starting time for Y?",
+    "opt1": "10",
+    "opt2": "15",
+    "opt3": "12",
+    "opt4": "Cannot be determined",
+    "correct_option": "15",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "If the nominal rate of interest is 10% per annum and there is quarterly compounding, the effective rate of interest will be:",
+    "opt1": "10% per annum",
+    "opt2": "10.10 per annum",
+    "opt3": "10.25%per annum",
+    "opt4": "10.38% per annum",
+    "correct_option": "10.38% per annum",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The minimum qualification of registrar of NEC is",
+    "opt1": "Bachelor's degree + 10 years' experience",
+    "opt2": "Bachelor's degree + 15 years' experience",
+    "opt3": "Bachelor's degree + 20 years' experience",
+    "opt4": "Bachelor's degree + 7 years' experience",
+    "correct_option": "Bachelor's degree + 10 years' experience",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following involves continuous betterment in planning and detailing with time?",
+    "opt1": "Project enhancement",
+    "opt2": "Progressive rehabilitation",
+    "opt3": "Progressive elaboration",
+    "opt4": "Continuous improvement",
+    "correct_option": "Progressive elaboration",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "According to labor act, the maximum working hour in a day is",
+    "opt1": "5 hours",
+    "opt2": "7 hours",
+    "opt3": "8 hours",
+    "opt4": "12 hours",
+    "correct_option": "8 hours",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "NEA is founded under which act?",
+    "opt1": "NEC act 2055.",
+    "opt2": "NEA act 1962",
+    "opt3": "Social Service Act of the Government of Nepal.",
+    "opt4": "All of the above",
+    "correct_option": "Social Service Act of the Government of Nepal.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Quality and workmanship in construction projects are defined in:",
+    "opt1": "Construction drawings",
+    "opt2": "Estimate",
+    "opt3": "Specifications",
+    "opt4": "Bill of quantities (BOQ)",
+    "correct_option": "Specifications",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "As per NEC Act (Amended 2079), section 30(c), the punishment on violation of rules is",
+    "opt1": "2000",
+    "opt2": "3000",
+    "opt3": "20000",
+    "opt4": "25000",
+    "correct_option": "25000",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "While representing the diameter in dimensioning it is represented as",
+    "opt1": "d",
+    "opt2": "Ø",
+    "opt3": "Dia",
+    "opt4": "All of these",
+    "correct_option": "Ø",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Nepal Engineering Council is",
+    "opt1": "Government body",
+    "opt2": "Autonomous body",
+    "opt3": "Non-Government Organization",
+    "opt4": "None of these",
+    "correct_option": "Autonomous body",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following statements is not correct regarding CPM and PERT?",
+    "opt1": "PERT is probabilistic in nature",
+    "opt2": "CPM is probabilistic in nature",
+    "opt3": "CPM and PERT use similar terminology but were developed independently",
+    "opt4": "all of these statements are correct",
+    "correct_option": "CPM is probabilistic in nature",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Rules and regulations of Nepal Engineering Council is approved by",
+    "opt1": "Government of Nepal",
+    "opt2": "Nepal Engineering Council",
+    "opt3": "Nepal Engineers Association",
+    "opt4": "All of these",
+    "correct_option": "Government of Nepal",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "How many times the regular inspection is done for engineering institutions provided with permanent approval ?",
+    "opt1": "Every year",
+    "opt2": "Every two years",
+    "opt3": "Twice a Year",
+    "opt4": "Every 18 months",
+    "correct_option": "Every two years",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The width of the standard A-series drawing paper such as A4, A3, A2..... is",
+    "opt1": "1/3 times the length of the paper",
+    "opt2": "1/sqrt(2) times the length of the paper",
+    "opt3": "1/2 times the length of the paper",
+    "opt4": "1/sqrt(3) times the length of the paper",
+    "correct_option": "1/sqrt(2) times the length of the paper",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which formula is used to calculate the earliest finish time (EF) of an activity during the forward pass in project scheduling?",
+    "opt1": "EF=ES + Duration - 1",
+    "opt2": "EF=LF - Duration + 1",
+    "opt3": "EF=ES + Duration",
+    "opt4": "EF=LF - Duration",
+    "correct_option": "EF=ES + Duration",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The area occupied by A2(drawing sheet) is .... times the area occupied A4(drawing sheet).",
+    "opt1": "2",
+    "opt2": "4",
+    "opt3": "8",
+    "opt4": "16",
+    "correct_option": "4",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The side view of an object is drawn in",
+    "opt1": "Vertical plane",
+    "opt2": "Horizontal plane",
+    "opt3": "Profile plane",
+    "opt4": "Any of the above",
+    "correct_option": "Profile plane",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The sectional plane are represented by",
+    "opt1": "Continuous thick line",
+    "opt2": "Continuous thin line",
+    "opt3": "Chain thin line",
+    "opt4": "Chain thin line having thick edges",
+    "correct_option": "Chain thin line having thick edges",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The length: width in case of an arrowhead is",
+    "opt1": "1:1",
+    "opt2": "2:1",
+    "opt3": "3:1",
+    "opt4": "4:1",
+    "correct_option": "3:1",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The internal angle of a regular pentagon is....degree.",
+    "opt1": "72",
+    "opt2": "108",
+    "opt3": "120",
+    "opt4": "150",
+    "correct_option": "108",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The development of cylinder is a",
+    "opt1": "Rectangle",
+    "opt2": "Circle",
+    "opt3": "Ellipse",
+    "opt4": "None of the above",
+    "correct_option": "Rectangle",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The isometric length is .... percent of actual length.",
+    "opt1": "61.5",
+    "opt2": "71.5",
+    "opt3": "81.5",
+    "opt4": "91.5",
+    "correct_option": "81.5",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Find the effective interest rate if 12% is compounded quarterly",
+    "opt1": "12.23",
+    "opt2": "12.46",
+    "opt3": "12.69",
+    "opt4": "12.55",
+    "correct_option": "12.55",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "If nominal rate of return is 10% per annum and annual effective rate of interest is 10.25% per annum, determine the frequency of compounding:",
+    "opt1": "1",
+    "opt2": "2",
+    "opt3": "3",
+    "opt4": "4",
+    "correct_option": "2",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What refers to the present worth of the cost associated with an asset for an infinite period of time?",
+    "opt1": "Annual cost",
+    "opt2": "Increment cost",
+    "opt3": "Capitalized cost",
+    "opt4": "Operating cost",
+    "correct_option": "Capitalized cost",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The project usually completed by user committee's are",
+    "opt1": "Labour intensive projects",
+    "opt2": "Capital intensive projects",
+    "opt3": "Both (a) and (b)",
+    "opt4": "None of these",
+    "correct_option": "Labour intensive projects",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The project financed from the financial resources of friendly donor country is called",
+    "opt1": "Joint venture project",
+    "opt2": "Bilateral project",
+    "opt3": "Multilateral project",
+    "opt4": "None of the above",
+    "correct_option": "Bilateral project",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Fulkerson's rule is connected with the",
+    "opt1": "Numbering of event in PERT/CPM",
+    "opt2": "Creation of parallel activities",
+    "opt3": "Queuing theory",
+    "opt4": "Elimination of dummy activity",
+    "correct_option": "Numbering of event in PERT/CPM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Training of the employees increases which of the quality costs?",
+    "opt1": "Prevention cost",
+    "opt2": "Appraisal cost",
+    "opt3": "Internal failure cost",
+    "opt4": "External failure cost",
+    "correct_option": "Prevention cost",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which is the correct representation of third angle projection?",
+    "opt1": "Image (a)",
+    "opt2": "Image (b)",
+    "opt3": "Image (c)",
+    "opt4": "Image (d)",
+    "correct_option": "Image (b)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Minimum criteria to work as engineer in Nepal",
+    "opt1": "Pass diploma",
+    "opt2": "Pass Bachelor in engineering",
+    "opt3": "Have engineering license",
+    "opt4": "No any requirement",
+    "correct_option": "Have engineering license",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "For the same stated annual interest rate, which rate will yield higher returns over time?",
+    "opt1": "Nominal Rate",
+    "opt2": "Effective Annual Rate (EAR) or Compounded Rate",
+    "opt3": "Both are equal",
+    "opt4": "Depends on the compounding frequency",
+    "correct_option": "Effective Annual Rate (EAR) or Compounded Rate",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is the 3D curve?",
+    "opt1": "Helix",
+    "opt2": "Clothoid",
+    "opt3": "Spiral",
+    "opt4": "Circular",
+    "correct_option": "Helix",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Number of share holders for Private limited company is limited to:",
+    "opt1": "1",
+    "opt2": "10",
+    "opt3": "50",
+    "opt4": "no limit",
+    "correct_option": "50",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is typically EXCLUDED from capital budgeting decisions?",
+    "opt1": "Purchase of new machinery for production expansion",
+    "opt2": "Investment in current assets like inventory",
+    "opt3": "Acquisition of a new factory building",
+    "opt4": "Development costs for a new product line",
+    "correct_option": "Investment in current assets like inventory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Exam taken by NEC as per act is",
+    "opt1": "minimum 2 times a year",
+    "opt2": "minimum 4 times a year",
+    "opt3": "minimum 3 times a year",
+    "opt4": "minimum 1 times a year",
+    "correct_option": "minimum 2 times a year",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Labour act was effective from:",
+    "opt1": "2048",
+    "opt2": "2050",
+    "opt3": "2046",
+    "opt4": "2052",
+    "correct_option": "2048",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In IRR method revenue is reinvested at",
+    "opt1": "same rate",
+    "opt2": "not at same rate",
+    "opt3": "not invested at all",
+    "opt4": "double the rate",
+    "correct_option": "same rate",
+    "correct_option_index": 1
   }
 ]
