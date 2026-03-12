@@ -511,5 +511,3312 @@
     "opt4": "Semaphore is faster than mutex",
     "correct_option": "Mutex is owned by a thread and only that thread can release it",
     "correct_option_index": 3
+  },
+  
+  {
+    "qsns": "What is the main purpose of the Memory Control Unit (MCU) in a computer system?",
+    "opt1": "To store instructions that the CPU can execute",
+    "opt2": "To manage data flow between input/output devices",
+    "opt3": "To regulate the flow of data between the CPU and memory",
+    "opt4": "To control the speed of the CPU",
+    "correct_option": "To regulate the flow of data between the CPU and memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of memory used in a computer system?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Cache",
+    "opt4": "Hard drive",
+    "correct_option": "Hard drive",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is responsible for temporarily storing data that the CPU needs to access quickly?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Cache",
+    "opt4": "Hard drive",
+    "correct_option": "Cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The term \"memory hierarchy\" refers to:",
+    "opt1": "The order in which data is accessed by the CPU",
+    "opt2": "The organization of different types of memory by speed and capacity",
+    "opt3": "The way in which the CPU processes instructions",
+    "opt4": "The way in which data is stored on a hard drive",
+    "correct_option": "The organization of different types of memory by speed and capacity",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is responsible for permanently storing the BIOS on a computer system?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Cache",
+    "opt4": "Hard drive",
+    "correct_option": "ROM",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the difference between volatile and non-volatile memory?",
+    "opt1": "Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents",
+    "opt2": "Volatile memory is slower than non-volatile memory",
+    "opt3": "Volatile memory is used for long-term storage, while non-volatile memory is used for temporary storage",
+    "opt4": "Volatile memory is more expensive than non-volatile memory",
+    "correct_option": "Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of a memory controller?",
+    "opt1": "To regulate the flow of data between the CPU and memory",
+    "opt2": "To store instructions that the CPU can execute",
+    "opt3": "To manage data flow between input/output devices",
+    "opt4": "To control the speed of the CPU",
+    "correct_option": "To regulate the flow of data between the CPU and memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between DDR3 and DDR4 RAM?",
+    "opt1": "DDR3 has a higher clock speed than DDR4",
+    "opt2": "DDR4 has a higher clock speed than DDR3",
+    "opt3": "DDR3 has a higher capacity than DDR4",
+    "opt4": "DDR4 has a higher capacity than DDR3",
+    "correct_option": "DDR4 has a higher clock speed than DDR3",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the Memory Management Unit (MMU) in a computer system?",
+    "opt1": "To manage data flow between input/output devices",
+    "opt2": "To store instructions that the CPU can execute",
+    "opt3": "To regulate the flow of data between the CPU and memory",
+    "opt4": "To map virtual memory addresses to physical memory addresses",
+    "correct_option": "To map virtual memory addresses to physical memory addresses",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is responsible for storing frequently used instructions and data in a CPU?",
+    "opt1": "Cache memory",
+    "opt2": "Virtual memory",
+    "opt3": "Main memory",
+    "opt4": "Auxiliary memory",
+    "correct_option": "Cache memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is used to store the program and data being currently executed by the CPU?",
+    "opt1": "Cache memory",
+    "opt2": "Virtual memory",
+    "opt3": "Main memory",
+    "opt4": "Auxiliary memory",
+    "correct_option": "Main memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of memory is non-volatile and retains data even when the power is turned off?",
+    "opt1": "ROM",
+    "opt2": "Cache",
+    "opt3": "Main memory",
+    "opt4": "Virtual memory",
+    "correct_option": "ROM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a function of the control unit?",
+    "opt1": "Fetching instructions from memory",
+    "opt2": "Decoding instructions",
+    "opt3": "Executing instructions",
+    "opt4": "Storing instructions in cache memory",
+    "correct_option": "Storing instructions in cache memory",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is responsible for performing arithmetic and logical operations in a CPU?",
+    "opt1": "Control unit",
+    "opt2": "Arithmetic logic unit",
+    "opt3": "Cache memory",
+    "opt4": "Virtual memory",
+    "correct_option": "Arithmetic logic unit",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which addressing mode uses a constant value or an expression as an operand to specify the memory location to be accessed?",
+    "opt1": "Immediate addressing mode",
+    "opt2": "Direct addressing mode",
+    "opt3": "Indirect addressing mode",
+    "opt4": "Indexed addressing mode",
+    "correct_option": "Immediate addressing mode",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which addressing mode uses a memory location as an operand to specify the memory location to be accessed?",
+    "opt1": "Immediate addressing mode",
+    "opt2": "Direct addressing mode",
+    "opt3": "Indirect addressing mode",
+    "opt4": "Indexed addressing mode",
+    "correct_option": "Direct addressing mode",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which addressing mode uses a memory location that contains the address of the memory location to be accessed?",
+    "opt1": "Immediate addressing mode",
+    "opt2": "Direct addressing mode",
+    "opt3": "Indirect addressing mode",
+    "opt4": "Indexed addressing mode",
+    "correct_option": "Indirect addressing mode",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which addressing mode adds an offset to a base memory address to calculate the memory location to be accessed?",
+    "opt1": "Immediate addressing mode",
+    "opt2": "Direct addressing mode",
+    "opt3": "Indirect addressing mode",
+    "opt4": "Indexed addressing mode",
+    "correct_option": "Indexed addressing mode",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following components is responsible for executing instructions in a computer?",
+    "opt1": "Central Processing Unit (CPU)",
+    "opt2": "Random Access Memory (RAM)",
+    "opt3": "Hard Disk Drive (HDD)",
+    "opt4": "Graphics Processing Unit (GPU)",
+    "correct_option": "Central Processing Unit (CPU)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following components stores data and programs permanently, even when the computer is turned off?",
+    "opt1": "Central Processing Unit (CPU)",
+    "opt2": "Random Access Memory (RAM)",
+    "opt3": "Hard Disk Drive (HDD)",
+    "opt4": "Graphics Processing Unit (GPU)",
+    "correct_option": "Hard Disk Drive (HDD)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which component is responsible for managing input and output operations of a computer system?",
+    "opt1": "Central Processing Unit (CPU)",
+    "opt2": "Input/Output Controller (IOC)",
+    "opt3": "Hard Disk Drive (HDD)",
+    "opt4": "Graphics Processing Unit (GPU)",
+    "correct_option": "Input/Output Controller (IOC)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is responsible for providing power to the other components of a computer?",
+    "opt1": "Central Processing Unit (CPU)",
+    "opt2": "Power Supply Unit (PSU)",
+    "opt3": "Hard Disk Drive (HDD)",
+    "opt4": "Graphics Processing Unit (GPU)",
+    "correct_option": "Power Supply Unit (PSU)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which component is responsible for processing graphical data and images?",
+    "opt1": "Central Processing Unit (CPU)",
+    "opt2": "Random Access Memory (RAM)",
+    "opt3": "Hard Disk Drive (HDD)",
+    "opt4": "Graphics Processing Unit (GPU)",
+    "correct_option": "Graphics Processing Unit (GPU)",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a measure of the clock speed of a CPU?",
+    "opt1": "Gigahertz (GHz)",
+    "opt2": "Megabytes (MB)",
+    "opt3": "Terabytes (TB)",
+    "opt4": "Kilohertz (kHz)",
+    "correct_option": "Gigahertz (GHz)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a factor that affects the performance of a CPU?",
+    "opt1": "Clock speed",
+    "opt2": "Cache size",
+    "opt3": "Number of cores",
+    "opt4": "Type of operating system",
+    "correct_option": "Type of operating system",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a type of peripheral device?",
+    "opt1": "Monitor",
+    "opt2": "Keyboard",
+    "opt3": "Processor",
+    "opt4": "Printer",
+    "correct_option": "Processor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of software is responsible for managing and controlling the hardware resources of a computer system?",
+    "opt1": "Application software",
+    "opt2": "System software",
+    "opt3": "Programming software",
+    "opt4": "Utility software",
+    "correct_option": "System software",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which component of a microinstruction specifies the operation to be performed by the CPU?",
+    "opt1": "Opcode",
+    "opt2": "Operand",
+    "opt3": "Control signals",
+    "opt4": "Microprogram counter",
+    "correct_option": "Opcode",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a benefit of using microprogramming?",
+    "opt1": "Increased flexibility",
+    "opt2": "Simplified hardware design",
+    "opt3": "Improved performance",
+    "opt4": "Easier debugging and maintenance",
+    "correct_option": "Improved performance",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of microinstruction is used to modify the execution sequence of a program?",
+    "opt1": "Unconditional microinstruction",
+    "opt2": "Conditional microinstruction",
+    "opt3": "Direct microinstruction",
+    "opt4": "Indirect microinstruction",
+    "correct_option": "Conditional microinstruction",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In a microprogrammed control unit, the microinstructions are stored in:",
+    "opt1": "The CPU cache",
+    "opt2": "The hard disk drive",
+    "opt3": "The ROM of the control unit",
+    "opt4": "The RAM of the control unit",
+    "correct_option": "The ROM of the control unit",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a function of a control unit in a CPU?",
+    "opt1": "Instruction decoding",
+    "opt2": "Performing arithmetic operations",
+    "opt3": "Memory accessing",
+    "opt4": "None of the above",
+    "correct_option": "Performing arithmetic operations",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The design of a control unit is typically based on:",
+    "opt1": "Microprogramming",
+    "opt2": "Hardwiring",
+    "opt3": "A combination of microprogramming and hardwiring",
+    "opt4": "None of the above",
+    "correct_option": "A combination of microprogramming and hardwiring",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a component of a control unit?",
+    "opt1": "Instruction register",
+    "opt2": "Decoder",
+    "opt3": "Arithmetic logic unit",
+    "opt4": "Sequencer",
+    "correct_option": "Arithmetic logic unit",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The instruction register of a control unit holds:",
+    "opt1": "The opcode of the current instruction",
+    "opt2": "The memory address of the current instruction",
+    "opt3": "The current instruction being executed",
+    "opt4": "The result of the current instruction",
+    "correct_option": "The current instruction being executed",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The decoder of a control unit is responsible for:",
+    "opt1": "Converting binary data to decimal data",
+    "opt2": "Interpreting the opcode of an instruction",
+    "opt3": "Performing arithmetic operations",
+    "opt4": "Accessing memory",
+    "correct_option": "Interpreting the opcode of an instruction",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a type of control unit design?",
+    "opt1": "Hardwired control unit",
+    "opt2": "Microprogrammed control unit",
+    "opt3": "Hybrid control unit",
+    "opt4": "Centralized control unit",
+    "correct_option": "Centralized control unit",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "In a hardwired control unit, the control signals are generated by:",
+    "opt1": "A microprogram",
+    "opt2": "Logic gates and flip-flops",
+    "opt3": "The CPU cache",
+    "opt4": "The main memory",
+    "correct_option": "Logic gates and flip-flops",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a component of a control unit?",
+    "opt1": "Instruction register",
+    "opt2": "Control register",
+    "opt3": "Decoder",
+    "opt4": "Arithmetic logic unit",
+    "correct_option": "Arithmetic logic unit",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The control unit is responsible for:",
+    "opt1": "Fetching instructions from memory",
+    "opt2": "Decoding instructions",
+    "opt3": "Executing instructions",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a design approach for implementing a control unit?",
+    "opt1": "Hardwired control",
+    "opt2": "Microprogrammed control",
+    "opt3": "Sequential control",
+    "opt4": "State machine control",
+    "correct_option": "Sequential control",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "In hardwired control, the control signals are generated by:",
+    "opt1": "A microinstruction",
+    "opt2": "A state machine",
+    "opt3": "A combination of gates and flip-flops",
+    "opt4": "The CPU cache",
+    "correct_option": "A combination of gates and flip-flops",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Microprogrammed control uses:",
+    "opt1": "Hardwired logic circuits to generate control signals",
+    "opt2": "A program stored in ROM to generate control signals",
+    "opt3": "A state machine to generate control signals",
+    "opt4": "A combination of gates and flip-flops to generate control signals",
+    "correct_option": "A program stored in ROM to generate control signals",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not an advantage of using microprogrammed control?",
+    "opt1": "Increased flexibility",
+    "opt2": "Simplified hardware design",
+    "opt3": "Improved performance",
+    "opt4": "Easier debugging and maintenance",
+    "correct_option": "Improved performance",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The microprogram stored in ROM for a microprogrammed control unit is also known as:",
+    "opt1": "Control memory",
+    "opt2": "Data memory",
+    "opt3": "Address memory",
+    "opt4": "Cache memory",
+    "correct_option": "Control memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In state machine control, the control unit is implemented as:",
+    "opt1": "A combinational logic circuit",
+    "opt2": "A sequential logic circuit",
+    "opt3": "A program stored in ROM",
+    "opt4": "A microinstruction",
+    "correct_option": "A sequential logic circuit",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a type of instruction used by a control unit?",
+    "opt1": "Arithmetic instructions",
+    "opt2": "Control transfer instructions",
+    "opt3": "Input/output instructions",
+    "opt4": "Data transfer instructions",
+    "correct_option": "Arithmetic instructions",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The instruction register in a control unit is used to:",
+    "opt1": "Store the current instruction being executed",
+    "opt2": "Store the address of the next instruction",
+    "opt3": "Store the result of an arithmetic operation",
+    "opt4": "Store a microinstruction",
+    "correct_option": "Store the current instruction being executed",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The CPU consists of which two main components?",
+    "opt1": "Memory and control unit",
+    "opt2": "Control unit and arithmetic logic unit",
+    "opt3": "Arithmetic logic unit and memory",
+    "opt4": "Input/output unit and control unit",
+    "correct_option": "Control unit and arithmetic logic unit",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the function of the arithmetic logic unit (ALU) in the CPU?",
+    "opt1": "To fetch instructions from memory",
+    "opt2": "To decode instructions",
+    "opt3": "To execute arithmetic and logic operations",
+    "opt4": "To store results in memory",
+    "correct_option": "To execute arithmetic and logic operations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The clock speed of a CPU is measured in:",
+    "opt1": "Megabytes per second",
+    "opt2": "Gigahertz",
+    "opt3": "Terabytes",
+    "opt4": "Kilohertz",
+    "correct_option": "Gigahertz",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the register file in the CPU?",
+    "opt1": "To store the program counter",
+    "opt2": "To store instructions being executed",
+    "opt3": "To store intermediate results of calculations",
+    "opt4": "To store data from memory",
+    "correct_option": "To store intermediate results of calculations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of register in the CPU?",
+    "opt1": "Program counter",
+    "opt2": "Instruction register",
+    "opt3": "Control register",
+    "opt4": "Cache register",
+    "correct_option": "Cache register",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The program counter (PC) in the CPU is used to:",
+    "opt1": "Store intermediate results of calculations",
+    "opt2": "Store the current instruction being executed",
+    "opt3": "Store the address of the next instruction to be executed",
+    "opt4": "Store data from memory",
+    "correct_option": "Store the address of the next instruction to be executed",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a function of the control unit in the CPU?",
+    "opt1": "Fetching instructions from memory",
+    "opt2": "Decoding instructions",
+    "opt3": "Executing instructions",
+    "opt4": "Controlling the flow of data between registers and ALU",
+    "correct_option": "Executing instructions",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of the cache memory in the CPU?",
+    "opt1": "To store intermediate results of calculations",
+    "opt2": "To store frequently used instructions and data for quick access",
+    "opt3": "To store the program counter",
+    "opt4": "To store data from memory",
+    "correct_option": "To store frequently used instructions and data for quick access",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a function of the input/output unit in the CPU?",
+    "opt1": "To fetch instructions from memory",
+    "opt2": "To transfer data between the CPU and input/output devices",
+    "opt3": "To communicate with the operating system",
+    "opt4": "To convert data into a format that can be understood by the CPU",
+    "correct_option": "To fetch instructions from memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The Von Neumann architecture of CPU design includes:",
+    "opt1": "Separate memory for instructions and data",
+    "opt2": "Separate buses for instructions and data",
+    "opt3": "A single bus for both instructions and data",
+    "opt4": "Multiple buses for both instructions and data",
+    "correct_option": "A single bus for both instructions and data",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a component of a CPU?",
+    "opt1": "Control unit",
+    "opt2": "Memory unit",
+    "opt3": "Arithmetic logic unit",
+    "opt4": "Register unit",
+    "correct_option": "Memory unit",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The main function of the control unit is to:",
+    "opt1": "Fetching instructions from memory",
+    "opt2": "Manage data transfer between devices",
+    "opt3": "Storing data in memory",
+    "opt4": "Manage the overall operation of the CPU",
+    "correct_option": "Manage the overall operation of the CPU",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The arithmetic logic unit (ALU) is responsible for:",
+    "opt1": "Perform arithmetic operations",
+    "opt2": "Decoding instructions",
+    "opt3": "Execute instructions",
+    "opt4": "Performing arithmetic and logic operations",
+    "correct_option": "Performing arithmetic and logic operations",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a type of register found in a CPU?",
+    "opt1": "Program counter",
+    "opt2": "Instruction register",
+    "opt3": "Memory register",
+    "opt4": "Accumulator",
+    "correct_option": "Memory register",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The program counter (PC) is used to:",
+    "opt1": "Store the current instruction being executed",
+    "opt2": "Store the result of an arithmetic operation",
+    "opt3": "Store the address of the next instruction to be fetched",
+    "opt4": "Store data for use in a calculation",
+    "correct_option": "Store the address of the next instruction to be fetched",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The instruction register (IR) is used to:",
+    "opt1": "Store the current instruction being executed",
+    "opt2": "Store the address of the next instruction to be fetched",
+    "opt3": "Store the result of an arithmetic operation",
+    "opt4": "Store data for use in a calculation",
+    "correct_option": "Store the current instruction being executed",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The fetch-decode-execute cycle is the basic operation of a CPU. Which of the following is the correct order of these three steps?",
+    "opt1": "Fetch, decode, execute",
+    "opt2": "Decode, fetch, execute",
+    "opt3": "Execute, fetch, decode",
+    "opt4": "Execute, decode, fetch",
+    "correct_option": "Fetch, decode, execute",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a function of the memory management unit (MMU)?",
+    "opt1": "Caching of frequently used data",
+    "opt2": "Translation of virtual addresses to physical addresses",
+    "opt3": "Access control to memory locations",
+    "opt4": "Paging of memory to disk when needed",
+    "correct_option": "Caching of frequently used data",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Clock speed is a measure of:",
+    "opt1": "The amount of memory in a CPU",
+    "opt2": "The frequency at which instructions are executed",
+    "opt3": "The number of cores in a CPU",
+    "opt4": "The size of the cache memory",
+    "correct_option": "The frequency at which instructions are executed",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a factor that affects CPU performance?",
+    "opt1": "Clock speed",
+    "opt2": "Number of cores",
+    "opt3": "Cache size",
+    "opt4": "Amount of RAM",
+    "correct_option": "Amount of RAM",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The Arithmetic and Logic Unit (ALU) is responsible for:",
+    "opt1": "Storing data in memory",
+    "opt2": "Executing instructions",
+    "opt3": "Managing the operation of the CPU",
+    "opt4": "Fetching instructions from memory",
+    "correct_option": "Executing instructions",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following operations is not performed by the ALU?",
+    "opt1": "Addition",
+    "opt2": "Subtraction",
+    "opt3": "Multiplication",
+    "opt4": "Data transfer",
+    "correct_option": "Data transfer",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The ALU is composed of two types of circuits. What are they?",
+    "opt1": "Decoder and control circuits",
+    "opt2": "Adder and logic circuits",
+    "opt3": "Multiplexer and demultiplexer circuits",
+    "opt4": "Input and output circuits",
+    "correct_option": "Adder and logic circuits",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a logic operation performed by the ALU?",
+    "opt1": "AND",
+    "opt2": "OR",
+    "opt3": "NOT",
+    "opt4": "Addition",
+    "correct_option": "Addition",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The carry flag is used to indicate what?",
+    "opt1": "Whether the last operation resulted in a positive number",
+    "opt2": "Whether the last operation resulted in a negative number",
+    "opt3": "Whether the last operation resulted in a zero",
+    "opt4": "Whether the last operation resulted in an overflow or underflow",
+    "correct_option": "Whether the last operation resulted in an overflow or underflow",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The zero flag is used to indicate what?",
+    "opt1": "Whether the last operation resulted in a positive number",
+    "opt2": "Whether the last operation resulted in a negative number",
+    "opt3": "Whether the last operation resulted in a zero",
+    "opt4": "Whether the last operation resulted in an overflow or underflow",
+    "correct_option": "Whether the last operation resulted in a zero",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not an arithmetic operation performed by the ALU?",
+    "opt1": "Increment",
+    "opt2": "Decrement",
+    "opt3": "Shift left",
+    "opt4": "Addition",
+    "correct_option": "Shift left",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The ALU can perform logical operations on binary numbers. Which of the following is true for the AND operation?",
+    "opt1": "0 AND 0 = 1",
+    "opt2": "0 AND 1 = 0",
+    "opt3": "1 AND 1 = 0",
+    "opt4": "All of the above",
+    "correct_option": "0 AND 1 = 0",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The ALU can perform logical operations on binary numbers. Which of the following is true for the OR operation?",
+    "opt1": "0 OR 0 = 1",
+    "opt2": "0 OR 1 = 1",
+    "opt3": "1 OR 1 = 0",
+    "opt4": "All of the above",
+    "correct_option": "0 OR 1 = 1",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The ALU can perform logical operations on binary numbers. Which of the following is true for the NOT operation?",
+    "opt1": "NOT 0 = 0",
+    "opt2": "NOT 1 = 1",
+    "opt3": "NOT 1 = 0",
+    "opt4": "NOT 0 = 0",
+    "correct_option": "NOT 1 = 0",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "The Arithmetic Logic Unit (ALU) is a part of the:",
+    "opt1": "Control Unit",
+    "opt2": "Memory Unit",
+    "opt3": "Input Unit",
+    "opt4": "Output Unit",
+    "correct_option": "Control Unit",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "The ALU performs which of the following types of operations?",
+    "opt1": "Arithmetic operations only",
+    "opt2": "Logic operations only",
+    "opt3": "Both arithmetic and logic operations",
+    "opt4": "Neither arithmetic nor logic operations",
+    "correct_option": "Both arithmetic and logic operations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not an arithmetic operation performed by the ALU?",
+    "opt1": "Addition",
+    "opt2": "Subtraction",
+    "opt3": "Multiplication",
+    "opt4": "Comparison",
+    "correct_option": "Comparison",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a logical operation performed by the ALU?",
+    "opt1": "AND",
+    "opt2": "OR",
+    "opt3": "NOT",
+    "opt4": "Addition",
+    "correct_option": "Addition",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The result of an arithmetic operation performed by the ALU is stored in the:",
+    "opt1": "Program Counter (PC)",
+    "opt2": "Instruction Register (IR)",
+    "opt3": "Memory",
+    "opt4": "Accumulator",
+    "correct_option": "Accumulator",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The result of a logical operation performed by the ALU is stored in the:",
+    "opt1": "Program Counter (PC)",
+    "opt2": "Instruction Register (IR)",
+    "opt3": "Memory",
+    "opt4": "Accumulator",
+    "correct_option": "Accumulator",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a flag bit that can be set by the ALU?",
+    "opt1": "Zero flag",
+    "opt2": "Overflow flag",
+    "opt3": "Carry flag",
+    "opt4": "Negative flag",
+    "correct_option": "Overflow flag",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "The carry flag is set when:",
+    "opt1": "The result of a logical operation overflows",
+    "opt2": "The result of a subtraction operation overflows",
+    "opt3": "The result of a multiplication operation overflows",
+    "opt4": "The result of an addition operation overflows",
+    "correct_option": "The result of an addition operation overflows",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The overflow flag is set when:",
+    "opt1": "The result of a logical operation overflows",
+    "opt2": "The result of a subtraction operation overflows",
+    "opt3": "The result of a multiplication operation overflows",
+    "opt4": "The result of an addition operation overflows",
+    "correct_option": "The result of an addition operation overflows",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "The NOT operation performed by the ALU is also known as the:",
+    "opt1": "Inverter",
+    "opt2": "Comparator",
+    "opt3": "Decoder",
+    "opt4": "Encoder",
+    "correct_option": "Inverter",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "In immediate addressing mode, the operand is:",
+    "opt1": "A memory address",
+    "opt2": "A register",
+    "opt3": "An immediate value",
+    "opt4": "None of the above",
+    "correct_option": "An immediate value",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which addressing mode allows for the use of a memory address directly in the instruction?",
+    "opt1": "Immediate",
+    "opt2": "Direct",
+    "opt3": "Indirect",
+    "opt4": "Inverted",
+    "correct_option": "Direct",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In indirect addressing mode, the operand is:",
+    "opt1": "A memory address stored in a register",
+    "opt2": "An immediate value",
+    "opt3": "The value stored at a memory address",
+    "opt4": "None of the above",
+    "correct_option": "A memory address stored in a register",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which addressing mode is typically used for accessing elements in an array?",
+    "opt1": "Immediate",
+    "opt2": "Direct",
+    "opt3": "Indirect",
+    "opt4": "Indexed",
+    "correct_option": "Indexed",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "RISC stands for:",
+    "opt1": "Reduced Instruction Set Computer",
+    "opt2": "Real Instruction Set Computer",
+    "opt3": "Random Instruction Set Computer",
+    "opt4": "Robust Instruction Set Computer",
+    "correct_option": "Reduced Instruction Set Computer",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "CISC stands for:",
+    "opt1": "Complex Instruction Set Computer",
+    "opt2": "Compact Instruction Set Computer",
+    "opt3": "Common Instruction Set Computer",
+    "opt4": "Cooperative Instruction Set Computer",
+    "correct_option": "Complex Instruction Set Computer",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of CPU design uses a small set of simple instructions?",
+    "opt1": "RISC",
+    "opt2": "CISC",
+    "opt3": "Both RISC and CISC",
+    "opt4": "Neither RISC nor CISC",
+    "correct_option": "RISC",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Pipelining is a technique used to:",
+    "opt1": "Increase the clock speed of a CPU",
+    "opt2": "Increase the number of registers in a CPU",
+    "opt3": "Increase the number of cores in a CPU",
+    "opt4": "Increase the number of instructions that can be executed simultaneously",
+    "correct_option": "Increase the number of instructions that can be executed simultaneously",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which level of the memory hierarchy is the fastest, smallest, and most expensive?",
+    "opt1": "Level 1 cache",
+    "opt2": "Level 2 cache",
+    "opt3": "Main memory",
+    "opt4": "Secondary storage",
+    "correct_option": "Level 1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which level of the memory hierarchy is typically the largest and the slowest?",
+    "opt1": "Level 1 cache",
+    "opt2": "Level 2 cache",
+    "opt3": "Main memory",
+    "opt4": "Secondary storage",
+    "correct_option": "Secondary storage",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of memory is volatile and loses its contents when power is turned off?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Cache",
+    "opt4": "Secondary storage",
+    "correct_option": "RAM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is non-volatile and retains its contents even when power is turned off?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Cache",
+    "opt4": "Secondary storage",
+    "correct_option": "ROM",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the primary purpose of cache memory?",
+    "opt1": "To store frequently accessed data for faster access",
+    "opt2": "To store all data in the system",
+    "opt3": "To store data that is rarely accessed",
+    "opt4": "To store data permanently",
+    "correct_option": "To store frequently accessed data for faster access",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which level of cache memory is closest to the CPU?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "All levels are equidistant from the CPU",
+    "correct_option": "L1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the cache line size?",
+    "opt1": "The amount of data that can be stored in a cache block",
+    "opt2": "The amount of data that can be stored in main memory",
+    "opt3": "The amount of data that can be stored in virtual memory",
+    "opt4": "The amount of data that can be processed by the CPU in a single clock cycle",
+    "correct_option": "The amount of data that can be stored in a cache block",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which mapping function maps a block of main memory to a single cache line?",
+    "opt1": "Direct mapping",
+    "opt2": "Associative mapping",
+    "opt3": "Set-associative mapping",
+    "opt4": "None of the above",
+    "correct_option": "Direct mapping",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which mapping function allows any block of main memory to be placed in any cache line?",
+    "opt1": "Direct mapping",
+    "opt2": "Associative mapping",
+    "opt3": "Set-associative mapping",
+    "opt4": "None of the above",
+    "correct_option": "Associative mapping",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "In a direct-mapped cache, how many cache lines can a block of main memory be mapped to?",
+    "opt1": "One",
+    "opt2": "Two",
+    "opt3": "Multiple",
+    "opt4": "None",
+    "correct_option": "One",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which replacement algorithm replaces the cache line that has been unused for the longest time?",
+    "opt1": "Least Recently Used (LRU)",
+    "opt2": "First-In-First-Out (FIFO)",
+    "opt3": "Random Replacement",
+    "opt4": "Least Frequently Used (LFU)",
+    "correct_option": "Least Recently Used (LRU)",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which write policy updates the cache first and then later updates the main memory when the cache line is replaced?",
+    "opt1": "Write-through",
+    "opt2": "Write-back",
+    "opt3": "Write-around",
+    "opt4": "Write-invalidate",
+    "correct_option": "Write-back",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the advantage of write-through policy in cache memory?",
+    "opt1": "Lower write latency",
+    "opt2": "Lower cache miss rate",
+    "opt3": "Lower main memory traffic",
+    "opt4": "Higher cache hit rate",
+    "correct_option": "Lower write latency",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the disadvantage of write-through policy in cache memory?",
+    "opt1": "Higher write latency",
+    "opt2": "Higher cache miss rate",
+    "opt3": "Higher main memory traffic",
+    "opt4": "Lower cache hit rate",
+    "correct_option": "Higher main memory traffic",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the advantage of write-back policy in cache memory?",
+    "opt1": "Lower write latency",
+    "opt2": "Lower cache miss rate",
+    "opt3": "Lower main memory traffic",
+    "opt4": "Higher cache hit rate",
+    "correct_option": "Lower main memory traffic",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the disadvantage of write-back policy in cache memory?",
+    "opt1": "Higher write latency",
+    "opt2": "Higher cache miss rate",
+    "opt3": "Higher main memory traffic",
+    "opt4": "Lower cache hit rate",
+    "correct_option": "Higher write latency",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which write policy in cache memory is used in systems with multiple processors and a shared cache to ensure consistency?",
+    "opt1": "Write-back policy",
+    "opt2": "Write-through policy",
+    "opt3": "Write-allocate policy",
+    "opt4": "Write-nonallocate policy",
+    "correct_option": "Write-through policy",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a benefit of having multiple levels of caches in a computer system?",
+    "opt1": "Reduced latency for memory access",
+    "opt2": "Lower cost per cache level",
+    "opt3": "Reduced power consumption",
+    "opt4": "Higher cache hit rate",
+    "correct_option": "Reduced latency for memory access",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the primary disadvantage of having multiple levels of caches in a computer system?",
+    "opt1": "Increased latency for memory access",
+    "opt2": "Higher cost per cache level",
+    "opt3": "Increased power consumption",
+    "opt4": "Lower cache hit rate",
+    "correct_option": "Higher cost per cache level",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of a two-level cache hierarchy in a computer system?",
+    "opt1": "L1 cache and main memory",
+    "opt2": "L1 cache, L2 cache, and main memory",
+    "opt3": "L2 cache and main memory",
+    "opt4": "L1 cache, L2 cache, L3 cache, and main memory",
+    "correct_option": "L1 cache, L2 cache, and main memory",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which write policy in cache memory requires the use of a dirty bit to indicate when a cache line has been modified?",
+    "opt1": "Write-through policy",
+    "opt2": "Write-back policy",
+    "opt3": "Write-allocate policy",
+    "opt4": "Write-nonallocate policy",
+    "correct_option": "Write-back policy",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which cache level is typically the smallest and fastest in a multi-level cache hierarchy?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which cache level is typically the largest and slowest in a multi-level cache hierarchy?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L3 cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which cache level is typically located on the processor chip in a computer system?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "Main memory",
+    "correct_option": "L1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which cache level is typically shared among multiple processor cores in a multi-core computer system?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "Main memory",
+    "correct_option": "L3 cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of a unified cache that combines instructions and data in a single cache?",
+    "opt1": "Direct-mapped cache",
+    "opt2": "Set-associative cache",
+    "opt3": "Fully-associative cache",
+    "opt4": "Virtually-indexed cache",
+    "correct_option": "Set-associative cache",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which cache organization allows a single memory location to be stored in multiple cache locations?",
+    "opt1": "Direct-mapped cache",
+    "opt2": "Set-associative cache",
+    "opt3": "Fully-associative cache",
+    "opt4": "Virtually-indexed cache",
+    "correct_option": "Set-associative cache",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which cache organization uses a tag field to determine whether a given memory location is stored in a particular cache location?",
+    "opt1": "Direct-mapped cache",
+    "opt2": "Set-associative cache",
+    "opt3": "Fully-associative cache",
+    "opt4": "All of the above",
+    "correct_option": "Fully-associative cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the term used to describe a system with multiple levels of caches?",
+    "opt1": "Cache hierarchy",
+    "opt2": "Cache mapping",
+    "opt3": "Cache replacement",
+    "opt4": "Cache associativity",
+    "correct_option": "Cache hierarchy",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of having multiple levels of caches?",
+    "opt1": "To reduce cache hit time",
+    "opt2": "To reduce main memory traffic",
+    "opt3": "To increase cache miss rate",
+    "opt4": "To increase cache capacity",
+    "correct_option": "To reduce main memory traffic",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which level of cache is usually the smallest and fastest?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which level of cache is usually shared between multiple cores or processors?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L3 cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the typical size of an L1 cache in modern processors?",
+    "opt1": "1-2 KB",
+    "opt2": "8-16 KB",
+    "opt3": "64-128 KB",
+    "opt4": "512 KB-1 MB",
+    "correct_option": "64-128 KB",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the typical size of an L2 cache in modern processors?",
+    "opt1": "1-2 MB",
+    "opt2": "4-8 MB",
+    "opt3": "16-32 MB",
+    "opt4": "64-128 MB",
+    "correct_option": "1-2 MB",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of having a larger cache?",
+    "opt1": "To reduce cache hit time",
+    "opt2": "To reduce main memory traffic",
+    "opt3": "To increase cache miss rate",
+    "opt4": "To increase cache capacity",
+    "correct_option": "To reduce main memory traffic",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which cache level is usually the largest and slowest?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L3 cache",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the main disadvantage of having multiple levels of caches?",
+    "opt1": "Increased power consumption",
+    "opt2": "Increased cache miss rate",
+    "opt3": "Increased cache hit time",
+    "opt4": "Increased complexity and cost",
+    "correct_option": "Increased complexity and cost",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which cache level is the most expensive to implement?",
+    "opt1": "L1 cache",
+    "opt2": "L2 cache",
+    "opt3": "L3 cache",
+    "opt4": "L4 cache",
+    "correct_option": "L1 cache",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a characteristic of volatile memory?",
+    "opt1": "It retains data even when the power is turned off",
+    "opt2": "It loses data when the power is turned off",
+    "opt3": "It is slower than non-volatile memory",
+    "opt4": "It requires less power than non-volatile memory",
+    "correct_option": "It loses data when the power is turned off",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of non-volatile memory?",
+    "opt1": "DRAM",
+    "opt2": "SRAM",
+    "opt3": "Flash memory",
+    "opt4": "Cache memory",
+    "correct_option": "Flash memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of memory is typically used for main memory in a computer system?",
+    "opt1": "Volatile memory",
+    "opt2": "Non-volatile memory",
+    "opt3": "Flash memory",
+    "opt4": "Magnetic memory",
+    "correct_option": "Volatile memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a characteristic of write-through caching?",
+    "opt1": "It writes data to both the cache and main memory simultaneously",
+    "opt2": "It writes data to the cache only when it is needed",
+    "opt3": "It writes data to main memory only when it is needed",
+    "opt4": "It stores only a subset of the data in the cache",
+    "correct_option": "It writes data to both the cache and main memory simultaneously",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a characteristic of write-back caching?",
+    "opt1": "It writes data to both the cache and main memory simultaneously",
+    "opt2": "It writes data to the cache only when it is needed",
+    "opt3": "It writes data to main memory only when it is needed",
+    "opt4": "It stores only a subset of the data in the cache",
+    "correct_option": "It writes data to main memory only when it is needed",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an advantage of write-back caching?",
+    "opt1": "It reduces the memory access time",
+    "opt2": "It reduces the cache hit rate",
+    "opt3": "It reduces the number of writes to main memory",
+    "opt4": "It increases the number of writes to main memory",
+    "correct_option": "It reduces the number of writes to main memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of write-through caching?",
+    "opt1": "It increases the memory access time",
+    "opt2": "It reduces the cache hit rate",
+    "opt3": "It increases the cache size",
+    "opt4": "It increases the number of writes to main memory",
+    "correct_option": "It increases the number of writes to main memory",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of write-back caching?",
+    "opt1": "It reduces the cache hit rate",
+    "opt2": "It increases the memory access time",
+    "opt3": "It increases the number of writes to main memory",
+    "opt4": "It reduces the cache size",
+    "correct_option": "It increases the memory access time",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of a non-volatile memory technology used in solid-state drives (SSDs)?",
+    "opt1": "DRAM",
+    "opt2": "SRAM",
+    "opt3": "NAND flash",
+    "opt4": "Cache memory",
+    "correct_option": "NAND flash",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using non-volatile memory for main memory?",
+    "opt1": "It is slower than volatile memory",
+    "opt2": "It is more expensive than volatile memory",
+    "opt3": "It requires more power than volatile memory",
+    "opt4": "It is less reliable than volatile memory",
+    "correct_option": "It is slower than volatile memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is non-volatile and has the highest storage capacity?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Hard disk",
+    "opt4": "Flash memory",
+    "correct_option": "Hard disk",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of a write buffer in a computer memory system?",
+    "opt1": "To reduce the time it takes to write to main memory",
+    "opt2": "To increase the storage capacity of the memory system",
+    "opt3": "To improve the reliability of the memory system",
+    "opt4": "To reduce the cost of the memory system",
+    "correct_option": "To reduce the time it takes to write to main memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the difference between volatile and non-volatile memory?",
+    "opt1": "Volatile memory can only be read from, while non-volatile memory can be both read and written to",
+    "opt2": "Volatile memory requires power to retain its data, while non-volatile memory retains data even without power",
+    "opt3": "Volatile memory is faster than non-volatile memory",
+    "opt4": "Non-volatile memory has a higher storage capacity than volatile memory",
+    "correct_option": "Volatile memory requires power to retain its data, while non-volatile memory retains data even without power",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of volatile memory?",
+    "opt1": "Hard disk",
+    "opt2": "Flash memory",
+    "opt3": "ROM",
+    "opt4": "SRAM",
+    "correct_option": "SRAM",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of memory is typically used to store the BIOS in a computer system?",
+    "opt1": "RAM",
+    "opt2": "ROM",
+    "opt3": "Hard disk",
+    "opt4": "Cache memory",
+    "correct_option": "ROM",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the difference between static RAM (SRAM) and dynamic RAM (DRAM)?",
+    "opt1": "SRAM is faster than DRAM",
+    "opt2": "SRAM is more dense than DRAM",
+    "opt3": "SRAM is more expensive than DRAM",
+    "opt4": "SRAM requires less power than DRAM",
+    "correct_option": "SRAM is faster than DRAM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is typically used for level 1 (L1) and level 2 (L2) caches in a processor?",
+    "opt1": "SRAM",
+    "opt2": "DRAM",
+    "opt3": "ROM",
+    "opt4": "Flash memory",
+    "correct_option": "SRAM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an advantage of dual In-line memory modules (DIMMs) over single in-line memory modules (SIMMs)?",
+    "opt1": "Faster data transfer rates",
+    "opt2": "Higher memory capacity",
+    "opt3": "Lower power consumption",
+    "opt4": "Easier installation",
+    "correct_option": "Faster data transfer rates",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the process of accessing data from multiple memory banks simultaneously called?",
+    "opt1": "Concurrent memory access",
+    "opt2": "Parallel memory access",
+    "opt3": "Linear memory access",
+    "opt4": "Sequential memory access",
+    "correct_option": "Parallel memory access",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of parity bits in memory systems?",
+    "opt1": "To increase the storage capacity of the memory system",
+    "opt2": "To improve the reliability of the memory system",
+    "opt3": "To reduce the time it takes to read from the memory system",
+    "opt4": "To reduce the cost of the memory system",
+    "correct_option": "To improve the reliability of the memory system",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of memory is most commonly used for main memory in modern computers?",
+    "opt1": "DRAM",
+    "opt2": "SRAM",
+    "opt3": "ROM",
+    "opt4": "Flash memory",
+    "correct_option": "DRAM",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is typically used for virtual memory in a computer system?",
+    "opt1": "Hard disk",
+    "opt2": "ROM",
+    "opt3": "SRAM",
+    "opt4": "Flash memory",
+    "correct_option": "Hard disk",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an advantage of static RAM (SRAM) over dynamic RAM (DRAM)?",
+    "opt1": "Lower power consumption",
+    "opt2": "Faster access times",
+    "opt3": "Higher memory density",
+    "opt4": "Cheaper cost per bit",
+    "correct_option": "Faster access times",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of memory is commonly used for cache memory in modern computers?",
+    "opt1": "DRAM",
+    "opt2": "SRAM",
+    "opt3": "ROM",
+    "opt4": "Flash memory",
+    "correct_option": "SRAM",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of composing memory in a computer system?",
+    "opt1": "To increase the total amount of memory available to the system",
+    "opt2": "To speed up the data access times of the system",
+    "opt3": "To simplify the design of the memory subsystem",
+    "opt4": "To reduce the cost of the memory subsystem",
+    "correct_option": "To increase the total amount of memory available to the system",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an example of composed memory?",
+    "opt1": "Virtual memory",
+    "opt2": "Cache memory",
+    "opt3": "Registers",
+    "opt4": "Main memory",
+    "correct_option": "Virtual memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the primary disadvantage of composed memory?",
+    "opt1": "High cost",
+    "opt2": "High access times",
+    "opt3": "Limited capacity",
+    "opt4": "Complexity of the design",
+    "correct_option": "Complexity of the design",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of memory is typically used as the main memory in a computer system?",
+    "opt1": "Cache memory",
+    "opt2": "Virtual memory",
+    "opt3": "Registers",
+    "opt4": "DRAM",
+    "correct_option": "DRAM",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a benefit of composed memory?",
+    "opt1": "Increased memory capacity",
+    "opt2": "Improved access times",
+    "opt3": "Lower power consumption",
+    "opt4": "Simplified memory management",
+    "correct_option": "Lower power consumption",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of virtual memory?",
+    "opt1": "Allows programs to exceed physical memory capacity",
+    "opt2": "Uses a page table to map virtual addresses to physical addresses",
+    "opt3": "Stores data in registers",
+    "opt4": "Provides memory protection between programs",
+    "correct_option": "Stores data in registers",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of a memory hierarchy in a computer system?",
+    "opt1": "To reduce the cost of the memory subsystem",
+    "opt2": "To simplify the design of the memory subsystem",
+    "opt3": "To increase the amount of memory available to the system",
+    "opt4": "To optimize memory access times",
+    "correct_option": "To optimize memory access times",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a type of cache memory?",
+    "opt1": "Direct-mapped cache",
+    "opt2": "Set-associative cache",
+    "opt3": "Fully associative cache",
+    "opt4": "Static RAM cache",
+    "correct_option": "Static RAM cache",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a level in a typical memory hierarchy?",
+    "opt1": "Registers",
+    "opt2": "Main memory",
+    "opt3": "Cache memory",
+    "opt4": "Virtual memory",
+    "correct_option": "Virtual memory",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the process of combining multiple memory chips to increase memory capacity called?",
+    "opt1": "Multiprocessing",
+    "opt2": "Memory mapping",
+    "opt3": "Memory composing",
+    "opt4": "Memory banking",
+    "correct_option": "Memory banking",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is NOT a benefit of memory banking?",
+    "opt1": "Increased memory capacity",
+    "opt2": "Increased memory speed",
+    "opt3": "Reduced memory access time",
+    "opt4": "Reduced power consumption",
+    "correct_option": "Reduced power consumption",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "In memory banking, what is a memory module?",
+    "opt1": "A collection of memory chips",
+    "opt2": "A collection of cache lines",
+    "opt3": "A collection of memory banks",
+    "opt4": "A collection of registers",
+    "correct_option": "A collection of memory chips",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of multiprocessor system is designed to work on multiple independent tasks simultaneously?",
+    "opt1": "Multicomputer system",
+    "opt2": "Symmetric multiprocessing",
+    "opt3": "Cluster computing",
+    "opt4": "Asymmetric multiprocessing",
+    "correct_option": "Symmetric multiprocessing",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of a peripheral device in Input-Output organization?",
+    "opt1": "CPU",
+    "opt2": "RAM",
+    "opt3": "Keyboard",
+    "opt4": "Main Memory",
+    "correct_option": "Keyboard",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of device is a printer?",
+    "opt1": "Input device",
+    "opt2": "Output device",
+    "opt3": "Processing device",
+    "opt4": "Storage device",
+    "correct_option": "Output device",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of peripheral device is used to input graphical information into a computer?",
+    "opt1": "Mouse",
+    "opt2": "Webcam",
+    "opt3": "Scanner",
+    "opt4": "Graphics tablet",
+    "correct_option": "Scanner",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of peripheral device is commonly used to store backups of important data?",
+    "opt1": "Keyboard",
+    "opt2": "External hard drive",
+    "opt3": "Joystick",
+    "opt4": "Monitor",
+    "correct_option": "External hard drive",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of an input peripheral device?",
+    "opt1": "Printer",
+    "opt2": "Scanner",
+    "opt3": "Speaker",
+    "opt4": "Monitor",
+    "correct_option": "Scanner",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of peripheral device is used to display output on a computer?",
+    "opt1": "Printer",
+    "opt2": "External hard drive",
+    "opt3": "Monitor",
+    "opt4": "Keyboard",
+    "correct_option": "Monitor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following devices is used to read data from optical storage media?",
+    "opt1": "Scanner",
+    "opt2": "Printer",
+    "opt3": "CD/DVD drive",
+    "opt4": "Joystick",
+    "correct_option": "CD/DVD drive",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of peripheral device is used to provide additional storage space for a computer?",
+    "opt1": "Printer",
+    "opt2": "External hard drive",
+    "opt3": "Keyboard",
+    "opt4": "Monitor",
+    "correct_option": "External hard drive",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of device is commonly used to control the movement of the cursor on a computer screen?",
+    "opt1": "Keyboard",
+    "opt2": "Mouse",
+    "opt3": "Joystick",
+    "opt4": "Microphone",
+    "correct_option": "Mouse",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of peripheral device is used to input voice commands into a computer?",
+    "opt1": "Microphone",
+    "opt2": "Webcam",
+    "opt3": "Graphics tablet",
+    "opt4": "Scanner",
+    "correct_option": "Microphone",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of computer system allows multiple processors to work together on a task?",
+    "opt1": "Multiprocessing system",
+    "opt2": "Multitasking system",
+    "opt3": "Single-user system",
+    "opt4": "Multithreaded system",
+    "correct_option": "Multiprocessing system",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an example of an output peripheral device?",
+    "opt1": "Keyboard",
+    "opt2": "Mouse",
+    "opt3": "Printer",
+    "opt4": "Processing device",
+    "correct_option": "Printer",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT an example of a storage peripheral device?",
+    "opt1": "Hard disk drive",
+    "opt2": "Solid-state drive",
+    "opt3": "Flash drive",
+    "opt4": "Printer",
+    "correct_option": "Printer",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of peripheral device is used to connect a computer to a network?",
+    "opt1": "Input device",
+    "opt2": "Output device",
+    "opt3": "Storage device",
+    "opt4": "Communication device",
+    "correct_option": "Communication device",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of a multiprocessor system?",
+    "opt1": "A single-core processor running multiple tasks simultaneously",
+    "opt2": "A dual-core processor running multiple tasks simultaneously",
+    "opt3": "A network of computers working together on a single task",
+    "opt4": "A single computer running multiple virtual machines simultaneously",
+    "correct_option": "A dual-core processor running multiple tasks simultaneously",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of multiprocessor system is designed to work on a single task by dividing the task into smaller subtasks?",
+    "opt1": "Symmetric multiprocessing",
+    "opt2": "Multicomputer system",
+    "opt3": "Asymmetric multiprocessing",
+    "opt4": "Cluster computing",
+    "correct_option": "Symmetric multiprocessing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of symmetric multiprocessing?",
+    "opt1": "It is difficult to implement",
+    "opt2": "It requires specialized software",
+    "opt3": "It is expensive to set up",
+    "opt4": "It can cause performance degradation due to contention for resources",
+    "correct_option": "It can cause performance degradation due to contention for resources",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of an I/O module in a computer system?",
+    "opt1": "To manage the memory",
+    "opt2": "To control the CPU",
+    "opt3": "To communicate with peripheral devices",
+    "opt4": "To process the data",
+    "correct_option": "To communicate with peripheral devices",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of Input-Output interface?",
+    "opt1": "Memory-mapped I/O",
+    "opt2": "Direct memory access (DMA)",
+    "opt3": "Input-Output Control Unit (IOCU)",
+    "opt4": "Programmable I/O",
+    "correct_option": "Input-Output Control Unit (IOCU)",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which type of I/O interface allows the CPU and peripheral devices to access the same memory location?",
+    "opt1": "Memory-mapped I/O",
+    "opt2": "Direct memory access (DMA)",
+    "opt3": "Input-Output Control Unit (IOCU)",
+    "opt4": "Programmable I/O",
+    "correct_option": "Memory-mapped I/O",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a type of programmable I/O interface?",
+    "opt1": "Serial",
+    "opt2": "Parallel",
+    "opt3": "USB",
+    "opt4": "Ethernet",
+    "correct_option": "Parallel",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of I/O interface uses a separate processor to manage data transfers between the CPU and peripheral devices?",
+    "opt1": "Memory-mapped I/O",
+    "opt2": "Direct memory access (DMA)",
+    "opt3": "Input-Output Control Unit (IOCU)",
+    "opt4": "Programmable I/O",
+    "correct_option": "Direct memory access (DMA)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a function of an I/O interface?",
+    "opt1": "Data buffering",
+    "opt2": "Error detection and correction",
+    "opt3": "Interrupt handling",
+    "opt4": "Memory management",
+    "correct_option": "Memory management",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of I/O interface uses a specialized controller to manage data transfers between the CPU and peripheral devices?",
+    "opt1": "Memory-mapped I/O",
+    "opt2": "Direct memory access (DMA)",
+    "opt3": "Input-Output Control Unit (IOCU)",
+    "opt4": "Programmable I/O",
+    "correct_option": "Direct memory access (DMA)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which type of I/O interface provides a serial data transfer between the CPU and peripheral devices?",
+    "opt1": "USB",
+    "opt2": "Parallel",
+    "opt3": "Ethernet",
+    "opt4": "Serial",
+    "correct_option": "Serial",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of I/O interface provides a high-speed data transfer between the CPU and peripheral devices?",
+    "opt1": "Serial",
+    "opt2": "Parallel",
+    "opt3": "USB",
+    "opt4": "Ethernet",
+    "correct_option": "Parallel",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of memory-mapped I/O?",
+    "opt1": "It can lead to conflicts between the CPU and peripheral devices accessing the same memory location",
+    "opt2": "It is slow compared to other types of I/O interfaces",
+    "opt3": "It is difficult to implement",
+    "opt4": "It requires specialized hardware",
+    "correct_option": "It can lead to conflicts between the CPU and peripheral devices accessing the same memory location",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is an I/O module?",
+    "opt1": "A device that performs input/output operations on behalf of the CPU",
+    "opt2": "A type of computer memory used to store input/output data",
+    "opt3": "A peripheral device used to connect computers in a network",
+    "opt4": "An input/output device used to scan documents and images",
+    "correct_option": "A device that performs input/output operations on behalf of the CPU",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of an input-output interface?",
+    "opt1": "To translate data between the computer and its peripherals",
+    "opt2": "To store input/output data in computer memory",
+    "opt3": "To control the flow of data between the CPU and peripherals",
+    "opt4": "To provide a physical connection between the CPU and peripherals",
+    "correct_option": "To translate data between the computer and its peripherals",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not an example of an I/O module?",
+    "opt1": "Network interface card (NIC)",
+    "opt2": "Graphics processing unit (GPU)",
+    "opt3": "Sound card",
+    "opt4": "Storage controller",
+    "correct_option": "Graphics processing unit (GPU)",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a function of an input-output interface?",
+    "opt1": "Data buffering",
+    "opt2": "Error detection and correction",
+    "opt3": "Data transfer control",
+    "opt4": "Data processing",
+    "correct_option": "Data processing",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an advantage of using DMA (Direct Memory Access) in an I/O module?",
+    "opt1": "Reduced CPU overhead",
+    "opt2": "Increased memory usage",
+    "opt3": "Faster data processing",
+    "opt4": "Better error correction",
+    "correct_option": "Reduced CPU overhead",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is an interrupt in the context of input-output operations?",
+    "opt1": "A signal that notifies the CPU of a peripheral event",
+    "opt2": "A type of peripheral device used for input/output operations",
+    "opt3": "An error that occurs during data transfer between the CPU and a peripheral",
+    "opt4": "A type of data transfer protocol used by I/O modules",
+    "correct_option": "A signal that notifies the CPU of a peripheral event",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of DMA in a computer system?",
+    "opt1": "To manage the memory",
+    "opt2": "To control the CPU",
+    "opt3": "To communicate with peripheral devices",
+    "opt4": "To transfer data between memory and peripheral devices",
+    "correct_option": "To transfer data between memory and peripheral devices",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a mode of transfer for DMA?",
+    "opt1": "Cycle-stealing",
+    "opt2": "Burst mode",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Interrupt mode",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "In cycle-stealing mode of DMA transfer, when does the DMA controller take control of the system bus?",
+    "opt1": "After every clock cycle",
+    "opt2": "After the CPU has completed its current instruction cycle",
+    "opt3": "Only when the CPU requests it",
+    "opt4": "Only when there is no other device using the bus",
+    "correct_option": "After the CPU has completed its current instruction cycle",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which DMA transfer mode allows for multiple transfers to occur in a single burst?",
+    "opt1": "Cycle-stealing",
+    "opt2": "Burst mode",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Burst mode",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which DMA transfer mode transfers a fixed number of data bytes or words in a single transfer?",
+    "opt1": "Cycle-stealing",
+    "opt2": "Burst mode",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Block mode",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "In which DMA transfer mode does the DMA controller interrupt the CPU after each transfer?",
+    "opt1": "Cycle-stealing",
+    "opt2": "Burst mode",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Cycle-stealing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which DMA transfer mode is the most efficient for transferring large amounts of data?",
+    "opt1": "Burst mode",
+    "opt2": "Cycle-stealing",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Burst mode",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a benefit of DMA transfer?",
+    "opt1": "It frees the CPU to perform other tasks",
+    "opt2": "It allows for faster data transfer rates",
+    "opt3": "It reduces the need for specialized hardware",
+    "opt4": "It reduces the overall power consumption of the system",
+    "correct_option": "It reduces the need for specialized hardware",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of DMA transfer?",
+    "opt1": "It can lead to conflicts between the CPU and DMA controller accessing the same memory location",
+    "opt2": "It requires specialized hardware",
+    "opt3": "It can only transfer data between memory and the CPU",
+    "opt4": "It is slower than other modes of transfer",
+    "correct_option": "It requires specialized hardware",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which DMA transfer mode is best suited for real-time applications?",
+    "opt1": "Cycle-stealing",
+    "opt2": "Burst mode",
+    "opt3": "Block mode",
+    "opt4": "Interrupt mode",
+    "correct_option": "Cycle-stealing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of DMA in a computer system?",
+    "opt1": "To manage the memory",
+    "opt2": "To control the CPU",
+    "opt3": "To communicate with peripheral devices",
+    "opt4": "To transfer data between memory and peripheral devices without CPU intervention",
+    "correct_option": "To transfer data between memory and peripheral devices without CPU intervention",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a mode of transfer used by DMA?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Programmed I/O",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which mode of DMA transfer uses a fixed number of words to be transferred between memory and the peripheral device?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Block mode",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which mode of DMA transfer uses a predetermined number of clock cycles to transfer a word between memory and the peripheral device?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Cycle stealing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which mode of DMA transfer uses multiple words to be transferred between memory and the peripheral device without any intervention from the CPU?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Burst mode",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which mode of DMA transfer uses a sequence of commands stored in memory to transfer data between the CPU and peripheral device?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Programmed I/O",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not an advantage of DMA?",
+    "opt1": "It frees the CPU from managing data transfer",
+    "opt2": "It reduces CPU overhead",
+    "opt3": "It allows for faster data transfer",
+    "opt4": "It increases the number of interrupts handled by the CPU",
+    "correct_option": "It increases the number of interrupts handled by the CPU",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of DMA?",
+    "opt1": "It requires specialized hardware",
+    "opt2": "It increases CPU overhead",
+    "opt3": "It is slower than other modes of data transfer",
+    "opt4": "It can cause conflicts with the CPU accessing memory",
+    "correct_option": "It can cause conflicts with the CPU accessing memory",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which type of DMA transfer is best suited for transferring large amounts of data between memory and peripheral device?",
+    "opt1": "Cycle stealing",
+    "opt2": "Burst mode",
+    "opt3": "Programmed I/O",
+    "opt4": "Block mode",
+    "correct_option": "Burst mode",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a benefit of DMA when used in multiprocessor systems?",
+    "opt1": "It improves the reliability of data transfer",
+    "opt2": "It improves the performance of the system",
+    "opt3": "It reduces the need for shared memory",
+    "opt4": "It simplifies the task of the operating system",
+    "correct_option": "It improves the performance of the system",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following best describes a multiprocessor system?",
+    "opt1": "A system with multiple processors that share a common memory and communicate with each other",
+    "opt2": "A system with a single processor that has multiple cores",
+    "opt3": "A system with multiple processors that have separate memory and do not communicate with each other",
+    "opt4": "A system with multiple input/output devices",
+    "correct_option": "A system with multiple processors that share a common memory and communicate with each other",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of a multiprocessor system?",
+    "opt1": "Parallelism",
+    "opt2": "Scalability",
+    "opt3": "Fault tolerance",
+    "opt4": "Sequential execution",
+    "correct_option": "Sequential execution",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is parallelism in a multiprocessor system?",
+    "opt1": "The ability of multiple processors to execute instructions simultaneously",
+    "opt2": "The ability of a single processor to execute multiple threads of execution simultaneously",
+    "opt3": "The ability of multiple input/output devices to communicate with each other simultaneously",
+    "opt4": "The ability of a single input/output device to handle multiple input/output operations simultaneously",
+    "correct_option": "The ability of multiple processors to execute instructions simultaneously",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is scalability in a multiprocessor system?",
+    "opt1": "The ability of the system to handle multiple users simultaneously",
+    "opt2": "The ability of the system to increase performance as more processors are added",
+    "opt3": "The ability of the system to recover from failures automatically",
+    "opt4": "The ability of the system to communicate with other systems",
+    "correct_option": "The ability of the system to increase performance as more processors are added",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is fault tolerance in a multiprocessor system?",
+    "opt1": "The ability of the system to handle multiple users simultaneously",
+    "opt2": "The ability of the system to increase performance as more processors are added",
+    "opt3": "The ability of the system to recover from failures automatically",
+    "opt4": "The ability of the system to communicate with other systems",
+    "correct_option": "The ability of the system to recover from failures automatically",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of multiprocessor architecture?",
+    "opt1": "Shared memory",
+    "opt2": "Distributed memory",
+    "opt3": "Virtual memory",
+    "opt4": "Hybrid memory",
+    "correct_option": "Virtual memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the difference between shared memory and distributed memory architectures?",
+    "opt1": "Shared memory systems have a single memory space that is accessible by all processors, while distributed memory systems have separate memory spaces for each processor.",
+    "opt2": "Distributed memory systems have a single memory space that is accessible by all processors, while shared memory systems have separate memory spaces for each processor.",
+    "opt3": "Shared memory systems use virtual memory, while distributed memory systems use physical memory.",
+    "opt4": "Distributed memory systems use virtual memory, while shared memory systems use physical memory.",
+    "correct_option": "Shared memory systems have a single memory space that is accessible by all processors, while distributed memory systems have separate memory spaces for each processor.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is cache coherence in a multiprocessor system?",
+    "opt1": "The ability of the system to maintain consistency of data stored in the caches of multiple processors",
+    "opt2": "The ability of the system to maintain consistency of data stored in the main memory",
+    "opt3": "The ability of the system to communicate with other systems",
+    "opt4": "The ability of the system to handle multiple input/output operations simultaneously",
+    "correct_option": "The ability of the system to maintain consistency of data stored in the caches of multiple processors",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a multiprocessor?",
+    "opt1": "A computer with multiple processors",
+    "opt2": "A computer with multiple I/O devices",
+    "opt3": "A computer with multiple memory units",
+    "opt4": "A computer with multiple operating systems",
+    "correct_option": "A computer with multiple processors",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of a multiprocessor system?",
+    "opt1": "Parallelism",
+    "opt2": "Scalability",
+    "opt3": "Fault tolerance",
+    "opt4": "Single processing unit",
+    "correct_option": "Single processing unit",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is parallelism in a multiprocessor system?",
+    "opt1": "The ability to run multiple tasks simultaneously",
+    "opt2": "The ability to share resources between processors",
+    "opt3": "The ability to use multiple processors to complete a single task",
+    "opt4": "The ability to increase the clock speed of a processor",
+    "correct_option": "The ability to use multiple processors to complete a single task",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is scalability in a multiprocessor system?",
+    "opt1": "The ability to run more tasks simultaneously",
+    "opt2": "The ability to increase the memory capacity of the system",
+    "opt3": "The ability to add more processors to the system as needed",
+    "opt4": "The ability to reduce power consumption",
+    "correct_option": "The ability to add more processors to the system as needed",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a benefit of fault tolerance in a multiprocessor system?",
+    "opt1": "Increased reliability",
+    "opt2": "Increased performance",
+    "opt3": "Reduced cost",
+    "opt4": "Reduced power consumption",
+    "correct_option": "Increased reliability",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a shared memory multiprocessor system?",
+    "opt1": "A system where each processor has its own private cache",
+    "opt2": "A system where each processor has its own private memory",
+    "opt3": "A system where all processors share the same memory",
+    "opt4": "A system where all processors share the same cache",
+    "correct_option": "A system where all processors share the same memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is cache coherence in a multiprocessor system?",
+    "opt1": "The ability to maintain consistency of shared data in different processor caches",
+    "opt2": "The ability to reduce the number of cache misses",
+    "opt3": "The ability to switch between processors seamlessly",
+    "opt4": "The ability to recover from failures automatically",
+    "correct_option": "The ability to maintain consistency of shared data in different processor caches",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a distributed memory multiprocessor system?",
+    "opt1": "A system where each processor has its own private memory",
+    "opt2": "A system where each processor has its own private cache",
+    "opt3": "A system where all processors share the same memory",
+    "opt4": "A system where all processors share the same cache",
+    "correct_option": "A system where each processor has its own private memory",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a benefit of a distributed memory multiprocessor system?",
+    "opt1": "Increased scalability",
+    "opt2": "Reduced memory latency",
+    "opt3": "Reduced cache coherence overhead",
+    "opt4": "Increased reliability",
+    "correct_option": "Reduced memory latency",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is a NUMA architecture in a multiprocessor system?",
+    "opt1": "A architecture where all processors share the same memory",
+    "opt2": "A architecture where each processor has its own private memory",
+    "opt3": "A architecture where each processor has a different clock speed",
+    "opt4": "A architecture where the memory is organized into multiple banks",
+    "correct_option": "A architecture where the memory is organized into multiple banks",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a common type of interconnection structure in multiprocessor systems?",
+    "opt1": "Bus",
+    "opt2": "Ring",
+    "opt3": "Mesh",
+    "opt4": "Serial",
+    "correct_option": "Serial",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is a bus in a multiprocessor system?",
+    "opt1": "A shared communication channel between all processors",
+    "opt2": "A dedicated communication channel between two processors",
+    "opt3": "A type of processor architecture",
+    "opt4": "A type of memory organization",
+    "correct_option": "A shared communication channel between all processors",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a disadvantage of a bus interconnection structure?",
+    "opt1": "Limited bandwidth",
+    "opt2": "Limited scalability",
+    "opt3": "High cost",
+    "opt4": "Single point of failure",
+    "correct_option": "High cost",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a ring interconnection structure in a multiprocessor system?",
+    "opt1": "A star-shaped arrangement of processors where each processor is connected to a central hub",
+    "opt2": "A circular arrangement of processors where each processor is connected to its adjacent processors",
+    "opt3": "A tree-like arrangement of processors where each processor is connected to a parent processor",
+    "opt4": "A grid-like arrangement of processors where each processor is connected to its adjacent processors in a regular pattern",
+    "correct_option": "A circular arrangement of processors where each processor is connected to its adjacent processors",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of a ring interconnection structure?",
+    "opt1": "Limited scalability",
+    "opt2": "High cost",
+    "opt3": "Low reliability",
+    "opt4": "Limited bandwidth",
+    "correct_option": "Low reliability",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a hypercube interconnection structure in a multiprocessor system?",
+    "opt1": "A structure where each processor has a dedicated point-to-point connection to every other processor",
+    "opt2": "A three-dimensional cube-like arrangement of processors where each processor is connected to its adjacent processors in all three dimensions",
+    "opt3": "A two-dimensional grid-like arrangement of processors where each processor is connected to its adjacent processors in a regular pattern",
+    "opt4": "A circular arrangement of processors where each processor is connected to its adjacent processors",
+    "correct_option": "A three-dimensional cube-like arrangement of processors where each processor is connected to its adjacent processors in all three dimensions",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a benefit of a hypercube interconnection structure?",
+    "opt1": "High scalability",
+    "opt2": "Low cost",
+    "opt3": "High reliability",
+    "opt4": "High bandwidth",
+    "correct_option": "High scalability",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a tree interconnection structure in a multiprocessor system?",
+    "opt1": "A tree-like arrangement of processors where each processor is connected to a parent processor",
+    "opt2": "A star-shaped arrangement of processors where each processor is connected to a central hub",
+    "opt3": "A circular arrangement of processors where each processor is connected to its adjacent processors",
+    "opt4": "A grid-like arrangement of processors where each processor is connected to its adjacent processors in a regular pattern",
+    "correct_option": "A tree-like arrangement of processors where each processor is connected to a parent processor",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of a tree interconnection structure?",
+    "opt1": "Limited scalability",
+    "opt2": "High cost",
+    "opt3": "Low reliability",
+    "opt4": "Limited bandwidth",
+    "correct_option": "Limited bandwidth",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is an interconnection structure in a multiprocessor system?",
+    "opt1": "The way in which processors communicate with I/O devices",
+    "opt2": "The way in which processors communicate with each other",
+    "opt3": "The way in which memory is organized in the system",
+    "opt4": "The way in which interrupts are handled by the system",
+    "correct_option": "The way in which processors communicate with each other",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is a bus-based interconnection structure?",
+    "opt1": "A structure where each processor has its own dedicated bus",
+    "opt2": "A structure where processors share a single bus",
+    "opt3": "A structure where each processor has a dedicated point-to-point connection to every other processor",
+    "opt4": "A structure where processors communicate via a wireless network",
+    "correct_option": "A structure where processors share a single bus",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of a bus-based interconnection structure?",
+    "opt1": "Low cost",
+    "opt2": "High fault tolerance",
+    "opt3": "Limited bandwidth",
+    "opt4": "High complexity",
+    "correct_option": "Limited bandwidth",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a crossbar interconnection structure?",
+    "opt1": "A structure where each processor has its own dedicated bus",
+    "opt2": "A structure where processors share a single bus",
+    "opt3": "A structure where each processor has a dedicated point-to-point connection to every other processor",
+    "opt4": "A structure where processors communicate via a wireless network",
+    "correct_option": "A structure where each processor has a dedicated point-to-point connection to every other processor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an advantage of a crossbar interconnection structure?",
+    "opt1": "High scalability",
+    "opt2": "Low cost",
+    "opt3": "Limited bandwidth",
+    "opt4": "Limited fault tolerance",
+    "correct_option": "High scalability",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is a mesh interconnection structure?",
+    "opt1": "A structure where processors share a single bus",
+    "opt2": "A structure where processors are arranged in a grid-like pattern",
+    "opt3": "A circular arrangement of processors where each processor is connected to its adjacent processors",
+    "opt4": "A star-shaped arrangement of processors where each processor is connected to a central hub",
+    "correct_option": "A structure where processors are arranged in a grid-like pattern",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of a mesh interconnection structure?",
+    "opt1": "High scalability",
+    "opt2": "Low cost",
+    "opt3": "Limited bandwidth",
+    "opt4": "Limited fault tolerance",
+    "correct_option": "Limited bandwidth",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is inter-processor communication in a multiprocessor system?",
+    "opt1": "The transfer of data between input and output devices",
+    "opt2": "The coordination of multiple input/output operations",
+    "opt3": "The synchronization of multiple processors to work on a common task",
+    "opt4": "The transfer of data between two or more processors",
+    "correct_option": "The transfer of data between two or more processors",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of inter-processor communication?",
+    "opt1": "A processor communicating with a hard disk",
+    "opt2": "A processor communicating with main memory",
+    "opt3": "A processor communicating with another processor",
+    "opt4": "A processor communicating with a keyboard",
+    "correct_option": "A processor communicating with another processor",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of synchronization in a multiprocessor system?",
+    "opt1": "To reduce the cost of the system",
+    "opt2": "To improve the performance of the system",
+    "opt3": "To improve the reliability of the system",
+    "opt4": "To coordinate the activities of multiple processors",
+    "correct_option": "To coordinate the activities of multiple processors",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is a critical section in a multiprocessor system?",
+    "opt1": "A section of code that can only be executed by the CPU",
+    "opt2": "A section of code that can only be executed by one processor at a time to avoid race conditions",
+    "opt3": "A section of code that can be executed by multiple processors simultaneously without synchronization",
+    "opt4": "A section of code that can only be executed by the operating system",
+    "correct_option": "A section of code that can only be executed by one processor at a time to avoid race conditions",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a technique for synchronizing multiple processors in a multiprocessor system?",
+    "opt1": "Locking",
+    "opt2": "Interrupts",
+    "opt3": "DMA",
+    "opt4": "I/O mapping",
+    "correct_option": "Locking",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of a barrier in inter-processor communication?",
+    "opt1": "To prevent data corruption between processors",
+    "opt2": "To synchronize the clocks of multiple processors",
+    "opt3": "To ensure that all processors have completed a certain operation before continuing",
+    "opt4": "To coordinate the activities of multiple input/output operations",
+    "correct_option": "To ensure that all processors have completed a certain operation before continuing",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is a deadlock in a multiprocessor system?",
+    "opt1": "A condition in which a processor executes an instruction before it is ready to do so",
+    "opt2": "A condition in which two or more processors try to access the same resource simultaneously",
+    "opt3": "A condition in which a processor cannot access a resource due to a race condition",
+    "opt4": "A condition in which two or more processors are waiting for each other to release a resource, preventing any progress from being made",
+    "correct_option": "A condition in which two or more processors are waiting for each other to release a resource, preventing any progress from being made",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of inter-processor communication?",
+    "opt1": "High cost",
+    "opt2": "Low performance",
+    "opt3": "Increased complexity",
+    "opt4": "Limited scalability",
+    "correct_option": "Increased complexity",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of a message passing system in inter-processor communication?",
+    "opt1": "To transfer data between the CPU and input/output devices",
+    "opt2": "To reduce the complexity of the system",
+    "opt3": "To enable processors to exchange information with each other",
+    "opt4": "To manage the memory hierarchy in a multiprocessor system",
+    "correct_option": "To enable processors to exchange information with each other",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of input-output organization?",
+    "opt1": "Programmed I/O",
+    "opt2": "Interrupt-driven I/O",
+    "opt3": "Direct memory access (DMA) I/O",
+    "opt4": "Cache-based I/O",
+    "correct_option": "Cache-based I/O",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of a device controller in input-output organization?",
+    "opt1": "To coordinate the activities of multiple input/output operations",
+    "opt2": "To convert data from a format that can be used by the CPU to a format that can be used by the input/output device",
+    "opt3": "To manage the communication between the input/output device and the rest of the system",
+    "opt4": "To improve the performance of the system",
+    "correct_option": "To manage the communication between the input/output device and the rest of the system",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of a message passing system?",
+    "opt1": "Ethernet",
+    "opt2": "USB",
+    "opt3": "TCP/IP",
+    "opt4": "MPI",
+    "correct_option": "MPI",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of a semaphore in inter-processor communication?",
+    "opt1": "To prevent data corruption between processors",
+    "opt2": "To synchronize the clocks of multiple processors",
+    "opt3": "To coordinate the activities of multiple input/output operations",
+    "opt4": "To control access to shared resources",
+    "correct_option": "To control access to shared resources",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a method of synchronization in input-output organization?",
+    "opt1": "Semaphores",
+    "opt2": "Mutexes",
+    "opt3": "Spin locks",
+    "opt4": "Interrupts",
+    "correct_option": "Interrupts",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using semaphores for inter-processor communication?",
+    "opt1": "High overhead",
+    "opt2": "Low scalability",
+    "opt3": "Limited reliability",
+    "opt4": "High cost",
+    "correct_option": "High overhead",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is inter-processor communication?",
+    "opt1": "The transfer of data between input and output devices",
+    "opt2": "The transfer of data between two or more processors in a multiprocessor system",
+    "opt3": "The transfer of data between main memory and cache memory",
+    "opt4": "The transfer of data between the CPU and registers",
+    "correct_option": "The transfer of data between two or more processors in a multiprocessor system",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a method of inter-processor communication?",
+    "opt1": "Shared memory",
+    "opt2": "Message passing",
+    "opt3": "Remote procedure call",
+    "opt4": "Interrupts",
+    "correct_option": "Interrupts",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is synchronization in a multiprocessor system?",
+    "opt1": "The process of ensuring that each processor has the same set of instructions",
+    "opt2": "The process of stopping all processors except for the one that needs to execute a critical section of code",
+    "opt3": "The process of coordinating the activities of multiple processors to avoid conflicts and ensure consistency",
+    "opt4": "The process of ensuring that each processor has the same clock speed",
+    "correct_option": "The process of coordinating the activities of multiple processors to avoid conflicts and ensure consistency",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a method of synchronization in a multiprocessor system?",
+    "opt1": "Semaphores",
+    "opt2": "Mutexes",
+    "opt3": "Spin locks",
+    "opt4": "Remote procedure",
+    "correct_option": "Remote procedure",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is a race condition in a multiprocessor system?",
+    "opt1": "A condition in which a processor executes an instruction incorrectly",
+    "opt2": "A condition in which a processor executes an instruction before it is ready to do so",
+    "opt3": "A condition in which two or more processors try to access the same resource simultaneously",
+    "opt4": "A condition in which a processor cannot access a resource due to a deadlock",
+    "correct_option": "A condition in which two or more processors try to access the same resource simultaneously",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is an embedded system?",
+    "opt1": "A system with no computing capabilities",
+    "opt2": "A network of computers connected together",
+    "opt3": "A computer system that is embedded within a larger device",
+    "opt4": "A computer system with a large memory and processing power",
+    "correct_option": "A computer system that is embedded within a larger device",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a typical characteristic of an embedded system?",
+    "opt1": "It has a large memory capacity",
+    "opt2": "It has a high processing power",
+    "opt3": "It is designed to perform a specific task",
+    "opt4": "It can run a variety of applications",
+    "correct_option": "It is designed to perform a specific task",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of an embedded system?",
+    "opt1": "A personal computer",
+    "opt2": "A smartphone",
+    "opt3": "A digital camera",
+    "opt4": "A server",
+    "correct_option": "A digital camera",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the role of a microcontroller in an embedded system?",
+    "opt1": "To provide high processing power",
+    "opt2": "To provide storage capacity",
+    "opt3": "To provide network connectivity",
+    "opt4": "To control the device's functions",
+    "correct_option": "To control the device's functions",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an embedded system?",
+    "opt1": "It is easy to modify and upgrade",
+    "opt2": "It has a low cost",
+    "opt3": "It has a high processing power",
+    "opt4": "It is designed for general-purpose use",
+    "correct_option": "It has a low cost",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using an embedded system?",
+    "opt1": "It is difficult to modify and upgrade",
+    "opt2": "It has a high cost",
+    "opt3": "It has a low processing power",
+    "opt4": "It is designed for general-purpose use",
+    "correct_option": "It is difficult to modify and upgrade",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a common programming language used in embedded systems?",
+    "opt1": "Java",
+    "opt2": "Python",
+    "opt3": "C",
+    "opt4": "JavaScript",
+    "correct_option": "C",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the purpose of an operating system in an embedded system?",
+    "opt1": "To provide high processing power",
+    "opt2": "To provide network connectivity",
+    "opt3": "To manage system resources",
+    "opt4": "To control the device's functions",
+    "correct_option": "To manage system resources",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of an application-specific embedded system?",
+    "opt1": "A digital camera",
+    "opt2": "A server",
+    "opt3": "A personal computer",
+    "opt4": "A smart phone",
+    "correct_option": "A digital camera",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is an embedded system?",
+    "opt1": "A system designed to perform a specific task",
+    "opt2": "A system that is connected to the internet",
+    "opt3": "A system that is used for gaming",
+    "opt4": "A system that is used for general-purpose computing",
+    "correct_option": "A system designed to perform a specific task",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is NOT a characteristic of an embedded system?",
+    "opt1": "Small size",
+    "opt2": "Limited power",
+    "opt3": "General-purpose computing",
+    "opt4": "Low cost",
+    "correct_option": "General-purpose computing",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT an example of an embedded system?",
+    "opt1": "Smart watch",
+    "opt2": "Home computer",
+    "opt3": "Microwave oven",
+    "opt4": "Airplane navigation system",
+    "correct_option": "Home computer",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is NOT a challenge in embedded system design?",
+    "opt1": "Limited memory",
+    "opt2": "Real-time requirements",
+    "opt3": "Security concerns",
+    "opt4": "Compatibility with standard operating systems",
+    "correct_option": "Compatibility with standard operating systems",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the purpose of a microcontroller in an embedded system?",
+    "opt1": "To perform real-time processing",
+    "opt2": "To provide wireless connectivity",
+    "opt3": "To display graphics on a screen",
+    "opt4": "To provide audio output",
+    "correct_option": "To perform real-time processing",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is NOT a programming language commonly used for embedded system development?",
+    "opt1": "C",
+    "opt2": "Python",
+    "opt3": "Assembly language",
+    "opt4": "Ada",
+    "correct_option": "Python",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of a real-time operating system (RTOS) in an embedded system?",
+    "opt1": "To provide a graphical user interface (GUI)",
+    "opt2": "To manage system resources and scheduling",
+    "opt3": "To provide internet connectivity",
+    "opt4": "To provide audio and video output",
+    "correct_option": "To manage system resources and scheduling",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is NOT a method for interfacing with external devices in an embedded system?",
+    "opt1": "Serial communication",
+    "opt2": "USB",
+    "opt3": "Ethernet",
+    "opt4": "Random access memory (RAM)",
+    "correct_option": "Random access memory (RAM)",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a key consideration in power management for embedded systems?",
+    "opt1": "Maximizing processing power",
+    "opt2": "Minimizing memory usage",
+    "opt3": "Maximizing battery life",
+    "opt4": "Minimizing system cost",
+    "correct_option": "Maximizing battery life",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a benefit of using an embedded system in a product?",
+    "opt1": "Increased product cost",
+    "opt2": "Increased flexibility",
+    "opt3": "Increased reliability",
+    "opt4": "Decreased performance",
+    "correct_option": "Increased reliability",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a type of embedded system?",
+    "opt1": "Standalone embedded system",
+    "opt2": "Mobile embedded system",
+    "opt3": "Networked embedded system",
+    "opt4": "Web-based embedded system",
+    "correct_option": "Web-based embedded system",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of a real-time embedded system?",
+    "opt1": "MP3 player",
+    "opt2": "Digital camera",
+    "opt3": "Air traffic control system",
+    "opt4": "Home thermostat",
+    "correct_option": "Air traffic control system",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of a networked embedded system?",
+    "opt1": "Communication with other devices",
+    "opt2": "Connection to the internet",
+    "opt3": "Shared resources",
+    "opt4": "Standalone operation",
+    "correct_option": "Standalone operation",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "An automotive embedded system is an example of a(n) ________ embedded system.",
+    "opt1": "Standalone",
+    "opt2": "Mobile",
+    "opt3": "Networked",
+    "opt4": "Hybrid",
+    "correct_option": "Hybrid",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of an embedded system?",
+    "opt1": "High reliability",
+    "opt2": "Limited resources",
+    "opt3": "Standard operating system",
+    "opt4": "Real-time operation",
+    "correct_option": "Standard operating system",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a component of an embedded system?",
+    "opt1": "Microcontroller",
+    "opt2": "Sensors",
+    "opt3": "Software",
+    "opt4": "Monitor",
+    "correct_option": "Monitor",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "A thermostat is an example of a(n) ________ embedded system.",
+    "opt1": "Mobile",
+    "opt2": "Networked",
+    "opt3": "Standalone",
+    "opt4": "Hybrid",
+    "correct_option": "Standalone",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the main difference between stand-alone and real-time embedded systems?",
+    "opt1": "Stand-alone systems have small memory, whereas real-time systems have large memory.",
+    "opt2": "Stand-alone systems have no interaction with external environment, whereas real-time systems interact with the environment and provide real-time response.",
+    "opt3": "Stand-alone systems are powered by battery, whereas real-time systems are powered by electricity.",
+    "opt4": "Stand-alone systems are single-processor systems, whereas real-time systems are multi-processor systems.",
+    "correct_option": "Stand-alone systems have no interaction with external environment, whereas real-time systems interact with the environment and provide real-time response.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is true about custom single-purpose processors?",
+    "opt1": "They can perform any task.",
+    "opt2": "They are expensive and difficult to design.",
+    "opt3": "They are optimized for a specific application.",
+    "opt4": "They are used in applications where flexibility is the key.",
+    "correct_option": "They are optimized for a specific application.",
+    "correct_option_index": 3
+  },
+
+
+
+  {
+    "qsns": "What is the primary advantage of using a custom single-purpose processor over a general-purpose processor in an embedded system?",
+    "opt1": "Lower power consumption",
+    "opt2": "Instruction set architecture",
+    "opt3": "Higher performance",
+    "opt4": "Lower cost",
+    "correct_option": "Higher performance",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT a key consideration when optimizing a custom single-purpose processor for an embedded system?",
+    "opt1": "Instruction set architecture",
+    "opt2": "Compatibility with existing software",
+    "opt3": "Memory size",
+    "opt4": "Power consumption",
+    "correct_option": "Compatibility with existing software",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is not a design consideration for custom single-purpose processors?",
+    "opt1": "Area",
+    "opt2": "Power consumption",
+    "opt3": "Compatibility with existing software",
+    "opt4": "Performance",
+    "correct_option": "Compatibility with existing software",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT a common application for custom single-purpose processors in embedded systems?",
+    "opt1": "Image processing",
+    "opt2": "Audio processing",
+    "opt3": "Network packet processing",
+    "opt4": "General-purpose computing",
+    "correct_option": "General-purpose computing",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using a custom single-purpose processor in an embedded system?",
+    "opt1": "Higher cost",
+    "opt2": "Greater flexibility",
+    "opt3": "Larger size",
+    "opt4": "Lower performance",
+    "correct_option": "Higher cost",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a key consideration when designing a custom single-purpose processor for an embedded system?",
+    "opt1": "High clock speed",
+    "opt2": "Large instruction set",
+    "opt3": "Small code size",
+    "opt4": "Multiple address modes",
+    "correct_option": "Small code size",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a key advantage of using a custom single-purpose processor in an embedded system?",
+    "opt1": "Greater flexibility",
+    "opt2": "Lower cost",
+    "opt3": "Higher performance",
+    "opt4": "Smaller size",
+    "correct_option": "Higher performance",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT a benefit of using a custom single-purpose processor in an embedded system?",
+    "opt1": "Higher performance",
+    "opt2": "Lower power consumption",
+    "opt3": "Smaller size",
+    "opt4": "Greater flexibility",
+    "correct_option": "Greater flexibility",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a common approach to reducing the code size of a custom single-purpose processor?",
+    "opt1": "Increasing the clock speed",
+    "opt2": "Adding more general-purpose registers",
+    "opt3": "Removing unused instructions",
+    "opt4": "Increasing the data memory size",
+    "correct_option": "Removing unused instructions",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a common method for optimizing a custom single-purpose processor for an embedded system?",
+    "opt1": "Increasing clock speed",
+    "opt2": "Removing unused instructions",
+    "opt3": "Adding more general-purpose registers",
+    "opt4": "Increasing the data memory size",
+    "correct_option": "Removing unused instructions",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is an example of a custom single-purpose processor design?",
+    "opt1": "FPGA",
+    "opt2": "GPU",
+    "opt3": "CPU",
+    "opt4": "All of the above",
+    "correct_option": "FPGA",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the main objective of optimizing custom single-purpose processors?",
+    "opt1": "To reduce the design cost",
+    "opt2": "To increase the flexibility",
+    "opt3": "To improve the performance",
+    "opt4": "To enhance the compatibility",
+    "correct_option": "To improve the performance",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following techniques is used for optimizing custom single-purpose processors?",
+    "opt1": "Loop unrolling",
+    "opt2": "Register allocation",
+    "opt3": "Instruction scheduling",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using custom single-purpose processors?",
+    "opt1": "High development cost",
+    "opt2": "Limited flexibility",
+    "opt3": "Longer development time",
+    "opt4": "All of the above",
+    "correct_option": "All of the above",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a factor in the design of custom single-purpose processors?",
+    "opt1": "Power consumption",
+    "opt2": "Memory size",
+    "opt3": "Clock frequency",
+    "opt4": "All of the above are factors",
+    "correct_option": "All of the above are factors",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a technique used for optimizing custom single-purpose processors?",
+    "opt1": "Data compression",
+    "opt2": "Loop pipelining",
+    "opt3": "Instruction-level parallelism",
+    "opt4": "All of the above are techniques",
+    "correct_option": "Data compression",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not an application of custom single-purpose processors?",
+    "opt1": "Video encoding and decoding",
+    "opt2": "Image processing",
+    "opt3": "Cryptography",
+    "opt4": "General-purpose computing",
+    "correct_option": "General-purpose computing",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is an embedded system?",
+    "opt1": "A computer system used in industrial control applications",
+    "opt2": "A computer system that is always connected to the internet",
+    "opt3": "A computer system used for gaming",
+    "opt4": "A computer system that is only used for word processing",
+    "correct_option": "A computer system used in industrial control applications",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not an example of an embedded system?",
+    "opt1": "Smartwatch",
+    "opt2": "Traffic light control system",
+    "opt3": "Microwave oven",
+    "opt4": "Personal computer",
+    "correct_option": "Personal computer",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the primary function of an embedded system?",
+    "opt1": "To run a graphical user interface",
+    "opt2": "To store large amounts of data",
+    "opt3": "To control a specific device or process",
+    "opt4": "To perform complex mathematical computations",
+    "correct_option": "To control a specific device or process",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a characteristic of an embedded system?",
+    "opt1": "Low power consumption",
+    "opt2": "Small form factor",
+    "opt3": "High processing speed",
+    "opt4": "Real-time operation",
+    "correct_option": "High processing speed",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of an event-driven system?",
+    "opt1": "A vending machine",
+    "opt2": "A washing machine",
+    "opt3": "A microwave oven",
+    "opt4": "A digital camera",
+    "correct_option": "A vending machine",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is not a type of embedded system?",
+    "opt1": "Standalone system",
+    "opt2": "Real-time system",
+    "opt3": "Networked system",
+    "opt4": "Mainframe system",
+    "correct_option": "Mainframe system",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the main advantage of using a microcontroller in an embedded system?",
+    "opt1": "It is faster than other types of processors",
+    "opt2": "It is cheaper than other types of processors",
+    "opt3": "It has built-in peripherals and memory",
+    "opt4": "It requires less power than other types of processors",
+    "correct_option": "It has built-in peripherals and memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a factor to consider when selecting a microcontroller for an embedded system?",
+    "opt1": "Memory size",
+    "opt2": "Power consumption",
+    "opt3": "Peripherals",
+    "opt4": "Color display resolution",
+    "correct_option": "Color display resolution",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is firmware?",
+    "opt1": "Software that is stored on a hard disk",
+    "opt2": "Software that is loaded into RAM",
+    "opt3": "Software that is permanently stored in ROM or flash memory",
+    "opt4": "Software that is used to control the hardware of a computer",
+    "correct_option": "Software that is permanently stored in ROM or flash memory",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is not a benefit of using an RTOS (Real-Time Operating System) in an embedded system?",
+    "opt1": "Better task management",
+    "opt2": "Higher system reliability",
+    "opt3": "Lower cost",
+    "opt4": "Faster development time",
+    "correct_option": "Lower cost",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the primary difference between a microcontroller and a microprocessor?",
+    "opt1": "A microcontroller includes on-board memory and I/O, while a microprocessor does not.",
+    "opt2": "A microprocessor has more on-board memory than a microcontroller.",
+    "opt3": "A microcontroller is used for more complex applications than a microprocessor.",
+    "opt4": "A microprocessor is used for real-time applications, while a microcontroller is not.",
+    "correct_option": "A microcontroller includes on-board memory and I/O, while a microprocessor does not.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which type of memory is commonly used for program storage in embedded systems?",
+    "opt1": "SRAM",
+    "opt2": "DRAM",
+    "opt3": "EEPROM",
+    "opt4": "Flash",
+    "correct_option": "Flash",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "What is the function of a watchdog timer in an embedded system?",
+    "opt1": "To reset the system if it becomes unresponsive.",
+    "opt2": "To synchronize data transfers between devices.",
+    "opt3": "To prevent unauthorized access to the system.",
+    "opt4": "To provide a backup power source in case of a power outage.",
+    "correct_option": "To reset the system if it becomes unresponsive.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "What is the purpose of a Real-Time Operating System (RTOS) in an embedded system?",
+    "opt1": "To schedule and manage tasks in real-time.",
+    "opt2": "To provide a graphical user interface for the user.",
+    "opt3": "To manage memory usage in the system.",
+    "opt4": "To provide network connectivity.",
+    "correct_option": "To schedule and manage tasks in real-time.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an FPGA in embedded system design?",
+    "opt1": "High clock speeds",
+    "opt2": "Low power consumption",
+    "opt3": "Flexibility in design",
+    "opt4": "Ease of programming",
+    "correct_option": "Flexibility in design",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "What is the primary advantage of using a digital signal processor (DSP) in an embedded system?",
+    "opt1": "Low power consumption",
+    "opt2": "High clock speeds",
+    "opt3": "High accuracy in mathematical calculations",
+    "opt4": "Large amounts of on-board memory",
+    "correct_option": "High accuracy in mathematical calculations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements about the programmer's view of an embedded system is true?",
+    "opt1": "It provides a detailed understanding of the software components",
+    "opt2": "It provides a detailed understanding of the hardware components",
+    "opt3": "It provides a detailed understanding of the user interface",
+    "opt4": "It provides a high-level understanding of how the system operates",
+    "correct_option": "It provides a detailed understanding of the software components",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following statements about the operation of an embedded system is true?",
+    "opt1": "It is always deterministic and predictable.",
+    "opt2": "It is always nondeterministic and unpredictable.",
+    "opt3": "It can be either deterministic or nondeterministic depending on the system design and implementation.",
+    "opt4": "It is not relevant to the operation of an embedded system.",
+    "correct_option": "It can be either deterministic or nondeterministic depending on the system design and implementation.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following statements about the execution of programs on an embedded system is true?",
+    "opt1": "Programs are executed on a separate processor from the rest of the system.",
+    "opt2": "Programs are executed directly on the hardware of the system.",
+    "opt3": "Programs are executed in a virtual machine environment.",
+    "opt4": "Programs are executed on a separate computer connected to the system.",
+    "correct_option": "Programs are executed directly on the hardware of the system.",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is NOT a typical operation performed by an embedded system?",
+    "opt1": "Collecting data from sensors",
+    "opt2": "Controlling a physical system",
+    "opt3": "Performing complex computations",
+    "opt4": "Displaying data on a screen",
+    "correct_option": "Performing complex computations",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following best describes the programmer's view of an embedded system?",
+    "opt1": "The physical components of the system",
+    "opt2": "The way in which the system operates",
+    "opt3": "The programming language used to write software for the system",
+    "opt4": "The functions provided by the operating system of the system",
+    "correct_option": "The programming language used to write software for the system",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a typical input device in an embedded system?",
+    "opt1": "Keyboard",
+    "opt2": "Mouse",
+    "opt3": "Touchscreen",
+    "opt4": "Scanner",
+    "correct_option": "Touchscreen",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a typical output device in an embedded system?",
+    "opt1": "Hard drive",
+    "opt2": "Speaker",
+    "opt3": "Scanner",
+    "opt4": "Printer",
+    "correct_option": "Speaker",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "Which of the following is a typical communication protocol used by embedded systems?",
+    "opt1": "HTTP",
+    "opt2": "FTP",
+    "opt3": "TCP/IP",
+    "opt4": "SMTP",
+    "correct_option": "TCP/IP",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a typical memory component used in an embedded system?",
+    "opt1": "Hard drive",
+    "opt2": "SSD",
+    "opt3": "DRAM",
+    "opt4": "CD-ROM",
+    "correct_option": "DRAM",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is NOT a typical programming language used in embedded systems?",
+    "opt1": "C",
+    "opt2": "Java",
+    "opt3": "Assembly language",
+    "opt4": "Python",
+    "correct_option": "Python",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a typical real-time operating system used in embedded systems?",
+    "opt1": "Windows",
+    "opt2": "Linux",
+    "opt3": "Android",
+    "opt4": "FreeRTOS",
+    "correct_option": "FreeRTOS",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is NOT a typical application for an embedded system?",
+    "opt1": "Smart home automation",
+    "opt2": "Automotive systems",
+    "opt3": "Medical devices",
+    "opt4": "Web development",
+    "correct_option": "Web development",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following best describes the purpose of an interrupt in an embedded system?",
+    "opt1": "To shut down the system",
+    "opt2": "To allow communication between components",
+    "opt3": "To load data into memory",
+    "opt4": "To terminate a running program",
+    "correct_option": "To allow communication between components",
+    "correct_option_index": 2
+  },
+  {
+    "qsns": "What is the purpose of the instruction set architecture (ISA) in an embedded system?",
+    "opt1": "To provide a detailed understanding of the software components",
+    "opt2": "To provide a high-level understanding of how the system operates",
+    "opt3": "To provide a detailed understanding of the hardware components",
+    "opt4": "To provide a standard interface between the software and hardware components",
+    "correct_option": "To provide a standard interface between the software and hardware components",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a common method of communication between embedded systems and external devices?",
+    "opt1": "UART",
+    "opt2": "SPI",
+    "opt3": "USB",
+    "opt4": "FTP",
+    "correct_option": "FTP",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is not a common component of an embedded system development environment?",
+    "opt1": "Integrated Development Environment (IDE)",
+    "opt2": "Compiler",
+    "opt3": "Debugger",
+    "opt4": "Printer",
+    "correct_option": "Printer",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is a common method for programming an embedded system?",
+    "opt1": "Writing machine code directly to the device",
+    "opt2": "Using a graphical user interface",
+    "opt3": "Using a high-level programming language and a compiler",
+    "opt4": "All of the above",
+    "correct_option": "Using a high-level programming language and a compiler",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true regarding Application-Specific Instruction-Set Processors (ASIPs)?",
+    "opt1": "They are designed to be used for a specific application or a set of applications.",
+    "opt2": "They are not suitable for real-time systems.",
+    "opt3": "They are typically less efficient than general-purpose processors.",
+    "opt4": "They can be programmed using assembly language or high-level language.",
+    "correct_option": "They are designed to be used for a specific application or a set of applications.",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an ASIP in an embedded system?",
+    "opt1": "It reduces development time and cost.",
+    "opt2": "It provides a higher level of flexibility compared to general-purpose processors.",
+    "opt3": "It is easy to program using high-level languages.",
+    "opt4": "It provides a better performance than general-purpose processors.",
+    "correct_option": "It provides a better performance than general-purpose processors.",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of an ASIP?",
+    "opt1": "Intel Core i7",
+    "opt2": "ARM Cortex-A9",
+    "opt3": "Tensilica Xtensa",
+    "opt4": "AMD Ryzen",
+    "correct_option": "Tensilica Xtensa",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is true regarding the instruction set of an ASIP?",
+    "opt1": "It is fixed and cannot be changed.",
+    "opt2": "It is designed to be compatible with existing general-purpose processors.",
+    "opt3": "It is designed to be optimized for a specific application.",
+    "opt4": "It is designed to be easy to program using high-level languages.",
+    "correct_option": "It is designed to be optimized for a specific application.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an ASIP in a real-time embedded system?",
+    "opt1": "It provides a higher level of flexibility compared to general-purpose processors.",
+    "opt2": "It is easier to program using high-level languages.",
+    "opt3": "It can be optimized for the specific real-time requirements of the system.",
+    "opt4": "It provides a better performance than general-purpose processors.",
+    "correct_option": "It can be optimized for the specific real-time requirements of the system.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is a disadvantage of using an ASIP over a general-purpose processor?",
+    "opt1": "Reduced performance",
+    "opt2": "Increased development time",
+    "opt3": "Increased cost",
+    "opt4": "Reduced flexibility",
+    "correct_option": "Reduced flexibility",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following is an example of an ASIP?",
+    "opt1": "Intel Core i7",
+    "opt2": "ARM Cortex-A53",
+    "opt3": "Qualcomm Snapdragon",
+    "opt4": "Digital Signal Processor (DSP)",
+    "correct_option": "Digital Signal Processor (DSP)",
+    "correct_option_index": 4
+  },
+  {
+    "qsns": "Which of the following statements is true regarding ASIPs?",
+    "opt1": "They are designed for a specific application",
+    "opt2": "They are optimized for high performance",
+    "opt3": "They have a flexible instruction set",
+    "opt4": "They are more expensive than general-purpose processors",
+    "correct_option": "They are designed for a specific application",
+    "correct_option_index": 1
+  },
+  {
+    "qsns": "Which of the following is a limitation of using an ASIP?",
+    "opt1": "Reduced performance",
+    "opt2": "Inability to be reprogrammed",
+    "opt3": "Limited functionality",
+    "opt4": "It has limited scalability.",
+    "correct_option": "Limited functionality",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an advantage of using an ASIP in a multimedia processing embedded system?",
+    "opt1": "Increased code portability",
+    "opt2": "It is easy to program using high-level languages.",
+    "opt3": "It can provide a higher level of performance compared to general-purpose processors.",
+    "opt4": "It is easier to modify the hardware design once it is implemented.",
+    "correct_option": "It can provide a higher level of performance compared to general-purpose processors.",
+    "correct_option_index": 3
+  },
+  {
+    "qsns": "Which of the following is an example of an application that would benefit from using an ASIP?",
+    "opt1": "Web browsing",
+    "opt2": "Video encoding",
+    "opt3": "Word processing",
+    "opt4": "Spreadsheet calculators",
+    "correct_option": "Video encoding",
+    "correct_option_index": 2
   }
 ]
