@@ -10,11 +10,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vite.dev)
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SamirWagle/EngineeringLisenseProject/pulls)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SamirWagle/NECPrep/pulls)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
-[🌐 Live Demo](https://lisensepreparation.samirwagle.com.np/) · [🐛 Report a Bug](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new) · [✨ Request a Feature](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new) · [🤝 Contribute](#-contributing)
+[🌐 Live Demo](https://lisensepreparation.samirwagle.com.np/) · [🐛 Report a Bug](https://github.com/SamirWagle/NECPrep/issues/new) · [✨ Request a Feature](https://github.com/SamirWagle/NECPrep/issues/new) · [🤝 Contribute](#-contributing)
 
 </div>
 
@@ -125,7 +125,7 @@ Plus **10 textbook chapters** (Ch 1–10) served from `public/data/books/` with 
 ## Project Structure
 
 ```
-EngineeringLicenseProject/
+NECPrep/
 ├── frontend/                          # Main React application
 │   ├── public/
 │   │   └── data/
@@ -183,8 +183,8 @@ EngineeringLicenseProject/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/SamirWagle/EngineeringLisenseProject.git
-cd EngineeringLisenseProject
+git clone https://github.com/SamirWagle/NECPrep.git
+cd NECPrep
 
 # 2. Install frontend dependencies
 cd frontend
@@ -260,8 +260,8 @@ Contributions are what make the open-source community such an amazing place to l
 
 ### Ways to Contribute
 
-- 🐛 **Bug Reports** — Found something broken? [Open an issue](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new).
-- ✨ **Feature Requests** — Have an idea? [Start a discussion](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new).
+- 🐛 **Bug Reports** — Found something broken? [Open an issue](https://github.com/SamirWagle/NECPrep/issues/new).
+- ✨ **Feature Requests** — Have an idea? [Start a discussion](https://github.com/SamirWagle/NECPrep/issues/new).
 - 📚 **Question Bank** — Add or improve questions in any topic JSON.
 - 🌐 **Translations** — Help make the platform accessible in Nepali or other languages.
 - 💅 **UI/UX Improvements** — Better layouts, accessibility, responsive design.
@@ -302,7 +302,7 @@ Please make sure your PR:
 - [ ] Firebase cloud sync for cross-device progress
 - [ ] More model question sets and past exam papers
 
-Have a feature idea not listed here? [Open a feature request!](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new)
+Have a feature idea not listed here? [Open a feature request!](https://github.com/SamirWagle/NECPrep/issues/new)
 
 ---
 
@@ -320,7 +320,7 @@ This project was built with the help of some amazing tools and people:
 
 ## License
 
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
+Distributed under the **Apache License 2.0**. See [LICENSE](LICENSE) for more information.
 
 ---
 
@@ -330,7 +330,7 @@ Made by [Samir Wagle](https://github.com/SamirWagle) for every engineer working 
 
 **If NECPrep helped you study, please consider giving it a ⭐ — it means a lot!**
 
-[![GitHub stars](https://img.shields.io/github/stars/SamirWagle/EngineeringLisenseProject?style=social)](https://github.com/SamirWagle/EngineeringLisenseProject/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/SamirWagle/EngineeringLisenseProject?style=social)](https://github.com/SamirWagle/EngineeringLisenseProject/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/SamirWagle/NECPrep?style=social)](https://github.com/SamirWagle/NECPrep/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/SamirWagle/NECPrep?style=social)](https://github.com/SamirWagle/NECPrep/network/members)
 
 </div>
