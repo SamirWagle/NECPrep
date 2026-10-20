@@ -18,7 +18,7 @@
  * THIS SCHEMA IS 1-BASED THROUGHOUT. `question_options.ordinal` is literally
  * the N in `optN`, so the mapping is the identity:
  *
- *     correct_option_index = 3  ->  ordinal 3  ->  option id 'q_xxxx#3'
+ *     correct_option_index = 3  ->  ordinal 3
  *
  * No arithmetic, nothing to get backwards. The alternative -- 0-based ordinals
  * -- is what the current client does (`correct_option_index - 1` in
@@ -28,8 +28,21 @@
  * INDEX_RANGE defect below; under a 0-based convention that is index 4, which
  * looks like a plausible fifth option rather than like an error.
  *
+ * THE ORDINAL DOES NOT APPEAR IN THE OPTION ID. `question_options.id` is
+ * `question_id || '#' || opt_key` with a 12-character CSPRNG `opt_key`, because
+ * the earlier `|| ordinal` scheme made an option id joinable against the
+ * `correct_option_index` this very file reads out of the published JSON -- see
+ * the block above `question_options` in migrations/0002_content.sql. So the
+ * importer MINTS a key per option row and the answer key is resolved from the
+ * (question_id, ordinal) upsert's RETURNING id, never by string-building an id
+ * from the authored index.
+ *
+ * That is also why the option upsert conflicts on (question_id, ordinal) and
+ * not on (id): a re-run must find the EXISTING row by its authored slot and
+ * keep its `opt_key`. Conflicting on a freshly minted id would insert a second
+ * row per option on every run and orphan every answer already recorded.
+ *
  * Everything downstream follows the same convention:
- *   attempt_answers.selected_ordinal   1-based
  *   attempt_answers.delivered_position 1-based
  *   attempt_questions.position         1-based
  *   subchapters.ordinal, chapters.ordinal  1-based
@@ -84,7 +97,7 @@
  */
 
 import { DatabaseSync } from 'node:sqlite';
-import { createHash } from 'node:crypto';
+import { createHash, randomFillSync } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -115,6 +128,24 @@ export function norm(s) {
     .toLowerCase();
 }
 
+/**
+ * Normalised stem used ONLY to group rows for duplicate detection.
+ *
+ * Deliberately separate from `norm()`, and deliberately more aggressive: it
+ * also strips punctuation, so `What is the purpose of the "this" pointer` and
+ * `What is the purpose of the this pointer` group together. `norm()` cannot be
+ * changed to do this because `contentHash()` depends on it and every question
+ * id would be re-minted.
+ *
+ * This matches the normalisation the frontend uses in quarantine generation
+ * and in scripts/validate-questions.mjs. When the two disagreed, a pair of
+ * stems differing only in quote marks was withheld by the app and published by
+ * this importer.
+ */
+export function stemKey(stem) {
+  return norm(stem).replace(/[^\w\s?]/g, '').replace(/\s+/g, ' ').trim();
+}
+
 export function contentHash(chapterCode, stem, optionTexts) {
   const payload = [
     HASH_NAMESPACE,
@@ -127,6 +158,25 @@ export function contentHash(chapterCode, stem, optionTexts) {
 
 export function questionIdFor(contentHashHex) {
   return 'q_' + contentHashHex.slice(0, 16);
+}
+
+/** Crockford-style base32, matching worker/src/lib/ids.ts. */
+const B32 = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+/**
+ * A fresh 12-character (60-bit) CSPRNG option key.
+ *
+ * DELIBERATELY NOT DERIVED from the question id or the ordinal. A derived key
+ * -- even a hashed one -- would be brute-forceable back to the ordinal in 26
+ * tries per option, which is exactly the leak the random key exists to close.
+ * 256 is a multiple of 32, so masking the low 5 bits of each byte is uniform
+ * and needs no rejection loop.
+ */
+export function newOptionKey() {
+  const bytes = randomFillSync(new Uint8Array(12));
+  let out = '';
+  for (let i = 0; i < 12; i++) out += B32[bytes[i] & 31];
+  return out;
 }
 
 /** Returns the validator codes a source row trips, newest-first in severity. */
@@ -151,6 +201,10 @@ const DEFECT_DETAIL = {
   DUPLICATE_ANSWER_CONFLICT:
     'another question shares this stem but its answer key names different text, so at least ' +
     'one of the copies is mis-keyed and the data cannot say which',
+  OPTION_MULTIPLE_TRUE:
+    'more than one option is a true answer to the stem, so a single-answer question cannot ' +
+    'be graded fairly. Human adjudication from quarantine.json; no rule here can derive it, ' +
+    'because deciding it requires subject knowledge',
 };
 
 /** OPTION_DUPLICATE and KEY_CONFLICT are wrong-answer claims; the rest are not. */
@@ -161,6 +215,7 @@ const DEFECT_CATEGORY = {
   INDEX_RANGE: 'wrong_answer',
   KEY_CONFLICT: 'wrong_answer',
   DUPLICATE_ANSWER_CONFLICT: 'duplicate',
+  OPTION_MULTIPLE_TRUE: 'bad_option',
 };
 
 // Monotonic, sortable, opaque. Not a real ULID (no crypto randomness budget
@@ -219,6 +274,33 @@ export function loadSourceRows() {
  *
  * Returns Map<questionId, string[]>.
  */
+/**
+ * Quarantine codes that are human adjudications, not rule outputs.
+ *
+ * Nothing in this importer can derive them - OPTION_MULTIPLE_TRUE, for
+ * instance, requires knowing that two option strings are both true statements
+ * about C++ - so a question carrying one must be withheld on the strength of
+ * the human decision alone. The importer is otherwise right to distrust
+ * quarantine.json's positional ids, but `validate-questions.mjs --check-ids`
+ * gates every id for range on each run, so a code that cannot be re-derived is
+ * evidence rather than noise. Publishing a question a human marked unanswerable
+ * is the worse error.
+ */
+export const HUMAN_ADJUDICATED_CODES = new Set(['OPTION_MULTIPLE_TRUE']);
+
+/**
+ * legacy id -> codes, for quarantine entries this importer cannot re-derive.
+ */
+export function planHumanQuarantine(quarantineFile) {
+  const byLegacy = new Map();
+  if (!existsSync(quarantineFile)) return byLegacy;
+  for (const entry of JSON.parse(readFileSync(quarantineFile, 'utf8'))) {
+    const human = (entry.codes ?? []).filter((c) => HUMAN_ADJUDICATED_CODES.has(c));
+    if (human.length > 0) byLegacy.set(entry.id, human);
+  }
+  return byLegacy;
+}
+
 export function planCrossRowDefects(chapters, necCodeByChapter) {
   // normalised stem -> { questionIds:Set, answerTexts:Set }
   const byStem = new Map();
@@ -228,10 +310,10 @@ export function planCrossRowDefects(chapters, necCodeByChapter) {
     for (const row of rows) {
       const optionTexts = usableOptions(row);
       const qid = questionIdFor(contentHash(necCode, row.qsns, optionTexts));
-      const stemKey = norm(row.qsns);
-      if (stemKey.length === 0) continue;
-      if (!byStem.has(stemKey)) byStem.set(stemKey, { questionIds: new Set(), answerTexts: new Set() });
-      const group = byStem.get(stemKey);
+      const key = stemKey(row.qsns);
+      if (key.length === 0) continue;
+      if (!byStem.has(key)) byStem.set(key, { questionIds: new Set(), answerTexts: new Set() });
+      const group = byStem.get(key);
       group.questionIds.add(qid);
       const ci = row.correct_option_index;
       if (Number.isInteger(ci) && ci >= 1 && ci <= optionTexts.length) {
@@ -242,7 +324,16 @@ export function planCrossRowDefects(chapters, necCodeByChapter) {
 
   const codes = new Map();
   for (const { questionIds, answerTexts } of byStem.values()) {
-    if (questionIds.size < 2) continue;      // one question, nothing to disagree with
+    // Disagreement is judged on the ANSWER, not on how many question ids the
+    // group produced. There used to be an additional `questionIds.size < 2`
+    // guard here, and it was the wrong test: contentHash() covers the stem and
+    // the sorted option texts but deliberately NOT the answer key, so two rows
+    // that differ only in correct_option_index hash to the same id. Those rows
+    // collapsed to one question whose id appeared exactly once, the guard
+    // skipped the group, and the question was published carrying whichever
+    // answer happened to be read first - silently resolving a contradiction by
+    // array order. One id with two authored answers is a stronger signal than
+    // two ids with two answers, not a weaker one.
     if (answerTexts.size < 2) continue;      // same stem, same answer -- benign duplicate
     for (const qid of questionIds) {
       if (!codes.has(qid)) codes.set(qid, []);
@@ -281,6 +372,7 @@ export function importQuestions(db, { dryRun = false } = {}) {
   // Two passes. The first sees the whole bank, which is what a cross-row
   // defect needs; the second writes.
   const crossRowCodes = planCrossRowDefects(chapters, necCodeByChapter);
+  const humanQuarantine = planHumanQuarantine(QUARANTINE_FILE);
 
   const insertQuestion = db.prepare(`
     INSERT INTO questions (
@@ -298,15 +390,22 @@ export function importQuestions(db, { dryRun = false } = {}) {
       updated_at         = excluded.updated_at
   `);
 
+  // Conflict target is the AUTHORED SLOT, not the id. A re-run must find the
+  // existing row for (question, ordinal) and keep its `opt_key` -- the id it
+  // would otherwise mint is fresh every time, so conflicting on `id` would add
+  // a second row per option per run and orphan every recorded answer.
+  // RETURNING hands back whichever id won, which is what the answer key below
+  // references; nothing string-builds an option id from the authored index.
   const insertOption = db.prepare(`
-    INSERT INTO question_options (id, question_id, ordinal, text, text_format, is_pinned,
-                                  retired_at, created_at, updated_at)
-    VALUES (?, ?, ?, ?, 'plain', ?, ?, ?, ?)
-    ON CONFLICT (id) DO UPDATE SET
+    INSERT INTO question_options (id, question_id, ordinal, opt_key, text, text_format,
+                                  is_pinned, retired_at, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, 'plain', ?, ?, ?, ?)
+    ON CONFLICT (question_id, ordinal) DO UPDATE SET
       text       = excluded.text,
       is_pinned  = excluded.is_pinned,
       retired_at = excluded.retired_at,
       updated_at = excluded.updated_at
+    RETURNING id
   `);
 
   const insertKey = db.prepare(`
@@ -332,7 +431,9 @@ export function importQuestions(db, { dryRun = false } = {}) {
        AND status = 'open'
   `);
 
-  const now = Math.floor(Date.now() / 1000);
+  // Epoch MILLISECONDS. Every timestamp column in this schema is ms; see the
+  // convention block at the top of migrations/0001_identity.sql.
+  const now = Date.now();
   const stats = {
     sourceRows: 0,
     questionsInserted: 0,
@@ -381,11 +482,21 @@ export function importQuestions(db, { dryRun = false } = {}) {
         if (seen.has(qid)) {
           stats.collapsedDuplicates++;
           chapterStats.collapsed++;
-          continue; // identical question already imported from this chapter
+          // Same stem and same option set, so the same question identity. The
+          // answer key may still differ between the two rows; when it does,
+          // planCrossRowDefects has already marked this qid
+          // DUPLICATE_ANSWER_CONFLICT and the kept row is flagged rather than
+          // published, so dropping this row cannot resolve a contradiction by
+          // arrival order.
+          continue;
         }
         seen.set(qid, sourceRef);
 
-        const codes = [...defectsFor(row, optionTexts), ...(crossRowCodes.get(qid) ?? [])];
+        const codes = [
+          ...defectsFor(row, optionTexts),
+          ...(crossRowCodes.get(qid) ?? []),
+          ...(humanQuarantine.get(legacyId) ?? []),
+        ];
         const status = codes.length > 0 ? 'flagged' : 'published';
         const statusReason = codes.length > 0 ? codes[0] : null;
 
@@ -413,14 +524,22 @@ export function importQuestions(db, { dryRun = false } = {}) {
         // claimed forever so no future option can inherit a historical answer.
         // The question itself is flagged, so nothing is delivered either way.
         const seenText = new Set();
+        // ordinal -> the option id the database actually holds. Populated from
+        // the upsert's RETURNING, so a re-import reuses the stored `opt_key`.
+        const optionIdByOrdinal = new Map();
         optionTexts.forEach((text, k) => {
           const ordinal = k + 1;
-          const optionId = `${qid}#${ordinal}`;
+          const optKey = newOptionKey();
           const key = norm(text);
           const retiredAt = seenText.has(key) ? now : null;
           seenText.add(key);
           if (!dryRun) {
-            insertOption.run(optionId, qid, ordinal, text, pinned[k], retiredAt, now, now);
+            const returned = insertOption.get(
+              `${qid}#${optKey}`, qid, ordinal, optKey, text, pinned[k], retiredAt, now, now
+            );
+            optionIdByOrdinal.set(ordinal, returned.id);
+          } else {
+            optionIdByOrdinal.set(ordinal, `${qid}#${optKey}`);
           }
           stats.optionsInserted++;
           if (retiredAt !== null) stats.optionsRetiredAsDuplicate++;
@@ -431,12 +550,22 @@ export function importQuestions(db, { dryRun = false } = {}) {
         // an option that exists -- an INDEX_RANGE row gets no key at all,
         // which is honest: there is no correct answer to record. Such a
         // question is also flagged, so it can never reach a student.
+        //
+        // `correct_option_id` comes from the map above and NOT from the
+        // authored index: the id no longer contains the index, and building one
+        // by hand is how the leak this schema just closed would come back.
+        // `authored_index` keeps the source JSON's number for audit, in the
+        // server-only table where a `SELECT *` on `questions` cannot reach it.
         const ci = row.correct_option_index;
         const keyable = Number.isInteger(ci) && ci >= 1 && ci <= optionTexts.length;
         if (keyable) {
+          const correctOptionId = optionIdByOrdinal.get(ci);
+          if (correctOptionId === undefined) {
+            throw new Error(`no option row for ${qid} ordinal ${ci} -- refusing to key it`);
+          }
           if (!dryRun) {
             insertKey.run(
-              qid, `${qid}#${ci}`, ci,
+              qid, correctOptionId, ci,
               row.correct_option === undefined || row.correct_option === null
                 ? null
                 : String(row.correct_option),

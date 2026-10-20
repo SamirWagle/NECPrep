@@ -15,7 +15,7 @@ CREATE TABLE bookmarks (
   -- also be a join and a second query on a page that exists to show a list,
   -- and nobody has asked to rename a folder.
   folder      TEXT,
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   PRIMARY KEY (user_id, question_id)
 ) STRICT;
 
@@ -64,16 +64,16 @@ CREATE TABLE srs_state (
   reps           INTEGER NOT NULL DEFAULT 0 CHECK (reps >= 0),
   lapses         INTEGER NOT NULL DEFAULT 0 CHECK (lapses >= 0),
   state          INTEGER NOT NULL DEFAULT 0 CHECK (state IN (0, 1, 2, 3)),
-  due            INTEGER NOT NULL,                        -- unix seconds
-  last_review    INTEGER,
+  due            INTEGER NOT NULL,                               -- epoch ms (UTC)
+  last_review    INTEGER,                                         -- epoch ms (UTC)
   -- 1..4 (Again, Hard, Good, Easy). The last rating, kept so the review screen
   -- can show it and so a scheduler-parameter change can be replayed against
   -- recent history without the raw answer rows, which archival removes.
   last_rating    INTEGER CHECK (last_rating IS NULL OR last_rating BETWEEN 1 AND 4),
   -- Suspended cards stay out of the due queue without losing their history.
-  suspended_at   INTEGER,
-  created_at     INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at     INTEGER NOT NULL DEFAULT (unixepoch()),
+  suspended_at   INTEGER,                                         -- epoch ms (UTC)
+  created_at     INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at     INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   PRIMARY KEY (user_id, question_id),
   CHECK (lapses <= reps),
   CHECK (reps = 0 OR last_review IS NOT NULL)
@@ -88,7 +88,7 @@ CREATE TABLE srs_state (
 CREATE INDEX idx_srs_state_user_due ON srs_state (user_id, due)
   WHERE suspended_at IS NULL;
 
--- NQ-29b srs-forecast: SELECT date(due,'unixepoch') d, COUNT(*) FROM srs_state
+-- NQ-29b srs-forecast: SELECT date(due / 1000, 'unixepoch') d, COUNT(*) FROM srs_state
 --        WHERE user_id = ? AND due BETWEEN ? AND ? GROUP BY d -- the "how much
 --        work is coming" chart. Served by the same index.
 
@@ -113,11 +113,11 @@ CREATE TABLE study_sessions (
   -- Soft reference to attempts.id. Unenforced on purpose: a session is
   -- activity history and must survive an attempt being deleted.
   attempt_id        INTEGER,
-  started_at        INTEGER NOT NULL DEFAULT (unixepoch()),
-  ended_at          INTEGER,
+  started_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  ended_at          INTEGER,                                      -- epoch ms (UTC)
   -- Generated so "time studied" is never a client-supplied number.
-  duration_s        INTEGER GENERATED ALWAYS AS (
-                      CASE WHEN ended_at IS NULL THEN 0 ELSE ended_at - started_at END
+  duration_s        INTEGER GENERATED ALWAYS AS (                 -- duration, whole seconds
+                      CASE WHEN ended_at IS NULL THEN 0 ELSE (ended_at - started_at) / 1000 END
                     ) STORED,
   questions_seen    INTEGER NOT NULL DEFAULT 0 CHECK (questions_seen >= 0),
   questions_correct INTEGER NOT NULL DEFAULT 0 CHECK (questions_correct >= 0),
@@ -188,7 +188,7 @@ CREATE INDEX idx_study_sessions_open ON study_sessions (user_id, started_at DESC
 --       + CASE WHEN last_active_date IS NULL OR last_active_date <> ?2
 --              THEN 1 ELSE 0 END,
 --     last_active_date  = ?2,
---     updated_at        = unixepoch()
+--     updated_at        = CAST(unixepoch('subsec') * 1000 AS INTEGER)
 --   WHERE last_active_date IS NULL OR last_active_date <= ?2;
 --                                     -- never let a stale request move it back
 -- ---------------------------------------------------------------------------
@@ -202,7 +202,7 @@ CREATE TABLE streaks (
   -- A one-day grace token, so a single missed day does not erase six weeks of
   -- work. Earned, spent by the upsert above.
   freezes_available INTEGER NOT NULL DEFAULT 0 CHECK (freezes_available BETWEEN 0 AND 3),
-  updated_at        INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   -- Note there is deliberately NO `longest_length >= current_length` CHECK.
   -- NQ-32a raises current_length without touching longest_length, so such a
   -- CHECK would reject the very statement that extends a streak. The invariant
@@ -290,10 +290,10 @@ CREATE TABLE user_question_stats (
                         CASE WHEN answer_count = 0 THEN 0
                              ELSE (correct_count * 10000) / answer_count END
                       ) STORED,
-  first_answered_at   INTEGER,
-  last_answered_at    INTEGER,
+  first_answered_at   INTEGER,                                    -- epoch ms (UTC)
+  last_answered_at    INTEGER,                                    -- epoch ms (UTC)
   last_is_correct     INTEGER CHECK (last_is_correct IS NULL OR last_is_correct IN (0, 1)),
-  updated_at          INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at          INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   PRIMARY KEY (user_id, question_id),
   CHECK (answer_count <= exposure_count),
   CHECK (correct_count <= answer_count),
@@ -344,35 +344,35 @@ BEGIN
   SELECT
     a.user_id, NEW.question_id, q.chapter_id, q.subchapter_id,
     1,
-    CASE WHEN NEW.selected_ordinal IS NULL THEN 0 ELSE 1 END,
+    CASE WHEN NEW.selected_opt_key IS NULL THEN 0 ELSE 1 END,
     NEW.is_correct,
     NEW.is_correct,
-    CASE WHEN NEW.selected_ordinal IS NULL THEN NULL ELSE NEW.answered_at END,
-    CASE WHEN NEW.selected_ordinal IS NULL THEN NULL ELSE NEW.answered_at END,
-    CASE WHEN NEW.selected_ordinal IS NULL THEN NULL ELSE NEW.is_correct END,
-    unixepoch()
+    CASE WHEN NEW.selected_opt_key IS NULL THEN NULL ELSE NEW.answered_at END,
+    CASE WHEN NEW.selected_opt_key IS NULL THEN NULL ELSE NEW.answered_at END,
+    CASE WHEN NEW.selected_opt_key IS NULL THEN NULL ELSE NEW.is_correct END,
+    CAST(unixepoch('subsec') * 1000 AS INTEGER)
   FROM attempts a
   JOIN questions q ON q.id = NEW.question_id
   WHERE a.id = NEW.attempt_id
   ON CONFLICT (user_id, question_id) DO UPDATE SET
     exposure_count      = exposure_count + 1,
     answer_count        = answer_count
-                          + CASE WHEN NEW.selected_ordinal IS NULL THEN 0 ELSE 1 END,
+                          + CASE WHEN NEW.selected_opt_key IS NULL THEN 0 ELSE 1 END,
     correct_count       = correct_count + NEW.is_correct,
     consecutive_correct = CASE WHEN NEW.is_correct = 1
                                THEN consecutive_correct + 1 ELSE 0 END,
     first_answered_at   = COALESCE(first_answered_at,
-                                   CASE WHEN NEW.selected_ordinal IS NULL
+                                   CASE WHEN NEW.selected_opt_key IS NULL
                                         THEN NULL ELSE NEW.answered_at END),
-    last_answered_at    = CASE WHEN NEW.selected_ordinal IS NULL
+    last_answered_at    = CASE WHEN NEW.selected_opt_key IS NULL
                                THEN last_answered_at ELSE NEW.answered_at END,
-    last_is_correct     = CASE WHEN NEW.selected_ordinal IS NULL
+    last_is_correct     = CASE WHEN NEW.selected_opt_key IS NULL
                                THEN last_is_correct ELSE NEW.is_correct END,
-    updated_at          = unixepoch();
+    updated_at          = CAST(unixepoch('subsec') * 1000 AS INTEGER);
 
   UPDATE attempts
      SET answered_count = answered_count
-                        + CASE WHEN NEW.selected_ordinal IS NULL THEN 0 ELSE 1 END,
+                        + CASE WHEN NEW.selected_opt_key IS NULL THEN 0 ELSE 1 END,
          correct_count  = correct_count + NEW.is_correct
    WHERE id = NEW.attempt_id;
 END;
@@ -381,19 +381,19 @@ END;
 -- Only the correctness facts move, and they move by delta so the counters stay
 -- consistent however many times a student changes their mind.
 CREATE TRIGGER attempt_answers_au_rollup
-AFTER UPDATE OF selected_ordinal, is_correct ON attempt_answers
+AFTER UPDATE OF selected_opt_key, is_correct ON attempt_answers
 BEGIN
   UPDATE attempts
      SET answered_count = answered_count
-                        + CASE WHEN NEW.selected_ordinal IS NULL THEN 0 ELSE 1 END
-                        - CASE WHEN OLD.selected_ordinal IS NULL THEN 0 ELSE 1 END,
+                        + CASE WHEN NEW.selected_opt_key IS NULL THEN 0 ELSE 1 END
+                        - CASE WHEN OLD.selected_opt_key IS NULL THEN 0 ELSE 1 END,
          correct_count  = correct_count + NEW.is_correct - OLD.is_correct
    WHERE id = NEW.attempt_id;
 
   UPDATE user_question_stats
      SET answer_count        = answer_count
-                             + CASE WHEN NEW.selected_ordinal IS NULL THEN 0 ELSE 1 END
-                             - CASE WHEN OLD.selected_ordinal IS NULL THEN 0 ELSE 1 END,
+                             + CASE WHEN NEW.selected_opt_key IS NULL THEN 0 ELSE 1 END
+                             - CASE WHEN OLD.selected_opt_key IS NULL THEN 0 ELSE 1 END,
          correct_count       = correct_count + NEW.is_correct - OLD.is_correct,
          consecutive_correct = CASE
                                  WHEN NEW.is_correct = OLD.is_correct THEN consecutive_correct
@@ -401,13 +401,13 @@ BEGIN
                                  ELSE 0
                                END,
          first_answered_at   = COALESCE(first_answered_at,
-                                        CASE WHEN NEW.selected_ordinal IS NULL
+                                        CASE WHEN NEW.selected_opt_key IS NULL
                                              THEN NULL ELSE NEW.answered_at END),
-         last_answered_at    = CASE WHEN NEW.selected_ordinal IS NULL
+         last_answered_at    = CASE WHEN NEW.selected_opt_key IS NULL
                                     THEN last_answered_at ELSE NEW.answered_at END,
-         last_is_correct     = CASE WHEN NEW.selected_ordinal IS NULL
+         last_is_correct     = CASE WHEN NEW.selected_opt_key IS NULL
                                     THEN last_is_correct ELSE NEW.is_correct END,
-         updated_at          = unixepoch()
+         updated_at          = CAST(unixepoch('subsec') * 1000 AS INTEGER)
    WHERE question_id = NEW.question_id
      AND user_id = (SELECT user_id FROM attempts WHERE id = NEW.attempt_id);
 END;

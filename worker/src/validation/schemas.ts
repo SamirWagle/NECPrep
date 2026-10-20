@@ -1,15 +1,19 @@
 /**
- * Request schemas. Every endpoint that accepts a body or a query string has one
- * here, and the middleware refuses the request if the body does not parse.
+ * Request schemas, in Zod. Every endpoint that accepts a body or a query string
+ * has one here, and the middleware refuses the request if it does not parse.
+ *
+ * EVERY OBJECT IS `z.strictObject`. Zod's `z.object` STRIPS an unrecognised
+ * key, which is the worst of the three options at this boundary -- see the
+ * header of `validation/parse.ts` for the argument. A bare `z.object` anywhere
+ * in this file is a bug.
  *
  * The limits are not decoration. `MAX_MOCK_ANSWERS` bounds the JSON blob that
  * gets expanded by `json_each` in the submit batch, and `MAX_SEARCH_LEN` bounds
- * a LIKE pattern. An unbounded answers map is a cheap way to make one D1
- * statement do unbounded work on a single-threaded database.
+ * what reaches the FTS5 tokeniser. An unbounded answers map is a cheap way to
+ * make one D1 statement do unbounded work on a single-threaded database.
  */
 
-import { v } from './v.ts';
-import type { Infer } from './v.ts';
+import { z } from 'zod';
 
 /** The largest paper the API will accept a submission for. */
 export const MAX_MOCK_ANSWERS = 250;
@@ -21,8 +25,95 @@ export const MAX_ADMIN_BATCH = 100;
 /** Request bodies larger than this are refused before they are parsed. */
 export const MAX_BODY_BYTES = 128 * 1024;
 
-const optionRef = () => v.string().token(32);
-const questionId = () => v.entityId();
+/**
+ * No string coercion anywhere, and the message says so.
+ *
+ * `"12"` in a JSON body is a client bug; coercing it hides the bug until a
+ * value like `"12abc"` arrives. Zod rejects `NaN` by default and -- verified,
+ * not assumed -- also rejects `Infinity`, so a hostile numeric value cannot
+ * reach an INTEGER column or skew an aggregate.
+ */
+const number = () => z.number({ error: 'Expected a finite number.' });
+const integer = () => number().int('Expected an integer.');
+
+/**
+ * A server-minted entity id, or any opaque token on the wire.
+ *
+ * Charset-restricted because these reach a primary key and are echoed in logs,
+ * and bounded because `question_reports.public_id`, `attempts.public_id` and an
+ * idempotency key all become half of a unique index.
+ */
+const TOKEN_RE = /^[A-Za-z0-9_.:-]+$/;
+const token = (maxLen = 64) =>
+  z
+    .string({ error: 'Expected a string.' })
+    .min(1, 'Must be a valid identifier.')
+    .max(maxLen, 'Must be a valid identifier.')
+    .regex(TOKEN_RE, 'Must be a valid identifier.');
+
+const entityId = () => token(64);
+const optionRef = () => token(32);
+const questionId = () => entityId();
+
+/**
+ * The idempotency key, as a field. Client-supplied, so it is bounded and
+ * charset-restricted: it becomes half of a primary key and is echoed in logs.
+ * The 8-character floor is so it cannot be trivially guessed by another
+ * session -- the key is scoped per user, but a guessable one would still let a
+ * second tab collide with the first.
+ */
+const idempotencyKey = () =>
+  token(80).min(8, 'Must be at least 8 characters.');
+
+/**
+ * Deliberately boring. A full RFC 5322 matcher is a liability; this rejects
+ * everything that cannot be a deliverable address and nothing that can. The
+ * transforms run before the checks, so a stored address is already the
+ * canonical form `users.email_normalized` will generate from it.
+ */
+const EMAIL_RE = /^[^\s@]{1,64}@[^\s@.]+(\.[^\s@.]+)+$/;
+const email = () =>
+  z
+    .string({ error: 'Expected a string.' })
+    .trim()
+    .toLowerCase()
+    .max(254, 'Must be a valid email address.')
+    .regex(EMAIL_RE, 'Must be a valid email address.');
+
+/** Keys that must never arrive from a client, whatever the schema says. */
+const RESERVED_KEYS: ReadonlySet<string> = new Set([
+  '__proto__',
+  'constructor',
+  'prototype',
+]);
+
+/**
+ * Rejects a prototype-polluting key BEFORE the inner schema sees the object.
+ *
+ * This guard is not optional and it is not paranoia about Zod. Zod's
+ * `z.record` builds its output with plain assignment onto a fresh object, so a
+ * JSON body of `{"__proto__": "x"}` has the key SILENTLY DROPPED -- the parse
+ * succeeds and the field vanishes. That is the stripping failure mode this
+ * whole file exists to avoid: the client believes it submitted an answer for a
+ * question whose id happens to be a reserved word, and the server believes it
+ * submitted nothing. A refinement cannot see it either, because refinements run
+ * on the OUTPUT. So the check has to happen on the raw value, which is what
+ * `z.unknown().superRefine(...).pipe(inner)` does: the pipe's second half never
+ * runs if the first half raised an issue.
+ */
+function noReservedKeys<T extends z.ZodType>(inner: T): z.ZodType<z.output<T>> {
+  return z
+    .unknown()
+    .superRefine((value, ctx) => {
+      if (typeof value !== 'object' || value === null || Array.isArray(value)) return;
+      for (const key of Object.keys(value)) {
+        if (RESERVED_KEYS.has(key)) {
+          ctx.addIssue({ code: 'custom', message: 'Reserved key.', path: [key] });
+        }
+      }
+    })
+    .pipe(inner) as unknown as z.ZodType<z.output<T>>;
+}
 
 // --- Auth -------------------------------------------------------------------
 
@@ -31,49 +122,56 @@ const questionId = () => v.entityId();
  * password is fed to PBKDF2 and an unbounded input is a cheap CPU-exhaustion
  * vector on a Worker with a 10ms budget.
  */
-const password = () => v.string().min(8).max(200);
+const password = () =>
+  z.string({ error: 'Expected a string.' }).min(8, 'Must be at least 8 characters.').max(200);
 
-export const signupSchema = v.object({
-  email: v.string().email(),
+const displayName = () =>
+  z.string({ error: 'Expected a string.' }).trim().min(1).max(60);
+
+export const signupSchema = z.strictObject({
+  email: email(),
   password: password(),
-  displayName: v.optional(v.string().trimmed().min(1).max(60)),
+  displayName: displayName().optional(),
 });
 
-export const loginSchema = v.object({
-  email: v.string().email(),
-  password: v.string().min(1).max(200),
+export const loginSchema = z.strictObject({
+  email: email(),
+  // No minimum, deliberately. Rejecting a short password at the schema would
+  // tell an attacker their guess was too short to be anyone's password.
+  password: z.string({ error: 'Expected a string.' }).min(1).max(200),
 });
 
-export const upgradeAnonymousSchema = v.object({
-  email: v.string().email(),
+export const upgradeAnonymousSchema = z.strictObject({
+  email: email(),
   password: password(),
-  displayName: v.optional(v.string().trimmed().min(1).max(60)),
+  displayName: displayName().optional(),
 });
 
-export const googleCallbackSchema = v.object({
-  code: v.string().min(1).max(2048),
-  state: v.string().token(64),
+export const googleCallbackSchema = z.strictObject({
+  code: z.string({ error: 'Expected a string.' }).min(1).max(2048),
+  state: token(64),
 });
 
 // --- Content ----------------------------------------------------------------
 
-export const chapterQuestionsQuerySchema = v.object({
-  chapterId: v.entityId(),
-  offset: v.withDefault(v.number().int().min(0).max(100_000), () => 0),
-  limit: v.withDefault(v.number().int().min(1).max(100), () => 50),
+export const chapterQuestionsQuerySchema = z.strictObject({
+  chapterId: entityId(),
+  offset: integer().min(0).max(100_000).default(0),
+  // An unbounded page size is a bulk-extraction vector against the bank.
+  limit: integer().min(1).max(100).default(50),
 });
 
-export const searchQuerySchema = v.object({
-  q: v.string().trimmed().min(2).max(MAX_SEARCH_LEN),
-  chapterId: v.optional(v.entityId()),
-  limit: v.withDefault(v.number().int().min(1).max(50), () => 20),
+export const searchQuerySchema = z.strictObject({
+  q: z.string({ error: 'Expected a string.' }).trim().min(2).max(MAX_SEARCH_LEN),
+  chapterId: entityId().optional(),
+  limit: integer().min(1).max(50).default(20),
 });
 
 // --- Mock -------------------------------------------------------------------
 
-export const mockStartSchema = v.object({
-  templateId: v.entityId(),
-  idempotencyKey: v.idempotencyKey(),
+export const mockStartSchema = z.strictObject({
+  templateId: entityId(),
+  idempotencyKey: idempotencyKey(),
 });
 
 /**
@@ -81,125 +179,151 @@ export const mockStartSchema = v.object({
  *
  * Note what is NOT in here: no score, no `isCorrect`, no timestamps and no
  * deadline. The client has no field with which to assert anything about
- * correctness or about time.
+ * correctness or about time, and because the object is strict, inventing one
+ * is a 400 rather than a silently ignored field.
  */
-const answersMap = () => v.record(questionId(), optionRef(), MAX_MOCK_ANSWERS);
+const answersMap = () =>
+  noReservedKeys(
+    z
+      .record(questionId(), optionRef())
+      .refine(
+        (map) => Object.keys(map).length <= MAX_MOCK_ANSWERS,
+        `Allows at most ${MAX_MOCK_ANSWERS} entries.`,
+      ),
+  );
 
-export const mockSyncSchema = v.object({
-  attemptId: v.entityId(),
+export const mockSyncSchema = z.strictObject({
+  attemptId: entityId(),
   answers: answersMap(),
 });
 
-export const mockSubmitSchema = v.object({
-  attemptId: v.entityId(),
-  idempotencyKey: v.idempotencyKey(),
+export const mockSubmitSchema = z.strictObject({
+  attemptId: entityId(),
+  idempotencyKey: idempotencyKey(),
   answers: answersMap(),
 });
 
-export const attemptIdSchema = v.object({
-  attemptId: v.entityId(),
+export const attemptIdSchema = z.strictObject({
+  attemptId: entityId(),
 });
 
 // --- Practice ---------------------------------------------------------------
 
-export const practiceStartSchema = v.object({
-  mode: v.enumOf(['chapter', 'bookmarks', 'srs', 'wrong', 'custom'] as const),
-  chapterIds: v.optional(v.array(v.entityId()).min(1).max(20).unique()),
-  questionCount: v.number().int().min(1).max(MAX_PRACTICE_QUESTIONS),
-  idempotencyKey: v.idempotencyKey(),
+export const practiceStartSchema = z.strictObject({
+  mode: z.enum(['chapter', 'bookmarks', 'srs', 'wrong', 'custom']),
+  chapterIds: z
+    .array(entityId())
+    .min(1)
+    .max(20)
+    .refine((xs) => new Set(xs).size === xs.length, 'Items must be unique.')
+    .optional(),
+  questionCount: integer().min(1).max(MAX_PRACTICE_QUESTIONS),
+  idempotencyKey: idempotencyKey(),
 });
 
 /** An hour. Anything longer is a tab left open, not time on the question. */
 export const MAX_LATENCY_MS = 60 * 60 * 1000;
 
-export const practiceAnswerSchema = v.object({
-  sessionId: v.entityId(),
+export const practiceAnswerSchema = z.strictObject({
+  sessionId: entityId(),
   questionId: questionId(),
-  optionRef: v.nullable(optionRef()),
-  idempotencyKey: v.optional(v.idempotencyKey()),
+  /** `null` records a deliberate skip, which still reveals the key. */
+  optionRef: optionRef().nullable(),
+  idempotencyKey: idempotencyKey().optional(),
   // Telemetry for the spaced-repetition grade only. Bounded so a hostile value
   // cannot overflow an INTEGER column or skew an aggregate.
-  latencyMs: v.optional(v.number().int().min(0).max(MAX_LATENCY_MS)),
-  flaggedGuess: v.optional(v.boolean()),
-  confidence: v.optional(v.number().int().min(1).max(3)),
+  latencyMs: integer().min(0).max(MAX_LATENCY_MS).optional(),
+  flaggedGuess: z.boolean({ error: 'Expected true or false.' }).optional(),
+  confidence: integer().min(1).max(3).optional(),
 });
 
-export const practiceFinishSchema = v.object({
-  sessionId: v.entityId(),
-  idempotencyKey: v.idempotencyKey(),
+export const practiceFinishSchema = z.strictObject({
+  sessionId: entityId(),
+  idempotencyKey: idempotencyKey(),
 });
 
 // --- Progress ---------------------------------------------------------------
 
-export const historyQuerySchema = v.object({
-  limit: v.withDefault(v.number().int().min(1).max(50), () => 20),
-  cursor: v.optional(v.string().token(64)),
+export const historyQuerySchema = z.strictObject({
+  limit: integer().min(1).max(50).default(20),
+  cursor: token(64).optional(),
 });
 
 // --- Bookmarks --------------------------------------------------------------
 
-export const bookmarkSetSchema = v.object({
+export const bookmarkSetSchema = z.strictObject({
   questionId: questionId(),
-  desired: v.boolean(),
-  idempotencyKey: v.optional(v.idempotencyKey()),
+  // Not coerced: `'true'` and `1` are both client bugs, and accepting either
+  // would make "remove this bookmark" indistinguishable from "add it".
+  desired: z.boolean({ error: 'Expected true or false.' }),
+  idempotencyKey: idempotencyKey().optional(),
 });
 
 // --- SRS --------------------------------------------------------------------
 
-export const srsDueQuerySchema = v.object({
-  limit: v.withDefault(v.number().int().min(1).max(50), () => 20),
+export const srsDueQuerySchema = z.strictObject({
+  limit: integer().min(1).max(50).default(20),
 });
 
-export const srsReviewSchema = v.object({
+export const srsReviewSchema = z.strictObject({
   questionId: questionId(),
-  grade: v.enumOf(['again', 'hard', 'good', 'easy'] as const),
-  revision: v.number().int().min(0).max(1_000_000),
-  idempotencyKey: v.optional(v.idempotencyKey()),
+  grade: z.enum(['again', 'hard', 'good', 'easy']),
+  /** The `revision` (`srs_state.reps`) the client last saw for this card. */
+  revision: integer().min(0).max(1_000_000),
+  idempotencyKey: idempotencyKey().optional(),
 });
 
 // --- Reports ----------------------------------------------------------------
 
-export const reportSubmitSchema = v.object({
+export const reportSubmitSchema = z.strictObject({
   questionId: questionId(),
-  reason: v.enumOf([
+  reason: z.enum([
     'wrong_answer',
     'ambiguous',
     'typo',
     'duplicate',
     'out_of_syllabus',
     'other',
-  ] as const),
-  detail: v.optional(v.string().trimmed().max(MAX_REPORT_DETAIL)),
-  idempotencyKey: v.optional(v.idempotencyKey()),
+  ]),
+  detail: z.string({ error: 'Expected a string.' }).trim().max(MAX_REPORT_DETAIL).optional(),
+  idempotencyKey: idempotencyKey().optional(),
 });
 
 // --- Admin ------------------------------------------------------------------
 
-export const adminQueueQuerySchema = v.object({
-  status: v.withDefault(
-    v.enumOf(['open', 'triaged', 'accepted', 'rejected', 'fixed'] as const),
-    () => 'open' as const,
-  ),
-  limit: v.withDefault(v.number().int().min(1).max(50), () => 25),
-  cursor: v.optional(v.string().token(64)),
+/** Matches the CHECK on `question_reports.status`. */
+const reportStatus = () => z.enum(['open', 'triaged', 'accepted', 'rejected', 'duplicate']);
+
+export const adminQueueQuerySchema = z.strictObject({
+  status: reportStatus().default('open'),
+  limit: integer().min(1).max(50).default(25),
+  cursor: token(64).optional(),
 });
 
-export const adminTriageSchema = v.object({
-  reportIds: v.array(v.entityId()).min(1).max(MAX_ADMIN_BATCH).unique(),
-  status: v.enumOf(['open', 'triaged', 'accepted', 'rejected', 'fixed'] as const),
-  resolutionNote: v.optional(v.string().trimmed().max(1000)),
-  idempotencyKey: v.idempotencyKey(),
+/** A duplicated id in a batch is a client bug worth surfacing, not deduplicating. */
+const uniqueIds = (inner: z.ZodType<string>) =>
+  z
+    .array(inner)
+    .min(1)
+    .max(MAX_ADMIN_BATCH)
+    .refine((xs) => new Set(xs).size === xs.length, 'Items must be unique.');
+
+export const adminTriageSchema = z.strictObject({
+  reportIds: uniqueIds(entityId()),
+  status: reportStatus(),
+  resolutionNote: z.string({ error: 'Expected a string.' }).trim().max(1000).optional(),
+  idempotencyKey: idempotencyKey(),
 });
 
-export const adminPublishSchema = v.object({
-  questionIds: v.array(questionId()).min(1).max(MAX_ADMIN_BATCH).unique(),
-  state: v.enumOf(['draft', 'published', 'retired'] as const),
-  idempotencyKey: v.idempotencyKey(),
+export const adminPublishSchema = z.strictObject({
+  questionIds: uniqueIds(questionId()),
+  state: z.enum(['draft', 'published', 'retired']),
+  idempotencyKey: idempotencyKey(),
 });
 
-export const auditQuerySchema = v.object({
-  limit: v.withDefault(v.number().int().min(1).max(100), () => 50),
-  cursor: v.optional(v.string().token(64)),
+export const auditQuerySchema = z.strictObject({
+  limit: integer().min(1).max(100).default(50),
+  cursor: token(64).optional(),
 });
 
 // --- Inferred input types ---------------------------------------------------
@@ -210,24 +334,24 @@ export const auditQuerySchema = v.object({
 // is not the same type as a request body - `limit` is optional on the wire and
 // required here.
 
-export type SignupInput = Infer<typeof signupSchema>;
-export type LoginInput = Infer<typeof loginSchema>;
-export type UpgradeAnonymousInput = Infer<typeof upgradeAnonymousSchema>;
-export type GoogleCallbackInput = Infer<typeof googleCallbackSchema>;
-export type ChapterQuestionsInput = Infer<typeof chapterQuestionsQuerySchema>;
-export type SearchInput = Infer<typeof searchQuerySchema>;
-export type MockStartInput = Infer<typeof mockStartSchema>;
-export type MockSyncInput = Infer<typeof mockSyncSchema>;
-export type MockSubmitInput = Infer<typeof mockSubmitSchema>;
-export type PracticeStartInput = Infer<typeof practiceStartSchema>;
-export type PracticeAnswerInput = Infer<typeof practiceAnswerSchema>;
-export type PracticeFinishInput = Infer<typeof practiceFinishSchema>;
-export type HistoryInput = Infer<typeof historyQuerySchema>;
-export type BookmarkSetInput = Infer<typeof bookmarkSetSchema>;
-export type SrsDueInput = Infer<typeof srsDueQuerySchema>;
-export type SrsReviewInput = Infer<typeof srsReviewSchema>;
-export type ReportSubmitInput = Infer<typeof reportSubmitSchema>;
-export type AdminQueueInput = Infer<typeof adminQueueQuerySchema>;
-export type AdminTriageInput = Infer<typeof adminTriageSchema>;
-export type AdminPublishInput = Infer<typeof adminPublishSchema>;
-export type AuditInput = Infer<typeof auditQuerySchema>;
+export type SignupInput = z.infer<typeof signupSchema>;
+export type LoginInput = z.infer<typeof loginSchema>;
+export type UpgradeAnonymousInput = z.infer<typeof upgradeAnonymousSchema>;
+export type GoogleCallbackInput = z.infer<typeof googleCallbackSchema>;
+export type ChapterQuestionsInput = z.infer<typeof chapterQuestionsQuerySchema>;
+export type SearchInput = z.infer<typeof searchQuerySchema>;
+export type MockStartInput = z.infer<typeof mockStartSchema>;
+export type MockSyncInput = z.infer<typeof mockSyncSchema>;
+export type MockSubmitInput = z.infer<typeof mockSubmitSchema>;
+export type PracticeStartInput = z.infer<typeof practiceStartSchema>;
+export type PracticeAnswerInput = z.infer<typeof practiceAnswerSchema>;
+export type PracticeFinishInput = z.infer<typeof practiceFinishSchema>;
+export type HistoryInput = z.infer<typeof historyQuerySchema>;
+export type BookmarkSetInput = z.infer<typeof bookmarkSetSchema>;
+export type SrsDueInput = z.infer<typeof srsDueQuerySchema>;
+export type SrsReviewInput = z.infer<typeof srsReviewSchema>;
+export type ReportSubmitInput = z.infer<typeof reportSubmitSchema>;
+export type AdminQueueInput = z.infer<typeof adminQueueQuerySchema>;
+export type AdminTriageInput = z.infer<typeof adminTriageSchema>;
+export type AdminPublishInput = z.infer<typeof adminPublishSchema>;
+export type AuditInput = z.infer<typeof auditQuerySchema>;

@@ -218,7 +218,7 @@ test('requireUser refuses an unauthenticated context', () => {
 
 test('the admin surface is closed to a plain user and open to a moderator', async () => {
   const world = createWorld();
-  const user = world.makeUser({ role: 'user' });
+  const user = world.makeUser({ role: 'student' });
   const moderator = world.makeUser({ role: 'moderator' });
   const admin = world.makeUser({ role: 'admin' });
 
@@ -282,9 +282,10 @@ test('the admin surface is closed to a plain user and open to a moderator', asyn
 
 test('an unrecognised role reads as the least privileged', () => {
   const world = createWorld();
-  // `toSessionUser` normalises anything unexpected to 'user'; this checks the
-  // gate itself rather than trusting that normalisation happened upstream.
-  const ctx = world.contextFor(world.makeUser({ role: 'user' }));
+  // `toUserRole` normalises anything unexpected to 'student', the least
+  // privileged of the four; this checks the gate itself rather than trusting
+  // that normalisation happened upstream.
+  const ctx = world.contextFor(world.makeUser({ role: 'student' }));
   assert.throws(() => requireAdmin(ctx), (err: Error & { code?: string }) => {
     assert.equal(err.code, 'FORBIDDEN');
     return true;

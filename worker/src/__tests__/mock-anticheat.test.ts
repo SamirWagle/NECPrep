@@ -372,6 +372,46 @@ test('the expiry clamp uses SERVER time, not an attempt-supplied deadline', asyn
   world.close();
 });
 
+test('A ROUND-TRIPPED DEADLINE IS STILL IN THE FUTURE (milliseconds, not seconds)', async () => {
+  // THE REGRESSION THIS GUARDS. `attempts.deadline_at` used to default to
+  // `unixepoch()` -- whole SECONDS -- while every comparison in this Worker is
+  // `Date.now()` milliseconds. Nothing threw: a 45-minute deadline written as
+  // seconds is 45,000 times too small, so every attempt is already expired
+  // when it is created, every submission takes the `expired` branch, and every
+  // candidate is scored on an empty snapshot. The paper below is written to the
+  // database and READ BACK, so this asserts the stored unit and not an
+  // in-memory number.
+  const world = createWorld();
+  const user = world.makeUser();
+
+  const paper = await start(world, user);
+  assert.ok(paper.expiresAt > paper.serverNow, 'a fresh attempt must not be expired');
+  assert.equal(paper.expiresAt - paper.startedAt, 45 * MINUTE);
+  assert.equal(paper.durationSeconds, 45 * 60);
+
+  // Re-read from `attempts`, so the assertion is about what was stored.
+  const resumed = await measure(world, user, (ctx) => getMockAttempt(ctx, paper.attemptId));
+  assert.equal(resumed.result.body.expiresAt, paper.expiresAt);
+  assert.ok(resumed.result.body.expiresAt - resumed.result.body.serverNow > 44 * MINUTE);
+
+  // And the clamp agrees: a sync 44 minutes in is accepted, one a minute later
+  // is not. Under a seconds-based store the first would already be refused.
+  world.clock.advance(44 * MINUTE);
+  const inTime = await measure(world, user, (ctx) =>
+    syncMock(ctx, { attemptId: paper.attemptId, answers: {} }),
+  );
+  assert.equal(inTime.result.body.accepted, true);
+
+  world.clock.advance(2 * MINUTE);
+  const tooLate = await measure(world, user, (ctx) =>
+    syncMock(ctx, { attemptId: paper.attemptId, answers: {} }),
+  );
+  assert.equal(tooLate.result.body.accepted, false);
+  assert.equal(tooLate.result.body.reason, 'past_deadline');
+
+  world.close();
+});
+
 test('the review endpoint refuses an attempt that is still in progress', async () => {
   const world = createWorld();
   const user = world.makeUser();

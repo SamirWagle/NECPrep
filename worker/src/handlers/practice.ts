@@ -6,14 +6,20 @@
  * it is a deliberate, bounded concession to what practice is actually for.
  * The ordering is what makes it safe:
  *
- *   1. resolve the submitted ref against the paper stored for this session
+ *   1. resolve the submitted ref against the paper stored for this attempt
  *   2. join the key, compute correctness
- *   3. WRITE the answer and the stats - guarded so a replay cannot re-write
+ *   3. WRITE the answer and the rollups - guarded so a replay cannot re-write
  *   4. only then put `correctRef` and the explanation in the response
  *
  * So the key for question 7 becomes visible only once question 7 has been
  * answered on the record. There is no endpoint that reveals question 8's key,
  * and nothing in the paper payload hints at it.
+ *
+ * A practice session IS an attempt (`attempts.mode` in
+ * 'practice'|'srs'|'bookmark_review'|'weak_areas'). It used to be a separate
+ * `practice_sessions` table with its own questions and answers alongside the
+ * mock ones; one table means the rollup triggers, the history query and the
+ * archival job exist once instead of twice.
  */
 
 import { fail } from '../shared/errors.ts';
@@ -30,18 +36,21 @@ import {
   readWeakQuestionIds,
 } from '../data/progress.ts';
 import {
+  attemptStatus,
   commitPracticeAnswer,
-  createSessionBatch,
-  finishSession,
-  loadSession,
-  loadSessionAnswers,
-  loadSessionPaper,
-  loadSessionQuestionWithKey,
-  sessionMode,
-  sessionStatus,
-} from '../data/practice.ts';
+  createAttemptBatch,
+  finishAttempt,
+  loadAttempt,
+  loadPaper,
+  loadPaperQuestionWithKey,
+  loadRecordedAnswers,
+  modeForPractice,
+  practiceModeFor,
+} from '../data/attempts.ts';
+import type { AttemptRow } from '../data/attempts.ts';
 import { consumeRateLimit, RATE_LIMITS } from '../data/infra.ts';
-import { bodyIndex, buildAttemptPaper, publicOptionsFor, toAttemptQuestions } from './paper.ts';
+import { attachRefs, attachRefsToOne, buildAttemptPaper, toAttemptQuestions } from './paper.ts';
+import type { RefContext } from './paper.ts';
 import { ok, requireUser, withIdempotency } from './context.ts';
 import type { HandlerContext, HandlerResult } from './context.ts';
 import type {
@@ -55,6 +64,20 @@ import type {
   PracticeFinishInput,
   PracticeStartInput,
 } from '../validation/schemas.ts';
+
+function refContextFor(ctx: HandlerContext, attempt: AttemptRow): RefContext {
+  return {
+    secret: ctx.config.permutationSecret,
+    optionSeed: attempt.option_seed,
+    attemptPublicId: attempt.public_id,
+  };
+}
+
+function newOptionSeed(): number {
+  const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  return buf[0] & 0x7fffffff;
+}
 
 /**
  * Chooses the question set for a practice mode. 1 D1 query in every case.
@@ -91,10 +114,11 @@ async function pickPracticeQuestions(
 }
 
 /**
- * POST /api/practice/start - 7 D1 queries, constant in session size.
+ * POST /api/practice/start - 8 D1 queries, constant in session size.
  *
- * idempotency 2, question pick 1, option bodies 1, session + paper insert 2
- * (one batch), paper read-back 1.
+ * idempotency 2, question pick 1, option bodies 1, attempt + paper + study
+ * session 3 (ONE batch), attempt read-back 1, paper read-back 1 -- the last
+ * two share the budget with the idempotency finalise.
  */
 export async function startPractice(
   ctx: HandlerContext,
@@ -133,37 +157,50 @@ export async function startPractice(
         fail('INSUFFICIENT_CONTENT', 'No answerable questions are available.');
       }
 
-      const sessionId = newId('pse');
+      const publicId = newId('pse');
       const startedAt = ctx.clock.now();
 
+      // `attempts.chapter_id` is set only for a genuinely single-chapter set.
+      // A multi-chapter custom session leaves it NULL rather than naming one of
+      // them, because a column that sometimes means "all of these" and
+      // sometimes "this one" is worse than a NULL.
+      const chapterId =
+        input.chapterIds !== undefined && input.chapterIds.length === 1
+          ? input.chapterIds[0]
+          : null;
+
       await ctx.db.batch(
-        createSessionBatch({
-          sessionId,
+        createAttemptBatch({
+          publicId,
           userId: auth.user.id,
-          mode: input.mode,
-          chapterIds: input.chapterIds ?? null,
+          mode: modeForPractice(input.mode),
+          templateId: null,
+          chapterId,
+          optionSeed: newOptionSeed(),
           startedAt,
+          // Untimed, deliberately: practice is not an exam, and a NULL
+          // deadline is what makes `syncAnswers` refuse to clamp one.
+          deadlineAt: null,
           paper,
         }),
       );
 
-      const rows = await loadSessionPaper(ctx.db, sessionId, auth.user.id);
-      const bodies = bodyIndex(optionsByQuestion);
+      const attempt = await loadAttempt(ctx.db, publicId, auth.user.id);
+      if (!attempt) fail('INTERNAL', 'The practice session could not be created.');
+
+      const rows = attachRefs(
+        await loadPaper(ctx.db, publicId, auth.user.id),
+        refContextFor(ctx, attempt),
+      );
 
       return ok<PracticeSessionPaper>({
-        sessionId,
+        sessionId: attempt.public_id,
         mode: input.mode,
         status: 'in_progress',
-        startedAt,
+        startedAt: attempt.started_at,
         serverNow: startedAt,
-        questionCount: rows.length,
-        questions: rows.map((row) => ({
-          questionId: row.questionId,
-          chapterId: row.chapterId,
-          position: row.position,
-          stem: row.stem,
-          options: publicOptionsFor(row, bodies),
-        })),
+        questionCount: attempt.question_count,
+        questions: toAttemptQuestions(rows, optionsByQuestion),
         answered: {},
       });
     },
@@ -182,15 +219,18 @@ export async function getPracticeSession(
 ): Promise<HandlerResult<PracticeSessionPaper>> {
   const auth = requireUser(ctx);
 
-  const session = await loadSession(ctx.db, sessionId, auth.user.id);
-  if (!session) fail('NOT_FOUND', 'That practice session does not exist.');
+  const attempt = await loadAttempt(ctx.db, sessionId, auth.user.id);
+  if (!attempt) fail('NOT_FOUND', 'That practice session does not exist.');
 
-  const rows = await loadSessionPaper(ctx.db, sessionId, auth.user.id);
+  const rows = attachRefs(
+    await loadPaper(ctx.db, sessionId, auth.user.id),
+    refContextFor(ctx, attempt),
+  );
   const optionsByQuestion = await loadOptionsForQuestions(
     ctx.db,
     rows.map((r) => r.questionId),
   );
-  const committed = await loadSessionAnswers(ctx.db, sessionId, auth.user.id);
+  const committed = await loadRecordedAnswers(ctx.db, sessionId, auth.user.id);
 
   // The key is loaded for the ALREADY ANSWERED questions and for no others.
   // An unanswered question contributes nothing to this map, so resuming a
@@ -223,28 +263,28 @@ export async function getPracticeSession(
   }
 
   return ok<PracticeSessionPaper>({
-    sessionId: session.id,
-    mode: sessionMode(session),
-    status: sessionStatus(session),
-    startedAt: session.started_at,
+    sessionId: attempt.public_id,
+    mode: practiceModeFor(attempt.mode),
+    status: attemptStatus(attempt),
+    startedAt: attempt.started_at,
     serverNow: ctx.clock.now(),
-    questionCount: session.question_count,
+    questionCount: attempt.question_count,
     questions: toAttemptQuestions(rows, optionsByQuestion),
     answered,
   });
 }
 
 /**
- * POST /api/practice/answer - 4 D1 queries.
+ * POST /api/practice/answer - 7 D1 queries.
  *
- * rate limit 1, question + key 1, commit batch 6-in-1 (counted as 6 statements
- * but one round trip), session counters read 1.
+ * rate limit 1, question + key 1, commit batch 4 (counted as 4 statements but
+ * one round trip), attempt counters read 1.
  *
- * IDEMPOTENT WITHOUT A KEY, on `(sessionId, questionId)`. The commit batch
- * guards every increment with `NOT EXISTS (an answer for this pair)` and the
- * answer INSERT runs last, so replaying a queued offline answer converges
- * instead of inflating the user's stats. An idempotency key is accepted anyway,
- * for uniformity with the rest of the outbox.
+ * IDEMPOTENT WITHOUT A KEY, on `(attemptId, questionId)`. The commit batch
+ * guards every conditional statement with `NOT EXISTS (an answer for this
+ * pair)` and the answer INSERT runs last, so replaying a queued offline answer
+ * converges instead of inflating the user's stats. An idempotency key is
+ * accepted anyway, for uniformity with the rest of the outbox.
  */
 export async function answerPractice(
   ctx: HandlerContext,
@@ -264,25 +304,31 @@ export async function answerPractice(
     });
   }
 
-  // Ownership is in the query: the join requires `practice_sessions.user_id`
-  // to match, so another user's session id resolves to nothing.
-  const found = await loadSessionQuestionWithKey(ctx.db, {
-    sessionId: input.sessionId,
+  // Ownership is in the query: the join requires `attempts.user_id` to match,
+  // so another user's session id resolves to nothing.
+  const found = await loadPaperQuestionWithKey(ctx.db, {
+    publicId: input.sessionId,
     userId: auth.user.id,
     questionId: input.questionId,
   });
   if (!found) fail('QUESTION_NOT_ON_PAPER', 'That question is not in this session.');
 
-  if (found.sessionStatus !== 'in_progress') {
+  if (found.row.attemptStatus !== 'in_progress') {
     fail('ATTEMPT_NOT_IN_PROGRESS', 'This practice session is already finished.');
   }
   if (found.correctOptionId === null) {
     fail('INTERNAL', 'That question has no answer key and cannot be scored.');
   }
 
+  const question = attachRefsToOne(found.row, {
+    secret: ctx.config.permutationSecret,
+    optionSeed: found.row.optionSeed,
+    attemptPublicId: input.sessionId,
+  });
+
   let selectedOptionId: string | null = null;
   if (input.optionRef !== null) {
-    selectedOptionId = resolveOptionRef(found.paper, input.optionRef);
+    selectedOptionId = resolveOptionRef(question, input.optionRef);
     if (selectedOptionId === null) {
       fail('UNKNOWN_OPTION_REF', 'That option does not belong to this question.');
     }
@@ -290,27 +336,32 @@ export async function answerPractice(
 
   const isCorrect = selectedOptionId !== null && selectedOptionId === found.correctOptionId;
   const now = ctx.clock.now();
+  const selectedIndex =
+    selectedOptionId === null ? -1 : question.optionOrder.indexOf(selectedOptionId);
 
   await commitPracticeAnswer(ctx.db, {
-    sessionId: input.sessionId,
+    attemptId: found.row.attemptId,
     userId: auth.user.id,
     questionId: input.questionId,
-    chapterId: found.paper.chapterId,
+    chapterId: found.row.chapterId,
     selectedOptionId,
     isCorrect,
+    deliveredPosition: selectedIndex >= 0 ? selectedIndex + 1 : null,
     now,
     // Recorded, never trusted for scoring. The schema has already bounded
     // these; they exist so the revision schedule can be computed server-side
     // the way `frontend/src/services/scheduler.ts` does it today.
     latencyMs: input.latencyMs,
     flaggedGuess: input.flaggedGuess,
-    confidence: input.confidence,
   });
 
-  const session = await loadSession(ctx.db, input.sessionId, auth.user.id);
+  // Read back rather than counting in memory: `answered_count` and
+  // `correct_count` are maintained by the trigger on the INSERT above, so the
+  // attempt row is the authority and a replayed answer reports the same totals.
+  const attempt = await loadAttempt(ctx.db, input.sessionId, auth.user.id);
 
-  const correctIndex = found.paper.optionOrder.indexOf(found.correctOptionId);
-  const correctRef = correctIndex >= 0 ? (found.paper.optionRefs[correctIndex] ?? '') : '';
+  const correctIndex = question.optionOrder.indexOf(found.correctOptionId);
+  const correctRef = correctIndex >= 0 ? (question.optionRefs[correctIndex] ?? '') : '';
 
   // The reveal. Strictly after the write above, and only for this question.
   return ok<PracticeAnswerResponse>({
@@ -318,14 +369,14 @@ export async function answerPractice(
     selectedRef: input.optionRef,
     correctRef,
     isCorrect,
-    explanation: found.explanation,
-    answeredCount: session?.answered_count ?? 0,
-    correctCount: session?.correct_count ?? 0,
+    explanation: found.row.explanation,
+    answeredCount: attempt?.answered_count ?? 0,
+    correctCount: attempt?.correct_count ?? 0,
   });
 }
 
 /**
- * POST /api/practice/finish - 4 D1 queries.
+ * POST /api/practice/finish - 5 D1 queries.
  *
  * Idempotent twice over: through the idempotency key, and through the
  * `status = 'in_progress'` predicate on the UPDATE, so a replay returns the
@@ -347,26 +398,32 @@ export async function finishPractice(
     },
     async () => {
       const now = ctx.clock.now();
-      await finishSession(ctx.db, {
-        sessionId: input.sessionId,
+
+      const before = await loadAttempt(ctx.db, input.sessionId, auth.user.id);
+      if (!before) fail('NOT_FOUND', 'That practice session does not exist.');
+
+      await finishAttempt(ctx.db, {
+        attemptId: before.id,
         userId: auth.user.id,
+        answered: before.answered_count,
+        correct: before.correct_count,
         now,
       });
 
-      const session = await loadSession(ctx.db, input.sessionId, auth.user.id);
+      const session = await loadAttempt(ctx.db, input.sessionId, auth.user.id);
       if (!session) fail('NOT_FOUND', 'That practice session does not exist.');
 
       const answered = session.answered_count;
       const correct = session.correct_count;
 
       return ok<PracticeFinishResponse>({
-        sessionId: session.id,
+        sessionId: session.public_id,
         total: session.question_count,
         correct,
         incorrect: Math.max(0, answered - correct),
         skipped: Math.max(0, session.question_count - answered),
         accuracyPct: answered === 0 ? 0 : Math.round((correct / answered) * 100),
-        finishedAt: session.finished_at ?? now,
+        finishedAt: session.submitted_at ?? now,
       });
     },
   );

@@ -2,8 +2,9 @@
  * Content handlers - chapters, questions, templates, search.
  *
  * None of these endpoints can return an answer key, and the reason is
- * structural: they build option lists from `loadOptionsForQuestions`, whose
- * SELECT list does not include `is_correct`.
+ * structural: they build option lists from `loadOptionsForQuestions`, which
+ * reads `question_options` -- a table with NO answer column. The key is a row
+ * in `question_answer_keys`, and nothing on this path names that table.
  *
  * They do still permute. A content endpoint that returned options in the
  * authored order would let anyone join position-to-position against
@@ -24,6 +25,7 @@ import {
   loadOptionsForQuestions,
   pageChapterQuestions,
   searchQuestions,
+  toDifficulty,
 } from '../data/content.ts';
 import { consumeRateLimit, RATE_LIMITS } from '../data/infra.ts';
 import { ok } from './context.ts';
@@ -120,12 +122,18 @@ export async function getChapterQuestions(
       id: row.id,
       chapterId: row.chapter_id,
       stem: row.stem,
-      difficulty: row.difficulty,
-      // An OPAQUE digest, not the option id. The schema mints option ids as
-      // `question_id || '#' || ordinal`, so returning one would hand over the
-      // authored ordinal - and the public chapter JSON in git history publishes
-      // `correct_option_index`, which makes that ordinal the answer. The
-      // permutation alone does not help when the ordinal travels inside the id.
+      difficulty: toDifficulty(row.difficulty),
+      // An OPAQUE keyed digest, not the option id.
+      //
+      // This used to be load-bearing on its own: option ids were
+      // `question_id || '#' || ordinal`, so handing one over handed over the
+      // authored ordinal, and the public chapter JSON in git history publishes
+      // `correct_option_index` -- which made that ordinal the answer. The
+      // permutation did not help, because the ordinal travelled INSIDE the id.
+      // `migrations/0002_content.sql` now mints ids with a CSPRNG `opt_key`,
+      // so the leak is closed at the root. The digest stays because a stable
+      // per-viewer handle is still better than a globally stable one: two
+      // accounts comparing payloads learn nothing from each other.
       options: permuted.map((o) => ({
         ref: browseOptionRef(ctx.config.permutationSecret, seedUser, row.id, o.id),
         body: o.body,

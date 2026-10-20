@@ -1,0 +1,33 @@
+{
+  "//": [
+    "Typechecking for worker/src. There was no tsconfig here before: the only",
+    "typecheck script was `db:typecheck`, which compiled db/schema.ts with a",
+    "long flag list, and worker/src was never type-checked at all -- it was",
+    "exercised only by `node --test`, which strips types rather than reading",
+    "them. `npm run typecheck` now covers both halves.",
+    "",
+    "`allowImportingTsExtensions` because every import in this directory is",
+    "written with a `.ts` suffix, which is what lets Node run the sources",
+    "directly (type stripping, Node 22+) with no build step. `noEmit` is",
+    "therefore mandatory, and bundling is wrangler/esbuild's job."
+  ],
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node", "@cloudflare/workers-types"],
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "db/schema.ts"]
+}

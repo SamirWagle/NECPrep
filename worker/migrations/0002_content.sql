@@ -103,8 +103,8 @@ CREATE TABLE subjects (
   ordinal     INTEGER NOT NULL DEFAULT 1,
   status      TEXT    NOT NULL DEFAULT 'published'
                       CHECK (status IN ('draft', 'published', 'retired')),
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at  INTEGER NOT NULL DEFAULT (unixepoch())
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)) -- epoch ms (UTC)
 ) STRICT;
 
 CREATE UNIQUE INDEX uq_subjects_code ON subjects (code);   -- NQ-05a subject-by-code
@@ -135,8 +135,8 @@ CREATE TABLE chapters (
   legacy_data_file TEXT,
   status           TEXT    NOT NULL DEFAULT 'published'
                            CHECK (status IN ('draft', 'published', 'retired')),
-  created_at       INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at       INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at       INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at       INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (ordinal > 0)
 ) STRICT;
 
@@ -166,8 +166,8 @@ CREATE TABLE subchapters (
   description TEXT,                                        -- the syllabus paragraph verbatim
   status      TEXT    NOT NULL DEFAULT 'published'
                       CHECK (status IN ('draft', 'published', 'retired')),
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at  INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (ordinal > 0),
   CHECK (code GLOB '[0-9]*.[0-9]*')
 ) STRICT;
@@ -208,6 +208,11 @@ CREATE TABLE questions (
                             'KEY_CONFLICT',      -- correct_option text and index disagree
                             'INDEX_RANGE',       -- correct_option_index past the last option
                             'OPTION_DUPLICATE',  -- two options carry identical text
+                            -- More than one option is a true answer to the
+                            -- stem. Not derivable by rule -- deciding it needs
+                            -- subject knowledge -- so it arrives from a human
+                            -- adjudication recorded in quarantine.json.
+                            'OPTION_MULTIPLE_TRUE',
                             'OPTION_COUNT',      -- fewer than two usable options
                             'EMPTY_STEM',
                             -- Two questions share a stem but disagree on the
@@ -219,7 +224,7 @@ CREATE TABLE questions (
                             'OUT_OF_SYLLABUS',
                             'EDITORIAL'
                           )),
-  status_changed_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  status_changed_at INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
 
   difficulty      TEXT    CHECK (difficulty IS NULL OR difficulty IN ('easy', 'medium', 'hard')),
   -- Observed difficulty in basis points (0..10000) of correct answers, filled
@@ -244,8 +249,8 @@ CREATE TABLE questions (
   -- show lineage and the SRS can retire the old card.
   superseded_by   TEXT    REFERENCES questions (id) ON DELETE SET NULL,
   created_by      TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  created_at      INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at      INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at      INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at      INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (length(content_hash) = 64 AND content_hash GLOB '[0-9a-f]*'),
   CHECK (id = 'q_' || substr(content_hash, 1, 16)),
   CHECK (length(trim(stem)) > 0),
@@ -306,22 +311,69 @@ CREATE INDEX idx_questions_unclassified
 --   * 5 questions in the current bank have two options with identical text.
 --     A UNIQUE index catches that at write time; a JSON array cannot.
 --
--- Option identity is `question_id || '#' || ordinal`, enforced by a CHECK so a
--- malformed id cannot be inserted. `ordinal` is the authored slot, assigned
--- once and NEVER REUSED: deleting option 3 and adding a replacement gives the
--- new one ordinal 5, so a historical answer that selected option 3 can never
--- be silently re-pointed at different text. This is the opposite of the
--- questions table -- there, identity is content; here, identity is a slot that
--- survives content edits. Both choices exist so that nothing a human does to
--- the bank can change the meaning of an answer already recorded.
+-- ===========================================================================
+-- OPTION IDENTITY, AND WHY THE ID DOES NOT CARRY THE AUTHORED SLOT
+-- ===========================================================================
 --
--- Display order is NOT this table's job. `ordinal` is identity. What a student
--- sees is `attempt_questions.option_order` (0004), permuted per attempt.
+-- Option identity is `question_id || '#' || opt_key`, enforced by a CHECK so a
+-- malformed id cannot be inserted. `opt_key` is 12 CSPRNG base32 characters,
+-- minted once per option row and never changed.
+--
+-- IT USED TO BE `question_id || '#' || ordinal`, AND THAT WAS A REAL SECURITY
+-- HOLE. The 2,290-question bank shipped as public JSON under
+-- `frontend/public/data/books/` and is in git history permanently; each row
+-- there publishes `correct_option_index`. With the ordinal readable straight
+-- off the id, any option id that reached a client -- in a payload, a log, an
+-- error message -- joined against that published index and recovered the
+-- entire answer key with no database access at all. Per-attempt option
+-- permutation is no defence against it, because the ordinal travels INSIDE the
+-- id rather than as a position in the delivered array. Two independent reviews
+-- of this backend found the same hole, which is a good sign it was not subtle.
+--
+-- A random discriminator closes it at the root: there is nothing in
+-- `q_ab12cd34#7K3MQW9XZ2VB` to join against. The API still never delivers raw
+-- option ids -- `lib/permute.ts#browseOptionRef` and the per-attempt refs in
+-- `handlers/paper.ts` stay exactly as they are -- but those are now defence in
+-- depth over a sound id scheme rather than the only thing standing between the
+-- published JSON and the key.
+--
+-- WHAT THIS DOES NOT FIX, STATED PLAINLY. For the 2,290 questions already
+-- published as JSON the key is IRRECOVERABLY PUBLIC: anyone who can read a
+-- stem can look the answer up by its text, and no id scheme, permutation or
+-- server-side measure changes that. What is fixed: no question authored from
+-- now on has an exposed key, and a delivered paper cannot be graded by
+-- position alone.
+--
+-- `ordinal` SURVIVES, as the authored slot and as the editorial identity:
+-- assigned once and NEVER REUSED, so retiring option 3 and adding a
+-- replacement gives the new one ordinal 5 and a historical answer that
+-- selected option 3 can never be silently re-pointed at different text. It is
+-- server-only -- it is in no view, no delivery query and no response body --
+-- and `question_answer_keys.authored_index` is the only place the source
+-- JSON's index is kept, which is the server-only table by construction.
+--
+-- Two UNIQUE indexes, because two different things reference an option:
+--   (question_id, ordinal)  the authored-slot invariant, and the importer's
+--                           upsert target -- a re-import must find the EXISTING
+--                           row by its slot and keep its `opt_key`, or every
+--                           re-run would mint new ids and orphan every answer.
+--   (question_id, opt_key)  the parent side of attempt_answers' composite
+--                           foreign key.
+--
+-- Display order is NOT this table's job. What a student sees is
+-- `attempt_questions.option_order` (0004), permuted per attempt.
 -- ---------------------------------------------------------------------------
 CREATE TABLE question_options (
-  id          TEXT    NOT NULL PRIMARY KEY,                -- 'q_abc123#1'
+  id          TEXT    NOT NULL PRIMARY KEY,                -- 'q_abc123#7K3MQW9XZ2VB'
   question_id TEXT    NOT NULL REFERENCES questions (id) ON DELETE CASCADE,
+  -- The authored slot, 1-based (literally the N in the source JSON's `optN`).
+  -- SERVER-ONLY: never delivered, never in a view, never in a response.
   ordinal     INTEGER NOT NULL CHECK (ordinal BETWEEN 1 AND 26),
+  -- The id discriminator. 12 CSPRNG base32 characters (60 bits), carrying no
+  -- information about the option at all -- in particular not its position.
+  -- Fixed-length and charset-restricted so a bare ordinal ('3') cannot be
+  -- smuggled in here and quietly restore the leak.
+  opt_key     TEXT    NOT NULL,
   text        TEXT    NOT NULL,
   text_format TEXT    NOT NULL DEFAULT 'plain'
                       CHECK (text_format IN ('plain', 'markdown', 'latex')),
@@ -332,21 +384,27 @@ CREATE TABLE question_options (
   -- 'None of these', 'Both of the above'). The permuter must not move these.
   is_pinned   INTEGER NOT NULL DEFAULT 0 CHECK (is_pinned IN (0, 1)),
   -- Set instead of deleting, so no ordinal is ever freed for reuse.
-  retired_at  INTEGER,
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at  INTEGER NOT NULL DEFAULT (unixepoch()),
-  CHECK (id = question_id || '#' || ordinal),
+  retired_at  INTEGER,                                            -- epoch ms (UTC)
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  CHECK (length(opt_key) = 12 AND opt_key GLOB '[0-9A-Z]*'),
+  CHECK (id = question_id || '#' || opt_key),
   CHECK (length(trim(text)) > 0)
 ) STRICT;
 
 -- NQ-09 deliver-options: SELECT id, ordinal, text, is_pinned
 --       FROM question_options WHERE question_id IN (...) AND retired_at IS NULL
 --       ORDER BY question_id, ordinal.
--- Also the parent side of the composite foreign keys from
--- question_answer_keys and attempt_answers, which require a UNIQUE index on
--- exactly these columns.
+-- Also the authored-slot invariant and the importer's upsert conflict target.
 CREATE UNIQUE INDEX uq_question_options_question_ordinal
   ON question_options (question_id, ordinal);
+
+-- The parent side of attempt_answers' composite foreign key (0004), which
+-- requires a UNIQUE index on exactly these columns. It is also what proves the
+-- `opt_key` space is collision-free within a question, so `id` and
+-- `(question_id, opt_key)` are two spellings of the same identity.
+CREATE UNIQUE INDEX uq_question_options_question_opt_key
+  ON question_options (question_id, opt_key);
 
 -- Catches OPTION_DUPLICATE at write time. Retired options are excluded so a
 -- corrected option may reuse the text of the one it replaced.
@@ -408,11 +466,11 @@ CREATE TABLE question_answer_keys (
   authored_index    INTEGER,                               -- source 1-based index, audit only
   authored_text     TEXT,                                  -- source `correct_option` string, audit only
   verified_by       TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  verified_at       INTEGER,
-  created_at        INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at        INTEGER NOT NULL DEFAULT (unixepoch()),
+  verified_at       INTEGER,                                      -- epoch ms (UTC)
+  created_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   -- Structural proof that a key cannot point at another question's option.
-  -- Option ids are `question_id || '#' || ordinal`, so same-question-ness is
+  -- Option ids are `question_id || '#' || opt_key`, so same-question-ness is
   -- checkable with a prefix test and needs no composite foreign key. Without
   -- it, one bad UPDATE could make question A's key an option of question B and
   -- every grade for A would be silently wrong, with no error raised anywhere.
@@ -468,9 +526,9 @@ CREATE TABLE explanations (
                          CHECK (status IN ('draft', 'published', 'rejected')),
   author_user_id TEXT    REFERENCES users (id) ON DELETE SET NULL,
   reviewed_by    TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  reviewed_at    INTEGER,
-  created_at     INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at     INTEGER NOT NULL DEFAULT (unixepoch()),
+  reviewed_at    INTEGER,                                         -- epoch ms (UTC)
+  created_at     INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at     INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (about_option_id IS NULL
          OR substr(about_option_id, 1, length(question_id) + 1) = question_id || '#'),
   CHECK (length(trim(body)) > 0),
@@ -503,7 +561,7 @@ CREATE TABLE tags (
                       CHECK (kind IN ('concept', 'skill', 'exam_year', 'source', 'formula')),
   description TEXT,
   question_count INTEGER NOT NULL DEFAULT 0,               -- maintained by trigger in 0005
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (id GLOB '[a-z0-9-]*')
 ) STRICT;
 
@@ -515,7 +573,7 @@ CREATE TABLE question_tags (
   -- 0..100. Below 100 means a classifier proposed it and no human confirmed.
   confidence  INTEGER NOT NULL DEFAULT 100 CHECK (confidence BETWEEN 0 AND 100),
   added_by    TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  created_at  INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at  INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   PRIMARY KEY (question_id, tag_id)
 ) STRICT;
 
@@ -552,7 +610,8 @@ CREATE TABLE question_reports (
   code                TEXT    CHECK (code IS NULL OR code IN (
                                 'KEY_CONFLICT', 'INDEX_RANGE', 'OPTION_DUPLICATE',
                                 'OPTION_COUNT', 'EMPTY_STEM',
-                                'DUPLICATE_ANSWER_CONFLICT')),
+                                'DUPLICATE_ANSWER_CONFLICT',
+                                'OPTION_MULTIPLE_TRUE')),
   detail              TEXT,
   -- What the reporter thinks the answer should be. Belongs here, not in
   -- question_answer_keys: an unadjudicated claim must not sit in the table the
@@ -567,9 +626,9 @@ CREATE TABLE question_reports (
                               CHECK (status IN ('open', 'triaged', 'accepted', 'rejected', 'duplicate')),
   resolution          TEXT,
   resolved_by         TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  resolved_at         INTEGER,
-  created_at          INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at          INTEGER NOT NULL DEFAULT (unixepoch()),
+  resolved_at         INTEGER,                                    -- epoch ms (UTC)
+  created_at          INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at          INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (suggested_option_id IS NULL
          OR substr(suggested_option_id, 1, length(question_id) + 1) = question_id || '#'),
   CHECK (resolved_at IS NULL OR status IN ('accepted', 'rejected', 'duplicate')),
@@ -626,7 +685,7 @@ CREATE TABLE content_versions (
   actor_kind     TEXT    NOT NULL DEFAULT 'user'
                          CHECK (actor_kind IN ('user', 'importer', 'validator', 'system')),
   reason         TEXT,
-  created_at     INTEGER NOT NULL DEFAULT (unixepoch())
+  created_at     INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)) -- epoch ms (UTC)
 ) STRICT;
 
 -- NQ-18 content-history: SELECT ... FROM content_versions

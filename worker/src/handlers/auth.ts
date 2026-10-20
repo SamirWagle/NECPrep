@@ -25,11 +25,12 @@ import {
   findUserByOAuthAccount,
   getUserById,
   linkOAuthAccount,
-  loadSession,
+  loadSessionByCookie,
+  loadSessionById,
   rehashStatement,
   revokeAllSessionsForUser,
   revokeSession,
-  SESSION_TTL_MS,
+  SESSION_IDLE_TTL_MS,
   toSessionUser,
   touchSessionStatement,
   upgradeAnonymousUser,
@@ -86,7 +87,11 @@ async function establishSession(
     userAgent: ctx.meta.userAgent,
     ipHash: ctx.meta.ipHash,
   });
-  emitSessionCookie(ctx, session.id, Math.floor(SESSION_TTL_MS / 1000));
+  // THE COOKIE CARRIES `cookieValue`; THE DATABASE HOLDS ITS SHA-256. They are
+  // deliberately different strings, so a dump of `sessions` yields nothing
+  // anyone can sign in with. `ctx.auth.sessionId` is the STORED id, because
+  // that is what revocation and the touch statement address.
+  emitSessionCookie(ctx, session.cookieValue, Math.floor(SESSION_IDLE_TTL_MS / 1000));
   return { sessionId: session.id, expiresAt: session.expiresAt };
 }
 
@@ -119,7 +124,7 @@ export async function readSession(
   ctx: HandlerContext,
 ): Promise<HandlerResult<SessionResponse>> {
   if (!ctx.auth) return ok(sessionBody(ctx, null, null));
-  const session = await loadSession(ctx.db, ctx.auth.sessionId, ctx.clock.now());
+  const session = await loadSessionById(ctx.db, ctx.auth.sessionId, ctx.clock.now());
   return ok(
     session
       ? sessionBody(ctx, toSessionUser(session.user), session.session.expires_at)
@@ -322,7 +327,13 @@ export async function upgradeAnonymous(
 
   // Other devices that were sharing the guest session are logged out, because
   // the identity has changed under them. The current session survives.
-  await revokeAllSessionsForUser(ctx.db, auth.user.id, now, auth.sessionId);
+  await revokeAllSessionsForUser(
+    ctx.db,
+    auth.user.id,
+    now,
+    auth.sessionId,
+    'password_change',
+  );
 
   const user = await getUserById(ctx.db, auth.user.id);
   if (!user) fail('INTERNAL', 'Account vanished mid-upgrade.');
@@ -572,18 +583,21 @@ export interface ResolvedSession {
 /**
  * Resolves a cookie into an auth context. 1 D1 query, or 0 without a cookie.
  *
- * Called once per request by the middleware. The role on the returned user
- * comes from the `users` row, never from the cookie, so there is nothing a
- * client can edit to escalate.
+ * Called once per request by the middleware. The cookie is HASHED before it is
+ * used as a key, so the stored id and the cookie are never the same string. The
+ * role on the returned user comes from the `users` row, never from the cookie,
+ * so there is nothing a client can edit to escalate -- and `users.status` is in
+ * the lookup's WHERE clause, so a suspended account's existing sessions stop
+ * resolving the moment it is suspended.
  */
 export async function resolveSession(
   ctx: Pick<HandlerContext, 'db' | 'clock'>,
-  sessionId: string | null,
+  cookieValue: string | null,
 ): Promise<ResolvedSession> {
-  if (!sessionId) return { auth: null, touch: null };
+  if (!cookieValue) return { auth: null, touch: null };
 
   const now = ctx.clock.now();
-  const found = await loadSession(ctx.db, sessionId, now);
+  const found = await loadSessionByCookie(ctx.db, cookieValue, now);
   if (!found) return { auth: null, touch: null };
 
   return {

@@ -86,8 +86,39 @@ export function runSmoke(db) {
   const run = (sql, ...p) => db.prepare(sql).run(...p);
   const n = (sql, ...p) => one(sql, ...p).n;
 
-  const now = Math.floor(Date.now() / 1000);
+  // Epoch MILLISECONDS throughout -- see migrations/0001_identity.sql.
+  const now = Date.now();
+  const DAY_MS = 86_400_000;
   const USER = 'U01SMOKETESTUSER0000000000';
+
+  /**
+   * Removes everything this suite creates.
+   *
+   * Called before the first fixture and again at the end, so the suite is
+   * re-runnable and leaves the database exactly as the seed produced it.
+   * Ordered child-first rather than relying on cascades: not every foreign key
+   * here is ON DELETE CASCADE, and a leftover child would fail the closing
+   * foreign_key_check instead of failing loudly at the insert.
+   */
+  const resetFixtures = () => {
+    run(`DELETE FROM attempt_answers_archive WHERE user_id LIKE 'U01SMOKE%'`);
+    run(`DELETE FROM attempt_answers WHERE attempt_id IN (
+           SELECT id FROM attempts WHERE public_id LIKE 'A01SMOKE%' OR user_id LIKE 'U01SMOKE%')`);
+    run(`DELETE FROM attempt_questions WHERE attempt_id IN (
+           SELECT id FROM attempts WHERE public_id LIKE 'A01SMOKE%' OR user_id LIKE 'U01SMOKE%')`);
+    run(`DELETE FROM attempts WHERE public_id LIKE 'A01SMOKE%' OR user_id LIKE 'U01SMOKE%'`);
+    run(`DELETE FROM leaderboard_entries WHERE snapshot_id IN (
+           SELECT id FROM leaderboard_snapshots
+            WHERE scope = 'global' AND period = 'weekly' AND period_start = '2026-10-19')`);
+    run(`DELETE FROM leaderboard_snapshots
+          WHERE scope = 'global' AND period = 'weekly' AND period_start = '2026-10-19'`);
+    // The remaining per-user tables (sessions, user_profiles, bookmarks,
+    // srs_state, streaks, notifications) cascade from users.
+    run(`DELETE FROM users WHERE id LIKE 'U01SMOKE%'`);
+  };
+
+  console.log('\n-- resetting fixtures from any previous run --');
+  resetFixtures();
 
   console.log('\n-- identity --');
   run(
@@ -115,7 +146,7 @@ export function runSmoke(db) {
   run(
     `INSERT INTO sessions (id, user_id, expires_at, absolute_expires_at, created_at, last_used_at)
      VALUES (?, ?, ?, ?, ?, ?)`,
-    'a'.repeat(64), USER, now + 1209600, now + 7776000, now, now
+    'a'.repeat(64), USER, now + 14 * DAY_MS, now + 90 * DAY_MS, now, now
   );
   assertThrows(
     'sessions rejects a raw (non-sha256-hex) token as id',
@@ -123,7 +154,7 @@ export function runSmoke(db) {
       run(
         `INSERT INTO sessions (id, user_id, expires_at, absolute_expires_at)
          VALUES ('plaintext-cookie-value', ?, ?, ?)`,
-        USER, now + 10, now + 20
+        USER, now + 10_000, now + 20_000
       ),
     /CHECK constraint/
   );
@@ -228,6 +259,86 @@ export function runSmoke(db) {
     /UNIQUE constraint/
   );
 
+  console.log('\n-- TIMESTAMPS ARE MILLISECONDS, round-tripped through the database --');
+  // THE REGRESSION THIS GUARDS. Every timestamp here used to be unix SECONDS
+  // while the API was milliseconds, and nothing failed loudly: a 45-minute
+  // deadline written as seconds and compared against Date.now() is 45,000
+  // times too small, so the attempt expires 45 milliseconds after it starts and
+  // every candidate is handed an empty paper. Writing a deadline, reading it
+  // back and asserting it is still in the future is the cheapest possible
+  // detector, and it would have caught the mismatch on the first run.
+  const DURATION_MS = 45 * 60 * 1000;
+  run(
+    `INSERT INTO attempts (public_id, user_id, mode, template_id, status, option_seed,
+                           question_count, deadline_at)
+     VALUES ('A01SMOKEDEADLINE000000000', ?, 'mock', 'full-mock-1', 'in_progress', 1, 0,
+             CAST(unixepoch('subsec') * 1000 AS INTEGER) + ?)`,
+    USER, DURATION_MS
+  );
+  const timed = one(
+    `SELECT started_at, deadline_at FROM attempts WHERE public_id = 'A01SMOKEDEADLINE000000000'`
+  );
+  const clientNow = Date.now();
+  assert('started_at default agrees with Date.now() to within 2s',
+    Math.abs(timed.started_at - clientNow) < 2000, true);
+  assert('a 45-minute deadline is STILL IN THE FUTURE after the round trip',
+    timed.deadline_at > clientNow, true);
+  assert('and it is 45 minutes away, not 45 milliseconds',
+    Math.abs(timed.deadline_at - clientNow - DURATION_MS) < 2000, true);
+  // The same value read as seconds is already decades in the past. This is the
+  // shape of the bug, asserted so nobody can "simplify" the default back.
+  assert('read as seconds, that deadline would already have expired',
+    timed.deadline_at / 1000 < clientNow / 1000 / 1000, false);
+  assert('attempts.deadline_at is an INTEGER, not a REAL from the *1000',
+    one(`SELECT typeof(deadline_at) t FROM attempts WHERE public_id = 'A01SMOKEDEADLINE000000000'`).t,
+    'integer');
+  assertThrows(
+    'a sync snapshot cannot be stamped after the deadline, even by hand',
+    () =>
+      run(
+        `UPDATE attempts SET synced_answers = '{}', last_sync_at = deadline_at + 1
+          WHERE public_id = 'A01SMOKEDEADLINE000000000'`
+      ),
+    /CHECK constraint/
+  );
+  run(
+    `UPDATE attempts SET synced_answers = '{}', last_sync_at = deadline_at - 1000
+      WHERE public_id = 'A01SMOKEDEADLINE000000000'`
+  );
+  assert('a pre-deadline snapshot is accepted',
+    one(`SELECT last_sync_at IS NOT NULL ok FROM attempts WHERE public_id = 'A01SMOKEDEADLINE000000000'`).ok,
+    1);
+  run(`DELETE FROM attempts WHERE public_id = 'A01SMOKEDEADLINE000000000'`);
+
+  console.log('\n-- OPTION IDS CARRY NO ORDINAL (the published-key leak) --');
+  // frontend/public/data/books/*.json publishes `correct_option_index` and is
+  // in git history forever. While option ids were `question_id || '#' ||
+  // ordinal`, any id that reached a client WAS the answer. Asserted over the
+  // whole seeded bank, because one counter-example is the whole hole.
+  assert(
+    'not one of the 9,160 option ids ends in # followed by its ordinal',
+    n(`SELECT COUNT(*) n FROM question_options
+        WHERE id = question_id || '#' || ordinal`),
+    0
+  );
+  assert(
+    'every opt_key is 12 base32 characters',
+    n(`SELECT COUNT(*) n FROM question_options
+        WHERE length(opt_key) <> 12 OR opt_key NOT GLOB '[0-9A-Z]*'`),
+    0
+  );
+  assert(
+    'and no opt_key is a bare number, so none is a disguised ordinal',
+    n(`SELECT COUNT(*) n FROM question_options WHERE opt_key GLOB '[0-9]*'
+        AND opt_key NOT GLOB '*[A-Z]*'`),
+    0
+  );
+  assert(
+    'the ordinal is still recorded, server-side, for every option',
+    n(`SELECT COUNT(*) n FROM question_options WHERE ordinal IS NULL`),
+    0
+  );
+
   console.log('\n-- grading (NQ-10b): one statement for the whole paper --');
   const keys = new Map(
     all(
@@ -243,17 +354,18 @@ export function runSmoke(db) {
     const order = orders.get(qid);
     const correct = keys.get(qid) === optionId ? 1 : 0;
     run(
-      `INSERT INTO attempt_answers (attempt_id, question_id, selected_ordinal, is_correct,
+      `INSERT INTO attempt_answers (attempt_id, question_id, selected_opt_key, is_correct,
                                     delivered_position, time_ms, answered_at)
        VALUES (?, ?, ?, ?, ?, ?, ?)
        ON CONFLICT (attempt_id, question_id) DO UPDATE SET
-         selected_ordinal = excluded.selected_ordinal,
+         selected_opt_key = excluded.selected_opt_key,
          is_correct       = excluded.is_correct,
          time_ms          = excluded.time_ms,
          revised          = 1,
          answered_at      = excluded.answered_at`,
       attemptId, qid,
-      optionId === null ? null : Number(optionId.split('#')[1]),
+      // The opt_key half of the option id -- a 12-char token, never an index.
+      optionId === null ? null : optionId.split('#')[1],
       correct,
       optionId === null ? null : order.indexOf(optionId) + 1,
       4200, now
@@ -325,14 +437,24 @@ export function runSmoke(db) {
 
   console.log('\n-- integrity the database enforces, not a handler --');
   assertThrows(
-    'an answer cannot name an option ordinal that does not exist',
+    'an answer cannot name an option key that does not exist',
     () =>
       run(
-        `INSERT INTO attempt_answers (attempt_id, question_id, selected_ordinal, is_correct, delivered_position)
-         VALUES (?, ?, 9, 1, 1)`,
+        `INSERT INTO attempt_answers (attempt_id, question_id, selected_opt_key, is_correct, delivered_position)
+         VALUES (?, ?, 'ZZZZZZZZZZZZ', 1, 1)`,
         attemptId, drawn[3]
       ),
     /FOREIGN KEY constraint/
+  );
+  assertThrows(
+    'an answer cannot smuggle a bare ordinal in where an option key belongs',
+    () =>
+      run(
+        `INSERT INTO attempt_answers (attempt_id, question_id, selected_opt_key, is_correct, delivered_position)
+         VALUES (?, ?, '3', 1, 1)`,
+        attemptId, drawn[3]
+      ),
+    /CHECK constraint/
   );
   assertThrows(
     "an answer key cannot point at another question's option",
@@ -349,11 +471,22 @@ export function runSmoke(db) {
     /FOREIGN KEY constraint/
   );
   assertThrows(
-    'an option id must equal question_id || # || ordinal',
+    'an option id must equal question_id || # || opt_key',
     () =>
       run(
-        `INSERT INTO question_options (id, question_id, ordinal, text) VALUES ('bogus', ?, 9, 'x')`,
+        `INSERT INTO question_options (id, question_id, ordinal, opt_key, text)
+         VALUES ('bogus', ?, 9, 'ABCDEFGHJKMN', 'x')`,
         drawn[3]
+      ),
+    /CHECK constraint/
+  );
+  assertThrows(
+    'an opt_key cannot BE the ordinal -- that was the leak, and the CHECK closes it',
+    () =>
+      run(
+        `INSERT INTO question_options (id, question_id, ordinal, opt_key, text)
+         VALUES (? || '#9', ?, 9, '9', 'x')`,
+        drawn[3], drawn[3]
       ),
     /CHECK constraint/
   );
@@ -369,14 +502,14 @@ export function runSmoke(db) {
                             scheduled_days, reps, lapses, state, due, last_review, last_rating,
                             created_at, updated_at)
      VALUES (?, ?, 3.1734, 5.2, 0.0, 1.0, 1, 0, 1, ?, ?, 3, ?, ?)`,
-    USER, drawn[0], now + 86400, now, now, now
+    USER, drawn[0], now + DAY_MS, now, now, now
   );
   assert(
     'NQ-29 due queue',
     all(
       `SELECT question_id FROM srs_state
         WHERE user_id = ?1 AND due <= ?2 AND suspended_at IS NULL ORDER BY due LIMIT 10`,
-      USER, now + 90000
+      USER, now + DAY_MS + 3_600_000
     ).length,
     1
   );
@@ -405,7 +538,7 @@ export function runSmoke(db) {
       total_active_days = total_active_days
         + CASE WHEN last_active_date IS NULL OR last_active_date <> ?2 THEN 1 ELSE 0 END,
       last_active_date  = ?2,
-      updated_at        = unixepoch()
+      updated_at        = CAST(unixepoch('subsec') * 1000 AS INTEGER)
     WHERE last_active_date IS NULL OR last_active_date <= ?2
   `);
   touchStreak.run(USER, '2026-10-18');
@@ -465,9 +598,9 @@ export function runSmoke(db) {
   // user_id, because the attempt may be gone by the time the drain runs).
   const cutoff = now + 1; // pretend everything is older than the retention window
   run(
-    `INSERT INTO attempt_answers_archive (id, attempt_id, user_id, question_id, selected_ordinal,
+    `INSERT INTO attempt_answers_archive (id, attempt_id, user_id, question_id, selected_opt_key,
                                           is_correct, delivered_position, time_ms, answered_at)
-     SELECT aa.id, aa.attempt_id, a.user_id, aa.question_id, aa.selected_ordinal,
+     SELECT aa.id, aa.attempt_id, a.user_id, aa.question_id, aa.selected_opt_key,
             aa.is_correct, aa.delivered_position, aa.time_ms, aa.answered_at
        FROM attempt_answers aa JOIN attempts a ON a.id = aa.attempt_id
       WHERE aa.answered_at < ?1
@@ -508,12 +641,53 @@ export function runSmoke(db) {
   assert('FTS5 returns ranked hits', hits.length > 0, true);
   assert('FTS row count tracks the question count', n('SELECT COUNT(*) n FROM questions_fts'), n('SELECT COUNT(*) n FROM questions'));
   // An edit must reindex, including through an option change.
+  //
+  // This mutates real seeded content, so the original values are captured and
+  // restored at the end of the block. Previously they were not: a question was
+  // left permanently reading "Zzyzx smoke marker stem" and one of its options
+  // "Quuxinator option marker", so anyone who ran the smoke suite and then
+  // looked at the database found a corrupted question and no hint as to why.
   const victim = drawn[4];
+  const originalStem = one(`SELECT stem FROM questions WHERE id = ?`, victim).stem;
+  const originalOption = one(
+    `SELECT text FROM question_options WHERE question_id = ? AND ordinal = 1`,
+    victim
+  ).text;
+
   run(`UPDATE questions SET stem = ?, updated_at = ? WHERE id = ?`, 'Zzyzx smoke marker stem', now, victim);
   assert('stem edit reindexes', all(`SELECT question_id FROM questions_fts WHERE questions_fts MATCH 'zzyzx'`).map((r) => r.question_id), [victim]);
-  run(`UPDATE question_options SET text = ?, updated_at = ? WHERE id = ?`, 'Quuxinator option marker', now, victim + '#1');
+  // Addressed by (question_id, ordinal), not by a hand-built `id`: option ids
+  // no longer encode the ordinal, so `victim + '#1'` names nothing.
+  run(
+    `UPDATE question_options SET text = ?, updated_at = ?
+      WHERE question_id = ? AND ordinal = 1`,
+    'Quuxinator option marker', now, victim
+  );
   assert('option edit reindexes', all(`SELECT question_id FROM questions_fts WHERE questions_fts MATCH 'quuxinator'`).map((r) => r.question_id), [victim]);
   assert('FTS has no duplicate row after two reindexes', n(`SELECT COUNT(*) n FROM questions_fts WHERE question_id = ?`, victim), 1);
+
+  // Put the borrowed question back, and prove the restore itself reindexed -
+  // a restore that left the FTS table pointing at the marker text would be a
+  // silently corrupt search index.
+  run(`UPDATE questions SET stem = ?, updated_at = ? WHERE id = ?`, originalStem, now, victim);
+  run(
+    `UPDATE question_options SET text = ?, updated_at = ? WHERE question_id = ? AND ordinal = 1`,
+    originalOption, now, victim
+  );
+  assert('restored stem', one(`SELECT stem FROM questions WHERE id = ?`, victim).stem, originalStem);
+  assert(
+    'restored option text',
+    one(`SELECT text FROM question_options WHERE question_id = ? AND ordinal = 1`, victim).text,
+    originalOption
+  );
+  assert(
+    'marker text is gone from the search index',
+    all(`SELECT question_id FROM questions_fts WHERE questions_fts MATCH 'zzyzx OR quuxinator'`),
+    []
+  );
+
+  // Leave the database exactly as the seed produced it.
+  resetFixtures();
 
   const fk = all('PRAGMA foreign_key_check');
   assert('foreign_key_check clean at the end', fk, []);

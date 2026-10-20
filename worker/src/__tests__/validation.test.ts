@@ -10,7 +10,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { safeParse } from '../validation/v.ts';
+import { safeParse } from '../validation/parse.ts';
 import {
   adminPublishSchema,
   bookmarkSetSchema,

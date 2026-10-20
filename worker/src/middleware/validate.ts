@@ -14,8 +14,8 @@
  */
 
 import { ApiException } from '../shared/errors.ts';
-import { safeParse } from '../validation/v.ts';
-import type { Schema } from '../validation/v.ts';
+import { safeParse } from '../validation/parse.ts';
+import type { Schema } from '../validation/parse.ts';
 import { MAX_BODY_BYTES } from '../validation/schemas.ts';
 
 function badRequest(issues: Record<string, string>): never {

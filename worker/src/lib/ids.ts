@@ -32,19 +32,6 @@ export function newSecretId(prefix: string): string {
   return `${prefix}_${randomToken(26)}`;
 }
 
-/**
- * The opaque per-attempt token a client uses to name one option.
- *
- * 60 bits of CSPRNG entropy, minted fresh for every (attempt, option) pair at
- * start time and stored alongside the permuted option order. It is not derived
- * from the option id or from any position, so it carries no information at all:
- * nothing about where the option sat in the authored bank, and nothing reusable
- * in another attempt.
- */
-export function newOptionRef(): string {
-  return randomToken(12);
-}
-
 /** Constant-time string compare, for session ids and tokens. */
 export function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;

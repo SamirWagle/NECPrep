@@ -16,7 +16,18 @@ import { putBookmark } from '../handlers/progress.ts';
 import { submitErrataReport } from '../handlers/moderation.ts';
 import { reserveIdempotency } from '../data/infra.ts';
 import { canonicalJson } from '../lib/canonical.ts';
+import { sha256Hex } from '../lib/password.ts';
 import { MINUTE } from '../lib/time.ts';
+
+/**
+ * `idempotency_keys.request_hash` has a CHECK that it is 64 lowercase hex
+ * characters, because the production path always stores `sha256Hex(endpoint +
+ * canonical body)` and a shorter value would mean something had bypassed
+ * `withIdempotency`. These tests therefore hash their fixtures too, rather than
+ * passing a readable placeholder the database is right to reject.
+ */
+const HASH_A = await sha256Hex('request-body-a');
+const HASH_B = await sha256Hex('request-body-b');
 
 test('canonical JSON ignores key order and the idempotency key itself', () => {
   assert.equal(
@@ -175,14 +186,14 @@ test('an in-flight reservation is reported, not silently duplicated', async () =
     userId: user.id,
     key: 'inflight-key-ffffffff',
     endpoint: 'POST /api/mock/submit',
-    requestHash: 'hash-1',
+    requestHash: HASH_A,
     now: world.clock.now(),
   };
 
   assert.deepEqual(await reserveIdempotency(db, args), { kind: 'proceed' });
   assert.deepEqual(await reserveIdempotency(db, args), { kind: 'in_flight' });
   assert.deepEqual(
-    await reserveIdempotency(db, { ...args, requestHash: 'hash-2' }),
+    await reserveIdempotency(db, { ...args, requestHash: HASH_B }),
     { kind: 'reused' },
   );
 
@@ -198,7 +209,7 @@ test('one user\'s idempotency key cannot collide with another\'s', async () => {
   const shared = {
     key: 'collide-key-gggggggg',
     endpoint: 'POST /api/mock/start',
-    requestHash: 'hash-x',
+    requestHash: HASH_A,
     now: world.clock.now(),
   };
 

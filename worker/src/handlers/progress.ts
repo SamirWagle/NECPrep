@@ -11,7 +11,7 @@ import { fail } from '../shared/errors.ts';
 import { dayKey } from '../lib/time.ts';
 import { computeStreaks } from '../domain/streaks.ts';
 import { loadOptionsForQuestions, loadQuestionStems } from '../data/content.ts';
-import { readAttemptHistory } from '../data/mock.ts';
+import { readAttemptHistory } from '../data/attempts.ts';
 import {
   applySrsReview,
   countBookmarks,
@@ -20,6 +20,7 @@ import {
   readActivityDays,
   readDueCards,
   readProgressStats,
+  readStreak,
   setBookmark,
 } from '../data/progress.ts';
 import { browseOptionRef, browsePermutation } from '../lib/permute.ts';
@@ -55,11 +56,20 @@ function toAttemptStatus(raw: string): AttemptStatus {
 }
 
 /**
- * GET /api/progress/overview - 3 D1 queries.
+ * GET /api/progress/overview - 4 D1 queries.
  *
  * ONE call for the whole dashboard: chapter stats, streaks and recent attempts.
  * The previous client computed all of this by reading every chapter's JSON and
- * walking localStorage; this is three indexed queries over rollup tables.
+ * walking localStorage; this is four indexed queries over rollup tables.
+ *
+ * STREAKS COME FROM `streaks`, NOT FROM COUNTING DAYS. `current_length` and
+ * `longest_length` are maintained by the idempotent NQ-32a upsert on every
+ * answer and ratcheted by a trigger, so they already account for the
+ * freeze-token grace that a naive "count consecutive active days" derivation
+ * cannot see. `computeStreaks` over `study_sessions.local_date` still runs, for
+ * the heatmap and for today's count -- and as a cross-check: if the two
+ * disagree the stored row wins, because it is the one that saw every answer as
+ * it happened rather than reconstructing them from a 400-day window.
  */
 export async function getProgressOverview(
   ctx: HandlerContext,
@@ -69,6 +79,7 @@ export async function getProgressOverview(
 
   const stats = await readProgressStats(ctx.db, auth.user.id);
   const days = await readActivityDays(ctx.db, auth.user.id);
+  const stored = await readStreak(ctx.db, auth.user.id);
   const history = await readAttemptHistory(ctx.db, {
     userId: auth.user.id,
     limit: 10,
@@ -86,9 +97,15 @@ export async function getProgressOverview(
     status: toAttemptStatus(row.status),
   }));
 
+  const derived = computeStreaks(days, dayKey(now));
+
   return ok<ProgressOverview>({
     stats,
-    streak: computeStreaks(days, dayKey(now)),
+    streak: {
+      ...derived,
+      currentStreak: stored?.current_length ?? derived.currentStreak,
+      longestStreak: stored?.longest_length ?? derived.longestStreak,
+    },
     recent,
   });
 }
@@ -277,7 +294,6 @@ export async function reviewSrsCard(
   const outcome = await applySrsReview(ctx.db, {
     userId: auth.user.id,
     questionId: input.questionId,
-    chapterId: stems[0].chapter_id,
     grade: input.grade,
     expectedRevision: input.revision,
     now,

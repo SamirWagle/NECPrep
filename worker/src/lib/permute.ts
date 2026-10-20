@@ -24,20 +24,37 @@
 export interface OptionRow {
   id: string;
   body: string;
-  /** Authored position. Used only for pinning; never sent to a client. */
+  /** `question_options.ordinal`, the authored slot. SERVER-ONLY. */
   position: number;
+  /**
+   * `question_options.is_pinned`. The schema computes it at import time and an
+   * editor can override it, which is strictly better than re-deriving it from
+   * the text on every request: a pinned option that the regex happens not to
+   * match is a data fix, not a deploy.
+   */
+  isPinned: boolean;
 }
 
 /**
- * Options whose meaning depends on being last. 585 of these exist in the bank
- * and 583 sit in slot 4, so they are pinned rather than shuffled - moving one
- * into the middle of the list makes the question nonsense.
+ * Options whose meaning depends on being last. 450 of these exist in the bank
+ * and every one was authored in slot 4, so they are pinned rather than
+ * shuffled - moving one into the middle of the list makes the question
+ * nonsense.
  *
- * Lifted deliberately from `localData.ts` so the server and the offline
- * localStorage path agree about what is shufflable.
+ * SUPERSEDED as the server's source of truth by
+ * `question_options.is_pinned`, which the importer computes with this same
+ * pattern and an editor can correct. Kept and exported because it is the
+ * pattern `frontend/src/services/localData.ts` still uses on the offline path,
+ * and the two must agree about what is shufflable; `pinnedByText` is the one
+ * fallback left, for a row that reaches the permuter without the flag.
  */
-const POSITIONAL_OPTION_RE =
+export const POSITIONAL_OPTION_RE =
   /^\s*(all|none|both)\s+(of\s+)?(the\s+)?(above|these|mentioned)/i;
+
+/** Last-resort pin test for an option row with no `is_pinned` flag. */
+export function pinnedByText(body: string): boolean {
+  return POSITIONAL_OPTION_RE.test(body);
+}
 
 /** FNV-1a: a stable 32-bit seed from a string. */
 export function hashSeed(input: string): number {
@@ -113,7 +130,7 @@ export function permuteOptions(
   const pinned: OptionRow[] = [];
   const free: OptionRow[] = [];
   for (const o of options) {
-    (POSITIONAL_OPTION_RE.test(o.body) ? pinned : free).push(o);
+    (o.isPinned ? pinned : free).push(o);
   }
 
   // Nothing is gained by shuffling fewer than two free options, and shuffling
@@ -178,18 +195,65 @@ export function browseOptionRef(
   questionId: string,
   optionId: string,
 ): string {
-  const base = `${secret}:${userId}:${questionId}:${optionId}`;
+  return keyedRef(`${secret}:${userId}:${questionId}:${optionId}`, 13);
+}
+
+/**
+ * The opaque per-attempt ref for ONE option on a delivered paper.
+ *
+ * DERIVED, NOT STORED, and that is the change from the first version of this
+ * API. It used to mint a CSPRNG token per (attempt, option) and store a
+ * parallel `option_refs` JSON array next to `attempt_questions.option_order`.
+ * The refs were fine; the storage was not. `attempt_questions` is the second
+ * table to watch at scale -- one row per delivered question, roughly 3 million
+ * rows a year at 1,000 MAU -- and four stored 12-character tokens per row is
+ * ~60 bytes each for information the server can recompute from two columns it
+ * already has. `migrations/0004_assessment.sql` names this exact alternative
+ * ("or an HMAC of the option id under `option_seed`").
+ *
+ * The security properties are the ones that matter and they are unchanged:
+ *
+ *   * PER ATTEMPT. `option_seed` is CSPRNG per attempt, so the same option in
+ *     two attempts gets two unrelated refs and a ref harvested from a finished
+ *     paper resolves to nothing in a new one.
+ *   * CARRIES NOTHING. It is a digest, so it reveals neither the option id nor
+ *     the authored slot nor the delivered position.
+ *   * NOT REPRODUCIBLE OFFLINE. Keyed on the server-only permutation secret as
+ *     well as the seed, so knowing an option id is not enough to compute its
+ *     ref, and knowing a ref is not enough to search for the seed.
+ *
+ * Resolution is a loop over `option_order` comparing refs, which is four
+ * comparisons per question and no database access -- see
+ * `domain/scoring.ts#resolveOptionRef`.
+ */
+export function attemptOptionRef(
+  secret: string,
+  optionSeed: number,
+  attemptPublicId: string,
+  optionId: string,
+): string {
+  return keyedRef(`${secret}:${optionSeed}:${attemptPublicId}:${optionId}`, 12);
+}
+
+/**
+ * `len` base32 characters from two independent FNV-1a rounds over a keyed
+ * string. 64 bits of entropy across 13 characters, which is ample: the only
+ * thing a collision does is make two options on one question share a display
+ * token, and across four options that is on the order of 1e-19.
+ */
+function keyedRef(base: string, len: number): string {
   let a = hashSeed(base);
   let b = hashSeed(`${base}:${a.toString(36)}`);
 
   let out = '';
-  for (let i = 0; i < 7; i++) {
-    out += B32[a & 31];
-    a = (a >>> 5) | ((a & 31) << 27);
-  }
-  for (let i = 0; i < 6; i++) {
-    out += B32[b & 31];
-    b = (b >>> 5) | ((b & 31) << 27);
+  for (let i = 0; i < len; i++) {
+    if (i % 2 === 0) {
+      out += B32[a & 31];
+      a = (a >>> 5) | ((a & 31) << 27);
+    } else {
+      out += B32[b & 31];
+      b = (b >>> 5) | ((b & 31) << 27);
+    }
   }
   return out;
 }

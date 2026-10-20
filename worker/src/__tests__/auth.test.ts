@@ -71,7 +71,10 @@ test('an anonymous guest is a real user row that can own attempts', async () => 
   assert.equal(guest.isAnonymous, true);
   assert.equal(guest.email, null);
   assert.equal(guest.hasPassword, false);
-  assert.equal(guest.role, 'user');
+  // 'student', not 'user': the role enum is the one on `users.role`, and it has
+  // four values -- student, contributor, moderator, admin -- because the API
+  // needs a triage role that is not a publish role.
+  assert.equal(guest.role, 'student');
 
   // And the guest can immediately start a server-scored mock, which is the
   // entire reason guests get a row instead of a client-side identity.

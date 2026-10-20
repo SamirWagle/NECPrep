@@ -16,7 +16,8 @@ worker/
     seed/
       import-questions.mjs       load the 10 chapter JSONs into the bank
       generate-reference-sql.mjs regenerate 0007 from the frontend syllabus files
-  src/                     API handlers — owned separately, not by the schema
+  src/                     API handlers — reconciled with the schema, see below
+  tsconfig.json            typechecks src/** and db/schema.ts together
 ```
 
 ## Quick start
@@ -32,11 +33,19 @@ contract in one command:
 
 | step | what it proves |
 |---|---|
-| `db:apply:local` | all 7 migrations apply in order, FKs on, integrity clean |
+| `db:apply:local` | all 8 migrations apply in order, FKs on, integrity clean |
 | `db:seed:local` | the question bank imports; no published question lacks an answer key |
 | `db:verify` | `db/schema.ts` and `migrations/*.sql` describe the same database |
-| `db:smoke` | 59 assertions: grading, rollups, permutation, archival safety |
-| `db:typecheck` | `db/schema.ts` compiles under `--strict` |
+| `db:smoke` | 72 assertions: grading, rollups, permutation, archival safety, the millisecond round trip, and that no option id encodes its ordinal |
+| `typecheck` | `src/**` and `db/schema.ts` compile under `--strict` |
+
+And the API half, which runs against these exact migrations:
+
+```bash
+npm test            # 89 assertions, node --test, no network
+npm run bundle:check  # the Worker actually bundles
+npm run check       # all of it
+```
 
 Against wrangler's own D1 runner (Miniflare, no network, no account):
 
@@ -44,11 +53,19 @@ Against wrangler's own D1 runner (Miniflare, no network, no account):
 npm run d1:migrate:local
 ```
 
-Last verified run: 7 migrations applied, **28 tables + 1 view + 1 FTS5 virtual
-table, 65 indexes, 11 triggers**, 1 subject, 10 chapters, 60 subchapters,
-3 mock templates; seed wrote **2,290 questions / 9,160 options / 2,289 answer
-keys / 125 errata reports**; 59/59 smoke assertions pass; 308 columns,
-65 indexes, 49 foreign keys and 35 enums verified identical between SQL and TS.
+Last verified run: 8 migrations applied, **32 tables + 1 view + 1 FTS5 virtual
+table, 71 indexes, 11 triggers**, 1 subject, 10 chapters, 60 subchapters,
+3 mock templates; seed wrote **2,290 questions / 9,160 options / 2,290 answer
+keys / 106 errata reports** (2,199 published, 91 flagged); 72/72 smoke
+assertions pass; 332 columns, 71 indexes, 51 foreign keys and 36 enums verified
+identical between SQL and TS; 89/89 API assertions pass against these
+migrations; the Worker bundles at 980 KiB / 170 KiB gzipped.
+
+Those seed counts differ from an earlier revision of this file (2,190 published
+/ 100 flagged / 2,289 keys / 125 reports). The bank changed, not the importer:
+commit 652bd10 applied the adjudicated answer keys and rewrote
+`frontend/src/data/quarantine.json` from 145 entries to 118. `INDEX_RANGE` is
+now zero, which is why there is a key for every question.
 
 ## The one rule
 
@@ -102,6 +119,10 @@ SELECT aa.question_id, aa.selected_option_id, k.correct_option_id
                   AND a.status = 'submitted');
 ```
 
+(`aa.selected_option_id` is the VIRTUAL generated column -- zero bytes on disk,
+`question_id || '#' || selected_opt_key` -- so this needs no concatenation and
+no join to `question_options`.)
+
 The API's test suite should assert that **no** response body on a pre-submit
 route ever contains an option id that is not in the delivered paper.
 
@@ -112,7 +133,15 @@ and is in git history permanently. Anyone can reconstruct "question X's answer
 is the second option". Hiding the key server-side therefore only solves half
 the problem.
 
-The other half is **per-attempt option permutation**:
+The other half used to be carried entirely by per-attempt option permutation.
+It is not any more, because the id scheme itself was the leak: option ids were
+`question_id || '#' || ordinal`, so any id reaching a client recovered the key
+for a published question with no database access, and permutation was no
+defence because the ordinal travelled INSIDE the id. `question_options.id` is
+now `question_id || '#' || opt_key` with a 12-character CSPRNG key. Read the
+block above that table in `0002_content.sql`.
+
+Permutation still earns its place on top of that:
 
 - `attempt_questions.option_order` is a JSON array of **option ids** in the
   order that attempt showed them. It is the server-side mapping between what
@@ -120,22 +149,23 @@ The other half is **per-attempt option permutation**:
   counts — the client's is a convenience.
 - `attempts.option_seed` reproduces the exact paper for a dispute, without
   trusting the client's copy.
-- `attempt_answers` stores `selected_ordinal` (the stable authored slot) and
-  exposes `selected_option_id` as a VIRTUAL generated column, so an answer
-  references a stable option id at zero storage cost. `delivered_position`
-  records where the option sat on screen and is analytics only — never the
-  grading key.
+- `attempt_answers` stores `selected_opt_key` (the stable, information-free
+  half of the option id) and exposes `selected_option_id` as a VIRTUAL
+  generated column, so an answer references a stable option id at zero storage
+  cost. `delivered_position` records where the option sat on screen and is
+  analytics only — never the grading key.
 - Options flagged `question_options.is_pinned` must stay last. All 450 "All of
   the above"-style options in the bank were authored in slot 4, and shuffling
   one into the middle makes the question nonsense.
 
-**Do not deliver raw option ids to the browser.** `q_abc123#3` leaks the
-authored slot, and a client that matches a delivered stem against the public
-JSON could then grade the paper offline whatever order the options arrived in.
-Deliver each option as its **index into this attempt's `option_order`** (or an
-HMAC of the option id under `option_seed`), accept that handle back, and
-resolve it to an ordinal server-side through `option_order`. The client then
-holds nothing that reveals authored position.
+**Still do not deliver raw option ids to the browser**, even now that they
+carry no ordinal: an id is a stable handle a client could accumulate across
+sessions, and the cost of not sending it is zero. `worker/src/handlers/paper.ts`
+delivers each option as a keyed digest of (server secret, `option_seed`,
+attempt, option id) -- DERIVED, not stored, because `attempt_questions` is the
+second table to watch at scale and four stored tokens per row would add ~60
+bytes to every one of them for something the server can recompute. Resolution
+is four comparisons against `option_order`, server-side.
 
 Be precise about what this does and does not buy. For the 2,290 questions
 already published as JSON, the key is **irrecoverably public** — any client
@@ -154,13 +184,14 @@ Unpermuted, a student can score well above chance by learning the tell.
 
 | migration | tables |
 |---|---|
-| `0001_identity` | `users`, `user_profiles`, `sessions`, `admin_audit_log` |
+| `0001_identity` | `users`, `user_profiles`, `sessions`, `oauth_accounts`, `oauth_states`, `admin_audit_log` |
 | `0002_content` | `subjects`, `chapters`, `subchapters`, `questions`, `question_options`, `question_answer_keys`, `v_question_delivery`, `explanations`, `tags`, `question_tags`, `question_reports`, `content_versions` |
 | `0003_search` | `questions_fts` (FTS5) + 6 maintenance triggers |
 | `0004_assessment` | `mock_test_templates`, `attempts`, `attempt_questions`, `attempt_answers`, `attempt_answers_archive` |
 | `0005_learning` | `bookmarks`, `srs_state`, `study_sessions`, `streaks`, `user_question_stats` + 5 rollup triggers |
 | `0006_engagement` | `leaderboard_snapshots`, `leaderboard_entries`, `notifications` |
 | `0007_reference_data` | the 1 subject, 10 chapters, 60 NEC syllabus codes, 3 mock templates |
+| `0008_api_infrastructure` | `idempotency_keys`, `rate_limits` |
 
 ### Row-count expectations
 
@@ -189,6 +220,10 @@ Bounded unless stated otherwise. "per user" is per *active* user.
 | `leaderboard_snapshots` / `_entries` | pruned to 30 days | ~400 / ~390 k | ~400 / ~3.9 M |
 | `notifications` | expiring | ~50 k | ~500 k |
 | `admin_audit_log` | privileged actions | ~2 k | ~20 k |
+| `oauth_accounts` | 0–1 per user | ~600 | ~6 k |
+| `oauth_states` | in-flight sign-ins, 10 min TTL | <100 | <1 k |
+| `idempotency_keys` | mutations per user, 7 d TTL | ~20 k | ~200 k |
+| `rate_limits` | buckets per window, swept hourly | <5 k | <50 k |
 
 `attempt_questions` deserves a note: it is bounded per attempt (one row per
 delivered question) but attempts accumulate, so at 10,000 MAU it is the
@@ -203,25 +238,32 @@ Measured, not estimated (`npm run db:measure`, SQLite 3.54, 4 KB pages, all
 three indexes present, rollup triggers live):
 
 ```
-attempt_answers (table b-tree)         42.7 bytes/row
+attempt_answers (table b-tree)         56.2 bytes/row
 uq_attempt_answers_attempt_question    33.1
-idx_attempt_answers_answered_at        25.7
+idx_attempt_answers_answered_at        29.7
 idx_attempt_answers_question_correct   30.9
                                       ------
-TOTAL                                 132.4 bytes/row      68% of it index
+TOTAL                                 149.9 bytes/row      63% of it index
 ```
 
-Rest of the schema with the bank seeded: **5.1 MB** (1.0 MB of that is FTS5).
-So a 500 MB free D1 database holds **3,918,960** answer rows; a 10 GB paid one
-holds 81,043,612.
+Up from 132.4, and both causes are deliberate: `answered_at` in milliseconds
+instead of seconds costs ~3 bytes in the row and ~4 more in the index keyed on
+it, and `selected_opt_key TEXT(12)` instead of `selected_ordinal INTEGER` costs
+the row 13.5. 13% fewer rows in the same database is what not having two
+incompatible time units, and not publishing the answer key in every option id,
+actually cost.
+
+Rest of the schema with the bank seeded: **5.9 MB** (1.0 MB of that is FTS5).
+So a 500 MB free D1 database holds **3,455,265** answer rows; a 10 GB paid one
+holds 71,572,735.
 
 | MAU | rows/month | row-writes/day | 90 d live | 180 d live | fits free 500 MB @ 90 d |
 |---|---|---|---|---|---|
-| 1,000 | 500 k | 66,667 | 1.5 M / 189 MB | 3.0 M / 379 MB | yes |
-| 2,000 | 1.0 M | 133,333 | 3.0 M / 379 MB | 6.0 M / 758 MB | yes |
-| 5,000 | 2.5 M | 333,333 | 7.5 M / 947 MB | 15 M / 1.85 GB | no |
-| 10,000 | 5.0 M | 666,667 | 15 M / 1.85 GB | 30 M / 3.70 GB | no |
-| 25,000 | 12.5 M | 1,666,667 | 37.5 M / 4.62 GB | 75 M / 9.25 GB | no |
+| 1,000 | 500 k | 66,667 | 1.5 M / 214 MB | 3.0 M / 429 MB | yes |
+| 2,000 | 1.0 M | 133,333 | 3.0 M / 429 MB | 6.0 M / 858 MB | yes |
+| 5,000 | 2.5 M | 333,333 | 7.5 M / 1.05 GB | 15 M / 2.09 GB | no |
+| 10,000 | 5.0 M | 666,667 | 15 M / 2.09 GB | 30 M / 4.19 GB | no |
+| 25,000 | 12.5 M | 1,666,667 | 37.5 M / 5.24 GB | 75 M / 10.5 GB | no |
 
 **The write cap binds before the storage cap.** D1 counts index rows as writes,
 so one answer is four row writes; the free plan's 100,000 row-writes-per-day
@@ -259,12 +301,12 @@ daily write budget):
 ```sql
 -- 1. stage, denormalising user_id because the attempt may be gone later.
 INSERT INTO attempt_answers_archive (id, attempt_id, user_id, question_id,
-                                     selected_ordinal, is_correct,
+                                     selected_opt_key, is_correct,
                                      delivered_position, time_ms, answered_at)
-SELECT aa.id, aa.attempt_id, a.user_id, aa.question_id, aa.selected_ordinal,
+SELECT aa.id, aa.attempt_id, a.user_id, aa.question_id, aa.selected_opt_key,
        aa.is_correct, aa.delivered_position, aa.time_ms, aa.answered_at
   FROM attempt_answers aa JOIN attempts a ON a.id = aa.attempt_id
- WHERE aa.answered_at < unixepoch('now', '-90 days')
+ WHERE aa.answered_at < CAST(unixepoch('now', '-90 days') * 1000 AS INTEGER)
    AND aa.id > ?1                       -- cursor, 0 on the first page
  ORDER BY aa.id
  LIMIT 5000;
@@ -276,13 +318,13 @@ SELECT aa.id, aa.attempt_id, a.user_id, aa.question_id, aa.selected_ordinal,
 -- 3. delete exactly the id range just staged.
 DELETE FROM attempt_answers
  WHERE id BETWEEN ?1 AND ?2
-   AND answered_at < unixepoch('now', '-90 days');
+   AND answered_at < CAST(unixepoch('now', '-90 days') * 1000 AS INTEGER);
 
 -- 4. the short window for attempts nobody finished.
 DELETE FROM attempt_answers
  WHERE attempt_id IN (SELECT id FROM attempts
                        WHERE status IN ('abandoned', 'expired')
-                         AND started_at < unixepoch('now', '-7 days')
+                         AND started_at < CAST(unixepoch('now', '-7 days') * 1000 AS INTEGER)
                        LIMIT 200);
 ```
 
@@ -330,6 +372,14 @@ The full text of each query lives next to its index. Index of names:
 | 37a–37c | audit by actor / by entity / recent | `admin_audit_log` |
 | 38 / 38b | moderation queue, unclassified queue | `questions` |
 | 39 / 40 | legacy-id lookup (migration only), import dedupe | `questions` |
+| 41 / 41b | oauth identity, providers for user | `oauth_accounts` |
+| 42 | oauth state sweep | `oauth_states` |
+| 43–43c | idempotency reserve / replay / sweep | `idempotency_keys` |
+| 44 / 44b | rate-limit consume, window sweep | `rate_limits` |
+
+`19b` is now `blueprint-expand` over 60 sub-chapter rules and `19c` is
+`blueprint-draw`, which returns the tagged and chapter-level pools in one
+statement. `11` is a real FTS5 `MATCH`; the LIKE scan it replaced is gone.
 
 Two to internalise:
 
@@ -364,8 +414,8 @@ SELECT chapter_id,
 **Everything is 1-based.** `question_options.ordinal` is literally the N in the
 source JSON's `optN`, so the 1-based `correct_option_index` maps to it as the
 identity — no arithmetic, nothing to get backwards. Same for
-`attempt_answers.selected_ordinal`, `delivered_position`,
-`attempt_questions.position`, `chapters.ordinal`, `subchapters.ordinal`. The
+`attempt_answers.delivered_position`, `attempt_questions.position`,
+`chapters.ordinal`, `subchapters.ordinal`. The
 current client converts to 0-based (`correct_option_index - 1` in
 `frontend/src/services/localData.ts`), which means every read and write has to
 remember which side of the boundary it is on.
@@ -390,14 +440,27 @@ longer excluded. Every bookmark and progress record in every user's
 one-time client migration can translate them, and is expected to be dropped
 after the cutover.
 
-**Option identity is a slot, not content.** `question_options.id` is
-`question_id || '#' || ordinal`, enforced by a `CHECK`. `ordinal` is assigned
+**Option identity is a slot, but the id does not say which slot.**
+`question_options.id` is `question_id || '#' || opt_key`, enforced by a `CHECK`,
+where `opt_key` is 12 CSPRNG base32 characters. It used to be `|| ordinal`, and
+that was a real security hole: `frontend/public/data/books/*.json` publishes
+`correct_option_index` and is in git history forever, so an ordinal-bearing id
+reaching a client recovered the whole answer key with no database access, and
+per-attempt permutation was no defence because the ordinal rode inside the id.
+
+`ordinal` survives as the authored slot and as the editorial identity, assigned
 once and **never reused**: retiring option 3 and adding a replacement gives the
 new one ordinal 5, so a historical answer can never be silently re-pointed at
-different text. That is the opposite of `questions` on purpose — there identity
+different text. It is SERVER-ONLY — in no view, no delivery query and no
+response body. That is the opposite of `questions` on purpose — there identity
 is content, here it is a slot that survives content edits, and between them
 nothing a human does to the bank can change the meaning of an answer already
 recorded.
+
+The `question_id || '#'` prefix is kept rather than swapped for a bare ULID
+because three CHECKs prove same-question-ness with a prefix test:
+`question_answer_keys.correct_option_id`, `explanations.about_option_id` and
+`question_reports.suggested_option_id`.
 
 **SQLite, written as SQLite.** No native enums (`CHECK` constraints — and
 `db:verify` compares each one against the TypeScript union). No `jsonb` (`TEXT`
@@ -406,10 +469,20 @@ Generated columns are used where they earn their place: `users.email_normalized`
 `question_options.text_norm`, `attempts.score_bp`,
 `user_question_stats.accuracy_bp`, `study_sessions.duration_s`, and
 `attempt_answers.selected_option_id` (VIRTUAL — zero bytes, fully joinable).
-Every table is `STRICT`. Timestamps are INTEGER unix seconds; calendar days,
-where a day is the unit of meaning, are TEXT `'YYYY-MM-DD'` in the *user's*
-timezone — Nepal is UTC+05:45, so a UTC-based streak would break for anyone
-studying after 18:15 local.
+Every table is `STRICT`.
+
+**Timestamps are INTEGER epoch MILLISECONDS**, and every column that carries
+one says so in a trailing comment. Milliseconds because every consumer is
+JavaScript: `Date.now()` is milliseconds, the API's `EpochMs` wire type is
+milliseconds, and the client's response log, quiz drafts and mock `endsAt` are
+all already milliseconds, so a seconds-based store would mean a conversion at
+every read and write — and the one place it was forgotten would be silent. The
+default is `(CAST(unixepoch('subsec') * 1000 AS INTEGER))`; `db/smoke.mjs`
+asserts that a round-tripped 45-minute deadline is still in the future.
+Durations are named for their unit (`time_ms`, `elapsed_ms`, `duration_s`).
+Calendar days, where a day is the unit of meaning, are TEXT `'YYYY-MM-DD'` in
+the *user's* timezone — Nepal is UTC+05:45, so a UTC-based streak would break
+for anyone studying after 18:15 local.
 
 **Ratios in basis points, not floats.** `score_bp`, `accuracy_bp`, `p_value_bp`
 are integers 0–10000. Exact, sortable, indexable, and immune to the
@@ -464,22 +537,34 @@ source rows read              2312
 exact duplicates collapsed      22     (identical stem+options within one chapter)
 cross-chapter dup groups         2
 questions written             2290
-  published                   2190
-  flagged (withheld)           100
+  published                   2199
+  flagged (withheld)            91
 options written               9160
   retired as duplicate text      6
   pinned ('all of the above')  450 across 450 questions, all in slot 4
-answer keys written           2289     (the INDEX_RANGE question has no reachable answer)
+answer keys written           2290     (every question has a reachable answer)
 published without a key          0     ← the importer aborts if this is non-zero
-errata reports filed           125
+errata reports filed           106
 
-defect codes  {"DUPLICATE_ANSWER_CONFLICT":82,"OPTION_DUPLICATE":5,"KEY_CONFLICT":14,"INDEX_RANGE":1}
-quarantine.json cross-check  {"entries":145,"resolved":123,"agreed":100,"stale":23,"unresolvable":22}
+defect codes  {"DUPLICATE_ANSWER_CONFLICT":74,"OPTION_DUPLICATE":5,"KEY_CONFLICT":12}
+authored correct-option position  {"1":666,"2":747,"3":515,"4":362}
+quarantine.json cross-check  {"entries":118,"resolved":106,"agreed":91,"stale":15,"unresolvable":12}
 ```
 
-Read that last line as the argument for content-hash ids: of 145 positional
-quarantine entries, 22 no longer resolve to any array slot at all and 23 point
+Read that last line as the argument for content-hash ids: of 118 positional
+quarantine entries, 12 no longer resolve to any array slot at all and 15 point
 at a question the rules find healthy.
+
+The authored correct option still sits at slot 2 in 32.6% of the bank against
+the 25% a fair one would show, which is why per-attempt permutation is not
+optional.
+
+`opt_key` IS RE-MINTED ONLY FOR A NEW OPTION ROW. The importer's upsert
+conflicts on `(question_id, ordinal)` and returns whichever id won, so a
+re-import keeps every existing option's id and the answer keys stay pointed at
+the same rows. Conflicting on `id` — which is what it did when the id was
+derived from the ordinal — would insert a second row per option on every run
+and orphan every answer already recorded.
 
 ## Operational notes for handler authors
 
@@ -503,54 +588,45 @@ at a question the rules find healthy.
   `prepare()` fails at runtime with "ON CONFLICT clause does not match any
   PRIMARY KEY or UNIQUE constraint". This one was found by `db/smoke.mjs`, not
   by review.
-
-## Reconciliation with `worker/src/**` (ACTION REQUIRED)
+## Reconciliation with `worker/src/**` (DONE)
 
 `worker/src/**` was written concurrently by another author against an *assumed*
-schema declared in `src/data/tables.ts` (`SCHEMA_ASSUMPTION_VERSION =
-'2026-10-20.1'`). The two do not match, and nothing ships until one of them
-moves. The deltas, so the decision is a diff and not an excavation:
+schema declared in `src/data/tables.ts`. The two did not match. They do now,
+and this is the record of which side moved; the long form, with the argument
+for each call, is at the foot of `src/data/tables.ts`.
 
-| area | `migrations/` (this schema) | `src/data/tables.ts` (assumed) |
+| area | resolution | which side moved |
 |---|---|---|
-| **timestamps** | INTEGER unix **seconds** | INTEGER epoch **milliseconds** |
-| attempts | one `attempts` table, `mode` column | split `mock_attempts` + `practice_sessions` |
-| attempt paper | `attempt_questions` | `mock_attempt_questions` + `practice_session_questions` |
-| answers | one `attempt_answers` | `mock_answers` + `practice_answers` |
-| answer key | `question_answer_keys.correct_option_id` (own table) | `question_options.is_correct` |
-| SRS | `srs_state` | `srs_cards` (+ `revision`) |
-| templates | `mock_test_templates` (JSON `blueprint`) | `mock_templates` + `mock_template_blueprint` rows |
-| audit | `admin_audit_log` | `audit_log` |
-| syllabus | `subjects`, `chapters`, `subchapters` (60 NEC codes) | `chapters` only |
-| rollups | `user_question_stats` (+ denormalised `chapter_id`) | `user_question_stats`, `user_chapter_stats`, `user_daily_activity` |
-| not in this schema | — | `oauth_accounts`, `oauth_states`, `idempotency_keys`, `rate_limits` |
-| not in that schema | `explanations`, `tags`, `question_tags`, `content_versions`, `leaderboard_snapshots`, `leaderboard_entries`, `notifications`, `study_sessions`, `streaks`, `attempt_answers_archive`, `questions_fts` | — |
+| **timestamps** | INTEGER epoch **milliseconds** everywhere | **SQL**. Every consumer is JavaScript, and a seconds store meant a conversion at every boundary with one silent failure mode: a 45-minute deadline expiring in 45 ms. |
+| answer key | `question_answer_keys`, its own table | API. `question_options.is_correct` is gone; the isolation is the point. |
+| option ids | `question_id \|\| '#' \|\| opt_key`, 12 CSPRNG chars | **SQL**. The ordinal in the id was a live leak against the published JSON. |
+| attempts | one `attempts` table with `mode` | API. `mock_attempts` + `practice_sessions` and their four child tables collapsed into three. |
+| pre-deadline snapshot | `attempts.synced_answers`, `.last_sync_at` | **SQL**, two columns, plus a CHECK that the snapshot cannot be stamped past the deadline. |
+| rollups | the 0005 triggers | API. Three hand-written upserts deleted; `user_chapter_stats` and `user_daily_activity` replaced by NQ-27 over `user_question_stats`, plus `streaks` and `study_sessions`. |
+| roles | `student \| contributor \| moderator \| admin` | **SQL**. Four: triage is not publish. |
+| identity | `users.email` nullable, `is_anonymous` | **SQL**. A `NOT NULL` email left nowhere to put a guest, and guests are the product's whole first run. |
+| sessions | `id` = sha256 hex of the cookie; idle + absolute expiry | API. A dump of `sessions` now yields nothing anyone can sign in with. |
+| blueprint | sub-chapter level, version 2, 60 rules | **SQL** and API. `frontend/src/data/examBlueprint.ts` was right about the exam. |
+| SRS | FSRS field names on `srs_state` | API. `stability` and `difficulty` were already there; `domain/srs.ts` speaks them now. |
+| names | `srs_state`, `admin_audit_log`, `mock_test_templates`, `question_options.text`/`.ordinal` | API. |
+| four missing tables | `oauth_accounts`, `oauth_states` in 0001; `idempotency_keys`, `rate_limits` in 0008 | **SQL**, DDL reviewed rather than taken as proposed. |
+| dependencies | `hono`, `zod` in `package.json`; `validation/v.ts` deleted | API. The Worker now bundles. |
 
-**The highest-risk mismatch is the timestamp unit**, and that author flagged it
-first: seconds here, milliseconds there. `domain/expiry.ts` misbehaves silently
-under the wrong one. Seconds is the choice made here and the reason is in
-`0001_identity.sql` — millisecond precision buys nothing for session expiry or
-`answered_at`, and the one unbounded table is budgeted at 132.4 bytes/row.
-`time_ms` is the deliberate exception: per-question latency genuinely needs
-milliseconds, and its name says so.
+Three items on the API author's checklist, answered:
 
-Three items on that author's checklist deserve direct answers:
-
-1. **"`question_options.id` must be opaque."** It is not, and that is
-   deliberate — but the objection is correct that a raw `q_abc#3` handed to a
-   browser leaks the authored slot. The resolution is at the delivery layer,
-   not in the id: `attempt_questions.option_order` is the server-side mapping,
-   so deliver an index into it (or an HMAC under `option_seed`) and resolve the
-   handle server-side. The full argument, including what permutation does *not*
-   buy for the 2,290 already-public questions, is in the second block of
-   `0004_assessment.sql`.
+1. **"`question_options.id` must be opaque."** Agreed and acted on, and this
+   was the right call rather than a concession. The `question_id` prefix stays,
+   because three CHECKs use it to prove same-question-ness; the discriminator
+   is now random. `lib/permute.ts#browseOptionRef` and the per-attempt refs
+   stay as defence in depth over a sound id scheme rather than as the only
+   thing holding the line.
 2. **"`questions` must not carry `correct_option_index` / `correct_option`."**
    It does not. Those two source fields are kept as
    `question_answer_keys.authored_index` / `authored_text` — in the server-only
    table, where a `SELECT *` on `questions` cannot reach them.
 3. **"Keep the index list short; D1 counts index writes."** Agreed and acted
    on: `attempt_answers` has exactly three indexes and each carries the named
-   query it serves. 68% of its 132.4 bytes/row is index, and
+   query it serves. 63% of its re-measured 149.9 bytes/row is index, and
    `idx_attempt_answers_question_correct` is named in `0004` as the first
    candidate to drop if the ceiling gets close.
 
@@ -568,4 +644,19 @@ Three items on that author's checklist deserve direct answers:
   drives it.
 - `questions.p_value_bp`, `tags`/`question_tags`, `explanations` and
   `content_versions` are modelled and indexed but unpopulated — the jobs and
-  editor flows that fill them are later phases.
+  editor flows that fill them are later phases. `explanations` being empty is
+  why every `explanation` field on the wire is `null` today.
+- **`strict_subchapter` must stay `false`** in every blueprint while
+  `subchapter_id` is NULL: a strict run would fail all 60 rules. The selection
+  query does not change when tagging arrives, only the mix of its two pools.
+- **The three cron jobs in `wrangler.toml` have no handler yet.** Answer
+  retention, attempt expiry and the leaderboard snapshot are all specified
+  (0004, NQ-22b, 0006) and none is implemented; `src/index.ts` exports a fetch
+  handler only. Until the retention job exists, `attempt_answers` grows
+  without bound and the first symptom is writes failing at the 500 MB wall.
+- **The frontend outbox is still `localStorage`.**
+  `frontend/src/services/responseLog.ts` already keeps an IndexedDB store whose
+  `rid` is documented as the cross-device merge key — i.e. an idempotency key —
+  and `ResponseRecord.chosenIndex` is an INDEX into the presented options,
+  which cannot be replayed against this API. Both are changes to frontend
+  files outside this change's scope.

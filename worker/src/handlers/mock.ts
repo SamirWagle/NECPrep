@@ -1,29 +1,30 @@
 /**
  * Mock test handlers - the centre of the anti-cheat work.
  *
- * WHAT THIS REPLACES. `frontend/src/pages/app/MockTestQuiz.tsx` fetches the
- * chapter JSON including `correct_option_index`, scores in the browser against
- * `q.correctIndex`, and runs the clock as a `setInterval`. Opening devtools
- * reveals the whole key; stopping the interval or editing the localStorage
- * draft grants unlimited time.
+ * WHAT THIS REPLACES. `frontend/src/pages/app/MockTestQuiz.tsx` fetches
+ * the chapter JSON including `correct_option_index`, scores in the browser
+ * against `q.correctIndex`, and runs the clock as a `setInterval`. Opening
+ * devtools reveals the whole key; stopping the interval or editing the
+ * localStorage draft grants unlimited time.
  *
  * WHAT MAKES THAT IMPOSSIBLE HERE, structurally rather than by politeness:
  *
- * 1. The key is a column (`question_options.is_correct`) that only
- *    `loadAnswerKey` selects, and `loadAnswerKey` is called once, during
- *    scoring, after the submission has arrived. No pre-answer payload can
- *    contain it, because the function that builds option lists does not select
- *    that column.
- * 2. Option identity on the wire is an opaque per-attempt ref, minted from the
- *    CSPRNG at start and stored on the attempt. The client submits a ref, so
- *    there is no index to correlate with the public JSON, and a ref harvested
- *    from a finished attempt is meaningless in a new one.
+ * 1. The key is a SEPARATE TABLE (`question_answer_keys`, one row per
+ *    question). `questions` has no answer column and `question_options` has
+ *    none either, so no amount of forgetting to narrow a SELECT list can leak
+ *    it -- it takes naming a third table in a FROM clause, which `loadAnswerKey`
+ *    is the only function in the codebase to do, and which is called once,
+ *    during scoring, after the submission has arrived.
+ * 2. Option identity on the wire is a per-attempt ref derived from the server's
+ *    secret and the attempt's `option_seed`. The client submits a ref, so there
+ *    is no index and no id to correlate with the public JSON, and a ref
+ *    harvested from a finished attempt is meaningless in a new one.
  * 3. The paper is permuted per attempt, so even position-to-position
  *    correlation against the authored order fails.
- * 4. `expires_at` is written by the server at start and never accepted from a
+ * 4. `deadline_at` is written by the server at start and never accepted from a
  *    client. Scoring uses the server clock, and the "what was submitted in
  *    time" question is answered by what the server actually received before the
- *    deadline - see `domain/expiry.ts`.
+ *    deadline - see `domain/expiry.ts` and `attempts.synced_answers`.
  * 5. Scoring happens here. The request body has no field in which to assert a
  *    score, a correctness bit, or a timestamp.
  */
@@ -35,14 +36,17 @@ import { clampSubmission, deadlineFor, syncDecision } from '../domain/expiry.ts'
 import { scorePaper } from '../domain/scoring.ts';
 import { selectPaper } from '../domain/blueprint.ts';
 import {
-  drawChapterPools,
+  drawBlueprintPools,
   getActiveMockTemplate,
   getBlueprint,
   loadAnswerKey,
   loadOptionsForQuestions,
 } from '../data/content.ts';
 import {
+  attemptDurationSeconds,
+  attemptScoredAt,
   attemptStatus,
+  attemptTiming,
   createAttemptBatch,
   loadAttempt,
   loadPaper,
@@ -50,10 +54,11 @@ import {
   parseSyncedAnswers,
   submitAttempt,
   syncAnswers,
-} from '../data/mock.ts';
-import type { SubmissionAnswer } from '../data/mock.ts';
+} from '../data/attempts.ts';
+import type { AttemptRow, SubmissionAnswer } from '../data/attempts.ts';
 import { consumeRateLimit, RATE_LIMITS } from '../data/infra.ts';
-import { bodyIndex, buildAttemptPaper, publicOptionsFor, toAttemptQuestions } from './paper.ts';
+import { attachRefs, bodyIndex, buildAttemptPaper, publicOptionsFor, toAttemptQuestions } from './paper.ts';
+import type { DeliverablePaperRow, RefContext } from './paper.ts';
 import { ok, requireUser, withIdempotency } from './context.ts';
 import type { HandlerContext, HandlerResult } from './context.ts';
 import type {
@@ -78,12 +83,28 @@ async function enforceLimit(
   }
 }
 
+function refContextFor(ctx: HandlerContext, attempt: AttemptRow): RefContext {
+  return {
+    secret: ctx.config.permutationSecret,
+    optionSeed: attempt.option_seed,
+    attemptPublicId: attempt.public_id,
+  };
+}
+
+/** A CSPRNG seed for the per-attempt option permutation. */
+function newOptionSeed(): number {
+  const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  // Kept inside 2^31 so it is a plain positive INTEGER in SQLite and in JSON.
+  return buf[0] & 0x7fffffff;
+}
+
 /**
- * POST /api/mock/start - 11 D1 queries, CONSTANT in paper size.
+ * POST /api/mock/start - 12 D1 queries, CONSTANT in paper size.
  *
  * rate limit 1, idempotency reserve 1, template 1, blueprint 1, pool draw 1,
- * option bodies 1, attempt + paper insert 2 (one batch), paper read-back 1,
- * idempotency finalise 1.
+ * option bodies 1, attempt + paper + study session 3 (ONE batch), attempt
+ * read-back 1, paper read-back 1, idempotency finalise 1.
  */
 export async function startMock(
   ctx: HandlerContext,
@@ -112,8 +133,14 @@ export async function startMock(
       // The composition comes from the blueprint, which is server data. The
       // request named a template and nothing else: it cannot ask for a shorter
       // paper, an easier chapter, or a specific question.
-      const pools = await drawChapterPools(ctx.db, input.templateId);
-      const selection = selectPaper({ blueprint, pools, shuffle: cryptoShuffle });
+      const pools = await drawBlueprintPools(ctx.db, input.templateId);
+      const selection = selectPaper({
+        blueprint,
+        subchapterPools: pools.subchapterPools,
+        chapterPools: pools.chapterPools,
+        shuffle: cryptoShuffle,
+        strictSubchapter: template.strict_subchapter === 1,
+      });
 
       if (selection.picks.length === 0) {
         fail('INSUFFICIENT_CONTENT', 'No published questions are available yet.');
@@ -129,45 +156,48 @@ export async function startMock(
 
       const startedAt = ctx.clock.now();
       const durationSeconds = template.duration_minutes * 60;
-      const expiresAt = deadlineFor(startedAt, durationSeconds);
-      const attemptId = newId('mat');
+      const publicId = newId('mat');
 
       await ctx.db.batch(
         createAttemptBatch({
-          attemptId,
+          publicId,
           userId: auth.user.id,
+          mode: 'mock',
           templateId: template.id,
+          // NULL: a mock spans all ten chapters, and `attempts.chapter_id` is
+          // for a single-chapter practice set.
+          chapterId: null,
+          optionSeed: newOptionSeed(),
           startedAt,
-          expiresAt,
-          durationSeconds,
+          deadlineAt: deadlineFor(startedAt, durationSeconds),
           paper,
         }),
       );
 
-      // Read the paper back rather than assembling the response from the
-      // in-memory pick. It costs one query and it means the client is shown
-      // exactly the permutation that was persisted - if the insert had dropped
-      // a row, the response would say so instead of promising a question the
-      // scorer will never see.
-      const bodies = bodyIndex(optionsByQuestion);
-      const rows = await loadPaper(ctx.db, attemptId, auth.user.id);
+      // Read the attempt and the paper back rather than assembling the response
+      // from the in-memory pick. It costs two queries and it means the client
+      // is shown exactly the permutation that was persisted - if the insert had
+      // dropped a row, the response would say so instead of promising a
+      // question the scorer will never see. The read-back is also where the
+      // attempt's `option_seed` comes from, which the refs are derived under.
+      const attempt = await loadAttempt(ctx.db, publicId, auth.user.id);
+      if (!attempt) fail('INTERNAL', 'The attempt could not be created.');
+
+      const rows = attachRefs(
+        await loadPaper(ctx.db, publicId, auth.user.id),
+        refContextFor(ctx, attempt),
+      );
 
       return ok<MockAttemptPaper>({
-        attemptId,
+        attemptId: attempt.public_id,
         templateId: template.id,
         status: 'in_progress',
-        startedAt,
-        expiresAt,
+        startedAt: attempt.started_at,
+        expiresAt: attempt.deadline_at ?? startedAt,
         serverNow: startedAt,
         durationSeconds,
-        questionCount: paper.length,
-        questions: rows.map((row) => ({
-          questionId: row.questionId,
-          chapterId: row.chapterId,
-          position: row.position,
-          stem: row.stem,
-          options: publicOptionsFor(row, bodies),
-        })),
+        questionCount: attempt.question_count,
+        questions: toAttemptQuestions(rows, optionsByQuestion),
         savedAnswers: {},
       });
     },
@@ -190,7 +220,10 @@ export async function getMockAttempt(
   const attempt = await loadAttempt(ctx.db, attemptId, auth.user.id);
   if (!attempt) fail('NOT_FOUND', 'That attempt does not exist.');
 
-  const rows = await loadPaper(ctx.db, attemptId, auth.user.id);
+  const rows = attachRefs(
+    await loadPaper(ctx.db, attemptId, auth.user.id),
+    refContextFor(ctx, attempt),
+  );
   const optionsByQuestion = await loadOptionsForQuestions(
     ctx.db,
     rows.map((r) => r.questionId),
@@ -199,13 +232,13 @@ export async function getMockAttempt(
   const now = ctx.clock.now();
 
   return ok<MockAttemptPaper>({
-    attemptId: attempt.id,
-    templateId: attempt.template_id,
+    attemptId: attempt.public_id,
+    templateId: attempt.template_id ?? '',
     status: attemptStatus(attempt),
     startedAt: attempt.started_at,
-    expiresAt: attempt.expires_at,
+    expiresAt: attempt.deadline_at ?? attempt.started_at,
     serverNow: now,
-    durationSeconds: attempt.duration_seconds,
+    durationSeconds: attemptDurationSeconds(attempt),
     questionCount: attempt.question_count,
     questions: toAttemptQuestions(rows, optionsByQuestion),
     savedAnswers: parseSyncedAnswers(attempt) ?? {},
@@ -233,18 +266,20 @@ export async function syncMock(
   if (!attempt) fail('NOT_FOUND', 'That attempt does not exist.');
 
   const now = ctx.clock.now();
+  const expiresAt = attempt.deadline_at ?? attempt.started_at;
   const decision = syncDecision({
     now,
-    expiresAt: attempt.expires_at,
+    expiresAt,
     status: attempt.status,
   });
 
-  // The same predicate is also the UPDATE's WHERE clause, so a race between
-  // this decision and the write cannot let a post-deadline snapshot through.
-  // This copy exists only to give the client an honest reason.
+  // The same predicate is also the UPDATE's WHERE clause - and a CHECK on the
+  // table - so a race between this decision and the write cannot let a
+  // post-deadline snapshot through. This copy exists only to give the client an
+  // honest reason.
   const accepted = decision.accepted
     ? await syncAnswers(ctx.db, {
-        attemptId: input.attemptId,
+        publicId: input.attemptId,
         userId: auth.user.id,
         answers: input.answers,
         now,
@@ -254,8 +289,8 @@ export async function syncMock(
   return ok<MockSyncResponse>({
     accepted,
     serverNow: now,
-    expiresAt: attempt.expires_at,
-    remainingMs: Math.max(0, attempt.expires_at - now),
+    expiresAt,
+    remainingMs: Math.max(0, expiresAt - now),
     ...(accepted ? {} : { reason: decision.reason ?? 'past_deadline' }),
   });
 }
@@ -264,12 +299,13 @@ export async function syncMock(
  * POST /api/mock/submit - 13 D1 queries, CONSTANT in the size of the paper.
  *
  * rate limit 1, idempotency 2, attempt 1, paper 1, key 1, option bodies 1,
- * commit batch 6 (one round trip).
+ * commit batch 5 (one round trip), attempt re-read 1.
  *
  * A hundred answers are written by ONE statement: the rows travel as a single
  * JSON bound parameter and are expanded with `json_each`, because D1 allows 50
  * queries per invocation and 100 bound parameters per statement, so neither a
- * loop of inserts nor a multi-row VALUES list would fit.
+ * loop of inserts nor a multi-row VALUES list would fit. The rollups that used
+ * to be three more statements are now triggers on that INSERT.
  */
 export async function submitMock(
   ctx: HandlerContext,
@@ -297,19 +333,21 @@ export async function submitMock(
         fail('ATTEMPT_NOT_IN_PROGRESS', 'This attempt has already been submitted.');
       }
 
-      const paper = await loadPaper(ctx.db, input.attemptId, auth.user.id);
-      if (paper.length === 0) fail('INTERNAL', 'This attempt has no paper.');
+      const stored = await loadPaper(ctx.db, input.attemptId, auth.user.id);
+      if (stored.length === 0) fail('INTERNAL', 'This attempt has no paper.');
+      const paper = attachRefs(stored, refContextFor(ctx, attempt));
 
       const now = ctx.clock.now();
+      const expiresAt = attempt.deadline_at ?? attempt.started_at;
 
       // THE CLAMP. Nothing from the request influences it: `now` is the
-      // server's clock, `expires_at` was written by the server at start, and
+      // server's clock, `deadline_at` was written by the server at start, and
       // the fallback snapshot is whatever the server itself accepted before the
       // deadline.
       const clamp = clampSubmission({
         now,
         startedAt: attempt.started_at,
-        expiresAt: attempt.expires_at,
+        expiresAt,
         submitted: input.answers,
         syncedSnapshot: parseSyncedAnswers(attempt),
       });
@@ -340,25 +378,36 @@ export async function submitMock(
         });
       }
 
-      const answers: SubmissionAnswer[] = scored.questions.map((q) => ({
-        questionId: q.questionId,
-        chapterId: q.chapterId,
-        isCorrect: q.isCorrect,
-        answered: q.answered,
-        selectedOptionId: q.selectedOptionId,
-      }));
+      const paperById = new Map(paper.map((p) => [p.questionId, p]));
+
+      const answers: SubmissionAnswer[] = scored.questions.map((q) => {
+        const row = paperById.get(q.questionId);
+        const index =
+          row && q.selectedOptionId !== null ? row.optionOrder.indexOf(q.selectedOptionId) : -1;
+        return {
+          questionId: q.questionId,
+          chapterId: q.chapterId,
+          isCorrect: q.isCorrect,
+          answered: q.answered,
+          selectedOptionId: q.selectedOptionId,
+          // 1-based screen position under this attempt's permutation.
+          // Analytics only -- it is what measures position bias -- and never
+          // an input to grading.
+          deliveredPosition: index >= 0 ? index + 1 : null,
+        };
+      });
 
       const optionsByQuestion = await loadOptionsForQuestions(ctx.db, questionIds);
       const bodies = bodyIndex(optionsByQuestion);
 
       const { applied } = await submitAttempt(ctx.db, {
-        attemptId: input.attemptId,
+        attemptId: attempt.id,
+        publicId: attempt.public_id,
         userId: auth.user.id,
         answers,
-        score: scored.correct,
-        timing: clamp.timing,
         submittedAt: now,
         scoredAt: clamp.scoredAt,
+        elapsedMs: Math.max(0, clamp.scoredAt - attempt.started_at),
       });
 
       if (!applied) {
@@ -367,28 +416,15 @@ export async function submitMock(
         fail('ATTEMPT_NOT_IN_PROGRESS', 'This attempt has already been submitted.');
       }
 
-      const paperById = new Map(paper.map((p) => [p.questionId, p]));
-
       // THE ONLY KEY DISCLOSURE for a mock attempt, and it happens after the
       // status has already been flipped to `submitted` - so the paper cannot be
       // re-answered with the key in hand.
-      const review: MockReviewQuestion[] = scored.questions.map((q) => {
-        const row = paperById.get(q.questionId);
-        return {
-          questionId: q.questionId,
-          chapterId: q.chapterId,
-          position: q.position,
-          stem: row?.stem ?? '',
-          options: row ? publicOptionsFor(row, bodies) : [],
-          selectedRef: q.selectedRef,
-          correctRef: q.correctRef,
-          isCorrect: q.isCorrect,
-          explanation: row?.explanation ?? null,
-        };
-      });
+      const review: MockReviewQuestion[] = scored.questions.map((q) =>
+        reviewItem(q, paperById.get(q.questionId), bodies),
+      );
 
       return ok<MockSubmitResponse>({
-        attemptId: input.attemptId,
+        attemptId: attempt.public_id,
         status: 'submitted',
         score: scored.correct,
         total: scored.total,
@@ -398,7 +434,7 @@ export async function submitMock(
         accuracyPct: scored.accuracyPct,
         timing: clamp.timing,
         startedAt: attempt.started_at,
-        expiresAt: attempt.expires_at,
+        expiresAt,
         submittedAt: now,
         scoredAt: clamp.scoredAt,
         droppedLateAnswers: clamp.droppedLateAnswers,
@@ -409,6 +445,31 @@ export async function submitMock(
   );
 }
 
+function reviewItem(
+  q: {
+    questionId: string;
+    chapterId: string;
+    position: number;
+    selectedRef: string | null;
+    correctRef: string;
+    isCorrect: boolean;
+  },
+  row: DeliverablePaperRow | undefined,
+  bodies: ReadonlyMap<string, string>,
+): MockReviewQuestion {
+  return {
+    questionId: q.questionId,
+    chapterId: q.chapterId,
+    position: q.position,
+    stem: row?.stem ?? '',
+    options: row ? publicOptionsFor(row, bodies) : [],
+    selectedRef: q.selectedRef,
+    correctRef: q.correctRef,
+    isCorrect: q.isCorrect,
+    explanation: row?.explanation ?? null,
+  };
+}
+
 /**
  * GET /api/mock/attempts/:attemptId/review - 5 D1 queries.
  *
@@ -416,6 +477,11 @@ export async function submitMock(
  * response or a cleared browser does not lose the paper. A read, so it cannot
  * change a stored score, and it refuses an attempt that is still in progress -
  * which is what stops it from being a mid-exam key oracle.
+ *
+ * `score`, `timing` and `scoredAt` come from the attempt row rather than from
+ * re-scoring: `correct_count` is trigger-maintained and therefore survives
+ * archival deleting the raw answers, and `timing`/`scoredAt` are derived from
+ * `submitted_at` and `deadline_at` rather than stored as a third copy.
  */
 export async function getMockReview(
   ctx: HandlerContext,
@@ -430,7 +496,10 @@ export async function getMockReview(
     fail('ATTEMPT_NOT_IN_PROGRESS', 'This attempt has not been submitted yet.');
   }
 
-  const paper = await loadPaper(ctx.db, attemptId, auth.user.id);
+  const paper = attachRefs(
+    await loadPaper(ctx.db, attemptId, auth.user.id),
+    refContextFor(ctx, attempt),
+  );
   const questionIds = paper.map((p) => p.questionId);
   const key = await loadAnswerKey(ctx.db, questionIds);
   const recorded = await loadRecordedAnswers(ctx.db, attemptId, auth.user.id);
@@ -447,36 +516,24 @@ export async function getMockReview(
 
   const scored = scorePaper({ paper, key, answers, options: { strict: false } });
   const paperById = new Map(paper.map((p) => [p.questionId, p]));
+  const expiresAt = attempt.deadline_at ?? attempt.started_at;
 
   return ok<MockSubmitResponse>({
-    attemptId,
+    attemptId: attempt.public_id,
     status: 'submitted',
-    score: attempt.score ?? scored.correct,
+    score: attempt.correct_count,
     total: scored.total,
     correct: scored.correct,
     incorrect: scored.incorrect,
     skipped: scored.skipped,
     accuracyPct: scored.accuracyPct,
-    timing: attempt.timing === 'expired' ? 'expired' : 'on_time',
+    timing: attemptTiming(attempt),
     startedAt: attempt.started_at,
-    expiresAt: attempt.expires_at,
-    submittedAt: attempt.submitted_at ?? attempt.expires_at,
-    scoredAt: attempt.scored_at ?? attempt.expires_at,
+    expiresAt,
+    submittedAt: attempt.submitted_at ?? expiresAt,
+    scoredAt: attemptScoredAt(attempt),
     droppedLateAnswers: 0,
     rejectedQuestionIds: [],
-    review: scored.questions.map((q) => {
-      const row = paperById.get(q.questionId);
-      return {
-        questionId: q.questionId,
-        chapterId: q.chapterId,
-        position: q.position,
-        stem: row?.stem ?? '',
-        options: row ? publicOptionsFor(row, bodies) : [],
-        selectedRef: q.selectedRef,
-        correctRef: q.correctRef,
-        isCorrect: q.isCorrect,
-        explanation: row?.explanation ?? null,
-      };
-    }),
+    review: scored.questions.map((q) => reviewItem(q, paperById.get(q.questionId), bodies)),
   });
 }

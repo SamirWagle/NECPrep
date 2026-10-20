@@ -19,10 +19,11 @@
 --     joining an index against the public JSON is the attack being closed.
 --   * `attempts.option_seed` is the PRNG seed, so the exact paper can be
 --     reproduced for a dispute without trusting the client's copy.
---   * `attempt_answers` records the option the student chose as a stable
---     ordinal (exposed as an option id by a VIRTUAL generated column), plus
---     the screen position it occupied. The position is analytics only; grading
---     resolves the client's handle through `option_order` and compares ids.
+--   * `attempt_answers` records the option the student chose as its stable
+--     `opt_key` (exposed as a full option id by a VIRTUAL generated column),
+--     plus the screen position it occupied. The position is analytics only;
+--     grading resolves the client's handle through `option_order` and compares
+--     ids.
 --
 -- The authored bank has a severe answer-position bias. Measured over the 2,190
 -- published questions after import, the authored correct option sits at slot
@@ -42,12 +43,14 @@
 --
 -- WHAT PERMUTATION DOES NOT BUY, STATED PLAINLY.
 --
--- Option ids are `question_id || '#' || ordinal`, so an id leaks the slot the
--- option was authored in. If the API hands raw option ids to the browser, a
--- client that matches a delivered stem against the public JSON in git history
--- can grade the paper offline whatever order the options arrived in.
+-- Option ids no longer leak the authored slot: 0002 mints them as
+-- `question_id || '#' || opt_key` with a 60-bit CSPRNG `opt_key`, precisely
+-- because the earlier `|| ordinal` form made an option id joinable against the
+-- `correct_option_index` published in `frontend/public/data/books/*.json`. Read
+-- the block above `question_options` in 0002 for that argument in full.
 --
--- That is worth being exact about rather than papering over:
+-- What remains true after the fix, and is worth being exact about rather than
+-- papering over:
 --
 --   * For the 2,290 questions already published as public JSON, the answer key
 --     is irrecoverably public. Any client that can read a stem can look the
@@ -59,21 +62,25 @@
 --     be graded by POSITION alone, so the attack requires text matching per
 --     question rather than one join.
 --
--- To close (c) -- "the authored slot is readable from the delivered payload" --
--- the delivery layer must not ship raw option ids. `option_order` is the
--- server-side mapping that makes this free: deliver each option as its INDEX
--- into this attempt's `option_order` (or an HMAC of the option id under
--- `option_seed`), accept that handle back, and resolve it to an ordinal
--- server-side through this column. The client then holds nothing that reveals
--- authored position, and `attempt_answers` still stores the stable ordinal.
+-- Defence in depth stays on top of that: the delivery layer still ships no raw
+-- option ids. `option_order` is the server-side mapping, and the API hands the
+-- client a per-attempt ref derived as a keyed digest of
+-- (server secret, option_seed, attempt, option id) -- see
+-- `worker/src/handlers/paper.ts` and `lib/permute.ts#attemptOptionRef`. The
+-- refs are DERIVED rather than stored: `attempt_questions` is the second table
+-- to watch at scale (one row per delivered question, ~3 M rows a year at 1,000
+-- MAU), and four stored 12-character tokens per row would add ~60 bytes to
+-- every one of them for information the server can recompute in microseconds
+-- from two columns it already has.
 --
--- The ordinal-bearing id is deliberately kept as the INTERNAL identity, rather
--- than swapped for a random ULID, because it buys three things a random id
--- does not: an option's identity survives an edit to its text (so historical
--- answers never re-point), the `question_id || '#'` prefix CHECK structurally
--- prevents an answer key pointing at another question's option, and
--- `attempt_answers` stores one integer instead of a 26-byte string -- which is
--- a measurable fraction of the 132.4 bytes/row ceiling computed below.
+-- The `question_id || '#' || <key>` SHAPE is deliberately kept rather than
+-- swapped for a bare random ULID, because the prefix buys two things a free
+-- random id does not: the `question_answer_keys` CHECK can prove with a prefix
+-- test that a key cannot point at another question's option, and the same test
+-- guards `explanations.about_option_id` and
+-- `question_reports.suggested_option_id`. `attempt_answers` stores the 12-char
+-- `opt_key` rather than the full ~30-char id, which is what keeps the one
+-- unbounded table narrow -- see the measured arithmetic below.
 -- ===========================================================================
 
 -- ---------------------------------------------------------------------------
@@ -83,27 +90,64 @@
 -- json_valid() plus the json1 functions is the real equivalent, and json_each()
 -- makes a blueprint queryable where it matters (see NQ-19b below).
 --
--- Blueprint schema, version 1:
+-- ===========================================================================
+-- THE BLUEPRINT IS SUB-CHAPTER LEVEL. Version 2.
+-- ===========================================================================
+--
+-- Version 1 of this shape carried one rule per CHAPTER ("10 from book-ch1"),
+-- which is what `frontend/src/data/topics.ts` hardcoded. That is not the exam.
+-- The official NEC syllabus for Computer Engineering publishes 10 chapters of
+-- exactly 6 sub-chapters each -- 60 syllabus codes, seeded as `subchapters` in
+-- 0007 -- and `frontend/src/data/examBlueprint.ts` already models the paper at
+-- that level, with a documented weighting rule:
+--
+--   equal-chapter-weight-largest-remainder
+--     1. each of the 10 chapters contributes 100/10 = 10 questions. This is the
+--        only split the syllabus supports: it lists ten chapters of identical
+--        structure and publishes no weights, so any uneven chapter weighting
+--        would be invented.
+--     2. within a chapter, 10 questions over 6 sub-chapters by largest
+--        remainder (Hare quota) on equal shares: floor(10/6) = 1 each (6 seats)
+--        with a remainder of 0.667 each and 4 seats left.
+--     3. all six remainders tie, so the spare seats go in ascending
+--        sub-chapter index -- the standard deterministic tie-break, documented
+--        as arbitrary in content terms because it is.
+--   Per chapter: 2+2+2+2+1+1 = 10. Across ten chapters: exactly 100.
+--
+-- So a blueprint is 60 rules, not 10, and the frontend and the database now
+-- describe the same paper. `generate-reference-sql.mjs` derives 0007's rules
+-- from that same file, so the two cannot drift.
+--
+-- Blueprint schema, version 2:
 --
 --   {
---     "version": 1,
+--     "version": 2,
+--     "weighting_rule": "equal-chapter-weight-largest-remainder",
 --     "shuffle_options": true,
 --     "negative_marking": 0,          -- marks deducted per wrong answer
 --     "pass_mark_bp": 5000,           -- basis points, 5000 = 50%
+--     -- false: a sub-chapter with too few TAGGED questions is topped up from
+--     -- its chapter's pool and the shortfall is reported. true: it is a hard
+--     -- failure. Ships false, and must, because `questions.subchapter_id` is
+--     -- NULL for all 2,290 imported questions -- the source JSON has no
+--     -- syllabus field and the importer does not guess. A strict run today
+--     -- would fail on all 60 rules. Flip it when tagging coverage is real;
+--     -- it is a data change in this column, not a code change anywhere.
+--     "strict_subchapter": false,
 --     "rules": [
 --       { "chapter_id": "book-ch1",
---         "subchapter_codes": null,   -- or ["1.1","1.2"] to narrow
---         "count": 10,
+--         "subchapter_code": "1.1",   -- NULL for a chapter-wide rule
+--         "count": 2,
 --         "difficulty": null,         -- or "easy" | "medium" | "hard"
 --         "tag_ids": null }           -- or ["karnaugh-map"]
+--       -- ... 60 of them
 --     ]
 --   }
 --
--- The three templates the current app hardcodes in
--- frontend/src/data/topics.ts (two 10-per-chapter full mocks and a
--- 5-per-chapter quick assessment) are exactly this shape with ten rules each,
--- which is why the shape is a list of per-chapter rules rather than a flat
--- question count. 0007 seeds them.
+-- 0007 seeds the three templates the app currently hardcodes, reshaped:
+-- the two 100-question full mocks get the 2/2/2/2/1/1 split per chapter, and
+-- the 50-question quick assessment gets largest-remainder on 5 per chapter
+-- (floor(5/6) = 0 each, five spare seats to indexes 1..5), i.e. 1/1/1/1/1/0.
 --
 -- `total_questions` is stored, not generated. It is derivable from the
 -- blueprint with a json_each sum, but a STORED generated column may only use
@@ -127,10 +171,14 @@ CREATE TABLE mock_test_templates (
                            CHECK (status IN ('draft', 'published', 'retired')),
   ordinal          INTEGER NOT NULL DEFAULT 0,
   created_by       TEXT    REFERENCES users (id) ON DELETE SET NULL,
-  created_at       INTEGER NOT NULL DEFAULT (unixepoch()),
-  updated_at       INTEGER NOT NULL DEFAULT (unixepoch()),
+  created_at       INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  updated_at       INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   CHECK (json_type(blueprint, '$.rules') = 'array'),
-  CHECK (json_extract(blueprint, '$.version') = 1)
+  -- Version 2 is the sub-chapter-level shape. The CHECK is an equality rather
+  -- than a range so a version-1 chapter-level blueprint cannot be inserted by
+  -- accident and then silently drawn at the wrong granularity.
+  CHECK (json_extract(blueprint, '$.version') = 2),
+  CHECK (json_type(blueprint, '$.strict_subchapter') IN ('true', 'false'))
 ) STRICT;
 
 -- NQ-19 template-by-slug: SELECT ... FROM mock_test_templates WHERE slug = ?.
@@ -141,14 +189,53 @@ CREATE UNIQUE INDEX uq_mock_test_templates_slug ON mock_test_templates (slug);
 CREATE INDEX idx_mock_test_templates_subject_ordinal
   ON mock_test_templates (subject_id, ordinal) WHERE status = 'published';
 
--- NQ-19b blueprint-expand, issued once when an attempt starts. One query, not
--- one per rule, because D1 allows 50 queries per invocation and a ten-rule
--- blueprint that looped would spend ten of them before drawing a question:
---   SELECT json_extract(r.value, '$.chapter_id')       AS chapter_id,
---          json_extract(r.value, '$.count')            AS want,
---          json_extract(r.value, '$.subchapter_codes') AS subchapters
+-- NQ-19b blueprint-expand, issued once when an attempt starts. ONE query for
+-- all 60 rules, because D1 allows 50 queries per invocation and a blueprint
+-- that looped per rule would exceed the whole budget before drawing a question:
+--   SELECT json_extract(r.value, '$.chapter_id')      AS chapter_id,
+--          json_extract(r.value, '$.subchapter_code') AS subchapter_code,
+--          json_extract(r.value, '$.count')           AS want
 --     FROM mock_test_templates t, json_each(t.blueprint, '$.rules') r
 --    WHERE t.id = ?1;
+--
+-- NQ-19c blueprint-draw, the sub-chapter-level selection, also ONE query. It
+-- returns two pools and lets the pure allocator in
+-- `worker/src/domain/blueprint.ts` spend them, which is what keeps the
+-- largest-remainder and fallback policy testable without a database:
+--
+--   WITH rules AS (
+--     SELECT json_extract(r.value, '$.chapter_id')      AS chapter_id,
+--            json_extract(r.value, '$.subchapter_code') AS subchapter_code,
+--            json_extract(r.value, '$.count')           AS want
+--       FROM mock_test_templates t, json_each(t.blueprint, '$.rules') r
+--      WHERE t.id = ?1),
+--   chapter_want AS (
+--     SELECT chapter_id, SUM(want) AS want FROM rules GROUP BY chapter_id),
+--   tagged AS (                        -- questions carrying a syllabus code
+--     SELECT q.id, q.chapter_id, s.code AS subchapter_code, r.want,
+--            ROW_NUMBER() OVER (PARTITION BY s.code ORDER BY RANDOM()) AS rn
+--       FROM rules r
+--       JOIN subchapters s ON s.code = r.subchapter_code
+--       JOIN questions q ON q.subchapter_id = s.id AND q.status = 'published'),
+--   pool AS (                          -- the chapter-level fallback pool
+--     SELECT q.id, q.chapter_id, cw.want,
+--            ROW_NUMBER() OVER (PARTITION BY q.chapter_id ORDER BY RANDOM()) AS rn
+--       FROM chapter_want cw
+--       JOIN questions q ON q.chapter_id = cw.chapter_id
+--                       AND q.status = 'published')
+--   SELECT 'subchapter' AS src, id, chapter_id, subchapter_code
+--     FROM tagged WHERE rn <= want
+--   UNION ALL
+--   SELECT 'chapter' AS src, id, chapter_id, NULL
+--     FROM pool WHERE rn <= want;
+--
+-- `tagged` is empty today -- `questions.subchapter_id` is NULL for every
+-- imported question -- so every rule is satisfied from `pool` and the allocator
+-- reports all 60 sub-chapters as approximated. That is the honest behaviour and
+-- it matches `selectionBlueprint.strictBlueprint = false` in the frontend
+-- exactly. The query does not change when tagging arrives; only its output mix
+-- does. `pool` draws a chapter's whole quota, so the two arms can overlap and
+-- the allocator de-duplicates -- bounded at 2 x total_questions rows.
 
 -- ---------------------------------------------------------------------------
 -- attempts: one sitting of a practice set, mock test or review queue.
@@ -195,14 +282,40 @@ CREATE TABLE attempts (
                      CASE WHEN question_count = 0 THEN 0
                           ELSE (correct_count * 10000) / question_count END
                    ) STORED,
-  started_at       INTEGER NOT NULL DEFAULT (unixepoch()),
+  started_at       INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   -- Server-side clock for a timed mock. The client's countdown is a
   -- convenience; this is the authority.
-  deadline_at      INTEGER,
-  submitted_at     INTEGER,
+  deadline_at      INTEGER,                                       -- epoch ms (UTC)
+  submitted_at     INTEGER,                                       -- epoch ms (UTC)
   -- Wall time the student actually spent, which is not deadline minus start:
   -- they can submit early, and a resumed attempt has gaps.
-  elapsed_ms       INTEGER,
+  elapsed_ms       INTEGER,                                       -- duration, milliseconds
+  -- ========================================================================
+  -- THE PRE-DEADLINE SNAPSHOT. These two columns are what make the expiry
+  -- clamp honest, and without them a late submission can only be scored as
+  -- zero or trusted wholesale -- and both of those are wrong.
+  --
+  -- A mock client pushes its whole answer map to POST /api/mock/sync every
+  -- ten to fifteen seconds. The UPDATE that writes it carries
+  -- `AND ?now <= deadline_at` (see worker/src/data/attempts.ts#syncAnswers),
+  -- so whatever is stored here is BY CONSTRUCTION a state that existed before
+  -- the deadline. On a submission after the grace window the submitted payload
+  -- is discarded and THIS is scored instead, so freezing the client timer and
+  -- working for another hour cannot gain a single mark -- it can only lose the
+  -- answers that were never synced.
+  --
+  -- The map REPLACES rather than merges, which is what makes the endpoint
+  -- idempotent and safe for the offline outbox to replay: the last write to
+  -- arrive before the deadline wins, and that is the honest answer.
+  --
+  -- JSON, `{ "<question_id>": "<option_ref>" }` -- per-attempt opaque refs,
+  -- never option ids and never positions. Bounded by MAX_MOCK_ANSWERS (250) in
+  -- the request schema, so one row cannot grow without limit.
+  -- ========================================================================
+  synced_answers   TEXT    CHECK (synced_answers IS NULL
+                                  OR (json_valid(synced_answers)
+                                      AND json_type(synced_answers) = 'object')),
+  last_sync_at     INTEGER,                                       -- epoch ms (UTC)
   -- Small JSON bag for user-agent class, screen size, 'resumed' flags.
   -- Diagnostics, never read by business logic.
   client_meta      TEXT    CHECK (client_meta IS NULL OR json_valid(client_meta)),
@@ -210,7 +323,12 @@ CREATE TABLE attempts (
   CHECK (answered_count <= question_count),
   CHECK ((status = 'submitted') = (submitted_at IS NOT NULL)),
   CHECK (mode <> 'mock' OR template_id IS NOT NULL),
-  CHECK (subchapter_id IS NULL OR chapter_id IS NOT NULL)
+  CHECK (subchapter_id IS NULL OR chapter_id IS NOT NULL),
+  CHECK ((synced_answers IS NULL) = (last_sync_at IS NULL)),
+  -- The pre-deadline property, enforced by the database and not only by the
+  -- WHERE clause that writes it. If a future handler forgets the clamp, the
+  -- write fails instead of quietly accepting post-deadline work.
+  CHECK (last_sync_at IS NULL OR deadline_at IS NULL OR last_sync_at <= deadline_at)
 ) STRICT;
 
 -- NQ-21 attempt-by-public-id: every attempt route resolves its URL segment
@@ -302,21 +420,29 @@ CREATE UNIQUE INDEX uq_attempt_questions_attempt_question
 --     archival cursor, because rowid order is insertion order.
 --   * `attempt_id INTEGER` -- 8 bytes against a 26-byte ULID. Resolved from
 --     `attempts.public_id` once per request, not stored per answer.
---   * `selected_ordinal INTEGER` rather than `selected_option_id TEXT`. Option
---     ids are `question_id || '#' || ordinal` by construction (0002), so the
---     ordinal is the only part that is not already in this row. The id is
---     exposed as a VIRTUAL generated column: zero bytes on disk, fully
---     joinable, and the requirement that an answer reference a stable option
---     id is met literally rather than by convention.
---   * NULL `selected_ordinal` means skipped. SQLite skips a foreign-key check
+--   * `selected_opt_key TEXT(12)` rather than `selected_option_id TEXT(~30)`.
+--     Option ids are `question_id || '#' || opt_key` by construction (0002),
+--     and `question_id` is already in this row, so the key is the only part
+--     that is not. The full id is exposed as a VIRTUAL generated column: zero
+--     bytes on disk, fully joinable, and the requirement that an answer
+--     reference a stable option id is met literally rather than by convention.
+--     This column used to be `selected_ordinal INTEGER` and was 4 bytes
+--     narrower; the change is the cost of the id scheme in 0002 no longer
+--     encoding the authored slot, and 12 bytes against a measured 132.4
+--     bytes/row is the price of not publishing the answer key in every option
+--     id. It is also why the key is 12 characters and not 26.
+--   * NULL `selected_opt_key` means skipped. SQLite skips a foreign-key check
 --     when any child column is NULL, so a skipped answer costs no parent
 --     lookup and needs no sentinel value.
 --   * No `user_id`. It is one join away through `attempt_id`, and the only
 --     per-user read of this table is scoped to one attempt. Denormalising it
 --     would add 26 bytes per row to save a join that nothing performs.
+--   * No authored ordinal. It is one join away through
+--     `question_options (question_id, opt_key)` and nothing on a request path
+--     needs it; the position-bias analytics read `delivered_position`.
 --
--- Integrity: the composite foreign key proves the chosen ordinal is a real
--- option of that question. It costs one index probe per insert, paid
+-- Integrity: the composite foreign key proves the chosen key is a real option
+-- of that question. It costs one index probe per insert, paid
 -- deliberately -- an answer pointing at a nonexistent option is an
 -- unfixable silent mis-grade, and the existing bank already contains two
 -- questions whose authored key points past the last option.
@@ -329,41 +455,43 @@ CREATE TABLE attempt_answers (
   id                 INTEGER NOT NULL PRIMARY KEY,         -- rowid alias, archival cursor
   attempt_id         INTEGER NOT NULL REFERENCES attempts (id) ON DELETE CASCADE,
   question_id        TEXT    NOT NULL REFERENCES questions (id) ON DELETE RESTRICT,
-  -- NULL = skipped / unanswered.
-  selected_ordinal   INTEGER,
+  -- NULL = skipped / unanswered. `question_options.opt_key`, 12 base32 chars.
+  selected_opt_key   TEXT,
   -- Virtual: costs nothing to store, everything to clarity.
   selected_option_id TEXT    GENERATED ALWAYS AS (
-                               CASE WHEN selected_ordinal IS NULL THEN NULL
-                                    ELSE question_id || '#' || selected_ordinal END
+                               CASE WHEN selected_opt_key IS NULL THEN NULL
+                                    ELSE question_id || '#' || selected_opt_key END
                              ) VIRTUAL,
   is_correct         INTEGER NOT NULL DEFAULT 0 CHECK (is_correct IN (0, 1)),
   -- Where the chosen option sat on screen, 1-based, under this attempt's
   -- permutation. Analytics only (position-bias measurement). Never grading.
   delivered_position INTEGER,
   -- Milliseconds on this question. Feeds the FSRS rating heuristic in 0005.
-  time_ms            INTEGER CHECK (time_ms IS NULL OR time_ms >= 0),
+  time_ms            INTEGER CHECK (time_ms IS NULL OR time_ms >= 0), -- duration, milliseconds
   -- 1 if the student changed their answer at least once. Cheap signal for
   -- "guessed" versus "knew it", stored as a flag rather than as a revision log
   -- precisely because this table may not grow a second row per answer.
   revised            INTEGER NOT NULL DEFAULT 0 CHECK (revised IN (0, 1)),
-  answered_at        INTEGER NOT NULL DEFAULT (unixepoch()),
-  FOREIGN KEY (question_id, selected_ordinal)
-    REFERENCES question_options (question_id, ordinal),
-  CHECK (selected_ordinal IS NOT NULL OR is_correct = 0)
+  answered_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  FOREIGN KEY (question_id, selected_opt_key)
+    REFERENCES question_options (question_id, opt_key),
+  CHECK (selected_opt_key IS NULL
+         OR (length(selected_opt_key) = 12 AND selected_opt_key GLOB '[0-9A-Z]*')),
+  CHECK (selected_opt_key IS NOT NULL OR is_correct = 0)
 ) STRICT;
 
 -- NQ-24 attempt-answers-load / NQ-25 answer-upsert. One row per question per
 -- attempt, enforced, so the client's retry-on-flaky-network does not create
 -- two answers:
---   INSERT INTO attempt_answers (attempt_id, question_id, selected_ordinal,
+--   INSERT INTO attempt_answers (attempt_id, question_id, selected_opt_key,
 --                                is_correct, delivered_position, time_ms)
 --   VALUES (?1, ?2, ?3, ?4, ?5, ?6)
 --   ON CONFLICT (attempt_id, question_id) DO UPDATE SET
---     selected_ordinal = excluded.selected_ordinal,
+--     selected_opt_key = excluded.selected_opt_key,
 --     is_correct       = excluded.is_correct,
 --     time_ms          = excluded.time_ms,
 --     revised          = 1,
---     answered_at      = unixepoch();
+--     answered_at      = CAST(unixepoch('subsec') * 1000 AS INTEGER);
 -- This is also the index that serves loading an attempt for review.
 CREATE UNIQUE INDEX uq_attempt_answers_attempt_question
   ON attempt_answers (attempt_id, question_id);
@@ -391,34 +519,45 @@ CREATE INDEX idx_attempt_answers_question_correct
 -- triggers from 0005 live, and the allocated page bytes read back out of
 -- `dbstat` (SQLite 3.54, 4 KB pages). Reproduce with `npm run db:measure`:
 --
---     attempt_answers (table b-tree)         42.7 bytes/row
+--     attempt_answers (table b-tree)         56.2 bytes/row
 --     uq_attempt_answers_attempt_question    33.1
---     idx_attempt_answers_answered_at        25.7
+--     idx_attempt_answers_answered_at        29.7
 --     idx_attempt_answers_question_correct   30.9
 --     ------------------------------------------------
---     TOTAL                                 132.4 bytes/row
+--     TOTAL                                 149.9 bytes/row
 --
--- Note that 68% of the cost is index, not row. That is the price of the three
+-- RE-MEASURED after two deliberate changes, and both costs are real:
+--   * `answered_at` in MILLISECONDS instead of seconds -- about 3 bytes in the
+--     table and the same again in idx_attempt_answers_answered_at, which is
+--     keyed on it (25.7 -> 29.7).
+--   * `selected_opt_key TEXT(12)` instead of `selected_ordinal INTEGER` -- the
+--     table row grows 42.7 -> 56.2.
+-- 132.4 -> 149.9 bytes/row, i.e. 13% fewer rows in the same database, is what
+-- not publishing the answer key in every option id and not having two
+-- incompatible time units actually cost. It is the right trade and it is
+-- written down here so nobody has to rediscover the price.
+--
+-- Note that 63% of the cost is index, not row. That is the price of the three
 -- queries above and it is the first thing to revisit if the ceiling gets
--- close: dropping idx_attempt_answers_question_correct alone would buy 23%
+-- close: dropping idx_attempt_answers_question_correct alone would buy 21%
 -- more rows at the cost of making the nightly difficulty recompute a table
 -- scan.
 --
 -- The rest of the schema -- 2,290 questions, 9,160 options, the 60 syllabus
--- codes, and the FTS5 index -- measures 5.1 MB, of which FTS5 is 1.0 MB. So a
--- 500 MB D1 free database holds 3,918,960 answer rows; a 10 GB paid one holds
--- 81,043,612.
+-- codes, and the FTS5 index -- measures 5.9 MB, of which FTS5 is 1.0 MB. So a
+-- 500 MB D1 free database holds 3,455,265 answer rows; a 10 GB paid one holds
+-- 71,572,735.
 --
 -- VOLUME, at ~500 answers per active user per month (generated by
 -- `npm run db:measure`, not by hand):
 --
 --     MAU    rows/month  row-writes/day   90d live      180d live    fits free 500MB@90d
 --     ------ ----------  --------------  ------------  ------------  -------------------
---      1,000    500,000          66,667  1.5M  189 MB  3.0M  379 MB  yes
---      2,000  1,000,000         133,333  3.0M  379 MB  6.0M  758 MB  yes
---      5,000  2,500,000         333,333  7.5M  947 MB  15.0M 1.85 GB  no
---     10,000  5,000,000         666,667  15.0M 1.85 GB 30.0M 3.70 GB  no
---     25,000 12,500,000       1,666,667  37.5M 4.62 GB 75.0M 9.25 GB  no
+--      1,000    500,000          66,667  1.5M  214 MB  3.0M  429 MB  yes
+--      2,000  1,000,000         133,333  3.0M  429 MB  6.0M  858 MB  yes
+--      5,000  2,500,000         333,333  7.5M  1.05 GB 15.0M 2.09 GB  no
+--     10,000  5,000,000         666,667  15.0M 2.09 GB 30.0M 4.19 GB  no
+--     25,000 12,500,000       1,666,667  37.5M 5.24 GB 75.0M 10.5 GB  no
 --
 -- Conclusions, stated now rather than discovered later:
 --   * The free plan's 100,000 row-writes-per-DAY cap binds long before its
@@ -467,10 +606,10 @@ CREATE INDEX idx_attempt_answers_question_correct
 --   -- 1. export, so the raw rows are not simply destroyed. NDJSON to R2.
 --   --    Paged by rowid, 5,000 rows a batch to stay under D1's 1 MB
 --   --    response and 2 MB row limits.
---   SELECT id, attempt_id, question_id, selected_ordinal, is_correct,
+--   SELECT id, attempt_id, question_id, selected_opt_key, is_correct,
 --          delivered_position, time_ms, revised, answered_at
 --     FROM attempt_answers
---    WHERE answered_at < unixepoch('now', '-90 days')
+--    WHERE answered_at < CAST(unixepoch('now', '-90 days') * 1000 AS INTEGER)
 --      AND id > ?1                                   -- cursor, 0 on first page
 --    ORDER BY id
 --    LIMIT 5000;
@@ -478,14 +617,14 @@ CREATE INDEX idx_attempt_answers_question_correct
 --   -- 2. delete exactly what was exported, by the id range just read.
 --   DELETE FROM attempt_answers
 --    WHERE id BETWEEN ?1 AND ?2                      -- first/last id of the page
---      AND answered_at < unixepoch('now', '-90 days');
+--      AND answered_at < CAST(unixepoch('now', '-90 days') * 1000 AS INTEGER);
 --
 --   -- 3. the short window for attempts nobody finished.
 --   DELETE FROM attempt_answers
 --    WHERE attempt_id IN (
 --            SELECT id FROM attempts
 --             WHERE status IN ('abandoned', 'expired')
---               AND started_at < unixepoch('now', '-7 days')
+--               AND started_at < CAST(unixepoch('now', '-7 days') * 1000 AS INTEGER)
 --             LIMIT 200);
 --
 -- After a large purge, compact the FTS index (NQ-11d) -- it is the only
@@ -503,12 +642,12 @@ CREATE TABLE attempt_answers_archive (
   attempt_id         INTEGER NOT NULL,                     -- soft reference, deliberately unenforced
   user_id            TEXT    NOT NULL,                     -- denormalised: the attempt may be gone
   question_id        TEXT    NOT NULL,
-  selected_ordinal   INTEGER,
+  selected_opt_key   TEXT,
   is_correct         INTEGER NOT NULL CHECK (is_correct IN (0, 1)),
   delivered_position INTEGER,
-  time_ms            INTEGER,
-  answered_at        INTEGER NOT NULL,
-  archived_at        INTEGER NOT NULL DEFAULT (unixepoch()),
+  time_ms            INTEGER,                                     -- duration, milliseconds
+  answered_at        INTEGER NOT NULL,                            -- epoch ms (UTC)
+  archived_at        INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   -- Where the NDJSON for this row went, once it is in R2. NULL means this row
   -- is still only in D1 and deleting it would lose data.
   r2_object_key      TEXT

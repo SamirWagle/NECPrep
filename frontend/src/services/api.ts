@@ -65,6 +65,7 @@ import type {
   ProgressOverview,
   QueuedMutation,
   ReportListResponse,
+  ReportStatus,
   ReportSubmitRequest,
   SearchResponse,
   SessionResponse,
@@ -303,6 +304,13 @@ export const api = {
   getSrsDue: (options: { limit?: number } = {}) =>
     request<SrsDueResponse>('GET', '/api/srs/due', { query: options }),
 
+  /**
+   * `body.revision` is the `revision` the server last reported for this card
+   * (`srs_state.reps`). Send it back unchanged: the server applies the review
+   * only if it still matches, so a replayed outbox entry or a stale review from
+   * a second device is a no-op rather than a conflict. Never invent or
+   * increment it client-side.
+   */
   reviewSrsCard: (body: SrsReviewRequest) =>
     request<SrsReviewResponse>('POST', '/api/srs/review', { body }),
 
@@ -313,7 +321,11 @@ export const api = {
   getMyReports: () => request<ReportListResponse>('GET', '/api/reports'),
 
   // Admin
-  getReportQueue: (options: { status?: string; limit?: number; cursor?: string } = {}) =>
+  // `status` is the `ReportStatus` union and not a bare string on purpose: it
+  // mirrors the CHECK on `question_reports.status`, so a stale value (the
+  // earlier 'fixed', for instance) is a compile error at the call site rather
+  // than a 400 at runtime.
+  getReportQueue: (options: { status?: ReportStatus; limit?: number; cursor?: string } = {}) =>
     request<AdminReportQueueResponse>('GET', '/api/admin/reports', { query: options }),
 
   triageReports: (body: AdminTriageRequest) =>

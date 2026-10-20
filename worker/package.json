@@ -10,17 +10,23 @@
     "db:reference": "node db/seed/generate-reference-sql.mjs",
     "db:verify": "node db/verify-schema.mjs",
     "db:measure": "node db/measure.mjs",
-    "db:check": "npm run db:apply:local && npm run db:seed:local && npm run db:verify && npm run db:smoke && npm run db:typecheck",
+    "db:smoke": "node db/smoke.mjs",
+    "db:check": "npm run db:apply:local && npm run db:seed:local && npm run db:verify && npm run db:smoke && npm run typecheck",
     "d1:migrate:local": "wrangler d1 migrations apply necprep --local",
     "d1:migrate:remote": "wrangler d1 migrations apply necprep --remote",
-    "db:typecheck": "tsc --noEmit --strict --target es2022 --module nodenext --moduleResolution nodenext --skipLibCheck db/schema.ts",
-    "db:smoke": "node db/smoke.mjs"
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"src/__tests__/*.test.ts\"",
+    "bundle:check": "wrangler deploy --dry-run --outdir .local/wbuild",
+    "check": "npm run db:check && npm run test && npm run bundle:check"
   },
   "dependencies": {
-    "drizzle-orm": "^0.45.4"
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.13",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20261019.1",
+    "@types/node": "^22.20.5",
     "typescript": "^5.9.0",
     "wrangler": "^4.151.2"
   }

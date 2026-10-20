@@ -73,7 +73,8 @@ export function measure(db, { rows = 200_000 } = {}) {
     `SELECT SUM(pgsize) AS b FROM dbstat WHERE name LIKE 'questions_fts%'`
   ).b;
 
-  const now = Math.floor(Date.now() / 1000);
+  // Epoch MILLISECONDS -- see migrations/0001_identity.sql.
+  const now = Date.now();
   const USER = 'U0MEASUREUSER000000000000X';
   db.prepare(
     `INSERT INTO users (id, email, role, created_at, updated_at)
@@ -91,8 +92,18 @@ export function measure(db, { rows = 200_000 } = {}) {
                            question_count, started_at)
      VALUES (?, ?, 'practice', NULL, 'in_progress', ?, ?, ?)`
   );
+  // Real option keys, read back from the bank: `selected_opt_key` has a
+  // composite foreign key to question_options, so a synthetic value would be
+  // rejected -- and measuring the table with that key absent would understate
+  // the index width this whole file exists to report.
+  const optKeyByQuestionOrdinal = new Map();
+  for (const r of db
+    .prepare(`SELECT question_id, ordinal, opt_key FROM question_options`)
+    .all()) {
+    optKeyByQuestionOrdinal.set(`${r.question_id}#${r.ordinal}`, r.opt_key);
+  }
   const insertAnswer = db.prepare(
-    `INSERT INTO attempt_answers (attempt_id, question_id, selected_ordinal, is_correct,
+    `INSERT INTO attempt_answers (attempt_id, question_id, selected_opt_key, is_correct,
                                   delivered_position, time_ms, answered_at)
      VALUES (?, ?, ?, ?, ?, ?, ?)`
   );
@@ -107,11 +118,11 @@ export function measure(db, { rows = 200_000 } = {}) {
       const qid = questionIds[k % questionIds.length];
       insertAnswer.run(
         attemptId, qid,
-        (written % minOptions) + 1,
+        optKeyByQuestionOrdinal.get(`${qid}#${(written % minOptions) + 1}`) ?? null,
         written % 3 === 0 ? 1 : 0,
         (written % 4) + 1,
         1500 + (written % 9000),
-        now - (written % 7_776_000)
+        now - (written % 7_776_000_000)
       );
       written++;
     }

@@ -29,11 +29,14 @@
  * parses those CHECKs and asserts the two lists are identical, so the union
  * here is not a second, drifting copy of the enum.
  *
- * Timestamps are INTEGER unix seconds, exposed as `number`, deliberately not
- * `{ mode: 'timestamp' }`: a Worker has no local timezone and every date
+ * Timestamps are INTEGER epoch MILLISECONDS, exposed as `number`, deliberately
+ * not `{ mode: 'timestamp' }`: a Worker has no local timezone and every date
  * decision on this platform (streaks, leaderboard periods) is made against the
  * user's stored timezone, so an automatic Date conversion would hide the one
- * thing the caller must think about. Calendar days are TEXT 'YYYY-MM-DD'.
+ * thing the caller must think about. Milliseconds because every consumer is
+ * JavaScript and `Date.now()` is milliseconds; the wire contract in
+ * `worker/src/shared/types.ts` calls the unit `EpochMs` and means it. Calendar
+ * days are TEXT 'YYYY-MM-DD'.
  *
  * ---------------------------------------------------------------------------
  * ANSWER-KEY RULE, RESTATED HERE BECAUSE THIS IS THE FILE HANDLERS IMPORT
@@ -60,8 +63,16 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import type { AnySQLiteColumn } from 'drizzle-orm/sqlite-core';
 
-/** INTEGER unix seconds, server-assigned. */
-const nowSeconds = sql`(unixepoch())`;
+/**
+ * INTEGER epoch MILLISECONDS, server-assigned.
+ *
+ * `unixepoch('subsec')` is REAL seconds at millisecond resolution; the CAST is
+ * explicit so a STRICT INTEGER column is never handed a REAL whose conversion
+ * could be lossy. Milliseconds and not seconds because every consumer is
+ * JavaScript -- see the convention block at the top of
+ * migrations/0001_identity.sql for the full argument.
+ */
+const nowMs = sql`(CAST(unixepoch('subsec') * 1000 AS INTEGER))`;
 
 // ===========================================================================
 // 0001_identity.sql
@@ -71,32 +82,47 @@ export const users = sqliteTable(
   'users',
   {
     id: text('id').primaryKey(),
-    email: text('email').notNull(),
+    /** NULL for an anonymous guest. See the note above `users` in 0001. */
+    email: text('email'),
     /** Generated + uniquely indexed: case variants of one address cannot both register. */
     emailNormalized: text('email_normalized').generatedAlwaysAs(sql`(lower(trim(email)))`, {
       mode: 'stored',
     }),
     emailVerifiedAt: integer('email_verified_at'),
-    /** NULL for OAuth-only accounts. MUST fail closed in the password path. */
+    /** NULL for OAuth-only accounts and for guests. MUST fail closed in the password path. */
     passwordHash: text('password_hash'),
     passwordAlgo: text('password_algo', { enum: ['pbkdf2-sha256', 'scrypt', 'argon2id'] }),
-    role: text('role', { enum: ['student', 'contributor', 'admin'] })
+    /**
+     * Four roles, not three. `moderator` works the errata triage queue;
+     * `admin` additionally publishes and retires questions, which changes what
+     * candidates sit. Folding them together would hand every volunteer who
+     * triages a typo report the ability to pull a question from every paper.
+     */
+    role: text('role', { enum: ['student', 'contributor', 'moderator', 'admin'] })
       .notNull()
       .default('student'),
+    /** 1 = anonymous guest, upgradable in place without changing `id`. */
+    isAnonymous: integer('is_anonymous').notNull().default(0),
     status: text('status', { enum: ['active', 'suspended', 'deleted'] })
       .notNull()
       .default('active'),
     deletedAt: integer('deleted_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
     lastSeenAt: integer('last_seen_at'),
   },
   (t) => [
-    uniqueIndex('uq_users_email_normalized').on(t.emailNormalized),
+    /** PARTIAL: guests all carry a NULL email. The upsert must restate this predicate. */
+    uniqueIndex('uq_users_email_normalized')
+      .on(t.emailNormalized)
+      .where(sql`email_normalized IS NOT NULL`),
     index('idx_users_role_created')
       .on(t.role, sql`created_at DESC`)
       .where(sql`status = 'active'`),
-    check('users_email_length', sql`length(email) BETWEEN 3 AND 254`),
+    check('users_email_length', sql`email IS NULL OR length(email) BETWEEN 3 AND 254`),
+    check('users_anonymous_has_no_email', sql`is_anonymous = 0 OR email IS NULL`),
+    check('users_anonymous_has_no_password', sql`is_anonymous = 0 OR password_hash IS NULL`),
+    check('users_is_anonymous', sql`is_anonymous IN (0, 1)`),
     check('users_deleted_at', sql`(status = 'deleted') = (deleted_at IS NOT NULL)`),
     check('users_password_algo', sql`password_hash IS NULL OR password_algo IS NOT NULL`),
   ]
@@ -121,8 +147,8 @@ export const userProfiles = sqliteTable(
     locale: text('locale').notNull().default('en'),
     /** Default 0: nobody is put on a public ranking without asking. */
     leaderboardOptIn: integer('leaderboard_opt_in').notNull().default(0),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_user_profiles_handle').on(t.handle).where(sql`handle IS NOT NULL`),
@@ -147,8 +173,8 @@ export const sessions = sqliteTable(
     userId: text('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    lastUsedAt: integer('last_used_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    lastUsedAt: integer('last_used_at').notNull().default(nowMs),
     /** Idle expiry, slid forward on use. */
     expiresAt: integer('expires_at').notNull(),
     /** Hard ceiling. Sliding can never pass this, so a stolen cookie cannot be renewed forever. */
@@ -171,12 +197,68 @@ export const sessions = sqliteTable(
   ]
 );
 
+/**
+ * The link between a `users` row and a provider identity.
+ *
+ * `(provider, providerAccountId)` is the only stable identifier a provider
+ * gives us, and it is UNIQUE here. Resolving a sign-in by email alone would be
+ * an account-takeover path, because a provider can reassign an address.
+ */
+export const oauthAccounts = sqliteTable(
+  'oauth_accounts',
+  {
+    id: text('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    provider: text('provider', { enum: ['google'] }).notNull(),
+    /** The provider's immutable subject id ('sub' for Google). NOT the email. */
+    providerAccountId: text('provider_account_id').notNull(),
+    createdAt: integer('created_at').notNull().default(nowMs),
+  },
+  (t) => [
+    uniqueIndex('uq_oauth_accounts_provider_account').on(t.provider, t.providerAccountId),
+    index('idx_oauth_accounts_user').on(t.userId, t.provider),
+    check(
+      'oauth_accounts_account_id_nonblank',
+      sql`length(trim(provider_account_id)) > 0`
+    ),
+  ]
+);
+
+/**
+ * The CSRF/PKCE parking space for one in-flight OAuth round trip.
+ *
+ * SINGLE USE: the callback consumes the row with `DELETE ... RETURNING`, so a
+ * replayed `?code=` finds nothing. `codeVerifier` never reaches the browser,
+ * which is what makes PKCE worth doing even for a confidential client.
+ */
+export const oauthStates = sqliteTable(
+  'oauth_states',
+  {
+    state: text('state').primaryKey(),
+    codeVerifier: text('code_verifier').notNull(),
+    /** A PATH on our own origin, or NULL. Never an absolute URL. */
+    redirectTo: text('redirect_to'),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    expiresAt: integer('expires_at').notNull(),
+  },
+  (t) => [
+    index('idx_oauth_states_expires_at').on(t.expiresAt),
+    check('oauth_states_redirect_is_path', sql`redirect_to IS NULL OR redirect_to GLOB '/*'`),
+    check('oauth_states_expiry_order', sql`expires_at > created_at`),
+    check('oauth_states_verifier_length', sql`length(code_verifier) BETWEEN 43 AND 128`),
+  ]
+);
+
 export const adminAuditLog = sqliteTable(
   'admin_audit_log',
   {
     id: integer('id').primaryKey(),
     actorUserId: text('actor_user_id').references(() => users.id, { onDelete: 'set null' }),
-    actorRole: text('actor_role', { enum: ['student', 'contributor', 'admin', 'system'] }).notNull(),
+    actorRole: text('actor_role', {
+      enum: ['student', 'contributor', 'moderator', 'admin', 'system'],
+    }).notNull(),
     action: text('action').notNull(),
     entityType: text('entity_type').notNull(),
     entityId: text('entity_id'),
@@ -186,7 +268,7 @@ export const adminAuditLog = sqliteTable(
     reason: text('reason'),
     ipHash: text('ip_hash'),
     userAgent: text('user_agent'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
   },
   (t) => [
     index('idx_admin_audit_log_actor').on(t.actorUserId, sql`id DESC`),
@@ -213,8 +295,8 @@ export const subjects = sqliteTable(
     status: text('status', { enum: ['draft', 'published', 'retired'] })
       .notNull()
       .default('published'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [uniqueIndex('uq_subjects_code').on(t.code)]
 );
@@ -243,8 +325,8 @@ export const chapters = sqliteTable(
     status: text('status', { enum: ['draft', 'published', 'retired'] })
       .notNull()
       .default('published'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     index('idx_chapters_subject_ordinal').on(t.subjectId, t.ordinal),
@@ -274,8 +356,8 @@ export const subchapters = sqliteTable(
     status: text('status', { enum: ['draft', 'published', 'retired'] })
       .notNull()
       .default('published'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     index('idx_subchapters_chapter_ordinal').on(t.chapterId, t.ordinal),
@@ -317,6 +399,7 @@ export const questions = sqliteTable(
         'KEY_CONFLICT',
         'INDEX_RANGE',
         'OPTION_DUPLICATE',
+        'OPTION_MULTIPLE_TRUE',
         'OPTION_COUNT',
         'EMPTY_STEM',
         'DUPLICATE_ANSWER_CONFLICT',
@@ -326,7 +409,7 @@ export const questions = sqliteTable(
         'EDITORIAL',
       ],
     }),
-    statusChangedAt: integer('status_changed_at').notNull().default(nowSeconds),
+    statusChangedAt: integer('status_changed_at').notNull().default(nowMs),
     /** Editorial judgement. `pValueBp` is the observed reality. */
     difficulty: text('difficulty', { enum: ['easy', 'medium', 'hard'] }),
     pValueBp: integer('p_value_bp'),
@@ -344,8 +427,8 @@ export const questions = sqliteTable(
       onDelete: 'set null',
     }),
     createdBy: text('created_by').references(() => users.id, { onDelete: 'set null' }),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_questions_content_hash').on(t.contentHash),
@@ -371,11 +454,19 @@ export const questions = sqliteTable(
 );
 
 /**
- * question_options -- its own table, never a JSON array. `id` is
- * `question_id || '#' || ordinal`, enforced by a CHECK. `ordinal` is the
- * authored slot (1-based, the N in optN) and is NEVER REUSED, so an option
- * edit can never re-point a historical answer. Display order is NOT here --
- * see `attemptQuestions.optionOrder`.
+ * question_options -- its own table, never a JSON array.
+ *
+ * `id` is `question_id || '#' || opt_key`, enforced by a CHECK, where `opt_key`
+ * is 12 CSPRNG base32 characters. It USED to be `|| ordinal`, and that was a
+ * real leak: the bank ships as public JSON carrying `correct_option_index` and
+ * is in git history forever, so an ordinal-bearing option id reaching a client
+ * recovered the whole answer key with no database access. Read the block above
+ * `question_options` in migrations/0002_content.sql before changing this.
+ *
+ * `ordinal` survives as the authored slot (1-based, the N in optN) and is NEVER
+ * REUSED, so an option edit can never re-point a historical answer -- but it is
+ * SERVER-ONLY: no view, no delivery query, no response body. Display order is
+ * not here either; see `attemptQuestions.optionOrder`.
  */
 export const questionOptions = sqliteTable(
   'question_options',
@@ -384,7 +475,10 @@ export const questionOptions = sqliteTable(
     questionId: text('question_id')
       .notNull()
       .references(() => questions.id, { onDelete: 'cascade' }),
+    /** Authored slot. SERVER-ONLY -- never delivered, never in a view. */
     ordinal: integer('ordinal').notNull(),
+    /** The id discriminator: 12 CSPRNG base32 chars, carrying no information. */
+    optKey: text('opt_key').notNull(),
     text: text('text').notNull(),
     textFormat: text('text_format', { enum: ['plain', 'markdown', 'latex'] })
       .notNull()
@@ -394,17 +488,23 @@ export const questionOptions = sqliteTable(
     isPinned: integer('is_pinned').notNull().default(0),
     /** Set instead of deleting, so no ordinal is ever freed for reuse. */
     retiredAt: integer('retired_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_question_options_question_ordinal').on(t.questionId, t.ordinal),
+    /** Parent side of attemptAnswers' composite foreign key. */
+    uniqueIndex('uq_question_options_question_opt_key').on(t.questionId, t.optKey),
     uniqueIndex('uq_question_options_question_text')
       .on(t.questionId, t.textNorm)
       .where(sql`retired_at IS NULL`),
     check('question_options_ordinal', sql`ordinal BETWEEN 1 AND 26`),
     check('question_options_is_pinned', sql`is_pinned IN (0, 1)`),
-    check('question_options_id_shape', sql`id = question_id || '#' || ordinal`),
+    check(
+      'question_options_opt_key_shape',
+      sql`length(opt_key) = 12 AND opt_key GLOB '[0-9A-Z]*'`
+    ),
+    check('question_options_id_shape', sql`id = question_id || '#' || opt_key`),
     check('question_options_text_nonblank', sql`length(trim(text)) > 0`),
   ]
 );
@@ -434,8 +534,8 @@ export const questionAnswerKeys = sqliteTable(
     authoredText: text('authored_text'),
     verifiedBy: text('verified_by').references(() => users.id, { onDelete: 'set null' }),
     verifiedAt: integer('verified_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   () => [
     check(
@@ -490,8 +590,8 @@ export const explanations = sqliteTable(
     authorUserId: text('author_user_id').references(() => users.id, { onDelete: 'set null' }),
     reviewedBy: text('reviewed_by').references(() => users.id, { onDelete: 'set null' }),
     reviewedAt: integer('reviewed_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     index('idx_explanations_question_published')
@@ -523,7 +623,7 @@ export const tags = sqliteTable(
     description: text('description'),
     /** Trigger-maintained. See 0005. */
     questionCount: integer('question_count').notNull().default(0),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
   },
   (t) => [
     index('idx_tags_kind_name').on(t.kind, t.name),
@@ -543,7 +643,7 @@ export const questionTags = sqliteTable(
     /** < 100 means a classifier proposed it and no human confirmed. */
     confidence: integer('confidence').notNull().default(100),
     addedBy: text('added_by').references(() => users.id, { onDelete: 'set null' }),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
   },
   (t) => [
     primaryKey({ columns: [t.questionId, t.tagId] }),
@@ -585,6 +685,7 @@ export const questionReports = sqliteTable(
         'OPTION_COUNT',
         'EMPTY_STEM',
         'DUPLICATE_ANSWER_CONFLICT',
+        'OPTION_MULTIPLE_TRUE',
       ],
     }),
     detail: text('detail'),
@@ -600,8 +701,8 @@ export const questionReports = sqliteTable(
     resolution: text('resolution'),
     resolvedBy: text('resolved_by').references(() => users.id, { onDelete: 'set null' }),
     resolvedAt: integer('resolved_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_question_reports_public_id').on(t.publicId),
@@ -653,7 +754,7 @@ export const contentVersions = sqliteTable(
       .notNull()
       .default('user'),
     reason: text('reason'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_content_versions_entity_version').on(t.entityType, t.entityId, t.version),
@@ -709,8 +810,8 @@ export const mockTestTemplates = sqliteTable(
       .default('published'),
     ordinal: integer('ordinal').notNull().default(0),
     createdBy: text('created_by').references(() => users.id, { onDelete: 'set null' }),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     uniqueIndex('uq_mock_test_templates_slug').on(t.slug),
@@ -760,11 +861,25 @@ export const attempts = sqliteTable(
       sql`(CASE WHEN question_count = 0 THEN 0 ELSE (correct_count * 10000) / question_count END)`,
       { mode: 'stored' }
     ),
-    startedAt: integer('started_at').notNull().default(nowSeconds),
+    startedAt: integer('started_at').notNull().default(nowMs),
     /** Server-side clock for a timed mock. The client countdown is a convenience. */
     deadlineAt: integer('deadline_at'),
     submittedAt: integer('submitted_at'),
     elapsedMs: integer('elapsed_ms'),
+    /**
+     * THE PRE-DEADLINE SNAPSHOT: `{ "<question_id>": "<option_ref>" }`, the
+     * last answer map the server accepted strictly before `deadlineAt`.
+     *
+     * Written only by an UPDATE carrying `AND ?now <= deadline_at`, so its
+     * contents are a pre-deadline state by construction, and a CHECK
+     * (`last_sync_at <= deadline_at`) makes that the database's rule rather
+     * than one handler's. On a submission past the grace window the submitted
+     * payload is discarded and THIS is scored, which is what makes freezing
+     * the client timer worthless. Without these two columns a late submission
+     * could only be zeroed or trusted wholesale, and both are wrong.
+     */
+    syncedAnswers: text('synced_answers', { mode: 'json' }).$type<Record<string, string>>(),
+    lastSyncAt: integer('last_sync_at'),
     clientMeta: text('client_meta', { mode: 'json' }),
   },
   (t) => [
@@ -788,6 +903,11 @@ export const attempts = sqliteTable(
     check('attempts_submitted_at', sql`(status = 'submitted') = (submitted_at IS NOT NULL)`),
     check('attempts_mock_needs_template', sql`mode <> 'mock' OR template_id IS NOT NULL`),
     check('attempts_subchapter_needs_chapter', sql`subchapter_id IS NULL OR chapter_id IS NOT NULL`),
+    check('attempts_sync_pair', sql`(synced_answers IS NULL) = (last_sync_at IS NULL)`),
+    check(
+      'attempts_sync_before_deadline',
+      sql`last_sync_at IS NULL OR deadline_at IS NULL OR last_sync_at <= deadline_at`
+    ),
   ]
 );
 
@@ -838,12 +958,12 @@ export const attemptAnswers = sqliteTable(
     questionId: text('question_id')
       .notNull()
       .references(() => questions.id, { onDelete: 'restrict' }),
-    /** NULL = skipped. 1-based, the N in optN. */
-    selectedOrdinal: integer('selected_ordinal'),
+    /** NULL = skipped. `questionOptions.optKey`, 12 base32 chars. */
+    selectedOptKey: text('selected_opt_key'),
     /** VIRTUAL: zero bytes on disk, fully joinable. The stable option id, literally. */
     selectedOptionId: text('selected_option_id').generatedAlwaysAs(
-      sql`(CASE WHEN selected_ordinal IS NULL THEN NULL
-                ELSE question_id || '#' || selected_ordinal END)`,
+      sql`(CASE WHEN selected_opt_key IS NULL THEN NULL
+                ELSE question_id || '#' || selected_opt_key END)`,
       { mode: 'virtual' }
     ),
     /** Graded server-side at write time against questionAnswerKeys, then stored. */
@@ -852,18 +972,18 @@ export const attemptAnswers = sqliteTable(
     deliveredPosition: integer('delivered_position'),
     timeMs: integer('time_ms'),
     revised: integer('revised').notNull().default(0),
-    answeredAt: integer('answered_at').notNull().default(nowSeconds),
+    answeredAt: integer('answered_at').notNull().default(nowMs),
   },
   (t) => [
     /**
-     * Proves the chosen ordinal is a real option of that question. One index
-     * probe per insert, paid deliberately: an answer pointing at a nonexistent
-     * option is an unfixable silent mis-grade. SQLite skips the check when
-     * `selectedOrdinal` is NULL, so a skipped answer costs nothing.
+     * Proves the chosen key is a real option of that question. One index probe
+     * per insert, paid deliberately: an answer pointing at a nonexistent option
+     * is an unfixable silent mis-grade. SQLite skips the check when
+     * `selectedOptKey` is NULL, so a skipped answer costs nothing.
      */
     foreignKey({
-      columns: [t.questionId, t.selectedOrdinal],
-      foreignColumns: [questionOptions.questionId, questionOptions.ordinal],
+      columns: [t.questionId, t.selectedOptKey],
+      foreignColumns: [questionOptions.questionId, questionOptions.optKey],
       name: 'fk_attempt_answers_question_option',
     }),
     uniqueIndex('uq_attempt_answers_attempt_question').on(t.attemptId, t.questionId),
@@ -872,7 +992,12 @@ export const attemptAnswers = sqliteTable(
     check('attempt_answers_is_correct', sql`is_correct IN (0, 1)`),
     check('attempt_answers_time_ms', sql`time_ms IS NULL OR time_ms >= 0`),
     check('attempt_answers_revised', sql`revised IN (0, 1)`),
-    check('attempt_answers_skipped_is_wrong', sql`selected_ordinal IS NOT NULL OR is_correct = 0`),
+    check(
+      'attempt_answers_opt_key_shape',
+      sql`selected_opt_key IS NULL
+         OR (length(selected_opt_key) = 12 AND selected_opt_key GLOB '[0-9A-Z]*')`
+    ),
+    check('attempt_answers_skipped_is_wrong', sql`selected_opt_key IS NOT NULL OR is_correct = 0`),
   ]
 );
 
@@ -890,12 +1015,12 @@ export const attemptAnswersArchive = sqliteTable(
     /** Denormalised, because the attempt may already be gone. */
     userId: text('user_id').notNull(),
     questionId: text('question_id').notNull(),
-    selectedOrdinal: integer('selected_ordinal'),
+    selectedOptKey: text('selected_opt_key'),
     isCorrect: integer('is_correct').notNull(),
     deliveredPosition: integer('delivered_position'),
     timeMs: integer('time_ms'),
     answeredAt: integer('answered_at').notNull(),
-    archivedAt: integer('archived_at').notNull().default(nowSeconds),
+    archivedAt: integer('archived_at').notNull().default(nowMs),
     /** NULL means this row is still only in D1 and deleting it would lose data. */
     r2ObjectKey: text('r2_object_key'),
   },
@@ -920,7 +1045,7 @@ export const bookmarks = sqliteTable(
       .references(() => questions.id, { onDelete: 'cascade' }),
     note: text('note'),
     folder: text('folder'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
   },
   (t) => [
     primaryKey({ columns: [t.userId, t.questionId] }),
@@ -959,8 +1084,8 @@ export const srsState = sqliteTable(
     /** 1..4 = Again, Hard, Good, Easy. */
     lastRating: integer('last_rating'),
     suspendedAt: integer('suspended_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     primaryKey({ columns: [t.userId, t.questionId] }),
@@ -992,11 +1117,11 @@ export const studySessions = sqliteTable(
     subchapterId: text('subchapter_id').references(() => subchapters.id, { onDelete: 'set null' }),
     /** Soft reference to attempts.id: activity history must outlive an attempt. */
     attemptId: integer('attempt_id'),
-    startedAt: integer('started_at').notNull().default(nowSeconds),
+    startedAt: integer('started_at').notNull().default(nowMs),
     endedAt: integer('ended_at'),
     /** Generated, so "time studied" is never a client-supplied number. */
     durationS: integer('duration_s').generatedAlwaysAs(
-      sql`(CASE WHEN ended_at IS NULL THEN 0 ELSE ended_at - started_at END)`,
+      sql`(CASE WHEN ended_at IS NULL THEN 0 ELSE (ended_at - started_at) / 1000 END)`,
       { mode: 'stored' }
     ),
     questionsSeen: integer('questions_seen').notNull().default(0),
@@ -1043,7 +1168,7 @@ export const streaks = sqliteTable(
     totalActiveDays: integer('total_active_days').notNull().default(0),
     /** A one-day grace token, so one missed day does not erase six weeks. */
     freezesAvailable: integer('freezes_available').notNull().default(0),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   () => [
     index('idx_streaks_current_length').on(sql`current_length DESC`).where(sql`current_length > 0`),
@@ -1095,7 +1220,7 @@ export const userQuestionStats = sqliteTable(
     firstAnsweredAt: integer('first_answered_at'),
     lastAnsweredAt: integer('last_answered_at'),
     lastIsCorrect: integer('last_is_correct'),
-    updatedAt: integer('updated_at').notNull().default(nowSeconds),
+    updatedAt: integer('updated_at').notNull().default(nowMs),
   },
   (t) => [
     primaryKey({ columns: [t.userId, t.questionId] }),
@@ -1157,7 +1282,7 @@ export const leaderboardSnapshots = sqliteTable(
     /** Rendered top-N with display fields denormalised, so the page is one query. */
     topJson: text('top_json', { mode: 'json' }).notNull(),
     entrantCount: integer('entrant_count').notNull().default(0),
-    computedAt: integer('computed_at').notNull().default(nowSeconds),
+    computedAt: integer('computed_at').notNull().default(nowMs),
     /** How long the snapshot took. The day this gets slow, revisit 0004's arithmetic. */
     computeMs: integer('compute_ms'),
   },
@@ -1237,7 +1362,7 @@ export const notifications = sqliteTable(
     link: text('link'),
     dataJson: text('data_json', { mode: 'json' }),
     readAt: integer('read_at'),
-    createdAt: integer('created_at').notNull().default(nowSeconds),
+    createdAt: integer('created_at').notNull().default(nowMs),
     expiresAt: integer('expires_at'),
     /**
      * Idempotency key, e.g. 'srs_due:2026-10-20'. The upsert MUST restate the
@@ -1258,6 +1383,75 @@ export const notifications = sqliteTable(
     check('notifications_data_json', sql`data_json IS NULL OR json_valid(data_json)`),
     check('notifications_title_nonblank', sql`length(trim(title)) > 0`),
     check('notifications_expires_after_created', sql`expires_at IS NULL OR expires_at > created_at`),
+  ]
+);
+
+// ===========================================================================
+// 0008_api_infrastructure.sql
+// ===========================================================================
+
+/**
+ * The offline-replay contract. Keyed by `(userId, key)` because clients mint
+ * these themselves, so a global key space would let one user's key collide
+ * with -- or read back -- another user's stored response.
+ *
+ * A NULL `responseJson` is a RESERVATION, not a result: the handler claimed the
+ * key and is still working, and a concurrent duplicate gets 409
+ * REQUEST_IN_FLIGHT rather than scoring the same attempt twice.
+ */
+export const idempotencyKeys = sqliteTable(
+  'idempotency_keys',
+  {
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    key: text('key').notNull(),
+    endpoint: text('endpoint').notNull(),
+    /** sha256 of endpoint + canonicalised body, minus the key itself. */
+    requestHash: text('request_hash').notNull(),
+    statusCode: integer('status_code'),
+    responseJson: text('response_json', { mode: 'json' }),
+    createdAt: integer('created_at').notNull().default(nowMs),
+  },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.key] }),
+    index('idx_idempotency_keys_created_at').on(t.createdAt),
+    check('idempotency_keys_key_length', sql`length(key) BETWEEN 8 AND 80`),
+    check(
+      'idempotency_keys_request_hash',
+      sql`length(request_hash) = 64 AND request_hash GLOB '[0-9a-f]*'`
+    ),
+    check(
+      'idempotency_keys_status_code',
+      sql`status_code IS NULL OR status_code BETWEEN 100 AND 599`
+    ),
+    check(
+      'idempotency_keys_response_json',
+      sql`response_json IS NULL OR json_valid(response_json)`
+    ),
+    check('idempotency_keys_pair', sql`(status_code IS NULL) = (response_json IS NULL)`),
+  ]
+);
+
+/**
+ * Fixed-window counters. BEST-EFFORT BY CONSTRUCTION: D1 replicates
+ * asynchronously, so the effective limit is "roughly `limit` per window PER
+ * REGION". Adequate for credential stuffing and submit abuse; not a substitute
+ * for a Durable Object. `bucket` is `<rule>:<subject>` and the subject is a
+ * user id or a HASHED address -- this is a counter, not a log.
+ */
+export const rateLimits = sqliteTable(
+  'rate_limits',
+  {
+    bucket: text('bucket').primaryKey(),
+    /** `floor(now / windowMs) * windowMs`, so two Workers agree on the boundary. */
+    windowStart: integer('window_start').notNull(),
+    count: integer('count').notNull().default(0),
+  },
+  (t) => [
+    index('idx_rate_limits_window_start').on(t.windowStart),
+    check('rate_limits_count', sql`count >= 0`),
+    check('rate_limits_bucket_length', sql`length(bucket) BETWEEN 3 AND 160`),
   ]
 );
 
@@ -1293,6 +1487,10 @@ export type LeaderboardSnapshot = typeof leaderboardSnapshots.$inferSelect;
 export type LeaderboardEntry = typeof leaderboardEntries.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type AdminAuditLogRow = typeof adminAuditLog.$inferSelect;
+export type OAuthAccount = typeof oauthAccounts.$inferSelect;
+export type OAuthState = typeof oauthStates.$inferSelect;
+export type IdempotencyKey = typeof idempotencyKeys.$inferSelect;
+export type RateLimit = typeof rateLimits.$inferSelect;
 
 /**
  * The delivery projection. Note it has no `correctOptionId` field, and cannot:

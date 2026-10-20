@@ -64,11 +64,11 @@ CREATE TABLE leaderboard_snapshots (
   top_json      TEXT    NOT NULL CHECK (json_valid(top_json)
                                         AND json_type(top_json) = 'array'),
   entrant_count INTEGER NOT NULL DEFAULT 0 CHECK (entrant_count >= 0),
-  computed_at   INTEGER NOT NULL DEFAULT (unixepoch()),
+  computed_at   INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
   -- How long the computation took. Kept because this job is the one thing on
   -- the platform allowed to scan a large table, and the day it gets slow is
   -- the day the ceiling arithmetic in 0004 needs revisiting.
-  compute_ms    INTEGER,
+  compute_ms    INTEGER,                                          -- duration, milliseconds
   CHECK (period = 'all_time' OR period_start <> '0001-01-01'),
   CHECK ((scope = 'global') = (scope_ref = ''))
 ) STRICT;
@@ -162,9 +162,9 @@ CREATE TABLE notifications (
   link       TEXT,
   -- Small JSON bag of render parameters. Never business state.
   data_json  TEXT    CHECK (data_json IS NULL OR json_valid(data_json)),
-  read_at    INTEGER,
-  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
-  expires_at INTEGER,
+  read_at    INTEGER,                                             -- epoch ms (UTC)
+  created_at INTEGER NOT NULL DEFAULT (CAST(unixepoch('subsec') * 1000 AS INTEGER)), -- epoch ms (UTC)
+  expires_at INTEGER,                                             -- epoch ms (UTC)
   -- Idempotency key, so the cron that says "your streak is at risk" cannot say
   -- it twice. Format: kind || ':' || natural key, e.g. 'srs_due:2026-10-20'.
   dedupe_key TEXT,
@@ -195,6 +195,6 @@ CREATE UNIQUE INDEX uq_notifications_user_dedupe
   ON notifications (user_id, dedupe_key) WHERE dedupe_key IS NOT NULL;
 
 -- NQ-36d notification-prune (cron): DELETE FROM notifications
---        WHERE expires_at < unixepoch() LIMIT ?.
+--        WHERE expires_at < CAST(unixepoch('subsec') * 1000 AS INTEGER) LIMIT ?.
 CREATE INDEX idx_notifications_expires_at ON notifications (expires_at)
   WHERE expires_at IS NOT NULL;

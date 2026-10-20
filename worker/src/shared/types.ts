@@ -66,7 +66,15 @@ export type ApiResult<T> =
 
 // --- Identity ---------------------------------------------------------------
 
-export type UserRole = 'user' | 'moderator' | 'admin';
+/**
+ * Four roles, matching the CHECK on `users.role` in
+ * `worker/migrations/0001_identity.sql`. `contributor` authors content without
+ * publishing it; `moderator` works the errata triage queue; `admin` publishes
+ * and retires questions, which changes what candidates sit. The API genuinely
+ * needs the triage role to be distinct from the publish role, so this is four
+ * values and not three.
+ */
+export type UserRole = 'student' | 'contributor' | 'moderator' | 'admin';
 
 export interface SessionUser {
   id: string;
@@ -124,11 +132,20 @@ export interface ChapterSummary {
 /**
  * One selectable option as the client sees it.
  *
- * `ref` is an OPAQUE token. It is never an index and never a position. For
- * content browsing it is the `question_options` row id; inside a mock or
- * practice attempt it is a per-attempt random token, so a ref harvested from
- * one attempt is meaningless in another and cannot be joined against the option
- * ordering in the public chapter JSON that still sits in git history.
+ * `ref` is an OPAQUE token. It is never an index, never a position and never a
+ * `question_options.id`:
+ *
+ *   * browsing a chapter or an SRS queue -> a keyed digest of
+ *     (server secret, viewer, question, option). Stable for one viewer, so a
+ *     selection stored by ref does not re-point on reload; different for
+ *     another viewer, so two accounts comparing payloads learn nothing.
+ *   * inside a mock or practice attempt -> a keyed digest that also mixes in
+ *     the attempt's `option_seed`, so a ref harvested from one attempt is
+ *     meaningless in another.
+ *
+ * Neither form is reversible and neither is reproducible without the server's
+ * secret, so there is nothing here to join against the option ordering in the
+ * public chapter JSON that still sits in git history.
  *
  * There is deliberately no `isCorrect` field anywhere on this type.
  */
@@ -137,13 +154,21 @@ export interface PublicOption {
   body: string;
 }
 
+/**
+ * Editorial difficulty, as stored. `questions.p_value_bp` is the OBSERVED
+ * difficulty and is deliberately not on the wire: it is a per-question
+ * success rate, and publishing it tells a candidate which questions other
+ * candidates get wrong.
+ */
+export type QuestionDifficulty = 'easy' | 'medium' | 'hard';
+
 /** A question with no answer key. Returned by every pre-answer endpoint. */
 export interface PublicQuestion {
   id: string;
   chapterId: string;
   stem: string;
   options: PublicOption[];
-  difficulty: number | null;
+  difficulty: QuestionDifficulty | null;
 }
 
 export interface ChapterQuestionsResponse {
@@ -172,8 +197,19 @@ export interface MockTemplateSummary {
   description: string;
   durationMinutes: number;
   totalQuestions: number;
-  /** Per-chapter composition, so the UI can describe the paper up front. */
+  /**
+   * Per-chapter totals, so the UI can describe the paper in one line. Derived
+   * by summing the stored blueprint's sub-chapter rules, NOT a second copy of
+   * the composition: the blueprint is sub-chapter level (60 rules for a full
+   * mock) and this is the aggregate a chapter list wants.
+   */
   blueprint: Array<{ chapterId: string; questionCount: number }>;
+  /** The real composition, one entry per official NEC syllabus code. */
+  subchapterBlueprint: Array<{
+    chapterId: string;
+    subchapterCode: string;
+    questionCount: number;
+  }>;
 }
 
 /**
@@ -452,15 +488,32 @@ export type SrsGrade = 'again' | 'hard' | 'good' | 'easy';
 
 export type SrsState = 'new' | 'learning' | 'review' | 'relearning';
 
+/**
+ * One scheduling card, in FSRS's vocabulary.
+ *
+ * The field names and units are FSRS's deliberately, because `srs_state` in
+ * `worker/migrations/0005_learning.sql` stores them that way and
+ * `frontend/src/services/scheduler.ts` already carries `stability` and
+ * `difficulty` on its own `Card`. A translation layer between three spellings
+ * of the same card is how a scheduler drifts out of agreement with its store.
+ */
 export interface SrsCardState {
   questionId: string;
   dueAt: EpochMs;
-  intervalDays: number;
-  ease: number;
+  /** Days until recall probability decays to 90%. */
+  stability: number;
+  /** 1..10, intrinsic to the item for this user. HIGHER IS HARDER. */
+  difficulty: number;
+  /** The interval the scheduler last asked for, in days. */
+  scheduledDays: number;
   reps: number;
   lapses: number;
   state: SrsState;
-  /** Monotonic counter, incremented by every applied review. */
+  /**
+   * Optimistic-concurrency token: `srs_state.reps`, which every applied review
+   * increments. A review carrying a stale value is a no-op rather than a
+   * conflict, which is what makes a second device's queued review safe.
+   */
   revision: number;
 }
 
@@ -493,7 +546,13 @@ export interface SrsReviewResponse {
 export type ReportReason =
   | 'wrong_answer' | 'ambiguous' | 'typo' | 'duplicate' | 'out_of_syllabus' | 'other';
 
-export type ReportStatus = 'open' | 'triaged' | 'accepted' | 'rejected' | 'fixed';
+/**
+ * Matches the CHECK on `question_reports.status`. `duplicate` replaces the
+ * earlier `fixed`: an accepted report whose fix landed is `accepted`, and the
+ * state the triage queue actually needed was "this is the same claim as an
+ * existing report".
+ */
+export type ReportStatus = 'open' | 'triaged' | 'accepted' | 'rejected' | 'duplicate';
 
 export interface ReportSubmitRequest {
   questionId: string;

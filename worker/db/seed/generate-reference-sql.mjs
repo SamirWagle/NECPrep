@@ -97,47 +97,99 @@ for (const s of SYLLABUS) {
 }
 out.push(subRows.join(',\n') + ';\n');
 
-// Mock templates, from frontend/src/data/topics.ts
+// Mock templates, from frontend/src/data/topics.ts, reshaped to the
+// sub-chapter-level blueprint of frontend/src/data/examBlueprint.ts.
 const templates = [
   { id: 'full-mock-1', slug: 'full-mock-1', name: 'Full Mock Test 1',
-    description: '10 random questions from every chapter -- a fresh set each time',
+    description: '100 questions across all 60 NEC syllabus codes -- a fresh set each time',
     perChapter: 10, duration: 45, ordinal: 1 },
   { id: 'full-mock-2', slug: 'full-mock-2', name: 'Full Mock Test 2',
-    description: '10 random questions per chapter -- different selection to Mock 1',
+    description: '100 questions across all 60 NEC syllabus codes -- different selection to Mock 1',
     perChapter: 10, duration: 45, ordinal: 2 },
   { id: 'quick-test', slug: 'quick-test', name: 'Quick Assessment',
-    description: '5 questions per chapter for a fast readiness check',
+    description: '50 questions, five per chapter, for a fast readiness check',
     perChapter: 5, duration: 20, ordinal: 3 },
 ];
 
+/**
+ * largest-remainder (Hare quota) on EQUAL shares, with the tie broken by
+ * ascending sub-chapter index.
+ *
+ * This is `equal-chapter-weight-largest-remainder` from
+ * frontend/src/data/examBlueprint.ts, implemented here rather than imported
+ * because this script runs under plain node with no TypeScript loader. The
+ * assertion below is what keeps the two honest: the quotas it produces for
+ * `perChapter = 10` must be [2,2,2,2,1,1], which is exactly what that file's
+ * `quotaForIndex` publishes.
+ *
+ * perChapter = 10 over 6 codes: floor = 1 each (6 seats), 4 spare -> 1..4 get 2.
+ * perChapter =  5 over 6 codes: floor = 0 each (0 seats), 5 spare -> 1..5 get 1.
+ */
+function largestRemainder(total, buckets) {
+  const base = Math.floor(total / buckets);
+  const spare = total - base * buckets;
+  return Array.from({ length: buckets }, (_, i) => base + (i < spare ? 1 : 0));
+}
+
+const TEN_OVER_SIX = largestRemainder(10, 6);
+if (JSON.stringify(TEN_OVER_SIX) !== JSON.stringify([2, 2, 2, 2, 1, 1])) {
+  throw new Error(
+    `largest-remainder drift: 10 over 6 gave ${JSON.stringify(TEN_OVER_SIX)}, ` +
+      'but frontend/src/data/examBlueprint.ts publishes [2,2,2,2,1,1]'
+  );
+}
+
 out.push(`
 -- The three mock templates the client currently hardcodes in
--- frontend/src/data/topics.ts, expressed as blueprints. Note what the move
--- buys: 'questionsPerChapter: 10' was a number in a TypeScript literal that
--- the selection code had to interpret; a blueprint is data the selection code
--- reads, so adding a chapter-weighted or subchapter-targeted mock is a row,
--- not a deploy.
+-- frontend/src/data/topics.ts, expressed as SUB-CHAPTER-LEVEL blueprints.
+--
+-- Note what the move buys twice over. 'questionsPerChapter: 10' was a number in
+-- a TypeScript literal that the selection code had to interpret; a blueprint is
+-- data the selection code reads, so a differently weighted mock is a row and
+-- not a deploy. And the rules are now per syllabus code rather than per
+-- chapter, which is the granularity the official NEC syllabus is written in and
+-- the granularity frontend/src/data/examBlueprint.ts already models -- so the
+-- client's exam plan and the server's draw describe the same paper.
+--
+-- Quotas come from \`equal-chapter-weight-largest-remainder\`: ten questions per
+-- chapter split 2/2/2/2/1/1 over its six codes for a full mock, and five split
+-- 1/1/1/1/1/0 for the quick assessment. 60 rules each.
 INSERT INTO mock_test_templates (id, subject_id, slug, name, description,
                                  duration_minutes, total_questions, blueprint,
                                  selection, status, ordinal) VALUES`);
 
 const tplRows = templates.map((t) => {
+  const quotas = largestRemainder(t.perChapter, 6);
+  const rules = [];
+  for (const s of SYLLABUS) {
+    s.topics.forEach((topic, j) => {
+      rules.push({
+        chapter_id: `book-ch${s.num}`,
+        subchapter_code: topic.code,
+        count: quotas[j],
+        difficulty: null,
+        tag_ids: null,
+      });
+    });
+  }
+  const total = rules.reduce((sum, r) => sum + r.count, 0);
+  if (total !== t.perChapter * 10) {
+    throw new Error(`blueprint for ${t.id} sums to ${total}, expected ${t.perChapter * 10}`);
+  }
   const blueprint = {
-    version: 1,
+    version: 2,
+    weighting_rule: 'equal-chapter-weight-largest-remainder',
     shuffle_options: true,
     negative_marking: 0,
     pass_mark_bp: 5000,
-    rules: SYLLABUS.map((s) => ({
-      chapter_id: `book-ch${s.num}`,
-      subchapter_codes: null,
-      count: t.perChapter,
-      difficulty: null,
-      tag_ids: null,
-    })),
+    // Must stay false while questions.subchapter_id is NULL for every imported
+    // question; a strict run would fail all 60 rules. See 0004_assessment.sql.
+    strict_subchapter: false,
+    rules,
   };
   return `  (${q(t.id)}, 'nec-computer', ${q(t.slug)}, ${q(t.name)},
    ${q(t.description)},
-   ${t.duration}, ${t.perChapter * 10},
+   ${t.duration}, ${total},
    ${q(JSON.stringify(blueprint))},
    'random', 'published', ${t.ordinal})`;
 });

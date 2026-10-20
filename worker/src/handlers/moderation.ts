@@ -1,9 +1,9 @@
 /**
  * Errata reports (user-facing) and the admin surface behind a role check.
  *
- * The bank is known to contain wrong keys - `frontend/src/data/quarantine.json`
- * lists 40-odd that a validator already caught, and the frontend currently
- * filters them out at read time with a hardcoded list. Reports plus
+ * The bank is known to contain wrong keys - the importer's own validator files
+ * 106 of them on every seed, and the frontend currently filters a hardcoded
+ * list out at read time. Reports plus
  * `POST /api/admin/questions/publish` replace that hardcoded list with a
  * workflow, and every admin mutation writes an audit row in the SAME batch as
  * the mutation, so there is no path that changes published content silently.
@@ -39,10 +39,11 @@ import type {
 /**
  * POST /api/reports - 3 D1 queries.
  *
- * Idempotent WITHOUT a key, through the unique index on
- * `(user_id, question_id)`: re-reporting the same question updates the existing
- * report instead of filling the triage queue with duplicates, so a replayed
- * offline mutation converges. The optional key is accepted for uniformity.
+ * Idempotent WITHOUT a key, through the PARTIAL unique index on
+ * `(question_id, reporter_user_id) WHERE status = 'open'`: re-reporting the
+ * same question updates the existing open report instead of filling the triage
+ * queue with duplicates, so a replayed offline mutation converges. The optional
+ * key is accepted for uniformity.
  */
 export async function submitErrataReport(
   ctx: HandlerContext,
@@ -136,6 +137,10 @@ export async function triage(
     async () => {
       const updated = await triageReports(ctx.db, {
         actorUserId: auth.user.id,
+        // The role the action was permitted BY, recorded at the time. A
+        // moderator later promoted to admin does not retroactively change what
+        // they were allowed to do when they did it.
+        actorRole: auth.user.role,
         reportIds: input.reportIds,
         status: input.status,
         resolutionNote: input.resolutionNote ?? null,
@@ -176,6 +181,7 @@ export async function publishQuestions(
     async () => {
       const updated = await setQuestionState(ctx.db, {
         actorUserId: auth.user.id,
+        actorRole: auth.user.role,
         questionIds: input.questionIds,
         state: input.state,
         now: ctx.clock.now(),

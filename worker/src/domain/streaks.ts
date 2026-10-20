@@ -1,9 +1,23 @@
 /**
- * Streaks, derived from the `user_daily_activity` rollup.
+ * Streaks, derived from `study_sessions.local_date`.
  *
  * Pure, and day-keyed rather than timestamp-keyed, because a streak is a
  * calendar fact in the candidate's timezone (UTC+05:45 here) and not a
  * difference between two instants. See `lib/time.ts#dayKey`.
+ *
+ * WHAT THIS IS AND IS NOT THE SOURCE OF. `streaks.current_length` and
+ * `.longest_length` are the authority: they are maintained by the idempotent
+ * NQ-32a upsert on every answer and ratcheted by a trigger, so they account for
+ * the one-day freeze token that a "count consecutive active days" derivation
+ * cannot see. This function supplies `activeDays` (the heatmap) and
+ * `todayAnswered`, and its streak numbers stand in only when a user has no
+ * `streaks` row yet. `handlers/progress.ts` does that merge.
+ *
+ * It used to read a `user_daily_activity` table that the reconciled schema
+ * does not have, for a good reason: a UTC-keyed day bucket misattributes every
+ * late-night session in Kathmandu to the wrong day, which is precisely the bug
+ * that breaks a streak. `study_sessions.local_date` is written by the API,
+ * which knows the user's timezone.
  */
 
 import { dayKeyDiff } from '../lib/time.ts';
