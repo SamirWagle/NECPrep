@@ -1,0 +1,13 @@
+# Local SQLite databases built by db/apply.mjs, db/seed/*, db/measure.mjs.
+# Disposable: `npm run db:check` recreates them from migrations/ and the
+# question bank in one command, so there is nothing here worth committing.
+.local/
+
+# Miniflare / wrangler local state, including the local D1 database that
+# `wrangler d1 migrations apply --local` writes to.
+.wrangler/
+
+# Drizzle tooling output. Nothing here is the source of truth -- the SQL in
+# migrations/ is (see db/schema.ts), and a generated migration would silently
+# drop STRICT, the triggers and the FTS5 table.
+drizzle/

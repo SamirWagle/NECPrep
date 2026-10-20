@@ -1,0 +1,86 @@
+# Cloudflare Worker + D1 configuration for the NECPrep API.
+#
+# Why D1 and not Supabase: docs/adr/0001-cloudflare-d1-over-supabase.md.
+#
+# `main` is owned by the API handlers (worker/src/**). This file, the
+# migrations and worker/db/** are owned by the schema. Keep that boundary:
+# a binding added here is a contract the handlers may rely on, and a binding
+# removed here breaks them at deploy time rather than at review time.
+
+name = "necprep-api"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+# nodejs_compat is needed for node:crypto in the password-hashing and
+# session-token paths. It is NOT needed by anything in worker/db/**.
+compatibility_flags = ["nodejs_compat"]
+
+# D1 is single-threaded per database and serialises writes, so there is no
+# connection pool to size and no Hyperdrive in front of it.
+[[d1_databases]]
+binding = "DB"
+database_name = "necprep"
+# Filled in by `wrangler d1 create necprep`. Left as a placeholder on purpose:
+# a wrong-but-plausible id here would deploy against someone else's database,
+# so this must fail loudly until a human pastes the real one.
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+
+[vars]
+ENVIRONMENT = "development"
+# Cookie session lifetimes, seconds. Read by the session code; see
+# migrations/0001_identity.sql for the two-clock design (idle vs absolute).
+SESSION_IDLE_TTL_SECONDS = "1209600"      # 14 days
+SESSION_ABSOLUTE_TTL_SECONDS = "7776000"  # 90 days
+# Raw-answer retention for the archival job. 90 on the free plan (the 500 MB
+# per-database limit holds roughly 4 million answer rows); 180 once on Workers
+# Paid. See the archival note in migrations/0004_assessment.sql.
+ANSWER_RETENTION_DAYS = "90"
+
+# NO SECRETS IN THIS FILE. Password-hash pepper, OAuth client secrets and the
+# cron trigger token go in via `wrangler secret put <NAME>` and arrive on
+# `env`. A missing secret must throw at startup, not fall back to a default.
+
+[[migrations]]
+# Placeholder so `wrangler deploy` does not warn on a project with no Durable
+# Object migrations. Durable Objects are a candidate home for attempt_answers
+# if the platform outgrows a single D1 database (see 0004); nothing uses them
+# today.
+tag = "v1"
+new_classes = []
+
+# ---------------------------------------------------------------------------
+# Scheduled jobs. Every one of these exists because of a limit documented in
+# the migrations, not because a cron looked tidy.
+# ---------------------------------------------------------------------------
+[triggers]
+crons = [
+  # 02:10 UTC -- answer retention. Batched: D1 counts index rows as writes, and
+  # the free plan allows 100,000 row writes per day.
+  "10 2 * * *",
+  # 02:40 UTC -- expire in-progress attempts past their deadline, sweep dead
+  # sessions, prune expired notifications.
+  "40 2 * * *",
+  # Hourly -- leaderboard snapshots. Never computed on a request path.
+  "5 * * * *",
+]
+
+[env.production]
+name = "necprep-api"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+SESSION_IDLE_TTL_SECONDS = "1209600"
+SESSION_ABSOLUTE_TTL_SECONDS = "7776000"
+ANSWER_RETENTION_DAYS = "90"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "necprep"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
