@@ -1,0 +1,5050 @@
+{
+  "generatedFrom": "duplicate-stem triage over frontend/public/data/books/, cross-checked with scripts/validate-questions.mjs",
+  "note": "SAFE duplicate groups have already been de-duplicated in the bank: the copy in the lowest-numbered chapter was kept and the rest deleted. CONFLICT groups were left in place and every copy was added to quarantine.json with code DUPLICATE_ANSWER_CONFLICT, because at least one copy keys an answer the other copies contradict. Ids below are post-dedupe array positions and move if the bank is re-ordered.",
+  "summary": {
+    "duplicateGroupsFound": 391,
+    "safeGroupsDeduplicated": 332,
+    "rowsDeleted": 489,
+    "conflictGroups": 59,
+    "conflictRowsQuarantined": 128,
+    "conflictGroupsByReason": {
+      "DIVERGENT_PROSE": 46,
+      "NUMERIC_MISMATCH": 12,
+      "INVALID_KEY": 1
+    },
+    "conflictGroupsWithIdenticalOptionSets": 22,
+    "conflictGroupsWithDifferentOptionSets": 37,
+    "rowCountsByFile": {
+      "ch1.json": {
+        "before": 587,
+        "deleted": 62,
+        "after": 525
+      },
+      "ch2.json": {
+        "before": 746,
+        "deleted": 414,
+        "after": 332
+      },
+      "ch3.json": {
+        "before": 398,
+        "deleted": 7,
+        "after": 391
+      },
+      "ch4.json": {
+        "before": 424,
+        "deleted": 2,
+        "after": 422
+      },
+      "ch5.json": {
+        "before": 69,
+        "deleted": 0,
+        "after": 69
+      },
+      "ch6.json": {
+        "before": 64,
+        "deleted": 0,
+        "after": 64
+      },
+      "ch7.json": {
+        "before": 69,
+        "deleted": 1,
+        "after": 68
+      },
+      "ch8.json": {
+        "before": 131,
+        "deleted": 1,
+        "after": 130
+      },
+      "ch9.json": {
+        "before": 71,
+        "deleted": 0,
+        "after": 71
+      },
+      "ch10.json": {
+        "before": 242,
+        "deleted": 2,
+        "after": 240
+      }
+    }
+  },
+  "suggestedResolutions": [
+    {
+      "ids": [
+        "book-ch1_198",
+        "book-ch1_255"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the maximum efficiency that can be achieved in a circuit using the maximum power transfer theorem?",
+      "conflictingAnswers": [
+        "25%",
+        "50%"
+      ],
+      "recommendedAnswer": "50%",
+      "confidence": "high",
+      "reasoning": "Maximum power transfer requires R_load = R_thevenin. The two resistances then dissipate equal power, so the fraction delivered to the load is P_load / (P_load + P_source) = 50%. The copy keyed \"25%\" is wrong.",
+      "action": "Set correct_option_index/correct_option to \"50%\" on the copy that keys \"25%\", then release both from quarantine."
+    },
+    {
+      "ids": [
+        "book-ch1_206",
+        "book-ch1_256"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the time constant of an R-C circuit consisting of a 1 kΩ resistor and a 100 nF capacitor?",
+      "conflictingAnswers": [
+        "1 ms",
+        "100 µs"
+      ],
+      "recommendedAnswer": "100 µs",
+      "confidence": "high",
+      "reasoning": "tau = R*C = 1e3 ohm * 100e-9 F = 1e-4 s = 100 us. \"1 ms\" is off by 10x.",
+      "action": "Re-key the \"1 ms\" copy to \"100 µs\", then release both."
+    },
+    {
+      "ids": [
+        "book-ch1_207",
+        "book-ch1_257"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "In an R-L circuit, the voltage across the Inductor lags behind the current by how many degrees?",
+      "conflictingAnswers": [
+        "0°",
+        "90°"
+      ],
+      "recommendedAnswer": "none of the options as the stem is written - fix the stem first",
+      "confidence": "high",
+      "reasoning": "For an inductor v = L di/dt, so the inductor voltage LEADS the current by 90 degrees; it does not lag it. The magnitude 90° is right but the stem states the relationship backwards, so \"lags ... by 90°\" is false and \"0°\" is false too. This is a stem defect, not a key choice.",
+      "action": "Rewrite the stem to \"...the voltage across the inductor leads the current by how many degrees?\" and key \"90°\" on both copies."
+    },
+    {
+      "ids": [
+        "book-ch1_208",
+        "book-ch1_258"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the resonant frequency of an R-L-C circuit with a 100 Ω resistor, 1 mH inductor, and a 100 nF capacitor?",
+      "conflictingAnswers": [
+        "160 kHz",
+        "16 kHz"
+      ],
+      "recommendedAnswer": "16 kHz",
+      "confidence": "high",
+      "reasoning": "f0 = 1/(2*pi*sqrt(L*C)) = 1/(2*pi*sqrt(1e-3 * 100e-9)) = 1/(2*pi*1e-5) = 15 915 Hz ~= 16 kHz. R does not enter f0. \"160 kHz\" is off by 10x.",
+      "action": "Re-key the \"160 kHz\" copy to \"16 kHz\", then release both."
+    },
+    {
+      "ids": [
+        "book-ch1_212",
+        "book-ch1_260"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the phase angle between the voltage and current in an R-L-C circuit at resonance?",
+      "conflictingAnswers": [
+        "45°",
+        "0°"
+      ],
+      "recommendedAnswer": "0°",
+      "confidence": "high",
+      "reasoning": "At resonance X_L = X_C, the reactive parts cancel and the impedance is purely resistive, so voltage and current are in phase: 0°. (The same physics makes a series R-L-C impedance minimum, not infinite, at resonance.)",
+      "action": "Re-key the \"45°\" copy to \"0°\", then release both."
+    },
+    {
+      "ids": [
+        "book-ch1_213",
+        "book-ch1_261"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the time constant of an R-L circuit consisting of a 100 Ω resistor and a 10 mH inductor?",
+      "conflictingAnswers": [
+        "1 µs",
+        "100 µs"
+      ],
+      "recommendedAnswer": "100 µs",
+      "confidence": "high",
+      "reasoning": "tau = L/R = 10e-3 H / 100 ohm = 1e-4 s = 100 us. \"1 µs\" is off by 100x.",
+      "action": "Re-key the \"1 µs\" copy to \"100 µs\", then release both."
+    },
+    {
+      "ids": [
+        "book-ch1_215",
+        "book-ch1_263"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the resonant frequency?",
+      "conflictingAnswers": [
+        "15.92 Hz",
+        "1.59 kHz"
+      ],
+      "recommendedAnswer": "neither - the question is unanswerable as authored",
+      "confidence": "high",
+      "reasoning": "An R-C network has no resonance; it has a corner frequency. Taking the intended quantity as f = 1/(2*pi*R*C) = 1/(2*pi*1e5*1e-6) = 1.59 Hz, which is NOT among the four options (15.92 Hz / 15.92 kHz / 159.2 Hz / 1.59 kHz). One copy even carries correct_option \"1.59 Hz\" against an index pointing at \"1.59 kHz\", which confirms both the intent and the missing option.",
+      "action": "Rewrite the stem to ask for the cutoff/corner frequency, replace one option with \"1.59 Hz\" and key it - or retire the question. Do not release until an option is correct."
+    },
+    {
+      "ids": [
+        "book-ch1_221",
+        "book-ch1_266"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the resonance frequency of an R-L-C circuit?",
+      "conflictingAnswers": [
+        "2pisqrt(LC)",
+        "1/(2pisqrt(LC))"
+      ],
+      "recommendedAnswer": "1/(2pisqrt(LC))",
+      "confidence": "high",
+      "reasoning": "f0 = 1/(2*pi*sqrt(L*C)). \"2pisqrt(LC)\" is the reciprocal and has units of seconds, not hertz.",
+      "action": "Re-key the \"2pisqrt(LC)\" copy to \"1/(2pisqrt(LC))\", then release both."
+    },
+    {
+      "ids": [
+        "book-ch1_236",
+        "book-ch1_274"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 5µF?",
+      "conflictingAnswers": [
+        "35.7 kHz",
+        "357 kHz"
+      ],
+      "recommendedAnswer": "neither - the stem numbers and the options disagree",
+      "confidence": "medium",
+      "reasoning": "With L = 20 mH and C = 5 uF, f0 = 1/(2*pi*sqrt(1e-7)) = 503 Hz. None of the four options (3.57 kHz / 35.7 kHz / 357 kHz / 3.57 MHz) is within three orders of magnitude of that. The option \"3.57 kHz\" is what you get for L = 20 mH with C = 0.1 uF, so the capacitance in the stem is most likely a typo for 0.1 µF (100 nF).",
+      "action": "Check the source textbook. If C is 0.1 µF, key \"3.57 kHz\" on both copies; otherwise replace the options with 503 Hz and plausible distractors. Do not release until the arithmetic closes."
+    },
+    {
+      "ids": [
+        "book-ch2_136",
+        "book-ch2_145"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the difference between a binary encoder and a priority encoder?",
+      "conflictingAnswers": [
+        "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+        "A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n output lines."
+      ],
+      "recommendedAnswer": "the \"highest priority input signal\" option",
+      "confidence": "high",
+      "reasoning": "The defining difference is behavioural: a priority encoder resolves simultaneously-asserted inputs in favour of the highest-priority one. The line-count option is not a difference at all - a priority encoder also has 2^n inputs and n outputs (n = log2 of the input count), so that option describes both devices. Both copies already list the correct option, one of them as opt1.",
+      "action": "Re-key the second copy to its opt1, then release both."
+    },
+    {
+      "ids": [
+        "book-ch2_189",
+        "book-ch2_193"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "What is the range of unsigned 8-bit binary numbers?",
+      "conflictingAnswers": [
+        "0 to 255",
+        "0 to 256"
+      ],
+      "recommendedAnswer": "0 to 255",
+      "confidence": "high",
+      "reasoning": "8 bits encode 2^8 = 256 distinct values starting at 0, so the range is 0..255. One copy keys \"0 to 256\", which is wrong - and that copy has no correct option at all (its own correct_option field says \"0 to 255\", which is absent from its option list). It is already quarantined for KEY_CONFLICT independently.",
+      "action": "On the bad copy replace the option \"0 to 256\" with \"0 to 255\" and key it, or retire that copy as a straight duplicate. The good copy can be released now."
+    },
+    {
+      "ids": [
+        "book-ch2_116",
+        "book-ch2_125"
+      ],
+      "reason": "INVALID_KEY",
+      "stem": "Which of the following is not a valid combination of input variables in a Karnaugh map for a two-variable expression?",
+      "conflictingAnswers": [
+        "(index 5 of 4 options - unanswerable)",
+        "(index 5 of 4 options - unanswerable)"
+      ],
+      "recommendedAnswer": "neither - the intended option is missing from the bank",
+      "confidence": "high",
+      "reasoning": "Both copies set correct_option_index to 5 with only four options present. The four options 00/01/10/11 are all valid two-variable combinations, so as authored there is no correct answer. Both copies carry correct_option \"21\", which is indeed not a valid binary combination - the intended fifth option was dropped when the row was flattened to four columns.",
+      "action": "Replace one option with \"21\" and set correct_option_index accordingly, or retire the question. Do not release until the index is in range."
+    },
+    {
+      "ids": [
+        "book-ch3_358",
+        "book-ch3_362",
+        "book-ch3_364",
+        "book-ch3_368"
+      ],
+      "reason": "NUMERIC_MISMATCH",
+      "stem": "Which of the following statements is true about static data members in C++?",
+      "conflictingAnswers": [
+        "They are initialized to 0 by default",
+        "They can be initialized only outside the class definition",
+        "All of the above are true",
+        "They are initialized to zero by default"
+      ],
+      "recommendedAnswer": "no re-key needed - this is a stem collision, not an answer conflict",
+      "confidence": "high",
+      "reasoning": "All four copies carry DIFFERENT option sets and each keyed answer is correct for its own set: static data members have static storage duration and are zero-initialised; a non-inline, non-const static data member must be defined outside the class (pre-C++17); and the access-flavoured copy keys \"All of the above are true\" over three statements that are all true. The stem is simply too generic to distinguish four separate questions, which is why the duplicate detector grouped them.",
+      "action": "Disambiguate the four stems (e.g. \"...about the initialization of static data members\", \"...about accessing static data members\") and release all four. No answer key is wrong here."
+    }
+  ],
+  "conflictGroups": [
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the purpose of delta-star conversion?",
+      "copies": [
+        {
+          "id": "book-ch1_50",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "To regulate the voltage levels of a three-phase supply",
+          "correctOptionText": "To regulate the voltage levels of a three-phase supply",
+          "options": [
+            "To reduce the starting current of a motor",
+            "To increase the starting current of a motor",
+            "To regulate the voltage levels of a three-phase supply",
+            "None of above"
+          ]
+        },
+        {
+          "id": "book-ch1_58",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "To regulate the voltage levels of a power distribution system",
+          "correctOptionText": "To regulate the voltage levels of a power distribution system",
+          "options": [
+            "To convert a three-phase system from a star to a delta configuration",
+            "To reduce the starting current of a motor",
+            "To regulate the voltage levels of a power distribution system",
+            "None of above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the superposition theorem based on?",
+      "copies": [
+        {
+          "id": "book-ch1_140",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "The principle of superposition",
+          "correctOptionText": "The principle of superposition",
+          "options": [
+            "Ohm's law",
+            "Faraday's law",
+            "Kirchhoff's laws",
+            "The principle of superposition"
+          ]
+        },
+        {
+          "id": "book-ch1_143",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Ohm's law",
+          "correctOptionText": "Ohm's law",
+          "options": [
+            "Kirchhoff's current law",
+            "Kirchhoff's voltage law",
+            "Ohm's law",
+            "Faraday's law"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the equivalent resistance seen from the output terminals in Norton's theorem?",
+      "copies": [
+        {
+          "id": "book-ch1_173",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "The resistance of the circuit with all voltage sources replaced by their internal resistances.",
+          "correctOptionText": "The resistance of the circuit with all voltage sources replaced by their internal resistances.",
+          "options": [
+            "The resistance of the load resistor.",
+            "The resistance of the circuit with all voltage sources replaced by their internal resistances.",
+            "The resistance of the circuit with all current sources replaced by their internal resistances.",
+            "None of above"
+          ]
+        },
+        {
+          "id": "book-ch1_183",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "The resistance seen from the output terminals with all voltage sources replaced by their internal resistances",
+          "correctOptionText": "The resistance seen from the output terminals with all voltage sources replaced by their internal resistances",
+          "options": [
+            "The total resistance of the circuit",
+            "The resistance of the load resistor",
+            "The resistance of the voltage source",
+            "The resistance seen from the output terminals with all voltage sources replaced by their internal resistances"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the maximum efficiency that can be achieved in a circuit using the maximum power transfer theorem?",
+      "copies": [
+        {
+          "id": "book-ch1_198",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "25%",
+          "correctOptionText": "25%",
+          "options": [
+            "100%",
+            "50%",
+            "25%",
+            "It depends on the circuit."
+          ]
+        },
+        {
+          "id": "book-ch1_255",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "50%",
+          "correctOptionText": "50%",
+          "options": [
+            "100%",
+            "50%",
+            "25%",
+            "It depends on the circuit."
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the time constant of an R-C circuit consisting of a 1 kΩ resistor and a 100 nF capacitor?",
+      "copies": [
+        {
+          "id": "book-ch1_206",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "1 ms",
+          "correctOptionText": "1 ms",
+          "options": [
+            "1 ms",
+            "100 µs",
+            "10 µs",
+            "10 ms"
+          ]
+        },
+        {
+          "id": "book-ch1_256",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "100 µs",
+          "correctOptionText": "100 µs",
+          "options": [
+            "1 ms",
+            "100 µs",
+            "10 µs",
+            "10 ms"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "In an R-L circuit, the voltage across the Inductor lags behind the current by how many degrees?",
+      "copies": [
+        {
+          "id": "book-ch1_207",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "0°",
+          "correctOptionText": "0°",
+          "options": [
+            "0°",
+            "45°",
+            "90°",
+            "180°"
+          ]
+        },
+        {
+          "id": "book-ch1_257",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "90°",
+          "correctOptionText": "90°",
+          "options": [
+            "0°",
+            "45°",
+            "90°",
+            "180°"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the resonant frequency of an R-L-C circuit with a 100 Ω resistor, 1 mH inductor, and a 100 nF capacitor?",
+      "copies": [
+        {
+          "id": "book-ch1_208",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "160 kHz",
+          "correctOptionText": "160 kHz",
+          "options": [
+            "160 kHz",
+            "16 kHz",
+            "1.6 kHz",
+            "1.6 MHz"
+          ]
+        },
+        {
+          "id": "book-ch1_258",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "16 kHz",
+          "correctOptionText": "16 kHz",
+          "options": [
+            "160 kHz",
+            "16 kHz",
+            "1.6 kHz",
+            "1.6 MHz"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "In an R-L-C circuit, what happens to the Impedance at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_209",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "It is infinite",
+          "correctOptionText": "It is infinite",
+          "options": [
+            "It is zero",
+            "It is at a minimum",
+            "It is at a maximum",
+            "It is infinite"
+          ]
+        },
+        {
+          "id": "book-ch1_259",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It is at a minimum",
+          "correctOptionText": "It is at a minimum",
+          "options": [
+            "It is zero",
+            "It is at a minimum",
+            "It is at a maximum",
+            "It is infinite"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the phase angle between the voltage and current in an R-L-C circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_212",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "45°",
+          "correctOptionText": "45°",
+          "options": [
+            "0°",
+            "45°",
+            "90°",
+            "180°"
+          ]
+        },
+        {
+          "id": "book-ch1_260",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "0°",
+          "correctOptionText": "0°",
+          "options": [
+            "0°",
+            "45°",
+            "90°",
+            "180°"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the time constant of an R-L circuit consisting of a 100 Ω resistor and a 10 mH inductor?",
+      "copies": [
+        {
+          "id": "book-ch1_213",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "1 µs",
+          "correctOptionText": "1 µs",
+          "options": [
+            "100 µs",
+            "1 µs",
+            "10 µs",
+            "1 ms"
+          ]
+        },
+        {
+          "id": "book-ch1_261",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "100 µs",
+          "correctOptionText": "100 µs",
+          "options": [
+            "100 µs",
+            "1 µs",
+            "10 µs",
+            "1 ms"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "In an R-L-C circuit, what happens to the bandwidth as the quality factor increases?",
+      "copies": [
+        {
+          "id": "book-ch1_214",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It increases",
+          "correctOptionText": "It increases",
+          "options": [
+            "It increases",
+            "It decreases",
+            "It remains constant",
+            "It oscillates"
+          ]
+        },
+        {
+          "id": "book-ch1_262",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It decreases",
+          "correctOptionText": "It decreases",
+          "options": [
+            "It increases",
+            "It decreases",
+            "It remains constant",
+            "It oscillates"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the resonant frequency?",
+      "copies": [
+        {
+          "id": "book-ch1_215",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "15.92 Hz",
+          "correctOptionText": "15.92 Hz",
+          "options": [
+            "15.92 Hz",
+            "15.92 kHz",
+            "159.2 Hz",
+            "1.59 kHz"
+          ]
+        },
+        {
+          "id": "book-ch1_263",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "1.59 kHz",
+          "correctOptionText": "1.59 Hz",
+          "options": [
+            "15.92 Hz",
+            "15.92 kHz",
+            "159.2 Hz",
+            "1.59 kHz"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What is the time constant of an R-C circuit?",
+      "copies": [
+        {
+          "id": "book-ch1_217",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "R/C",
+          "correctOptionText": "R/C",
+          "options": [
+            "R/C",
+            "CR",
+            "RC",
+            "1/RC"
+          ]
+        },
+        {
+          "id": "book-ch1_264",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "RC",
+          "correctOptionText": "RC",
+          "options": [
+            "R/C",
+            "CR",
+            "RC",
+            "1/RC"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What is the voltage across an inductor in an R-L circuit at steady state?",
+      "copies": [
+        {
+          "id": "book-ch1_218",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Infinite",
+          "correctOptionText": "Infinite",
+          "options": [
+            "Zero",
+            "Infinite",
+            "The same as the voltage across the resistor",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch1_265",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Zero",
+          "correctOptionText": "Zero",
+          "options": [
+            "Zero",
+            "Infinite",
+            "The same as the voltage across the resistor",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the resonance frequency of an R-L-C circuit?",
+      "copies": [
+        {
+          "id": "book-ch1_221",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "2pisqrt(LC)",
+          "correctOptionText": "2pisqrt(LC)",
+          "options": [
+            "1/(2pisqrt(LC))",
+            "2pisqrt(LC)",
+            "1/(L*C)",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch1_266",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "1/(2pisqrt(LC))",
+          "correctOptionText": "1/(2pisqrt(LC))",
+          "options": [
+            "1/(2pisqrt(LC))",
+            "2pisqrt(LC)",
+            "1/(L*C)",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What happens to the impedance of an R-L-C circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_222",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The impedance is maximum",
+          "correctOptionText": "The impedance is maximum",
+          "options": [
+            "The impedance is maximum",
+            "The impedance is minimum",
+            "The impedance is zero",
+            "The impedance remains the same"
+          ]
+        },
+        {
+          "id": "book-ch1_267",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "The impedance is minimum",
+          "correctOptionText": "The impedance is minimum",
+          "options": [
+            "The impedance is maximum",
+            "The impedance is minimum",
+            "The impedance is zero",
+            "The impedance remains the same"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What happens to the Impedance of an AC series resonant circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_226",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It is maximum",
+          "correctOptionText": "It is maximum",
+          "options": [
+            "It is minimum",
+            "It is maximum",
+            "It is zero",
+            "It is infinity"
+          ]
+        },
+        {
+          "id": "book-ch1_268",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It is minimum",
+          "correctOptionText": "It is minimum",
+          "options": [
+            "It is minimum",
+            "It is maximum",
+            "It is zero",
+            "It is infinity"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What happens to the current in an AC parallel resonant circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_227",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It is maximum",
+          "correctOptionText": "It is maximum",
+          "options": [
+            "It is minimum",
+            "It is maximum",
+            "It is zero",
+            "It is infinity"
+          ]
+        },
+        {
+          "id": "book-ch1_269",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It is minimum",
+          "correctOptionText": "It is minimum",
+          "options": [
+            "It is minimum",
+            "It is maximum",
+            "It is zero",
+            "It is infinity"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What is the power factor of an AC series resonant circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_228",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Zero",
+          "correctOptionText": "Zero",
+          "options": [
+            "Unity",
+            "Zero",
+            "Negative",
+            "Indeterminate"
+          ]
+        },
+        {
+          "id": "book-ch1_270",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Unity",
+          "correctOptionText": "Unity",
+          "options": [
+            "Unity",
+            "Zero",
+            "Negative",
+            "Indeterminate"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What is the power factor of an AC parallel resonant circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_229",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Zero",
+          "correctOptionText": "Zero",
+          "options": [
+            "Unity",
+            "Zero",
+            "Negative",
+            "Indeterminate"
+          ]
+        },
+        {
+          "id": "book-ch1_271",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Unity",
+          "correctOptionText": "Unity",
+          "options": [
+            "Unity",
+            "Zero",
+            "Negative",
+            "Indeterminate"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What happens to the voltage across the capacitor in an AC series resonant circuit at resonance?",
+      "copies": [
+        {
+          "id": "book-ch1_232",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It is minimum",
+          "correctOptionText": "It is minimum",
+          "options": [
+            "It is maximum",
+            "It is minimum",
+            "It is zero",
+            "It is infinity"
+          ]
+        },
+        {
+          "id": "book-ch1_272",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It is maximum",
+          "correctOptionText": "It is maximum",
+          "options": [
+            "It is maximum",
+            "It is minimum",
+            "It is zero",
+            "It is infinity"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "In an AC parallel resonant circuit, at the resonant frequency, what is the impedance?",
+      "copies": [
+        {
+          "id": "book-ch1_235",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Minimum",
+          "correctOptionText": "Minimum",
+          "options": [
+            "Zero",
+            "Infinite",
+            "Minimum",
+            "Maximum"
+          ]
+        },
+        {
+          "id": "book-ch1_273",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Maximum",
+          "correctOptionText": "Maximum",
+          "options": [
+            "Zero",
+            "Infinite",
+            "Minimum",
+            "Maximum"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": true,
+      "stem": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 5µF?",
+      "copies": [
+        {
+          "id": "book-ch1_236",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "35.7 kHz",
+          "correctOptionText": "35.7 kHz",
+          "options": [
+            "3.57 kHz",
+            "35.7 kHz",
+            "357 kHz",
+            "3.57 MHz"
+          ]
+        },
+        {
+          "id": "book-ch1_274",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "357 kHz",
+          "correctOptionText": "357 kHz",
+          "options": [
+            "3.57 kHz",
+            "35.7 kHz",
+            "357 kHz",
+            "3.57 MHz"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": true,
+      "stem": "What is the relationship between active power and reactive power?",
+      "copies": [
+        {
+          "id": "book-ch1_246",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They are the same thing",
+          "correctOptionText": "They are the same thing",
+          "options": [
+            "They are the same thing",
+            "Reactive power is always greater than active power",
+            "Active power is always greater than reactive power",
+            "They are two different types of power"
+          ]
+        },
+        {
+          "id": "book-ch1_275",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "They are two different types of power",
+          "correctOptionText": "They are two different types of power",
+          "options": [
+            "They are the same thing",
+            "Reactive power is always greater than active power",
+            "Active power is always greater than reactive power",
+            "They are two different types of power"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the frequency of a triangle wave generator determined by?",
+      "copies": [
+        {
+          "id": "book-ch1_337",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The time constant of the RC circuit",
+          "correctOptionText": "The time constant of the RC circuit",
+          "options": [
+            "The time constant of the RC circuit",
+            "The resonant frequency of the tank circuit",
+            "The frequency of the crystal",
+            "The input voltage of the oscillator"
+          ]
+        },
+        {
+          "id": "book-ch1_347",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "The slope of the waveform",
+          "correctOptionText": "The slope of the waveform",
+          "options": [
+            "The time period of the waveform",
+            "The amplitude of the waveform",
+            "The duty cycle of the waveform",
+            "The slope of the waveform"
+          ]
+        },
+        {
+          "id": "book-ch2_123",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The time constant of the RC circuit",
+          "correctOptionText": "The time constant of the RC circuit",
+          "options": [
+            "The time constant of the RC circuit",
+            "The resonant frequency of the tank circuit",
+            "The frequency of the crystal",
+            "The input voltage of the oscillator"
+          ]
+        },
+        {
+          "id": "book-ch2_124",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "The slope of the waveform",
+          "correctOptionText": "The slope of the waveform",
+          "options": [
+            "The time period of the waveform",
+            "The amplitude of the waveform",
+            "The duty cycle of the waveform",
+            "The slope of the waveform"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "INVALID_KEY",
+      "optionSetsIdentical": true,
+      "stem": "Which of the following is not a valid combination of input variables in a Karnaugh map for a two-variable expression?",
+      "copies": [
+        {
+          "id": "book-ch2_116",
+          "correctOptionIndex": 5,
+          "keyedAnswer": null,
+          "correctOptionText": "21",
+          "options": [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        },
+        {
+          "id": "book-ch2_125",
+          "correctOptionIndex": 5,
+          "keyedAnswer": null,
+          "correctOptionText": "21",
+          "options": [
+            "00",
+            "01",
+            "10",
+            "11"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": false,
+      "stem": "What is the difference between a binary encoder and a priority encoder?",
+      "copies": [
+        {
+          "id": "book-ch2_136",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+          "correctOptionText": "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+          "options": [
+            "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+            "A binary encoder generates a binary code corresponding to the highest priority input signal, while a priority encoder converts a binary input signal into an n-bit coded output signal.",
+            "A binary encoder and a priority encoder are the same thing.",
+            "A binary encoder and a priority encoder have no difference."
+          ]
+        },
+        {
+          "id": "book-ch2_145",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n output lines.",
+          "correctOptionText": "A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n output lines.",
+          "options": [
+            "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+            "A binary encoder generates a binary code corresponding to the highest priority input signal, while a priority encoder converts a binary input signal into an n-bit coded output signal.",
+            "A binary encoder converts a decimal input signal into a 4-bit BCD output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+            "A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n output lines."
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": false,
+      "stem": "What is the range of unsigned 8-bit binary numbers?",
+      "copies": [
+        {
+          "id": "book-ch2_189",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "0 to 255",
+          "correctOptionText": "0 to 255",
+          "options": [
+            "0 to 127",
+            "-128 to 127",
+            "-127 to 127",
+            "0 to 255"
+          ]
+        },
+        {
+          "id": "book-ch2_193",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "0 to 256",
+          "correctOptionText": "0 to 255",
+          "options": [
+            "-128 to 127",
+            "0 to 256",
+            "0 to 127",
+            "0 to 128"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is not a feature of a microprocessor?",
+      "copies": [
+        {
+          "id": "book-ch2_240",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Secondary storage",
+          "correctOptionText": "Secondary storage",
+          "options": [
+            "Interrupt handling capability",
+            "Pipelining",
+            "Cache memory",
+            "Secondary storage"
+          ]
+        },
+        {
+          "id": "book-ch2_253",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Multiuser",
+          "correctOptionText": "Multiuser",
+          "options": [
+            "Multitasking",
+            "Multiprocessing",
+            "Multithreading",
+            "Multiuser"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about nested interrupts?",
+      "copies": [
+        {
+          "id": "book-ch2_303",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "They occur when an ISR triggers another interrupt",
+          "correctOptionText": "They occur when an ISR triggers another interrupt",
+          "options": [
+            "They are not allowed in most microprocessors",
+            "They occur when an ISR triggers another interrupt",
+            "They occur when multiple interrupts are triggered simultaneously",
+            "They occur when an ISR takes too long to execute"
+          ]
+        },
+        {
+          "id": "book-ch2_325",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They occur when an ISR is triggered while another ISR is being serviced",
+          "correctOptionText": "They occur when an ISR is triggered while another ISR is being serviced",
+          "options": [
+            "They occur when an ISR is triggered while another ISR is being serviced",
+            "They occur when two ISRs are triggered simultaneously",
+            "They occur when an ISR takes longer than expected to execute",
+            "They never occur in a microprocessor"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is interrupt processing in a microprocessor?",
+      "copies": [
+        {
+          "id": "book-ch2_305",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "The process of handling an interrupt request from an external device",
+          "correctOptionText": "The process of handling an interrupt request from an external device",
+          "options": [
+            "The process of interrupting a running program",
+            "The process of handling an interrupt request from an external device",
+            "The process of prioritizing interrupts",
+            "The process of executing the interrupt service routine"
+          ]
+        },
+        {
+          "id": "book-ch2_312",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "The process of handling interrupts",
+          "correctOptionText": "The process of handling interrupts",
+          "options": [
+            "The process of generating interrupts",
+            "The process of handling interrupts",
+            "The process of disabling interrupts",
+            "The process of prioritizing interrupts"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about interrupt latency?",
+      "copies": [
+        {
+          "id": "book-ch2_315",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It is the time between the occurrence of an interrupt and the start of the ISR",
+          "correctOptionText": "It is the time between the occurrence of an interrupt and the start of the ISR",
+          "options": [
+            "It is the time between the occurrence of an interrupt and the start of the ISR",
+            "It is the time between the start of the ISR and the end of the ISR",
+            "It is the time between the end of the ISR and the resumption of the interrupted program",
+            "It is the time between the occurrence of an interrupt and the resumption of the interrupted program"
+          ]
+        },
+        {
+          "id": "book-ch2_324",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "It refers to the time required for an interrupt to be detected and an ISR to be initiated",
+          "correctOptionText": "It refers to the time required for an interrupt to be detected and an ISR to be initiated",
+          "options": [
+            "It refers to the time required for an ISR to execute",
+            "It refers to the time required for an interrupt to be detected and an ISR to be initiated",
+            "It refers to the time required for the interrupted program to resume after an ISR is finished",
+            "It refers to the time required for the microprocessor to switch between different ISRs"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about edge-triggered interrupts?",
+      "copies": [
+        {
+          "id": "book-ch2_320",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "They are triggered by the rising or falling edge of a signal",
+          "correctOptionText": "They are triggered by the rising or falling edge of a signal",
+          "options": [
+            "They are triggered by the presence of a signal for a specified period of time",
+            "They are triggered by the rising or falling edge of a signal",
+            "They are triggered by the amplitude of a signal",
+            "They are triggered by the frequency of a signal"
+          ]
+        },
+        {
+          "id": "book-ch2_330",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They are triggered by a change in the interrupt request signal",
+          "correctOptionText": "They are triggered by a change in the interrupt request signal",
+          "options": [
+            "They are triggered by a change in the interrupt request signal",
+            "They are triggered by the level of the interrupt request signal",
+            "They are not used in microprocessors",
+            "They are always maskable interrupts"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the difference between a one-dimensional array and a two-dimensional array in C?",
+      "copies": [
+        {
+          "id": "book-ch3_59",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.",
+          "correctOptionText": "A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.",
+          "options": [
+            "A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.",
+            "A one-dimensional array has multiple rows and multiple columns, whereas a two-dimensional array has one row and multiple columns.",
+            "A one-dimensional array has multiple rows and one column, whereas a two-dimensional array has one row and one column.",
+            "A one-dimensional array has one row and one column, whereas a two-dimensional array has multiple rows and multiple columns."
+          ]
+        },
+        {
+          "id": "book-ch3_69",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A two-dimensional array has more dimensions than a one-dimensional array",
+          "correctOptionText": "A two-dimensional array has more dimensions than a one-dimensional array",
+          "options": [
+            "A two-dimensional array has more dimensions than a one-dimensional array",
+            "A one-dimensional array has more dimensions than a two-dimensional array",
+            "There is no difference between a one-dimensional array and a two-dimensional array",
+            "A two-dimensional array can store more values than a one-dimensional array"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is a namespace in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_190",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "It is a mechanism for managing the scope of identifiers in large programs",
+          "correctOptionText": "It is a mechanism for managing the scope of identifiers in large programs",
+          "options": [
+            "It is a block of code that is used to group related variables and functions",
+            "It is a feature that allows a class to inherit from multiple base classes",
+            "It is a mechanism for managing the scope of identifiers in large programs",
+            "It is a type of loop in C++"
+          ]
+        },
+        {
+          "id": "book-ch3_200",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A container that holds a group of related variables and functions",
+          "correctOptionText": "A container that holds a group of related variables and functions",
+          "options": [
+            "A container that holds a group of related variables and functions",
+            "A type of loop that iterates over a collection of elements",
+            "A method of creating a new object from an existing object",
+            "A way to specify the data type of a variable"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true regarding namespaces in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_192",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "You can have multiple namespaces with the same name in the same program",
+          "correctOptionText": "You can have multiple namespaces with the same name in the same program",
+          "options": [
+            "You can have multiple namespaces with the same name in the same program",
+            "Namespaces can only contain function declarations",
+            "You can define a namespace within a function",
+            "The contents of a namespace can be accessed using the dot operator"
+          ]
+        },
+        {
+          "id": "book-ch3_201",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Namespace members are accessed using the :: operator",
+          "correctOptionText": "Namespace members are accessed using the :: operator",
+          "options": [
+            "Nested namespaces are not allowed",
+            "A namespace can only contain functions",
+            "Namespaces are only used in object-oriented programming",
+            "Namespace members are accessed using the :: operator"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the purpose of the \"this\" pointer in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_319",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "It points to the object on which the member function is called",
+          "correctOptionText": "It points to the object on which the member function is called",
+          "options": [
+            "It points to the object on which the member function is called",
+            "It points to the class definition",
+            "It points to the current function",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_338",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "To refer to the object's own data members",
+          "correctOptionText": "To refer to the object's own data members",
+          "options": [
+            "To refer to the object's own data members",
+            "To refer to a different object's data members",
+            "To refer to a different function",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is a static data member in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_356",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "A data member that is shared among all instances of a class",
+          "correctOptionText": "A data member that is shared among all instances of a class",
+          "options": [
+            "A data member that is unique to each instance of a class",
+            "A data member that is shared among all instances of a class",
+            "A data member that can be accessed only by static functions",
+            "A data member that cannot be accessed from outside the class"
+          ]
+        },
+        {
+          "id": "book-ch3_366",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "A data member that belongs to the class and not to any instance of the class",
+          "correctOptionText": "A data member that belongs to the class and not to any instance of the class",
+          "options": [
+            "A data member that can be accessed only by static functions",
+            "A data member that belongs to the class and not to any instance of the class",
+            "A data member that is created dynamically at runtime",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "How is a static data member declared in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_357",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Using the keyword static before the data type",
+          "correctOptionText": "Using the keyword static before the data type",
+          "options": [
+            "Using the keyword static before the data type",
+            "Using the keyword static before the class name",
+            "Using the keyword static after the data type",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_367",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "With the keyword 'static' and the data type of the member",
+          "correctOptionText": "With the keyword 'static' and the data type of the member",
+          "options": [
+            "With the keyword 'static' and the name of the member",
+            "With the keyword 'static' and the data type of the member",
+            "With the keyword 'static' and the access specifier of the member",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "NUMERIC_MISMATCH",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about static data members in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_358",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "They are initialized to 0 by default",
+          "correctOptionText": "They are initialized to 0 by default",
+          "options": [
+            "They are not initialized by default",
+            "They are initialized to 0 by default",
+            "They are initialized to 1 by default",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_362",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "They can be initialized only outside the class definition",
+          "correctOptionText": "They can be initialized only outside the class definition",
+          "options": [
+            "They can be initialized inside the class definition",
+            "They must be initialized inside the class definition",
+            "They can be initialized only outside the class definition",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_364",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "All of the above are true",
+          "correctOptionText": "All of the above are true",
+          "options": [
+            "They can be accessed using the object of the class",
+            "They can be accessed using the class name and the scope resolution operator",
+            "They can be accessed using the pointer to the object of the class",
+            "All of the above are true"
+          ]
+        },
+        {
+          "id": "book-ch3_368",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They are initialized to zero by default",
+          "correctOptionText": "They are initialized to zero by default",
+          "options": [
+            "They are initialized to zero by default",
+            "They cannot be initialized inside the class declaration",
+            "They are initialized to their default values by default",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "How is a static function declared in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_359",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Using the keyword static before the return type",
+          "correctOptionText": "Using the keyword static before the return type",
+          "options": [
+            "Using the keyword static before the return type",
+            "Using the keyword static before the function name",
+            "Using the keyword static after the return type",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_370",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "With the keyword 'static' and the return type of the function",
+          "correctOptionText": "With the keyword 'static' and the return type of the function",
+          "options": [
+            "With the keyword 'static' and the return type of the function",
+            "With the keyword 'static' and the access specifier of the function",
+            "With the keyword 'static' and the name of the function",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about static functions in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_360",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They can access only static data members of the class",
+          "correctOptionText": "They can access only static data members of the class",
+          "options": [
+            "They can access only static data members of the class",
+            "They can access only non-static data members of the class",
+            "They cannot access any data members of the class",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_363",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They cannot access non-static data members",
+          "correctOptionText": "They cannot access non-static data members",
+          "options": [
+            "They cannot access non-static data members",
+            "They can access non-static data members",
+            "They can be virtual",
+            "They can be called using an instance of the class"
+          ]
+        },
+        {
+          "id": "book-ch3_371",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "They cannot be virtual",
+          "correctOptionText": "They cannot be virtual",
+          "options": [
+            "They can be virtual",
+            "They cannot be virtual",
+            "They can be pure virtual",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is a constant member function in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_375",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A member function that cannot modify any data members of the class",
+          "correctOptionText": "A member function that cannot modify any data members of the class",
+          "options": [
+            "A member function that cannot modify any data members of the class",
+            "A member function that can modify any data members of the class",
+            "A member function that cannot be called by const objects of the class",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_383",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A member function that cannot be modified",
+          "correctOptionText": "A member function that cannot be modified",
+          "options": [
+            "A member function that cannot be modified",
+            "A member function that can be called on a constant object only",
+            "A member function that does not have any return type",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following statements is true about constant objects in C++?",
+      "copies": [
+        {
+          "id": "book-ch3_379",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They cannot modify any data members of the class",
+          "correctOptionText": "They cannot modify any data members of the class",
+          "options": [
+            "They cannot modify any data members of the class",
+            "They can modify only constant data members of the class",
+            "They can modify any data members of the class",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_384",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They cannot modify the data members of the class",
+          "correctOptionText": "They cannot modify the data members of the class",
+          "options": [
+            "They cannot modify the data members of the class",
+            "They can modify the data members of the class",
+            "They can modify the data members of the class only if they are declared mutable",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_386",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "They can be created using the const keyword before the object name",
+          "correctOptionText": "They can be created using the const keyword before the object name",
+          "options": [
+            "They can be created using the const keyword before the class name",
+            "They can be created using the const keyword after the object name",
+            "They can be created using the const keyword before the object name",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_387",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "They cannot call non-constant member functions of the class",
+          "correctOptionText": "They cannot call non-constant member functions of the class",
+          "options": [
+            "They can call non-constant member functions of the class",
+            "They cannot call non-constant member functions of the class",
+            "They can call non-constant member functions of the class only if the functions are declared const",
+            "None of the above"
+          ]
+        },
+        {
+          "id": "book-ch3_388",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "They can access only constant member functions of the class",
+          "correctOptionText": "They can access only constant member functions of the class",
+          "options": [
+            "They can access only constant member functions of the class",
+            "They can access only non-constant member functions of the class",
+            "They can access both constant and non-constant member functions of the class",
+            "None of the above"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "The Least Recently Used (LRU) algorithm is used for:",
+      "copies": [
+        {
+          "id": "book-ch4_14",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Cache replacement",
+          "correctOptionText": "Cache replacement",
+          "options": [
+            "CPU scheduling",
+            "Memory allocation",
+            "Cache replacement",
+            "Disk scheduling"
+          ]
+        },
+        {
+          "id": "book-ch7_50",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Page replacement",
+          "correctOptionText": "Page replacement",
+          "options": [
+            "CPU scheduling",
+            "Memory allocation",
+            "Page replacement",
+            "Disk scheduling"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the difference between volatile and non-volatile memory?",
+      "copies": [
+        {
+          "id": "book-ch4_62",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents",
+          "correctOptionText": "Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents",
+          "options": [
+            "Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents",
+            "Volatile memory is slower than non-volatile memory",
+            "Volatile memory is used for long-term storage, while non-volatile memory is used for temporary storage",
+            "Volatile memory is more expensive than non-volatile memory"
+          ]
+        },
+        {
+          "id": "book-ch4_202",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Volatile memory requires power to retain its data, while non-volatile memory retains data even without power",
+          "correctOptionText": "Volatile memory requires power to retain its data, while non-volatile memory retains data even without power",
+          "options": [
+            "Volatile memory can only be read from, while non-volatile memory can be both read and written to",
+            "Volatile memory requires power to retain its data, while non-volatile memory retains data even without power",
+            "Volatile memory is faster than non-volatile memory",
+            "Non-volatile memory has a higher storage capacity than volatile memory"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is not an arithmetic operation performed by the ALU?",
+      "copies": [
+        {
+          "id": "book-ch4_130",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Shift left",
+          "correctOptionText": "Shift left",
+          "options": [
+            "Increment",
+            "Decrement",
+            "Shift left",
+            "Addition"
+          ]
+        },
+        {
+          "id": "book-ch4_136",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Comparison",
+          "correctOptionText": "Comparison",
+          "options": [
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Comparison"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is not a characteristic of a multiprocessor system?",
+      "copies": [
+        {
+          "id": "book-ch4_280",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Sequential execution",
+          "correctOptionText": "Sequential execution",
+          "options": [
+            "Parallelism",
+            "Scalability",
+            "Fault tolerance",
+            "Sequential execution"
+          ]
+        },
+        {
+          "id": "book-ch4_288",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Single processing unit",
+          "correctOptionText": "Single processing unit",
+          "options": [
+            "Parallelism",
+            "Scalability",
+            "Fault tolerance",
+            "Single processing unit"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is parallelism in a multiprocessor system?",
+      "copies": [
+        {
+          "id": "book-ch4_281",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The ability of multiple processors to execute instructions simultaneously",
+          "correctOptionText": "The ability of multiple processors to execute instructions simultaneously",
+          "options": [
+            "The ability of multiple processors to execute instructions simultaneously",
+            "The ability of a single processor to execute multiple threads of execution simultaneously",
+            "The ability of multiple input/output devices to communicate with each other simultaneously",
+            "The ability of a single input/output device to handle multiple input/output operations simultaneously"
+          ]
+        },
+        {
+          "id": "book-ch4_289",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "The ability to use multiple processors to complete a single task",
+          "correctOptionText": "The ability to use multiple processors to complete a single task",
+          "options": [
+            "The ability to run multiple tasks simultaneously",
+            "The ability to share resources between processors",
+            "The ability to use multiple processors to complete a single task",
+            "The ability to increase the clock speed of a processor"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is scalability in a multiprocessor system?",
+      "copies": [
+        {
+          "id": "book-ch4_282",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "The ability of the system to increase performance as more processors are added",
+          "correctOptionText": "The ability of the system to increase performance as more processors are added",
+          "options": [
+            "The ability of the system to handle multiple users simultaneously",
+            "The ability of the system to increase performance as more processors are added",
+            "The ability of the system to recover from failures automatically",
+            "The ability of the system to communicate with other systems"
+          ]
+        },
+        {
+          "id": "book-ch4_290",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "The ability to add more processors to the system as needed",
+          "correctOptionText": "The ability to add more processors to the system as needed",
+          "options": [
+            "The ability to run more tasks simultaneously",
+            "The ability to increase the memory capacity of the system",
+            "The ability to add more processors to the system as needed",
+            "The ability to reduce power consumption"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is cache coherence in a multiprocessor system?",
+      "copies": [
+        {
+          "id": "book-ch4_286",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The ability of the system to maintain consistency of data stored in the caches of multiple processors",
+          "correctOptionText": "The ability of the system to maintain consistency of data stored in the caches of multiple processors",
+          "options": [
+            "The ability of the system to maintain consistency of data stored in the caches of multiple processors",
+            "The ability of the system to maintain consistency of data stored in the main memory",
+            "The ability of the system to communicate with other systems",
+            "The ability of the system to handle multiple input/output operations simultaneously"
+          ]
+        },
+        {
+          "id": "book-ch4_293",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "The ability to maintain consistency of shared data in different processor caches",
+          "correctOptionText": "The ability to maintain consistency of shared data in different processor caches",
+          "options": [
+            "The ability to maintain consistency of shared data in different processor caches",
+            "The ability to reduce the number of cache misses",
+            "The ability to switch between processors seamlessly",
+            "The ability to recover from failures automatically"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is an embedded system?",
+      "copies": [
+        {
+          "id": "book-ch4_333",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "A computer system that is embedded within a larger device",
+          "correctOptionText": "A computer system that is embedded within a larger device",
+          "options": [
+            "A system with no computing capabilities",
+            "A network of computers connected together",
+            "A computer system that is embedded within a larger device",
+            "A computer system with a large memory and processing power"
+          ]
+        },
+        {
+          "id": "book-ch4_342",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A system designed to perform a specific task",
+          "correctOptionText": "A system designed to perform a specific task",
+          "options": [
+            "A system designed to perform a specific task",
+            "A system that is connected to the internet",
+            "A system that is used for gaming",
+            "A system that is used for general-purpose computing"
+          ]
+        },
+        {
+          "id": "book-ch4_378",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "A computer system used in industrial control applications",
+          "correctOptionText": "A computer system used in industrial control applications",
+          "options": [
+            "A computer system used in industrial control applications",
+            "A computer system that is always connected to the internet",
+            "A computer system used for gaming",
+            "A computer system that is only used for word processing"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is NOT a characteristic of an embedded system?",
+      "copies": [
+        {
+          "id": "book-ch4_343",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "General-purpose computing",
+          "correctOptionText": "General-purpose computing",
+          "options": [
+            "Small size",
+            "Limited power",
+            "General-purpose computing",
+            "Low cost"
+          ]
+        },
+        {
+          "id": "book-ch4_356",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Standard operating system",
+          "correctOptionText": "Standard operating system",
+          "options": [
+            "High reliability",
+            "Limited resources",
+            "Standard operating system",
+            "Real-time operation"
+          ]
+        },
+        {
+          "id": "book-ch4_381",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "High processing speed",
+          "correctOptionText": "High processing speed",
+          "options": [
+            "Low power consumption",
+            "Small form factor",
+            "High processing speed",
+            "Real-time operation"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is NOT an example of an embedded system?",
+      "copies": [
+        {
+          "id": "book-ch4_344",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Home computer",
+          "correctOptionText": "Home computer",
+          "options": [
+            "Smart watch",
+            "Home computer",
+            "Microwave oven",
+            "Airplane navigation system"
+          ]
+        },
+        {
+          "id": "book-ch4_379",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Personal computer",
+          "correctOptionText": "Personal computer",
+          "options": [
+            "Smartwatch",
+            "Traffic light control system",
+            "Microwave oven",
+            "Personal computer"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "What is the purpose of a real-time operating system (RTOS) in an embedded system?",
+      "copies": [
+        {
+          "id": "book-ch4_348",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "To manage system resources and scheduling",
+          "correctOptionText": "To manage system resources and scheduling",
+          "options": [
+            "To provide a graphical user interface (GUI)",
+            "To manage system resources and scheduling",
+            "To provide internet connectivity",
+            "To provide audio and video output"
+          ]
+        },
+        {
+          "id": "book-ch4_391",
+          "correctOptionIndex": 1,
+          "keyedAnswer": "To schedule and manage tasks in real-time.",
+          "correctOptionText": "To schedule and manage tasks in real-time.",
+          "options": [
+            "To schedule and manage tasks in real-time.",
+            "To provide a graphical user interface for the user.",
+            "To manage memory usage in the system.",
+            "To provide network connectivity."
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is not a type of embedded system?",
+      "copies": [
+        {
+          "id": "book-ch4_352",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Web-based embedded system",
+          "correctOptionText": "Web-based embedded system",
+          "options": [
+            "Standalone embedded system",
+            "Mobile embedded system",
+            "Networked embedded system",
+            "Web-based embedded system"
+          ]
+        },
+        {
+          "id": "book-ch4_383",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Mainframe system",
+          "correctOptionText": "Mainframe system",
+          "options": [
+            "Standalone system",
+            "Real-time system",
+            "Networked system",
+            "Mainframe system"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Which of the following is an example of an ASIP?",
+      "copies": [
+        {
+          "id": "book-ch4_413",
+          "correctOptionIndex": 3,
+          "keyedAnswer": "Tensilica Xtensa",
+          "correctOptionText": "Tensilica Xtensa",
+          "options": [
+            "Intel Core i7",
+            "ARM Cortex-A9",
+            "Tensilica Xtensa",
+            "AMD Ryzen"
+          ]
+        },
+        {
+          "id": "book-ch4_417",
+          "correctOptionIndex": 4,
+          "keyedAnswer": "Digital Signal Processor (DSP)",
+          "correctOptionText": "Digital Signal Processor (DSP)",
+          "options": [
+            "Intel Core i7",
+            "ARM Cortex-A53",
+            "Qualcomm Snapdragon",
+            "Digital Signal Processor (DSP)"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "System behavior in object-oriented analysis can be represented using:",
+      "copies": [
+        {
+          "id": "book-ch8_28",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Sequence diagrams",
+          "correctOptionText": "Sequence diagrams",
+          "options": [
+            "Class diagrams",
+            "Sequence diagrams",
+            "Component diagrams",
+            "Deployment diagrams"
+          ]
+        },
+        {
+          "id": "book-ch8_61",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "State diagrams",
+          "correctOptionText": "State diagrams",
+          "options": [
+            "Class diagrams",
+            "State diagrams",
+            "Component diagrams",
+            "Deployment diagrams"
+          ]
+        }
+      ]
+    },
+    {
+      "reason": "DIVERGENT_PROSE",
+      "optionSetsIdentical": false,
+      "stem": "Exception handling in object-oriented programming:",
+      "copies": [
+        {
+          "id": "book-ch8_36",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Provides a mechanism for handling runtime errors",
+          "correctOptionText": "Provides a mechanism for handling runtime errors",
+          "options": [
+            "Should be avoided",
+            "Provides a mechanism for handling runtime errors",
+            "Is only available in Java",
+            "Decreases code reliability"
+          ]
+        },
+        {
+          "id": "book-ch8_69",
+          "correctOptionIndex": 2,
+          "keyedAnswer": "Provides a structured way to handle errors",
+          "correctOptionText": "Provides a structured way to handle errors",
+          "options": [
+            "Should be avoided",
+            "Provides a structured way to handle errors",
+            "Is only available in C++",
+            "Decreases code reliability"
+          ]
+        }
+      ]
+    }
+  ],
+  "appliedDeletions": [
+    {
+      "stem": "What is the purpose of star-delta conversion?",
+      "answer": "To reduce the starting current of a motor",
+      "kept": "book-ch1_48",
+      "dropped": [
+        "book-ch1_58"
+      ]
+    },
+    {
+      "stem": "Which type of conversion is commonly used in motor control circuits?",
+      "answer": "Star-delta conversion",
+      "kept": "book-ch1_53",
+      "dropped": [
+        "book-ch1_62"
+      ]
+    },
+    {
+      "stem": "Which type of conversion is commonly used in power distribution systems?",
+      "answer": "Delta-star conversion",
+      "kept": "book-ch1_54",
+      "dropped": [
+        "book-ch1_63"
+      ]
+    },
+    {
+      "stem": "Which of the following circuits is an example of a non-linear circuit?",
+      "answer": "Diode rectifier circuit",
+      "kept": "book-ch1_87",
+      "dropped": [
+        "book-ch1_93"
+      ]
+    },
+    {
+      "stem": "Which of the following circuits requires an external source of power to function?",
+      "answer": "Active circuit",
+      "kept": "book-ch1_122",
+      "dropped": [
+        "book-ch1_131"
+      ]
+    },
+    {
+      "stem": "What is the Thevenin equivalent circuit?",
+      "answer": "A circuit consisting of a single voltage source and a single resistor",
+      "kept": "book-ch1_162",
+      "dropped": [
+        "book-ch1_173"
+      ]
+    },
+    {
+      "stem": "What is the first step in determining the Thevenin equivalent circuit?",
+      "answer": "Identify the load circuit that is connected to the circuit of interest",
+      "kept": "book-ch1_164",
+      "dropped": [
+        "book-ch1_174"
+      ]
+    },
+    {
+      "stem": "What is the second step in determining the Thevenin equivalent circuit?",
+      "answer": "Remove the load circuit from the circuit of interest",
+      "kept": "book-ch1_165",
+      "dropped": [
+        "book-ch1_175"
+      ]
+    },
+    {
+      "stem": "What is the third step in determining the Thevenin equivalent circuit?",
+      "answer": "Determine the open-circuit voltage Vth across the terminals where the load was connected",
+      "kept": "book-ch1_166",
+      "dropped": [
+        "book-ch1_176"
+      ]
+    },
+    {
+      "stem": "What is the fourth step in determining the Thevenin equivalent circuit?",
+      "answer": "Determine the internal resistance Rth of the circuit between those terminals",
+      "kept": "book-ch1_167",
+      "dropped": [
+        "book-ch1_177"
+      ]
+    },
+    {
+      "stem": "Can Thevenin's theorem be used for non-linear circuits?",
+      "answer": "No, it only applies to linear circuits",
+      "kept": "book-ch1_170",
+      "dropped": [
+        "book-ch1_178"
+      ]
+    },
+    {
+      "stem": "What is the Norton equivalent circuit of a linear circuit?",
+      "answer": "A current source and a parallel resistor",
+      "kept": "book-ch1_185",
+      "dropped": [
+        "book-ch1_192"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using Norton's theorem?",
+      "answer": "It simplifies complex circuits",
+      "kept": "book-ch1_187",
+      "dropped": [
+        "book-ch1_196"
+      ]
+    },
+    {
+      "stem": "What is the maximum power transfer theorem?",
+      "answer": "It states that the power transferred from a source to a load is maximum when the load impedance is equal to the source impedance.",
+      "kept": "book-ch1_202",
+      "dropped": [
+        "book-ch1_268"
+      ]
+    },
+    {
+      "stem": "What type of circuits does the maximum power transfer theorem apply to?",
+      "answer": "Linear circuits only.",
+      "kept": "book-ch1_203",
+      "dropped": [
+        "book-ch1_269"
+      ]
+    },
+    {
+      "stem": "What is the advantage of applying the maximum power transfer theorem in a circuit?",
+      "answer": "It reduces the power loss in the circuit.",
+      "kept": "book-ch1_204",
+      "dropped": [
+        "book-ch1_270"
+      ]
+    },
+    {
+      "stem": "How does the maximum power transfer theorem help in designing power systems?",
+      "answer": "All of the above.",
+      "kept": "book-ch1_205",
+      "dropped": [
+        "book-ch1_271"
+      ]
+    },
+    {
+      "stem": "What happens when the load impedance is not equal to the source impedance in a circuit?",
+      "answer": "The power transfer is minimum.",
+      "kept": "book-ch1_206",
+      "dropped": [
+        "book-ch1_272"
+      ]
+    },
+    {
+      "stem": "Is the maximum power transfer theorem applicable to AC circuits?",
+      "answer": "Yes, it is applicable to AC circuits.",
+      "kept": "book-ch1_207",
+      "dropped": [
+        "book-ch1_273"
+      ]
+    },
+    {
+      "stem": "What is the formula for calculating the maximum power transfer in a circuit?",
+      "answer": "P=I^2R",
+      "kept": "book-ch1_208",
+      "dropped": [
+        "book-ch1_274"
+      ]
+    },
+    {
+      "stem": "Can the maximum power transfer occur at multiple values of load impedance?",
+      "answer": "No, it can occur at only one value of load impedance.",
+      "kept": "book-ch1_209",
+      "dropped": [
+        "book-ch1_275"
+      ]
+    },
+    {
+      "stem": "What is the condition for maximum power transfer in a circuit?",
+      "answer": "The load impedance must be equal to the source impedance.",
+      "kept": "book-ch1_210",
+      "dropped": [
+        "book-ch1_276"
+      ]
+    },
+    {
+      "stem": "The maximum power transfer theorem is applicable to:",
+      "answer": "Linear circuits only.",
+      "kept": "book-ch1_212",
+      "dropped": [
+        "book-ch1_278"
+      ]
+    },
+    {
+      "stem": "The maximum power transfer occurs when:",
+      "answer": "The load impedance is equal to the source impedance",
+      "kept": "book-ch1_213",
+      "dropped": [
+        "book-ch1_279"
+      ]
+    },
+    {
+      "stem": "What is the formula for calculating the maximum power transfer?",
+      "answer": "Pmax=V^2/4R",
+      "kept": "book-ch1_214",
+      "dropped": [
+        "book-ch1_280"
+      ]
+    },
+    {
+      "stem": "In which applications is the maximum power transfer theorem useful?",
+      "answer": "All of the above",
+      "kept": "book-ch1_215",
+      "dropped": [
+        "book-ch1_281"
+      ]
+    },
+    {
+      "stem": "What happens when the load impedance is much larger than the source impedance?",
+      "answer": "The power transfer is minimum.",
+      "kept": "book-ch1_216",
+      "dropped": [
+        "book-ch1_282"
+      ]
+    },
+    {
+      "stem": "The maximum power transfer theorem helps to:",
+      "answer": "Minimize the amount of energy lost in transmission.",
+      "kept": "book-ch1_217",
+      "dropped": [
+        "book-ch1_283"
+      ]
+    },
+    {
+      "stem": "The maximum power transfer theorem is useful in designing and optimizing:",
+      "answer": "Power systems",
+      "kept": "book-ch1_218",
+      "dropped": [
+        "book-ch1_284"
+      ]
+    },
+    {
+      "stem": "A series R-C circuit has a resistor of 100 Ω and a capacitor of 10 µF. What is the cutoff frequency?",
+      "answer": "159 Hz",
+      "kept": "book-ch1_223",
+      "dropped": [
+        "book-ch1_289"
+      ]
+    },
+    {
+      "stem": "In an R-L circuit, what happens to the impedance as the frequency increases?",
+      "answer": "It increases",
+      "kept": "book-ch1_224",
+      "dropped": [
+        "book-ch1_290"
+      ]
+    },
+    {
+      "stem": "Which type of circuit contains an inductor and a resistor?",
+      "answer": "R-L circuit",
+      "kept": "book-ch1_229",
+      "dropped": [
+        "book-ch1_295"
+      ]
+    },
+    {
+      "stem": "What happens to the current in an R-L circuit if the inductance is increased?",
+      "answer": "The current remains the same",
+      "kept": "book-ch1_232",
+      "dropped": [
+        "book-ch1_298"
+      ]
+    },
+    {
+      "stem": "In an R-C circuit, what happens to the current as the capacitor becomes fully charged?",
+      "answer": "The current becomes zero",
+      "kept": "book-ch1_233",
+      "dropped": [
+        "book-ch1_299"
+      ]
+    },
+    {
+      "stem": "In an R-L-C circuit, what happens to the phase angle at resonance?",
+      "answer": "The phase angle is zero",
+      "kept": "book-ch1_236",
+      "dropped": [
+        "book-ch1_302"
+      ]
+    },
+    {
+      "stem": "What is the resonant frequency of an AC series circuit consisting of a 20mH Inductor and a 10µF capacitor?",
+      "answer": "159.15 Hz",
+      "kept": "book-ch1_237",
+      "dropped": [
+        "book-ch1_303"
+      ]
+    },
+    {
+      "stem": "What is the resonant frequency of an AC parallel circuit consisting of a 10mH inductor and a capacitor 100µF?",
+      "answer": "159.15 Hz",
+      "kept": "book-ch1_238",
+      "dropped": [
+        "book-ch1_304"
+      ]
+    },
+    {
+      "stem": "What is the phase angle between the voltage and current in an AC series resonant circuit at resonance?",
+      "answer": "0 degrees",
+      "kept": "book-ch1_243",
+      "dropped": [
+        "book-ch1_309"
+      ]
+    },
+    {
+      "stem": "What is the phase angle between the voltage and current in an AC parallel resonant circuit at resonance?",
+      "answer": "0 degrees",
+      "kept": "book-ch1_244",
+      "dropped": [
+        "book-ch1_310"
+      ]
+    },
+    {
+      "stem": "In an AC series resonant circuit, at the resonant frequency, what is the power factor?",
+      "answer": "Unity",
+      "kept": "book-ch1_246",
+      "dropped": [
+        "book-ch1_312"
+      ]
+    },
+    {
+      "stem": "What is the resonant frequency of an AC series resonant circuit with an inductance of 5mH and a capacitance 10µF?",
+      "answer": "3.18 kHz",
+      "kept": "book-ch1_247",
+      "dropped": [
+        "book-ch1_313"
+      ]
+    },
+    {
+      "stem": "What is the phase relationship between the voltage across the capacitor and the voltage across the inductor in an AC series resonant circuit at resonance?",
+      "answer": "They are 180 degrees out of phase",
+      "kept": "book-ch1_250",
+      "dropped": [
+        "book-ch1_316"
+      ]
+    },
+    {
+      "stem": "What is the phase relationship between the current and the voltage in an AC series resonant circuit at resonance?",
+      "answer": "They are in phase",
+      "kept": "book-ch1_251",
+      "dropped": [
+        "book-ch1_317"
+      ]
+    },
+    {
+      "stem": "What is the unit of active power?",
+      "answer": "Watts (W)",
+      "kept": "book-ch1_252",
+      "dropped": [
+        "book-ch1_318"
+      ]
+    },
+    {
+      "stem": "What is the formula for reactive power?",
+      "answer": "Q=V*I*sin(theta)",
+      "kept": "book-ch1_253",
+      "dropped": [
+        "book-ch1_319"
+      ]
+    },
+    {
+      "stem": "What is the unit of reactive power?",
+      "answer": "Volt-amperes reactive (VAR)",
+      "kept": "book-ch1_254",
+      "dropped": [
+        "book-ch1_320"
+      ]
+    },
+    {
+      "stem": "What is the formula for active power?",
+      "answer": "P=V*I*cos(theta)",
+      "kept": "book-ch1_255",
+      "dropped": [
+        "book-ch1_321"
+      ]
+    },
+    {
+      "stem": "What is the unit of apparent power?",
+      "answer": "Volt-amperes (VA)",
+      "kept": "book-ch1_256",
+      "dropped": [
+        "book-ch1_322"
+      ]
+    },
+    {
+      "stem": "What is the formula for power factor?",
+      "answer": "pf=P/S",
+      "kept": "book-ch1_257",
+      "dropped": [
+        "book-ch1_323"
+      ]
+    },
+    {
+      "stem": "What is the unit of power factor?",
+      "answer": "None of the above",
+      "kept": "book-ch1_258",
+      "dropped": [
+        "book-ch1_324"
+      ]
+    },
+    {
+      "stem": "What is the formula for apparent power?",
+      "answer": "S=V",
+      "kept": "book-ch1_260",
+      "dropped": [
+        "book-ch1_326"
+      ]
+    },
+    {
+      "stem": "What is the significance of power factor in electrical circuits?",
+      "answer": "It measures the efficiency of the circuit in using the power delivered to it",
+      "kept": "book-ch1_261",
+      "dropped": [
+        "book-ch1_327"
+      ]
+    },
+    {
+      "stem": "Which of the following is a measure of how efficiently the circuit is using the power delivered to it?",
+      "answer": "Power factor",
+      "kept": "book-ch1_262",
+      "dropped": [
+        "book-ch1_328"
+      ]
+    },
+    {
+      "stem": "Which type of power is used in the circuit to perform useful work?",
+      "answer": "Active power",
+      "kept": "book-ch1_263",
+      "dropped": [
+        "book-ch1_329"
+      ]
+    },
+    {
+      "stem": "Which type of power is stored and released by the circuit?",
+      "answer": "Reactive power",
+      "kept": "book-ch1_264",
+      "dropped": [
+        "book-ch1_330"
+      ]
+    },
+    {
+      "stem": "What is the power factor of a circuit that has 100 W of active power and 120 VA of apparent power?",
+      "answer": "0.83",
+      "kept": "book-ch1_265",
+      "dropped": [
+        "book-ch1_331"
+      ]
+    },
+    {
+      "stem": "What happens to the power factor of a circuit if the reactive power increases?",
+      "answer": "It decreases",
+      "kept": "book-ch1_266",
+      "dropped": [
+        "book-ch1_332"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a measure of power in an AC circuit?",
+      "answer": "Hertz (Hz)",
+      "kept": "book-ch1_267",
+      "dropped": [
+        "book-ch1_333"
+      ]
+    },
+    {
+      "stem": "What determines the frequency of an RC oscillator?",
+      "answer": "The time constant of the RC circuit",
+      "kept": "book-ch1_372",
+      "dropped": [
+        "book-ch1_382"
+      ]
+    },
+    {
+      "stem": "What is the duty cycle of a square wave generator?",
+      "answer": "The ratio of the pulse width to the time period",
+      "kept": "book-ch1_391",
+      "dropped": [
+        "book-ch2_123"
+      ]
+    },
+    {
+      "stem": "What type of waveform is produced by a triangle wave generator?",
+      "answer": "A waveform with a linearly increasing or decreasing amplitude",
+      "kept": "book-ch1_392",
+      "dropped": [
+        "book-ch2_124"
+      ]
+    },
+    {
+      "stem": "What type of circuit is commonly used to generate square wave signals?",
+      "answer": "An op-amp circuit",
+      "kept": "book-ch1_393",
+      "dropped": [
+        "book-ch2_125"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using a relaxation oscillator for square wave generation?",
+      "answer": "Simplicity and low cost",
+      "kept": "book-ch1_394",
+      "dropped": [
+        "book-ch2_126"
+      ]
+    },
+    {
+      "stem": "What is the role of a Schmitt trigger in a square wave generator circuit?",
+      "answer": "To generate a clean and stable square wave signal",
+      "kept": "book-ch1_395",
+      "dropped": [
+        "book-ch2_127"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using a ramp generator for triangle wave generation?",
+      "answer": "Simplicity and low cost",
+      "kept": "book-ch1_397",
+      "dropped": [
+        "book-ch2_129"
+      ]
+    },
+    {
+      "stem": "What type of circuit is commonly used to generate triangle wave signals?",
+      "answer": "An integrator circuit",
+      "kept": "book-ch1_398",
+      "dropped": [
+        "book-ch2_130"
+      ]
+    },
+    {
+      "stem": "What is the amplitude of a triangle wave generator determined by?",
+      "answer": "The input voltage of the oscillator",
+      "kept": "book-ch1_399",
+      "dropped": [
+        "book-ch2_131"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using an op-amp circuit for triangle wave generation?",
+      "answer": "Simplicity and low cost",
+      "kept": "book-ch1_400",
+      "dropped": [
+        "book-ch2_132"
+      ]
+    },
+    {
+      "stem": "Which waveform generator is typically used for testing digital circuits?",
+      "answer": "Square wave generator",
+      "kept": "book-ch1_401",
+      "dropped": [
+        "book-ch2_133"
+      ]
+    },
+    {
+      "stem": "What is the duty cycle of a square wave?",
+      "answer": "The ratio of the pulse width to the time period",
+      "kept": "book-ch1_402",
+      "dropped": [
+        "book-ch2_134"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using a square wave generator over other types of waveform generators?",
+      "answer": "Simplicity and low cost",
+      "kept": "book-ch1_403",
+      "dropped": [
+        "book-ch2_135"
+      ]
+    },
+    {
+      "stem": "Which waveform generator is capable of producing more complex waveforms than a square wave generator?",
+      "answer": "Arbitrary waveform generator",
+      "kept": "book-ch1_404",
+      "dropped": [
+        "book-ch2_136"
+      ]
+    },
+    {
+      "stem": "What is the shape of the waveform produced by a triangle wave generator?",
+      "answer": "A smoothly varying waveform with a linear rise and fall",
+      "kept": "book-ch1_405",
+      "dropped": [
+        "book-ch2_137"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using a triangle wave generator over a square wave generator?",
+      "answer": "More gradual transitions and reduced harmonic content",
+      "kept": "book-ch1_407",
+      "dropped": [
+        "book-ch2_139"
+      ]
+    },
+    {
+      "stem": "Which type of waveform generator is commonly used in audio applications?",
+      "answer": "Sine wave generator",
+      "kept": "book-ch1_408",
+      "dropped": [
+        "book-ch2_140"
+      ]
+    },
+    {
+      "stem": "What is the shape of the waveform produced by a sawtooth wave generator?",
+      "answer": "A waveform with a rapidly changing rise and a slow fall",
+      "kept": "book-ch1_409",
+      "dropped": [
+        "book-ch2_141"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using an arbitrary waveform generator over other types of waveform generators?",
+      "answer": "The ability to generate complex and customized waveforms",
+      "kept": "book-ch1_410",
+      "dropped": [
+        "book-ch2_142"
+      ]
+    },
+    {
+      "stem": "What is the amplifying element used in a Class A output stage?",
+      "answer": "Bipolar Junction Transistor",
+      "kept": "book-ch1_411",
+      "dropped": [
+        "book-ch2_143"
+      ]
+    },
+    {
+      "stem": "What causes crossover distortion in a Class B output stage?",
+      "answer": "The switching between the amplifying elements causes a gap in the output signal.",
+      "kept": "book-ch1_412",
+      "dropped": [
+        "book-ch2_144"
+      ]
+    },
+    {
+      "stem": "What is the advantage of a Class AB output stage over a Class B output stage?",
+      "answer": "Reduced crossover distortion",
+      "kept": "book-ch1_413",
+      "dropped": [
+        "book-ch2_145"
+      ]
+    },
+    {
+      "stem": "What is the operating mode of a Class C output stage?",
+      "answer": "Non-linear",
+      "kept": "book-ch1_414",
+      "dropped": [
+        "book-ch2_146"
+      ]
+    },
+    {
+      "stem": "What is the advantage of a Class D output stage over other output stages?",
+      "answer": "High efficiency",
+      "kept": "book-ch1_415",
+      "dropped": [
+        "book-ch2_147"
+      ]
+    },
+    {
+      "stem": "What is the primary disadvantage of a Class A output stage?",
+      "answer": "Low efficiency",
+      "kept": "book-ch1_416",
+      "dropped": [
+        "book-ch2_148"
+      ]
+    },
+    {
+      "stem": "Which type of output stage is suitable for RF amplifiers?",
+      "answer": "Class C",
+      "kept": "book-ch1_417",
+      "dropped": [
+        "book-ch2_149"
+      ]
+    },
+    {
+      "stem": "What is the biasing arrangement used in a Class AB output stage?",
+      "answer": "The bias voltage is varied to adjust the conduction angle.",
+      "kept": "book-ch1_418",
+      "dropped": [
+        "book-ch2_150"
+      ]
+    },
+    {
+      "stem": "Which type of output stage is used in audio power amplifiers?",
+      "answer": "Class AB",
+      "kept": "book-ch1_419",
+      "dropped": [
+        "book-ch2_151"
+      ]
+    },
+    {
+      "stem": "Which type of output stage is commonly used in switch-mode power supplies?",
+      "answer": "Class D",
+      "kept": "book-ch1_420",
+      "dropped": [
+        "book-ch2_152"
+      ]
+    },
+    {
+      "stem": "Which of the following is a characteristic of a class A output stage?",
+      "answer": "Low distortion",
+      "kept": "book-ch1_421",
+      "dropped": [
+        "book-ch1_441",
+        "book-ch2_153",
+        "book-ch2_173"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages uses two amplifying elements that conduct for half of the input signal cycle each?",
+      "answer": "Class B",
+      "kept": "book-ch1_422",
+      "dropped": [
+        "book-ch2_154"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages is a combination of class A and class B?",
+      "answer": "Class AB",
+      "kept": "book-ch1_423",
+      "dropped": [
+        "book-ch2_155"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages is suitable for RF amplifiers?",
+      "answer": "Class C",
+      "kept": "book-ch1_424",
+      "dropped": [
+        "book-ch2_156"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages uses pulse width modulation to convert the input signal into a train of pulses?",
+      "answer": "Class D",
+      "kept": "book-ch1_425",
+      "dropped": [
+        "book-ch2_157"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of a class B output stage?",
+      "answer": "Crossover distortion",
+      "kept": "book-ch1_426",
+      "dropped": [
+        "book-ch2_158"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages is the most efficient?",
+      "answer": "Class C",
+      "kept": "book-ch1_427",
+      "dropped": [
+        "book-ch2_159"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages is the least efficient?",
+      "answer": "Class A",
+      "kept": "book-ch1_428",
+      "dropped": [
+        "book-ch2_160"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages has a biasing arrangement that allows the amplifying element to conduct slightly even when there is no input signal?",
+      "answer": "Class AB",
+      "kept": "book-ch1_429",
+      "dropped": [
+        "book-ch2_161"
+      ]
+    },
+    {
+      "stem": "Which of the following output stages is suitable for high power audio amplifiers?",
+      "answer": "Class AB",
+      "kept": "book-ch1_430",
+      "dropped": [
+        "book-ch2_162"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of a Class A output stage?",
+      "answer": "Low distortion",
+      "kept": "book-ch1_431",
+      "dropped": [
+        "book-ch2_163"
+      ]
+    },
+    {
+      "stem": "What is the main disadvantage of a Class A output stage?",
+      "answer": "Low efficiency",
+      "kept": "book-ch1_432",
+      "dropped": [
+        "book-ch2_164"
+      ]
+    },
+    {
+      "stem": "What type of biasing is commonly used in Class A output stages?",
+      "answer": "Fixed bias",
+      "kept": "book-ch1_433",
+      "dropped": [
+        "book-ch2_165"
+      ]
+    },
+    {
+      "stem": "What is the DC bias point of a Class A output stage?",
+      "answer": "Halfway between the positive and negative supply voltage",
+      "kept": "book-ch1_434",
+      "dropped": [
+        "book-ch2_166"
+      ]
+    },
+    {
+      "stem": "What is the maximum theoretical efficiency of a Class A output stage?",
+      "answer": "50%",
+      "kept": "book-ch1_435",
+      "dropped": [
+        "book-ch2_167"
+      ]
+    },
+    {
+      "stem": "What is the typical output power of a Class A amplifier?",
+      "answer": "1 watt to 10 watts",
+      "kept": "book-ch1_436",
+      "dropped": [
+        "book-ch2_168"
+      ]
+    },
+    {
+      "stem": "What type of load is commonly used in Class A output stages?",
+      "answer": "Resistive load",
+      "kept": "book-ch1_437",
+      "dropped": [
+        "book-ch2_169"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of a Class A output stage over other amplifier configurations?",
+      "answer": "Low distortion",
+      "kept": "book-ch1_438",
+      "dropped": [
+        "book-ch2_170"
+      ]
+    },
+    {
+      "stem": "What type of input signal is best suited for a Class A output stage?",
+      "answer": "Sinusoidal signal",
+      "kept": "book-ch1_439",
+      "dropped": [
+        "book-ch2_171"
+      ]
+    },
+    {
+      "stem": "What is the typical voltage gain of a Class A amplifier?",
+      "answer": "10 to 100",
+      "kept": "book-ch1_440",
+      "dropped": [
+        "book-ch2_172"
+      ]
+    },
+    {
+      "stem": "In a Class A output stage, the amplifying device conducts for:",
+      "answer": "The entire input signal cycle",
+      "kept": "book-ch1_442",
+      "dropped": [
+        "book-ch2_174"
+      ]
+    },
+    {
+      "stem": "The efficiency of a Class A output stage is:",
+      "answer": "Low",
+      "kept": "book-ch1_443",
+      "dropped": [
+        "book-ch2_175"
+      ]
+    },
+    {
+      "stem": "What is the advantage of a Class A output stage over other classes of amplifiers?",
+      "answer": "Lower distortion",
+      "kept": "book-ch1_444",
+      "dropped": [
+        "book-ch2_176"
+      ]
+    },
+    {
+      "stem": "What is the key feature of a Class A output stage?",
+      "answer": "The amplifying device conducts for the entire input signal cycle",
+      "kept": "book-ch1_445",
+      "dropped": [
+        "book-ch2_177"
+      ]
+    },
+    {
+      "stem": "What is the typical efficiency of a Class A output stage?",
+      "answer": "25%",
+      "kept": "book-ch1_446",
+      "dropped": [
+        "book-ch2_178"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of a Class A output stage?",
+      "answer": "Low power output",
+      "kept": "book-ch1_447",
+      "dropped": [
+        "book-ch2_179"
+      ]
+    },
+    {
+      "stem": "Which type of amplifying device is commonly used in Class A output stages?",
+      "answer": "All of the above",
+      "kept": "book-ch1_448",
+      "dropped": [
+        "book-ch2_180"
+      ]
+    },
+    {
+      "stem": "What is the purpose of the biasing circuit in a Class A output stage?",
+      "answer": "To set the operating point of the amplifying device",
+      "kept": "book-ch1_449",
+      "dropped": [
+        "book-ch2_181"
+      ]
+    },
+    {
+      "stem": "What is the quiescent current of a Class A output stage?",
+      "answer": "The current flowing through the amplifying device when there is no input signal",
+      "kept": "book-ch1_450",
+      "dropped": [
+        "book-ch2_182"
+      ]
+    },
+    {
+      "stem": "Which of the following is a common application of a Class A output stage?",
+      "answer": "Audio power amplifiers",
+      "kept": "book-ch1_451",
+      "dropped": [
+        "book-ch2_183"
+      ]
+    },
+    {
+      "stem": "Which of the following is a characteristic of the output signal of a Class A output stage?",
+      "answer": "It depends on the input signal",
+      "kept": "book-ch1_452",
+      "dropped": [
+        "book-ch2_184"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of a Class A output stage in terms of power efficiency?",
+      "answer": "It generates more heat than other classes of amplifiers",
+      "kept": "book-ch1_453",
+      "dropped": [
+        "book-ch2_185"
+      ]
+    },
+    {
+      "stem": "What is a Class B output stage in amplifiers?",
+      "answer": "An amplifier configuration where the amplifying device conducts only for half of the input signal cycle",
+      "kept": "book-ch1_454",
+      "dropped": [
+        "book-ch2_186"
+      ]
+    },
+    {
+      "stem": "What is the advantage of a Class B output stage?",
+      "answer": "High power efficiency",
+      "kept": "book-ch1_455",
+      "dropped": [
+        "book-ch2_187"
+      ]
+    },
+    {
+      "stem": "What is crossover distortion in a Class B output stage?",
+      "answer": "A discontinuity in the output signal at the point where one device switches off and the other switches on",
+      "kept": "book-ch1_456",
+      "dropped": [
+        "book-ch2_188"
+      ]
+    },
+    {
+      "stem": "How is crossover distortion reduced in a Class B output stage?",
+      "answer": "By applying a small amount of bias current to the amplifying devices",
+      "kept": "book-ch1_457",
+      "dropped": [
+        "book-ch2_189"
+      ]
+    },
+    {
+      "stem": "What is the main application of Class B output stages?",
+      "answer": "Audio power amplifiers",
+      "kept": "book-ch1_458",
+      "dropped": [
+        "book-ch2_190"
+      ]
+    },
+    {
+      "stem": "What is the main disadvantage of Class B output stages?",
+      "answer": "Crossover distortion",
+      "kept": "book-ch1_459",
+      "dropped": [
+        "book-ch2_191"
+      ]
+    },
+    {
+      "stem": "What is the purpose of biasing in a Class B output stage?",
+      "answer": "To keep the amplifying devices slightly conductive even when there is no input signal",
+      "kept": "book-ch1_460",
+      "dropped": [
+        "book-ch2_192"
+      ]
+    },
+    {
+      "stem": "What is the output signal waveform of a Class B output stage?",
+      "answer": "A combination of the signals produced by each device",
+      "kept": "book-ch1_461",
+      "dropped": [
+        "book-ch2_193"
+      ]
+    },
+    {
+      "stem": "What type of load is typically used with a Class B output stage?",
+      "answer": "Resistive load",
+      "kept": "book-ch1_462",
+      "dropped": [
+        "book-ch2_194"
+      ]
+    },
+    {
+      "stem": "What is the maximum theoretical efficiency of a Class B output stage?",
+      "answer": "75%",
+      "kept": "book-ch1_463",
+      "dropped": [
+        "book-ch2_195"
+      ]
+    },
+    {
+      "stem": "In a Class B output stage, how many amplifying devices are used?",
+      "answer": "Two",
+      "kept": "book-ch1_464",
+      "dropped": [
+        "book-ch2_196"
+      ]
+    },
+    {
+      "stem": "What is the key advantage of a Class B output stage?",
+      "answer": "High power efficiency",
+      "kept": "book-ch1_465",
+      "dropped": [
+        "book-ch2_197"
+      ]
+    },
+    {
+      "stem": "What is the major disadvantage of a Class B output stage?",
+      "answer": "Crossover distortion",
+      "kept": "book-ch1_466",
+      "dropped": [
+        "book-ch2_198"
+      ]
+    },
+    {
+      "stem": "How does bias current help to address the issue of crossover distortion in a Class B output stage?",
+      "answer": "By keeping the amplifying devices slightly conductive",
+      "kept": "book-ch1_467",
+      "dropped": [
+        "book-ch2_199"
+      ]
+    },
+    {
+      "stem": "Which application is Class B output stage commonly used in?",
+      "answer": "High-power RF amplifiers",
+      "kept": "book-ch1_468",
+      "dropped": [
+        "book-ch2_200"
+      ]
+    },
+    {
+      "stem": "What is the output signal of a Class B output stage?",
+      "answer": "A combination of two signals produced by each device",
+      "kept": "book-ch1_469",
+      "dropped": [
+        "book-ch2_201"
+      ]
+    },
+    {
+      "stem": "Which type of amplifiers produce less distortion than Class B amplifiers?",
+      "answer": "Class AB amplifiers",
+      "kept": "book-ch1_470",
+      "dropped": [
+        "book-ch2_202"
+      ]
+    },
+    {
+      "stem": "What is the function of the load resistor in a Class B output stage?",
+      "answer": "To eliminate the crossover distortion",
+      "kept": "book-ch1_471",
+      "dropped": [
+        "book-ch2_203"
+      ]
+    },
+    {
+      "stem": "Which type of distortion is commonly associated with Class B output stages?",
+      "answer": "Crossover distortion",
+      "kept": "book-ch1_472",
+      "dropped": [
+        "book-ch2_204"
+      ]
+    },
+    {
+      "stem": "Which of the following is a limitation of using Class B amplifiers?",
+      "answer": "Low distortion",
+      "kept": "book-ch1_473",
+      "dropped": [
+        "book-ch2_205"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of a Class AB output stage over a Class B output stage?",
+      "answer": "Lower distortion",
+      "kept": "book-ch1_474",
+      "dropped": [
+        "book-ch2_206"
+      ]
+    },
+    {
+      "stem": "What is the purpose of biasing both amplifying devices in a Class AB output stage?",
+      "answer": "To eliminate crossover distortion",
+      "kept": "book-ch1_475",
+      "dropped": [
+        "book-ch2_207"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a characteristic of Class AB output stages?",
+      "answer": "High bias",
+      "kept": "book-ch1_476",
+      "dropped": [
+        "book-ch2_208"
+      ]
+    },
+    {
+      "stem": "In which application are Class AB output stages commonly used?",
+      "answer": "High-fidelity audio amplifiers",
+      "kept": "book-ch1_477",
+      "dropped": [
+        "book-ch2_209"
+      ]
+    },
+    {
+      "stem": "Which type of output stage offers the highest linearity?",
+      "answer": "Class A",
+      "kept": "book-ch1_478",
+      "dropped": [
+        "book-ch2_210"
+      ]
+    },
+    {
+      "stem": "What is the disadvantage of Class AB output stages compared to Class B output stages?",
+      "answer": "Lower power efficiency",
+      "kept": "book-ch1_479",
+      "dropped": [
+        "book-ch2_211"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a benefit of using a Class AB output stage?",
+      "answer": "None of the above",
+      "kept": "book-ch1_480",
+      "dropped": [
+        "book-ch2_212"
+      ]
+    },
+    {
+      "stem": "Which type of output stage produces lower distortion than Class B output stages?",
+      "answer": "Both A and B",
+      "kept": "book-ch1_481",
+      "dropped": [
+        "book-ch2_213"
+      ]
+    },
+    {
+      "stem": "What is the key advantage of using a Class AB output stage?",
+      "answer": "High power efficiency and low distortion",
+      "kept": "book-ch1_482",
+      "dropped": [
+        "book-ch2_214"
+      ]
+    },
+    {
+      "stem": "What is the main disadvantage of Class A output stages compared to Class AB output stages?",
+      "answer": "Lower power efficiency",
+      "kept": "book-ch1_483",
+      "dropped": [
+        "book-ch2_215"
+      ]
+    },
+    {
+      "stem": "Which of the following statements is true about a Class AB output stage?",
+      "answer": "It has high power efficiency and low distortion.",
+      "kept": "book-ch1_484",
+      "dropped": [
+        "book-ch2_216"
+      ]
+    },
+    {
+      "stem": "Which type of output stage is commonly used in power supplies?",
+      "answer": "Class B",
+      "kept": "book-ch1_485",
+      "dropped": [
+        "book-ch2_217"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of using a Class AB output stage in an audio amplifier?",
+      "answer": "High efficiency and low distortion",
+      "kept": "book-ch1_486",
+      "dropped": [
+        "book-ch2_218"
+      ]
+    },
+    {
+      "stem": "In a Class AB output stage, both amplifying devices are biased to conduct a small amount of current even when there is no input signal. What is the purpose of t",
+      "answer": "To reduce power efficiency",
+      "kept": "book-ch1_487",
+      "dropped": [
+        "book-ch2_219"
+      ]
+    },
+    {
+      "stem": "Which type of output stage is commonly used in high-fidelity audio amplifiers?",
+      "answer": "Class AB",
+      "kept": "book-ch1_488",
+      "dropped": [
+        "book-ch2_220"
+      ]
+    },
+    {
+      "stem": "What is the process of gradual conduction transfer in a Class AB output stage known as?",
+      "answer": "Crossover",
+      "kept": "book-ch1_489",
+      "dropped": [
+        "book-ch2_221"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of using a Class AB output stage?",
+      "answer": "Low power efficiency",
+      "kept": "book-ch1_490",
+      "dropped": [
+        "book-ch2_222"
+      ]
+    },
+    {
+      "stem": "In a Class AB output stage, how do the amplifying devices behave when there is an input signal?",
+      "answer": "One conducts fully and the other conducts partially.",
+      "kept": "book-ch1_491",
+      "dropped": [
+        "book-ch2_223"
+      ]
+    },
+    {
+      "stem": "What is the main purpose of a Class AB output stage?",
+      "answer": "To reduce distortion",
+      "kept": "book-ch1_492",
+      "dropped": [
+        "book-ch2_224"
+      ]
+    },
+    {
+      "stem": "What is the purpose of biasing the Class AB output stage in amplifiers?",
+      "answer": "All of the above",
+      "kept": "book-ch1_493",
+      "dropped": [
+        "book-ch2_225",
+        "book-ch2_358",
+        "book-ch2_452"
+      ]
+    },
+    {
+      "stem": "What is a common biasing technique for the Class AB output stage?",
+      "answer": "All of the above",
+      "kept": "book-ch1_494",
+      "dropped": [
+        "book-ch2_226",
+        "book-ch2_359",
+        "book-ch2_453"
+      ]
+    },
+    {
+      "stem": "In a voltage divider biasing network, where is the bias voltage set?",
+      "answer": "At the base or gate of the amplifying device",
+      "kept": "book-ch1_495",
+      "dropped": [
+        "book-ch2_227",
+        "book-ch2_360",
+        "book-ch2_454"
+      ]
+    },
+    {
+      "stem": "How does a diode biasing circuit work?",
+      "answer": "By connecting a diode in series with the base or gate of the amplifying device",
+      "kept": "book-ch1_496",
+      "dropped": [
+        "book-ch2_228",
+        "book-ch2_361",
+        "book-ch2_455"
+      ]
+    },
+    {
+      "stem": "Which biasing technique allows for fine-tuning of the operating point?",
+      "answer": "Voltage divider network",
+      "kept": "book-ch1_497",
+      "dropped": [
+        "book-ch2_229",
+        "book-ch2_362",
+        "book-ch2_456"
+      ]
+    },
+    {
+      "stem": "What is the goal of biasing the Class AB stage?",
+      "answer": "To ensure linear operation with low distortion",
+      "kept": "book-ch1_498",
+      "dropped": [
+        "book-ch2_230",
+        "book-ch2_363",
+        "book-ch2_457"
+      ]
+    },
+    {
+      "stem": "Which type of amplifying device is typically used in a Class AB output stage?",
+      "answer": "Bipolar junction transistor (BJT)",
+      "kept": "book-ch1_499",
+      "dropped": [
+        "book-ch2_231",
+        "book-ch2_364",
+        "book-ch2_458"
+      ]
+    },
+    {
+      "stem": "Which biasing technique uses a transistor configured as a voltage divider?",
+      "answer": "Transistor biasing",
+      "kept": "book-ch1_500",
+      "dropped": [
+        "book-ch2_232",
+        "book-ch2_365",
+        "book-ch2_459"
+      ]
+    },
+    {
+      "stem": "Why is biasing necessary for Class AB amplifiers?",
+      "answer": "To ensure that the amplifying devices operate in the active region",
+      "kept": "book-ch1_501",
+      "dropped": [
+        "book-ch2_233",
+        "book-ch2_366",
+        "book-ch2_460"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of using a Class AB output stage in amplifiers?",
+      "answer": "High linearity with low distortion",
+      "kept": "book-ch1_502",
+      "dropped": [
+        "book-ch2_234",
+        "book-ch2_367",
+        "book-ch2_461"
+      ]
+    },
+    {
+      "stem": "What is the bias voltage typically set to in the Class AB output stage?",
+      "answer": "The forward voltage drop of a diode",
+      "kept": "book-ch1_503",
+      "dropped": [
+        "book-ch2_235",
+        "book-ch2_368",
+        "book-ch2_462"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of using a diode biasing circuit?",
+      "answer": "It is less stable than other biasing techniques",
+      "kept": "book-ch1_504",
+      "dropped": [
+        "book-ch2_236",
+        "book-ch2_369",
+        "book-ch2_463"
+      ]
+    },
+    {
+      "stem": "What is the purpose of using a transistor biasing circuit?",
+      "answer": "To set the bias voltage",
+      "kept": "book-ch1_505",
+      "dropped": [
+        "book-ch2_237",
+        "book-ch2_370",
+        "book-ch2_464"
+      ]
+    },
+    {
+      "stem": "Which of the following biasing techniques is commonly used in Class AB amplifiers?",
+      "answer": "Diode biasing",
+      "kept": "book-ch1_506",
+      "dropped": [
+        "book-ch2_238",
+        "book-ch2_371",
+        "book-ch2_465"
+      ]
+    },
+    {
+      "stem": "How does the choice of biasing technique affect the power efficiency of the amplifier?",
+      "answer": "It can decrease power efficiency",
+      "kept": "book-ch1_507",
+      "dropped": [
+        "book-ch2_239",
+        "book-ch2_372",
+        "book-ch2_466"
+      ]
+    },
+    {
+      "stem": "What is the disadvantage of using an adjustable biasing network?",
+      "answer": "It is more complex than a fixed biasing network",
+      "kept": "book-ch1_508",
+      "dropped": [
+        "book-ch2_240",
+        "book-ch2_373",
+        "book-ch2_467"
+      ]
+    },
+    {
+      "stem": "Which of the following is a key consideration when selecting a biasing technique for the Class AB output stage?",
+      "answer": "Power efficiency",
+      "kept": "book-ch1_509",
+      "dropped": [
+        "book-ch2_241",
+        "book-ch2_374",
+        "book-ch2_468"
+      ]
+    },
+    {
+      "stem": "What is the primary application of power BJTs in amplifier circuits?",
+      "answer": "Power amplification",
+      "kept": "book-ch1_510",
+      "dropped": [
+        "book-ch2_242",
+        "book-ch2_375",
+        "book-ch2_469"
+      ]
+    },
+    {
+      "stem": "Which type of power BJT is more commonly used in power amplifier circuits?",
+      "answer": "NPN",
+      "kept": "book-ch1_511",
+      "dropped": [
+        "book-ch2_243",
+        "book-ch2_376",
+        "book-ch2_470"
+      ]
+    },
+    {
+      "stem": "What is the operating region of the power BJT?",
+      "answer": "Active",
+      "kept": "book-ch1_512",
+      "dropped": [
+        "book-ch2_244",
+        "book-ch2_377",
+        "book-ch2_471"
+      ]
+    },
+    {
+      "stem": "Which configuration is most commonly used for low-power amplifiers?",
+      "answer": "Class A",
+      "kept": "book-ch1_513",
+      "dropped": [
+        "book-ch2_245",
+        "book-ch2_378",
+        "book-ch2_472"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of power BJTs over small signal BJTs?",
+      "answer": "Higher power handling capability",
+      "kept": "book-ch1_514",
+      "dropped": [
+        "book-ch2_246",
+        "book-ch2_379",
+        "book-ch2_473"
+      ]
+    },
+    {
+      "stem": "Which of the following is a common application of power BJTs?",
+      "answer": "Audio amplifiers",
+      "kept": "book-ch1_515",
+      "dropped": [
+        "book-ch2_247",
+        "book-ch2_380",
+        "book-ch2_474"
+      ]
+    },
+    {
+      "stem": "What is the primary purpose of switching amplifiers?",
+      "answer": "To improve efficiency",
+      "kept": "book-ch1_516",
+      "dropped": [
+        "book-ch2_248",
+        "book-ch2_381",
+        "book-ch2_475"
+      ]
+    },
+    {
+      "stem": "Which type of amplifier uses power MOSFETs to provide high efficiency?",
+      "answer": "Class D",
+      "kept": "book-ch1_517",
+      "dropped": [
+        "book-ch2_249",
+        "book-ch2_382",
+        "book-ch2_476"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a technique used to improve the efficiency of power amplifiers?",
+      "answer": "Feedback amplifiers",
+      "kept": "book-ch1_518",
+      "dropped": [
+        "book-ch2_250",
+        "book-ch2_383",
+        "book-ch2_477"
+      ]
+    },
+    {
+      "stem": "What is the main disadvantage of power BJTs in amplifier circuits?",
+      "answer": "High heat dissipation",
+      "kept": "book-ch1_519",
+      "dropped": [
+        "book-ch2_251",
+        "book-ch2_384",
+        "book-ch2_478"
+      ]
+    },
+    {
+      "stem": "What is the primary function of power BJTs in amplifier circuits?",
+      "answer": "To provide high power gain and efficiency",
+      "kept": "book-ch1_520",
+      "dropped": [
+        "book-ch2_252",
+        "book-ch2_385",
+        "book-ch2_479"
+      ]
+    },
+    {
+      "stem": "Which of the following is a commonly used configuration for power BJTs in low-power amplifiers?",
+      "answer": "Class A",
+      "kept": "book-ch1_521",
+      "dropped": [
+        "book-ch2_253",
+        "book-ch2_386",
+        "book-ch2_480"
+      ]
+    },
+    {
+      "stem": "Which type of power BJT is commonly used in power amplifier circuits?",
+      "answer": "NPN",
+      "kept": "book-ch1_522",
+      "dropped": [
+        "book-ch2_254",
+        "book-ch2_387",
+        "book-ch2_481"
+      ]
+    },
+    {
+      "stem": "In which region of operation does the power BJT operate?",
+      "answer": "Active region",
+      "kept": "book-ch1_523",
+      "dropped": [
+        "book-ch2_255",
+        "book-ch2_388",
+        "book-ch2_482"
+      ]
+    },
+    {
+      "stem": "Which of the following is a technique used to improve the efficiency of power amplifiers?",
+      "answer": "Switching amplifiers",
+      "kept": "book-ch1_524",
+      "dropped": [
+        "book-ch2_256",
+        "book-ch2_389",
+        "book-ch2_483"
+      ]
+    },
+    {
+      "stem": "Which of the following is an application of power BJTs?",
+      "answer": "Audio amplifiers",
+      "kept": "book-ch1_525",
+      "dropped": [
+        "book-ch2_257",
+        "book-ch2_390",
+        "book-ch2_484"
+      ]
+    },
+    {
+      "stem": "What is the primary difference between small signal BJTs and power BJTs?",
+      "answer": "High power handling capability",
+      "kept": "book-ch1_526",
+      "dropped": [
+        "book-ch2_258",
+        "book-ch2_391",
+        "book-ch2_485"
+      ]
+    },
+    {
+      "stem": "Which type of power BJT has a higher current gain?",
+      "answer": "NPN",
+      "kept": "book-ch1_527",
+      "dropped": [
+        "book-ch2_259",
+        "book-ch2_392",
+        "book-ch2_486"
+      ]
+    },
+    {
+      "stem": "Which of the following is a benefit of using power BJTs in amplifier circuits?",
+      "answer": "High power gain",
+      "kept": "book-ch1_528",
+      "dropped": [
+        "book-ch2_260",
+        "book-ch2_393",
+        "book-ch2_487"
+      ]
+    },
+    {
+      "stem": "Which of the following amplifier configurations is commonly used in high-power amplifiers?",
+      "answer": "Class D",
+      "kept": "book-ch1_529",
+      "dropped": [
+        "book-ch2_261",
+        "book-ch2_394",
+        "book-ch2_488"
+      ]
+    },
+    {
+      "stem": "In a transformer-coupled push-pull amplifier, the primary winding of the output transformer is connected to:",
+      "answer": "The collector of both transistors",
+      "kept": "book-ch1_530",
+      "dropped": [
+        "book-ch2_262",
+        "book-ch2_395",
+        "book-ch2_489"
+      ]
+    },
+    {
+      "stem": "The transformer in a transformer-coupled push-pull amplifier is used to:",
+      "answer": "Provide impedance matching between the driver and output stages",
+      "kept": "book-ch1_531",
+      "dropped": [
+        "book-ch2_263",
+        "book-ch2_396",
+        "book-ch2_490"
+      ]
+    },
+    {
+      "stem": "In a transformer-coupled push-pull amplifier, the two output transistors are biased so that they conduct:",
+      "answer": "Alternately",
+      "kept": "book-ch1_532",
+      "dropped": [
+        "book-ch2_264",
+        "book-ch2_397",
+        "book-ch2_491"
+      ]
+    },
+    {
+      "stem": "Which of the following is an advantage of a transformer-coupled push-pull amplifier?",
+      "answer": "All of the above",
+      "kept": "book-ch1_533",
+      "dropped": [
+        "book-ch2_265",
+        "book-ch2_398",
+        "book-ch2_492"
+      ]
+    },
+    {
+      "stem": "The output of a transformer-coupled push-pull amplifier is taken from:",
+      "answer": "The secondary winding of the output transformer",
+      "kept": "book-ch1_534",
+      "dropped": [
+        "book-ch2_266",
+        "book-ch2_399",
+        "book-ch2_493"
+      ]
+    },
+    {
+      "stem": "The load impedance in a transformer-coupled push-pull amplifier is:",
+      "answer": "Always equal to the output impedance of the amplifier",
+      "kept": "book-ch1_535",
+      "dropped": [
+        "book-ch2_267",
+        "book-ch2_400",
+        "book-ch2_494"
+      ]
+    },
+    {
+      "stem": "The DC bias voltage for the output transistors in a transformer-coupled push-pull amplifier is provided by:",
+      "answer": "A separate bias circuit",
+      "kept": "book-ch1_536",
+      "dropped": [
+        "book-ch2_268",
+        "book-ch2_401",
+        "book-ch2_495"
+      ]
+    },
+    {
+      "stem": "The crossover distortion in a transformer-coupled push-pull amplifier is caused by:",
+      "answer": "The mismatch between the two output transistors",
+      "kept": "book-ch1_537",
+      "dropped": [
+        "book-ch2_269",
+        "book-ch2_402",
+        "book-ch2_496"
+      ]
+    },
+    {
+      "stem": "The transformer in a transformer-coupled push-pull amplifier is usually:",
+      "answer": "A step-down transformer",
+      "kept": "book-ch1_538",
+      "dropped": [
+        "book-ch2_270",
+        "book-ch2_403",
+        "book-ch2_497"
+      ]
+    },
+    {
+      "stem": "In a transformer-coupled push-pull amplifier, the output transistors are typically:",
+      "answer": "None of the above",
+      "kept": "book-ch1_539",
+      "dropped": [
+        "book-ch2_271",
+        "book-ch2_404",
+        "book-ch2_498"
+      ]
+    },
+    {
+      "stem": "In a transformer-coupled push-pull stage, two identical transistors are used with one conducting during the positive half-cycle of the input signal and the othe",
+      "answer": "All of the above",
+      "kept": "book-ch1_540",
+      "dropped": [
+        "book-ch2_272",
+        "book-ch2_405",
+        "book-ch2_499"
+      ]
+    },
+    {
+      "stem": "Which of the following statements about the transformer-coupled push-pull stage is true?",
+      "answer": "It is commonly used in audio power amplifiers",
+      "kept": "book-ch1_541",
+      "dropped": [
+        "book-ch2_273",
+        "book-ch2_406",
+        "book-ch2_500"
+      ]
+    },
+    {
+      "stem": "The transformer in a transformer-coupled push-pull stage is used to:",
+      "answer": "Provide impedance matching between the amplifier and the load",
+      "kept": "book-ch1_542",
+      "dropped": [
+        "book-ch2_274",
+        "book-ch2_407",
+        "book-ch2_501"
+      ]
+    },
+    {
+      "stem": "In a transformer-coupled push-pull stage, the transformer is typically wound with a center-tapped secondary winding. What is the purpose of the center tap?",
+      "answer": "To provide a reference voltage for biasing the transistors",
+      "kept": "book-ch1_543",
+      "dropped": [
+        "book-ch2_275",
+        "book-ch2_408",
+        "book-ch2_502"
+      ]
+    },
+    {
+      "stem": "The transformer-coupled push-pull stage is a type of:",
+      "answer": "Class B amplifier",
+      "kept": "book-ch1_544",
+      "dropped": [
+        "book-ch2_276",
+        "book-ch2_409",
+        "book-ch2_503"
+      ]
+    },
+    {
+      "stem": "Which of the following is an advantage of using a transformer-coupled push-pull stage over a single-ended output stage?",
+      "answer": "All of the above",
+      "kept": "book-ch1_545",
+      "dropped": [
+        "book-ch2_277",
+        "book-ch2_410",
+        "book-ch2_504"
+      ]
+    },
+    {
+      "stem": "The output of a transformer-coupled push-pull stage is taken from:",
+      "answer": "The center tap of the transformer secondary winding",
+      "kept": "book-ch1_546",
+      "dropped": [
+        "book-ch2_278",
+        "book-ch2_411",
+        "book-ch2_505"
+      ]
+    },
+    {
+      "stem": "What is the main disadvantage of a transformer-coupled push-pull stage compared to other output stage configurations?",
+      "answer": "Limited frequency response",
+      "kept": "book-ch1_547",
+      "dropped": [
+        "book-ch2_279",
+        "book-ch2_412",
+        "book-ch2_506"
+      ]
+    },
+    {
+      "stem": "The transformer in a transformer-coupled push-pull stage should be designed with:",
+      "answer": "Low leakage inductance",
+      "kept": "book-ch1_548",
+      "dropped": [
+        "book-ch2_280",
+        "book-ch2_413",
+        "book-ch2_507"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of using a transformer in a push-pull output stage?",
+      "answer": "Impedance matching to the load",
+      "kept": "book-ch1_549",
+      "dropped": [
+        "book-ch2_281",
+        "book-ch2_414",
+        "book-ch2_508"
+      ]
+    },
+    {
+      "stem": "What is the basic function of a tuned amplifier?",
+      "answer": "To provide high selectivity and gain",
+      "kept": "book-ch1_550",
+      "dropped": [
+        "book-ch2_415",
+        "book-ch2_509"
+      ]
+    },
+    {
+      "stem": "Which type of resonant circuit is typically used in tuned amplifiers?",
+      "answer": "LC circuits",
+      "kept": "book-ch1_551",
+      "dropped": [
+        "book-ch2_416",
+        "book-ch2_510"
+      ]
+    },
+    {
+      "stem": "What is the Q factor of a resonant circuit?",
+      "answer": "The ratio of energy stored in the circuit to energy lost per cycle",
+      "kept": "book-ch1_552",
+      "dropped": [
+        "book-ch1_562",
+        "book-ch2_417",
+        "book-ch2_427",
+        "book-ch2_511",
+        "book-ch2_521"
+      ]
+    },
+    {
+      "stem": "What is the difference between a single tuned amplifier and a double tuned amplifier?",
+      "answer": "A single tuned amplifier uses one resonant circuit, while a double tuned amplifier uses two.",
+      "kept": "book-ch1_553",
+      "dropped": [
+        "book-ch1_560",
+        "book-ch2_418",
+        "book-ch2_425",
+        "book-ch2_512",
+        "book-ch2_519"
+      ]
+    },
+    {
+      "stem": "Which type of amplifier is commonly used in radio receivers and transmitters?",
+      "answer": "Tuned amplifier",
+      "kept": "book-ch1_554",
+      "dropped": [
+        "book-ch2_419",
+        "book-ch2_513"
+      ]
+    },
+    {
+      "stem": "Which electronic device can be used as the active element in a tuned amplifier?",
+      "answer": "Transistor",
+      "kept": "book-ch1_555",
+      "dropped": [
+        "book-ch2_420",
+        "book-ch2_514"
+      ]
+    },
+    {
+      "stem": "What is the function of the Q multiplier in a tuned amplifier?",
+      "answer": "To provide additional gain at the center frequency of the circuit",
+      "kept": "book-ch1_556",
+      "dropped": [
+        "book-ch2_421",
+        "book-ch2_515"
+      ]
+    },
+    {
+      "stem": "What is a tuned amplifier?",
+      "answer": "An amplifier that uses tuned circuits to achieve high selectivity and gain",
+      "kept": "book-ch1_557",
+      "dropped": [
+        "book-ch2_422",
+        "book-ch2_516"
+      ]
+    },
+    {
+      "stem": "What type of resonant circuits are used in tuned amplifiers?",
+      "answer": "LC circuits",
+      "kept": "book-ch1_558",
+      "dropped": [
+        "book-ch2_423",
+        "book-ch2_517"
+      ]
+    },
+    {
+      "stem": "Which of the following is a key factor in determining the gain and selectivity of a tuned amplifier?",
+      "answer": "The Q factor of the resonant circuits",
+      "kept": "book-ch1_559",
+      "dropped": [
+        "book-ch2_424",
+        "book-ch2_518"
+      ]
+    },
+    {
+      "stem": "Where are tuned amplifiers commonly used?",
+      "answer": "In radio receivers and transmitters",
+      "kept": "book-ch1_561",
+      "dropped": [
+        "book-ch2_426",
+        "book-ch2_520"
+      ]
+    },
+    {
+      "stem": "Which type of amplifying device can be used in tuned amplifiers?",
+      "answer": "All of the above",
+      "kept": "book-ch1_563",
+      "dropped": [
+        "book-ch2_428",
+        "book-ch2_522"
+      ]
+    },
+    {
+      "stem": "What is the purpose of a tuned amplifier in a radio receiver?",
+      "answer": "To amplify only the desired signal while rejecting other signals",
+      "kept": "book-ch1_564",
+      "dropped": [
+        "book-ch2_429",
+        "book-ch2_523"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of a double tuned amplifier over a single tuned amplifier?",
+      "answer": "Higher selectivity",
+      "kept": "book-ch1_565",
+      "dropped": [
+        "book-ch2_430",
+        "book-ch2_524"
+      ]
+    },
+    {
+      "stem": "Which of the following is a disadvantage of tuned amplifiers?",
+      "answer": "They can be difficult to tune and adjust.",
+      "kept": "book-ch1_566",
+      "dropped": [
+        "book-ch2_431",
+        "book-ch2_525"
+      ]
+    },
+    {
+      "stem": "What does op-amp stand for?",
+      "answer": "Operational amplifier",
+      "kept": "book-ch1_567",
+      "dropped": [
+        "book-ch2_432",
+        "book-ch2_526"
+      ]
+    },
+    {
+      "stem": "Which configuration is most commonly used in op-amp circuits?",
+      "answer": "Inverting amplifier",
+      "kept": "book-ch1_568",
+      "dropped": [
+        "book-ch2_433",
+        "book-ch2_527"
+      ]
+    },
+    {
+      "stem": "What is the gain of an inverting amplifier with a feedback resistor of 10 kΩ and an input resistor of 1 kΩ?",
+      "answer": "-10",
+      "kept": "book-ch1_569",
+      "dropped": [
+        "book-ch2_434",
+        "book-ch2_528"
+      ]
+    },
+    {
+      "stem": "Which parameter determines the maximum output voltage swing of an op-amp?",
+      "answer": "Output saturation voltage",
+      "kept": "book-ch1_570",
+      "dropped": [
+        "book-ch2_435",
+        "book-ch2_529"
+      ]
+    },
+    {
+      "stem": "What is the purpose of a voltage follower op-amp circuit?",
+      "answer": "To buffer a signal",
+      "kept": "book-ch1_571",
+      "dropped": [
+        "book-ch2_436",
+        "book-ch2_530"
+      ]
+    },
+    {
+      "stem": "What is the transfer function of a non-inverting amplifier with a feedback resistor of 10 kΩ and an input resistor of 1 kΩ?",
+      "answer": "Vout = (1 + 10kΩ/1kΩ)Vin",
+      "kept": "book-ch1_572",
+      "dropped": [
+        "book-ch2_437",
+        "book-ch2_531"
+      ]
+    },
+    {
+      "stem": "Which op-amp parameter determines the rate at which the output can change in response to changes in the input?",
+      "answer": "Slew rate",
+      "kept": "book-ch1_573",
+      "dropped": [
+        "book-ch2_438",
+        "book-ch2_532"
+      ]
+    },
+    {
+      "stem": "What is the purpose of a differential amplifier?",
+      "answer": "To amplify the difference between two input signals",
+      "kept": "book-ch1_574",
+      "dropped": [
+        "book-ch2_439",
+        "book-ch2_533"
+      ]
+    },
+    {
+      "stem": "Which op-amp configuration is used to perform mathematical operations, such as addition and subtraction?",
+      "answer": "Summing amplifier",
+      "kept": "book-ch1_575",
+      "dropped": [
+        "book-ch2_440",
+        "book-ch2_534"
+      ]
+    },
+    {
+      "stem": "What is the output voltage of an inverting amplifier with an input voltage of 2 V and a feedback resistor of 10 kΩ, assuming an ideal op-amp?",
+      "answer": "-20 V",
+      "kept": "book-ch1_576",
+      "dropped": [
+        "book-ch2_442",
+        "book-ch2_536"
+      ]
+    },
+    {
+      "stem": "Which of the following is a characteristic of an ideal operational amplifier?",
+      "answer": "All of the above",
+      "kept": "book-ch1_577",
+      "dropped": [
+        "book-ch2_441",
+        "book-ch2_535"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a type of operational amplifier?",
+      "answer": "Power amplifier",
+      "kept": "book-ch1_578",
+      "dropped": [
+        "book-ch2_443",
+        "book-ch2_537"
+      ]
+    },
+    {
+      "stem": "What is the function of a summing amplifier?",
+      "answer": "To sum multiple input signals and provide an amplified output signal",
+      "kept": "book-ch1_579",
+      "dropped": [
+        "book-ch2_444",
+        "book-ch2_538"
+      ]
+    },
+    {
+      "stem": "What is the output voltage of an inverting amplifier with a gain of -10 if the input voltage is 2V?",
+      "answer": "-20V",
+      "kept": "book-ch1_580",
+      "dropped": [
+        "book-ch2_445",
+        "book-ch2_539"
+      ]
+    },
+    {
+      "stem": "What is the function of a voltage follower?",
+      "answer": "To provide unity gain and high input and output impedances",
+      "kept": "book-ch1_581",
+      "dropped": [
+        "book-ch2_446",
+        "book-ch2_540"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using an op-amp as a comparator?",
+      "answer": "It has a very high gain",
+      "kept": "book-ch1_582",
+      "dropped": [
+        "book-ch2_447",
+        "book-ch2_541"
+      ]
+    },
+    {
+      "stem": "What is the function of a differentiator circuit?",
+      "answer": "To differentiate the input signal with respect to time",
+      "kept": "book-ch1_583",
+      "dropped": [
+        "book-ch2_448",
+        "book-ch2_542"
+      ]
+    },
+    {
+      "stem": "What is the function of an integrator circuit?",
+      "answer": "To integrate the input signal with respect to time",
+      "kept": "book-ch1_584",
+      "dropped": [
+        "book-ch2_449",
+        "book-ch2_543"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using a non-inverting amplifier instead of an inverting amplifier?",
+      "answer": "The input signal is not inverted",
+      "kept": "book-ch1_585",
+      "dropped": [
+        "book-ch2_450",
+        "book-ch2_544"
+      ]
+    },
+    {
+      "stem": "What is the function of a Schmitt trigger circuit?",
+      "answer": "To provide hysteresis to a signal",
+      "kept": "book-ch1_586",
+      "dropped": [
+        "book-ch2_451",
+        "book-ch2_545"
+      ]
+    },
+    {
+      "stem": "Which of the following is a Boolean operator?",
+      "answer": "/",
+      "kept": "book-ch2_53",
+      "dropped": [
+        "book-ch2_282"
+      ]
+    },
+    {
+      "stem": "What is the Boolean expression for the OR gate?",
+      "answer": "A+B",
+      "kept": "book-ch2_54",
+      "dropped": [
+        "book-ch2_283"
+      ]
+    },
+    {
+      "stem": "What is the Boolean expression for the AND gate?",
+      "answer": "A*B",
+      "kept": "book-ch2_55",
+      "dropped": [
+        "book-ch2_284"
+      ]
+    },
+    {
+      "stem": "What is the Boolean expression for the NOT gate?",
+      "answer": "A'",
+      "kept": "book-ch2_56",
+      "dropped": [
+        "book-ch2_285"
+      ]
+    },
+    {
+      "stem": "Which of the following is an example of a Boolean equation?",
+      "answer": "y=xAND2",
+      "kept": "book-ch2_57",
+      "dropped": [
+        "book-ch2_286"
+      ]
+    },
+    {
+      "stem": "Which of the following is a Boolean identity?",
+      "answer": "A+0=A",
+      "kept": "book-ch2_58",
+      "dropped": [
+        "book-ch2_287"
+      ]
+    },
+    {
+      "stem": "Which of the following is a Boolean simplification rule?",
+      "answer": "A+B=B+A",
+      "kept": "book-ch2_59",
+      "dropped": [
+        "book-ch2_288"
+      ]
+    },
+    {
+      "stem": "What is the result of the Boolean operation A OR (B AND C)?",
+      "answer": "A+B*C",
+      "kept": "book-ch2_60",
+      "dropped": [
+        "book-ch2_289"
+      ]
+    },
+    {
+      "stem": "What is the result of the Boolean operation (A OR B) AND (A OR C)?",
+      "answer": "A+B+C",
+      "kept": "book-ch2_61",
+      "dropped": [
+        "book-ch2_290"
+      ]
+    },
+    {
+      "stem": "What is the Boolean expression for the exclusive-OR (XOR) gate?",
+      "answer": "AB",
+      "kept": "book-ch2_62",
+      "dropped": [
+        "book-ch2_291"
+      ]
+    },
+    {
+      "stem": "What is Boolean algebra?",
+      "answer": "A branch of mathematics that deals with Boolean functions",
+      "kept": "book-ch2_63",
+      "dropped": [
+        "book-ch2_292"
+      ]
+    },
+    {
+      "stem": "What is a Boolean variable?",
+      "answer": "A variable that can only take on two values, true or false",
+      "kept": "book-ch2_64",
+      "dropped": [
+        "book-ch2_293"
+      ]
+    },
+    {
+      "stem": "What is a Boolean expression?",
+      "answer": "A mathematical expression that uses Boolean variables, operators, and constants",
+      "kept": "book-ch2_65",
+      "dropped": [
+        "book-ch2_294"
+      ]
+    },
+    {
+      "stem": "Which Boolean operator represents logical AND?",
+      "answer": ".",
+      "kept": "book-ch2_66",
+      "dropped": [
+        "book-ch2_295"
+      ]
+    },
+    {
+      "stem": "Which Boolean operator represents logical OR?",
+      "answer": "+",
+      "kept": "book-ch2_67",
+      "dropped": [
+        "book-ch2_296"
+      ]
+    },
+    {
+      "stem": "Which Boolean operator represents logical NOT?",
+      "answer": "'",
+      "kept": "book-ch2_68",
+      "dropped": [
+        "book-ch2_297"
+      ]
+    },
+    {
+      "stem": "What is the complement of A in Boolean algebra?",
+      "answer": "A'",
+      "kept": "book-ch2_69",
+      "dropped": [
+        "book-ch2_298"
+      ]
+    },
+    {
+      "stem": "What is the simplified expression for A + AB?",
+      "answer": "A",
+      "kept": "book-ch2_70",
+      "dropped": [
+        "book-ch2_299"
+      ]
+    },
+    {
+      "stem": "What is the simplified expression for AB + A'B?",
+      "answer": "AB'",
+      "kept": "book-ch2_71",
+      "dropped": [
+        "book-ch2_300"
+      ]
+    },
+    {
+      "stem": "What is the Sum-of-Products (SOP) method in digital logic?",
+      "answer": "A technique used to simplify Boolean expressions",
+      "kept": "book-ch2_72",
+      "dropped": [
+        "book-ch2_301"
+      ]
+    },
+    {
+      "stem": "What is the first step in using the SOP method to simplify a Boolean expression?",
+      "answer": "Write the expression in standard form",
+      "kept": "book-ch2_73",
+      "dropped": [
+        "book-ch2_302"
+      ]
+    },
+    {
+      "stem": "What are the Boolean operators used in the standard form of a Boolean expression?",
+      "answer": "AND, OR, and NOT",
+      "kept": "book-ch2_74",
+      "dropped": [
+        "book-ch2_303"
+      ]
+    },
+    {
+      "stem": "In the SOP method, what is the next step after creating a truth table for the Boolean expression?",
+      "answer": "Identify the rows where the expression evaluates to 1",
+      "kept": "book-ch2_75",
+      "dropped": [
+        "book-ch2_304"
+      ]
+    },
+    {
+      "stem": "What is the final step in using the SOP method to simplify a Boolean expression?",
+      "answer": "Combine the rows with an OR operator",
+      "kept": "book-ch2_76",
+      "dropped": [
+        "book-ch2_305"
+      ]
+    },
+    {
+      "stem": "Which of the following is an example of a Boolean expression that can be simplified using the SOP method?",
+      "answer": "F=AB+A'B+AB'",
+      "kept": "book-ch2_77",
+      "dropped": [
+        "book-ch2_306"
+      ]
+    },
+    {
+      "stem": "How many rows are in the truth table for a Boolean expression with two input variables?",
+      "answer": "4",
+      "kept": "book-ch2_78",
+      "dropped": [
+        "book-ch2_307"
+      ]
+    },
+    {
+      "stem": "What is the purpose of the SOP method in digital logic?",
+      "answer": "To simplify complex Boolean expressions",
+      "kept": "book-ch2_79",
+      "dropped": [
+        "book-ch2_308"
+      ]
+    },
+    {
+      "stem": "What is the meaning of \"sum of products\" in the SOP method?",
+      "answer": "The sum of the rows in the truth table where the expression evaluates to 1",
+      "kept": "book-ch2_80",
+      "dropped": [
+        "book-ch2_309"
+      ]
+    },
+    {
+      "stem": "What is the Sum-of-Products (SOP) method used for in digital logic?",
+      "answer": "To simplify a given Boolean expression",
+      "kept": "book-ch2_81",
+      "dropped": [
+        "book-ch2_310"
+      ]
+    },
+    {
+      "stem": "What is the first step when using the SOP method to simplify a Boolean expression?",
+      "answer": "Write the expression in the standard form",
+      "kept": "book-ch2_82",
+      "dropped": [
+        "book-ch2_311"
+      ]
+    },
+    {
+      "stem": "What is the standard form of a Boolean expression?",
+      "answer": "A form with parentheses and Boolean operators",
+      "kept": "book-ch2_83",
+      "dropped": [
+        "book-ch2_312"
+      ]
+    },
+    {
+      "stem": "How do you identify the rows in a truth table where the expression evaluates to 1 when using the SOP method?",
+      "answer": "Identify the rows where the expression is true",
+      "kept": "book-ch2_84",
+      "dropped": [
+        "book-ch2_313"
+      ]
+    },
+    {
+      "stem": "In the SOP method, what is the next step after identifying the rows where the expression evaluates to 1?",
+      "answer": "Write down each row in terms of the input variables",
+      "kept": "book-ch2_85",
+      "dropped": [
+        "book-ch2_314"
+      ]
+    },
+    {
+      "stem": "What Boolean operator is used to combine the rows in the SOP method?",
+      "answer": "OR",
+      "kept": "book-ch2_86",
+      "dropped": [
+        "book-ch2_315"
+      ]
+    },
+    {
+      "stem": "What is the final result of the SOP method?",
+      "answer": "A simplified sum of products expression",
+      "kept": "book-ch2_87",
+      "dropped": [
+        "book-ch2_316"
+      ]
+    },
+    {
+      "stem": "How is a row with a value of 0 represented in the SOP method?",
+      "answer": "With the complement of the corresponding variable",
+      "kept": "book-ch2_88",
+      "dropped": [
+        "book-ch2_317"
+      ]
+    },
+    {
+      "stem": "What is the main advantage of using the SOP method to simplify Boolean expressions?",
+      "answer": "It results in a more efficient circuit design",
+      "kept": "book-ch2_89",
+      "dropped": [
+        "book-ch2_318"
+      ]
+    },
+    {
+      "stem": "Can the SOP method be used to simplify any Boolean expression?",
+      "answer": "Yes, it can be used for any expression",
+      "kept": "book-ch2_90",
+      "dropped": [
+        "book-ch2_319"
+      ]
+    },
+    {
+      "stem": "What is the Product-of-Sums (POS) method used for in digital logic?",
+      "answer": "Simplifying Boolean expressions",
+      "kept": "book-ch2_91",
+      "dropped": [
+        "book-ch2_320"
+      ]
+    },
+    {
+      "stem": "In the POS method, what is the first step in simplifying a Boolean expression?",
+      "answer": "Write the expression in the standard form",
+      "kept": "book-ch2_92",
+      "dropped": [
+        "book-ch2_321"
+      ]
+    },
+    {
+      "stem": "In the POS method, what is the second step in simplifying a Boolean expression?",
+      "answer": "Identify the rows of the truth table where the expression evaluates to 0",
+      "kept": "book-ch2_93",
+      "dropped": [
+        "book-ch2_322"
+      ]
+    },
+    {
+      "stem": "What is the final result of applying the POS method to a Boolean expression?",
+      "answer": "A simplified product of sums expression",
+      "kept": "book-ch2_94",
+      "dropped": [
+        "book-ch2_323"
+      ]
+    },
+    {
+      "stem": "In the POS method, how are the rows of the truth table where the expression evaluates to 0 combined?",
+      "answer": "Using OR operators",
+      "kept": "book-ch2_95",
+      "dropped": [
+        "book-ch2_324"
+      ]
+    },
+    {
+      "stem": "When is the POS method particularly useful?",
+      "answer": "When the expression contains many terms",
+      "kept": "book-ch2_96",
+      "dropped": [
+        "book-ch2_325"
+      ]
+    },
+    {
+      "stem": "To complement a Boolean expression using the POS method, what must be done to the final result?",
+      "answer": "It must be inverted",
+      "kept": "book-ch2_97",
+      "dropped": [
+        "book-ch2_326"
+      ]
+    },
+    {
+      "stem": "Which of the following is a benefit of using the POS method in digital logic?",
+      "answer": "It reduces the size and complexity of digital circuits",
+      "kept": "book-ch2_98",
+      "dropped": [
+        "book-ch2_327"
+      ]
+    },
+    {
+      "stem": "What is the Product-of-Sums method in digital logic?",
+      "answer": "A method for simplifying Boolean expressions by combining products of variables",
+      "kept": "book-ch2_99",
+      "dropped": [
+        "book-ch2_328"
+      ]
+    },
+    {
+      "stem": "What is the dual of the Product-of-Sums method?",
+      "answer": "Sum-of-Products method",
+      "kept": "book-ch2_100",
+      "dropped": [
+        "book-ch2_329"
+      ]
+    },
+    {
+      "stem": "What is the first step in the Product-of-Sums method?",
+      "answer": "Identify the rows where the expression evaluates to 0",
+      "kept": "book-ch2_101",
+      "dropped": [
+        "book-ch2_330"
+      ]
+    },
+    {
+      "stem": "What is the second step in the Product-of-Sums method?",
+      "answer": "Write the expression in terms of the input variables",
+      "kept": "book-ch2_102",
+      "dropped": [
+        "book-ch2_331"
+      ]
+    },
+    {
+      "stem": "What is the final step in the Product-of-Sums method?",
+      "answer": "Combine the rows using OR operators",
+      "kept": "book-ch2_103",
+      "dropped": [
+        "book-ch2_332"
+      ]
+    },
+    {
+      "stem": "Which of the following is an advantage of using the Product-of-Sums method?",
+      "answer": "It is easier to understand than other simplification methods",
+      "kept": "book-ch2_104",
+      "dropped": [
+        "book-ch2_333"
+      ]
+    },
+    {
+      "stem": "What is the purpose of applying the Product-of-Sums method to the complement of an expression?",
+      "answer": "To generate a simplified expression that is the complement of the original expression",
+      "kept": "book-ch2_105",
+      "dropped": [
+        "book-ch2_334"
+      ]
+    },
+    {
+      "stem": "Which of the following is true about the Product-of-Sums method?",
+      "answer": "It can be used with any type of variable",
+      "kept": "book-ch2_106",
+      "dropped": [
+        "book-ch2_335"
+      ]
+    },
+    {
+      "stem": "What is the advantage of using the Product-of-Sums method over the Sum-of-Products method?",
+      "answer": "The resulting expression is shorter and requires fewer gates",
+      "kept": "book-ch2_107",
+      "dropped": [
+        "book-ch2_336"
+      ]
+    },
+    {
+      "stem": "Which of the following is an application of the Product-of-Sums method?",
+      "answer": "Simplifying Boolean expressions in digital circuits",
+      "kept": "book-ch2_108",
+      "dropped": [
+        "book-ch2_337"
+      ]
+    },
+    {
+      "stem": "Which of the following is a graphical tool used to simplify Boolean expressions?",
+      "answer": "Karnaugh map",
+      "kept": "book-ch2_109",
+      "dropped": [
+        "book-ch2_338"
+      ]
+    },
+    {
+      "stem": "How are cells identified in a Karnaugh map?",
+      "answer": "By their input variable combinations",
+      "kept": "book-ch2_110",
+      "dropped": [
+        "book-ch2_339"
+      ]
+    },
+    {
+      "stem": "In the Karnaugh map, which cells can be combined to form a simplified expression?",
+      "answer": "Adjacent cells",
+      "kept": "book-ch2_111",
+      "dropped": [
+        "book-ch2_340"
+      ]
+    },
+    {
+      "stem": "What does SOP stand for in the context of digital logic?",
+      "answer": "Sum of Products",
+      "kept": "book-ch2_112",
+      "dropped": [
+        "book-ch2_341"
+      ]
+    },
+    {
+      "stem": "Which of the following is true for the cells of a Karnaugh map?",
+      "answer": "Each cell can only contain a 0 or a 1",
+      "kept": "book-ch2_113",
+      "dropped": [
+        "book-ch2_342"
+      ]
+    },
+    {
+      "stem": "What is a Karnaugh map used for?",
+      "answer": "To simplify Boolean expressions",
+      "kept": "book-ch2_114",
+      "dropped": [
+        "book-ch2_343"
+      ]
+    },
+    {
+      "stem": "How many cells does a Karnaugh map have if the corresponding Boolean expression has three input variables?",
+      "answer": "8",
+      "kept": "book-ch2_115",
+      "dropped": [
+        "book-ch2_344"
+      ]
+    },
+    {
+      "stem": "How are adjacent cells identified in a Karnaugh map?",
+      "answer": "Both b and c",
+      "kept": "book-ch2_117",
+      "dropped": [
+        "book-ch2_346"
+      ]
+    },
+    {
+      "stem": "Which of the following is a simplified expression for the Karnaugh map shown below?",
+      "answer": "AB + CD",
+      "kept": "book-ch2_118",
+      "dropped": [
+        "book-ch2_347"
+      ]
+    },
+    {
+      "stem": "How is a truth table converted into a Karnaugh map?",
+      "answer": "By plotting the input and output values on a grid",
+      "kept": "book-ch2_119",
+      "dropped": [
+        "book-ch2_348"
+      ]
+    },
+    {
+      "stem": "Which of the following Boolean expressions is equivalent to the Karnaugh map shown below?",
+      "answer": "AB + CD",
+      "kept": "book-ch2_120",
+      "dropped": [
+        "book-ch2_349"
+      ]
+    },
+    {
+      "stem": "How many cells in a Karnaugh map can be combined to form a simplified expression?",
+      "answer": "Both A and B",
+      "kept": "book-ch2_121",
+      "dropped": [
+        "book-ch2_350"
+      ]
+    },
+    {
+      "stem": "How is a simplified expression converted back into a standard SOP or POS expression?",
+      "answer": "Both A and B",
+      "kept": "book-ch2_122",
+      "dropped": [
+        "book-ch2_351"
+      ]
+    },
+    {
+      "stem": "How can you reverse a string in C programming?",
+      "answer": "By using a loop and swapping characters",
+      "kept": "book-ch3_82",
+      "dropped": [
+        "book-ch3_88"
+      ]
+    },
+    {
+      "stem": "If 'ptr' is a pointer to an integer variable, what will be the output of the following code? printf(\"%d\", ptr+1);",
+      "answer": "The value of the integer variable ptr+1 is pointing to",
+      "kept": "book-ch3_104",
+      "dropped": [
+        "book-ch3_105"
+      ]
+    },
+    {
+      "stem": "Which of the following is the correct way to access a structure member using a pointer to a structure?",
+      "answer": "structure_pointer->member_name",
+      "kept": "book-ch3_138",
+      "dropped": [
+        "book-ch3_192"
+      ]
+    },
+    {
+      "stem": "What is the difference between passing a structure by value and passing a structure by pointer in C?",
+      "answer": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
+      "kept": "book-ch3_139",
+      "dropped": [
+        "book-ch3_193"
+      ]
+    },
+    {
+      "stem": "Which keyword is used to define a namespace in C++?",
+      "answer": "namespace",
+      "kept": "book-ch3_195",
+      "dropped": [
+        "book-ch3_205"
+      ]
+    },
+    {
+      "stem": "Which of the following is true about friend functions in C++?",
+      "answer": "Friend functions can access private and protected members of a class",
+      "kept": "book-ch3_272",
+      "dropped": [
+        "book-ch3_312"
+      ]
+    },
+    {
+      "stem": "How is a constant member function declared in C++?",
+      "answer": "Using the keyword const after the function declaration",
+      "kept": "book-ch3_382",
+      "dropped": [
+        "book-ch3_390"
+      ]
+    },
+    {
+      "stem": "A semaphore is used for:",
+      "answer": "Process synchronization",
+      "kept": "book-ch4_24",
+      "dropped": [
+        "book-ch7_45"
+      ]
+    },
+    {
+      "stem": "Which of the following is not a component of a control unit?",
+      "answer": "Arithmetic logic unit",
+      "kept": "book-ch4_90",
+      "dropped": [
+        "book-ch4_95"
+      ]
+    },
+    {
+      "stem": "What is the purpose of DMA in a computer system?",
+      "answer": "To transfer data between memory and peripheral devices",
+      "kept": "book-ch4_261",
+      "dropped": [
+        "book-ch4_271"
+      ]
+    },
+    {
+      "stem": "The testing in which code is checked",
+      "answer": "White box testing",
+      "kept": "book-ch8_72",
+      "dropped": [
+        "book-ch8_89"
+      ]
+    },
+    {
+      "stem": "Sinking fund is",
+      "answer": "The fund for rebuilding a structure when its economic life is over",
+      "kept": "book-ch10_153",
+      "dropped": [
+        "book-ch10_171"
+      ]
+    },
+    {
+      "stem": "Resource smoothing is",
+      "answer": "An adjustment of resources without affecting project duration",
+      "kept": "book-ch10_155",
+      "dropped": [
+        "book-ch10_176"
+      ]
+    }
+  ]
+}

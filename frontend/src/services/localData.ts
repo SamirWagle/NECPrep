@@ -7,6 +7,9 @@
 import { mockTests, getMockTestById } from '../data/topics';
 import type { Topic, MockTest } from '../data/topics';
 import { bookChapters } from '../data/bookChapters.generated';
+import { quarantinedIds } from '../data/quarantine';
+import { assignOptionOrders, fisherYates } from './optionOrdering';
+export { orderOptions, assignOptionOrders } from './optionOrdering';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -80,14 +83,14 @@ export async function loadTopicQuestions(topicId: string): Promise<Question[]> {
     // Exam topic JSONs have correct_option_index:0 + correct_option:"" — no answer data.
     const isBookChapter = topic.dataFile.startsWith('books/');
 
-    const questions: Question[] = raw.map((q, i) => {
+    const parsed = raw.map((q, i) => {
       let correctIndex: number;
+      const opts = [q.opt1, q.opt2, q.opt3, q.opt4].filter(Boolean);
       if (isBookChapter) {
         // 1-based → 0-based
         correctIndex = typeof q.correct_option_index === 'number' ? q.correct_option_index - 1 : -1;
       } else {
         // Try matching the correct_option text against the option strings
-        const opts = [q.opt1, q.opt2, q.opt3, q.opt4].filter(Boolean);
         if (q.correct_option) {
           const idx = opts.findIndex(o => o === q.correct_option);
           correctIndex = idx >= 0 ? idx : -1;
@@ -95,17 +98,33 @@ export async function loadTopicQuestions(topicId: string): Promise<Question[]> {
           correctIndex = -1; // no answer data in this file
         }
       }
-      return {
-        id: `${topicId}_${i}`,
-        topicId,
-        question: q.qsns,
-        options: [q.opt1, q.opt2, q.opt3, q.opt4].filter(Boolean),
-        correctIndex,
-      };
+      return { id: `${topicId}_${i}`, question: q.qsns, options: opts, correctIndex };
     });
 
-    questionCache[topicId] = questions;
-    return questions;
+    // Withhold questions the validator proved the app would mis-grade: answer
+    // keys that contradict themselves, indices pointing past the last option,
+    // and duplicated option text. See src/data/quarantine.ts. Filtering happens
+    // after id assignment, so ids stay tied to the original array position.
+    //
+    // Quarantined rows are dropped BEFORE ordering, so they cannot consume slots
+    // in the balance of a chapter a student never sees.
+    const kept = parsed.filter((q) => !quarantinedIds.has(q.id));
+
+    // Assign option order across the whole chapter at once, so the slot holding
+    // the correct answer is balanced by construction rather than sampled. See
+    // optionOrdering.ts for why per-question seeding is not sufficient.
+    const ordered = assignOptionOrders(kept);
+
+    const usable: Question[] = kept.map((q, i) => ({
+      id: q.id,
+      topicId,
+      question: q.question,
+      options: ordered[i].options,
+      correctIndex: ordered[i].correctIndex,
+    }));
+
+    questionCache[topicId] = usable;
+    return usable;
   } catch (err) {
     console.error(`Failed to load questions for ${topicId}:`, err);
     return [];
@@ -114,9 +133,10 @@ export async function loadTopicQuestions(topicId: string): Promise<Question[]> {
 
 export async function loadQuestionsSlice(topicId: string, count: number): Promise<Question[]> {
   const all = await loadTopicQuestions(topicId);
-  // Shuffle and take `count` questions
-  const shuffled = [...all].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, shuffled.length));
+  // Fisher-Yates. This was `sort(() => Math.random() - 0.5)`, which is not a
+  // uniform shuffle and is comparator-implementation dependent - and it is the
+  // shuffle that decides which questions a student practises.
+  return fisherYates(all).slice(0, Math.min(count, all.length));
 }
 
 // ─── Progress ─────────────────────────────────────────────────────────────────

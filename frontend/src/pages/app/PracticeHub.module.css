@@ -1,0 +1,25 @@
+/* Accessibility styles for the practice hub. CSS Module because App.css is
+ * owned by another workstream.
+ *
+ * Focus ring: #ffffff, 3px, 3px offset.
+ *   #ffffff on --bg-primary #0a0a0f       = 19.75:1
+ *   #ffffff on --bg-card   ~#101018       = 18.93:1
+ * Both above the 3:1 WCAG 1.4.11 minimum.
+ */
+
+.page a:focus-visible,
+.page button:focus-visible,
+.page [tabindex]:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* The mode cards are now links, so their call-to-action is a non-interactive
+ * span. Keep the `.mode-btn` look without the invalid nested button. */
+.modeCta {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+}

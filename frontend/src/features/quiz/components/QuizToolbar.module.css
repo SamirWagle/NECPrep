@@ -1,0 +1,102 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-3, 0.75rem);
+  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border, var(--color-surface));
+  border-radius: var(--radius-md);
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.position {
+  font-size: var(--text-base, 1rem);
+  font-weight: 700;
+  color: var(--color-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.answered {
+  font-size: var(--text-xs, 0.8rem);
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+.timer {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: 700;
+  /* Tabular figures so the layout does not jitter once a second. */
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg);
+  padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2, var(--color-surface));
+  border: 1px solid var(--color-border, var(--color-surface));
+}
+
+.low {
+  color: var(--color-danger-500, var(--color-accent));
+  border-color: var(--color-danger-500, var(--color-accent));
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2, 0.5rem);
+  min-height: 44px;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  font: inherit;
+  font-size: var(--text-sm, 0.95rem);
+  color: var(--color-fg-muted, var(--color-fg));
+  background: transparent;
+  border: 1px solid var(--color-border, var(--color-surface));
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.action:hover {
+  border-color: var(--color-accent);
+  color: var(--color-fg);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline-offset: 2px;
+}
+
+.on {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.kbd {
+  font: inherit;
+  font-size: var(--text-xs, 0.75rem);
+  padding: 0 0.35em;
+  border: 1px solid var(--color-border, var(--color-surface));
+  border-radius: var(--radius-sm, 0.25rem);
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+@media (max-width: 767px) {
+  /* Keystroke hints are noise on a phone — there is no keyboard. */
+  .kbd,
+  .actionLabel {
+    display: none;
+  }
+
+  .bar {
+    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  }
+}

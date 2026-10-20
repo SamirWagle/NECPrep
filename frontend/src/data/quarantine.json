@@ -1,0 +1,1316 @@
+[
+  {
+    "id": "book-ch1_50",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_50 -> \"To regulate the voltage levels of a three-phase supply\" | book-ch1_58 -> \"To regulate the voltage levels of a power distribution system\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_58",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_50 -> \"To regulate the voltage levels of a three-phase supply\" | book-ch1_58 -> \"To regulate the voltage levels of a power distribution system\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_140",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_140 -> \"The principle of superposition\" | book-ch1_143 -> \"Ohm's law\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_143",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_140 -> \"The principle of superposition\" | book-ch1_143 -> \"Ohm's law\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_173",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_173 -> \"The resistance of the circuit with all voltage sources replaced by their internal resistances.\" | book-ch1_183 -> \"The resistance seen from the output terminals with all voltage sources replaced by their internal resistances\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_183",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_173 -> \"The resistance of the circuit with all voltage sources replaced by their internal resistances.\" | book-ch1_183 -> \"The resistance seen from the output terminals with all voltage sources replaced by their internal resistances\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_198",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_198 -> \"25%\" | book-ch1_255 -> \"50%\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_206",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_206 -> \"1 ms\" | book-ch1_256 -> \"100 µs\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_207",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_207 -> \"0°\" | book-ch1_257 -> \"90°\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_208",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_208 -> \"160 kHz\" | book-ch1_258 -> \"16 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_209",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_209 -> \"It is infinite\" | book-ch1_259 -> \"It is at a minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_212",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_212 -> \"45°\" | book-ch1_260 -> \"0°\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_213",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_213 -> \"1 µs\" | book-ch1_261 -> \"100 µs\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_214",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_214 -> \"It increases\" | book-ch1_262 -> \"It decreases\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_215",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_215 -> \"15.92 Hz\" | book-ch1_263 -> \"1.59 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_217",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_217 -> \"R/C\" | book-ch1_264 -> \"RC\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_218",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_218 -> \"Infinite\" | book-ch1_265 -> \"Zero\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_221",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_221 -> \"2pisqrt(LC)\" | book-ch1_266 -> \"1/(2pisqrt(LC))\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_222",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_222 -> \"The impedance is maximum\" | book-ch1_267 -> \"The impedance is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_225",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt3 and opt4 are both \"159.15 Hz\" - two options can be simultaneously correct"
+    ]
+  },
+  {
+    "id": "book-ch1_226",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_226 -> \"It is maximum\" | book-ch1_268 -> \"It is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_227",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_227 -> \"It is maximum\" | book-ch1_269 -> \"It is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_228",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_228 -> \"Zero\" | book-ch1_270 -> \"Unity\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_229",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_229 -> \"Zero\" | book-ch1_271 -> \"Unity\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_232",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_232 -> \"It is minimum\" | book-ch1_272 -> \"It is maximum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_235",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_235 -> \"Minimum\" | book-ch1_273 -> \"Maximum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_236",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_236 -> \"35.7 kHz\" | book-ch1_274 -> \"357 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_246",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_246 -> \"They are the same thing\" | book-ch1_275 -> \"They are two different types of power\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_255",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_198 -> \"25%\" | book-ch1_255 -> \"50%\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_256",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_206 -> \"1 ms\" | book-ch1_256 -> \"100 µs\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_257",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_207 -> \"0°\" | book-ch1_257 -> \"90°\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_258",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_208 -> \"160 kHz\" | book-ch1_258 -> \"16 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_259",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_209 -> \"It is infinite\" | book-ch1_259 -> \"It is at a minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_260",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_212 -> \"45°\" | book-ch1_260 -> \"0°\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_261",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_213 -> \"1 µs\" | book-ch1_261 -> \"100 µs\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_262",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_214 -> \"It increases\" | book-ch1_262 -> \"It decreases\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_263",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT",
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"1.59 kHz\" but correct_option says \"1.59 Hz\" - and that text is not among the options at all",
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_215 -> \"15.92 Hz\" | book-ch1_263 -> \"1.59 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_264",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_217 -> \"R/C\" | book-ch1_264 -> \"RC\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_265",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_218 -> \"Infinite\" | book-ch1_265 -> \"Zero\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_266",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_221 -> \"2pisqrt(LC)\" | book-ch1_266 -> \"1/(2pisqrt(LC))\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_267",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_222 -> \"The impedance is maximum\" | book-ch1_267 -> \"The impedance is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_268",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_226 -> \"It is maximum\" | book-ch1_268 -> \"It is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_269",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_227 -> \"It is maximum\" | book-ch1_269 -> \"It is minimum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_270",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_228 -> \"Zero\" | book-ch1_270 -> \"Unity\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_271",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_229 -> \"Zero\" | book-ch1_271 -> \"Unity\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_272",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_232 -> \"It is minimum\" | book-ch1_272 -> \"It is maximum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_273",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_235 -> \"Minimum\" | book-ch1_273 -> \"Maximum\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_274",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, identical option sets): book-ch1_236 -> \"35.7 kHz\" | book-ch1_274 -> \"357 kHz\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_275",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, identical option sets): book-ch1_246 -> \"They are the same thing\" | book-ch1_275 -> \"They are two different types of power\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_337",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_337 -> \"The time constant of the RC circuit\" | book-ch1_347 -> \"The slope of the waveform\" | book-ch2_123 -> \"The time constant of the RC circuit\" | book-ch2_124 -> \"The slope of the waveform\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch1_347",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_337 -> \"The time constant of the RC circuit\" | book-ch1_347 -> \"The slope of the waveform\" | book-ch2_123 -> \"The time constant of the RC circuit\" | book-ch2_124 -> \"The slope of the waveform\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_16",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"110110\" but correct_option says \"111110\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_18",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 1 points at \"28\" but correct_option says \"2B\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_116",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT",
+      "INDEX_RANGE"
+    ],
+    "notes": [
+      "correct_option_index is 5 but there are only 4 options - this question is unanswerable",
+      "Stem appears 2x and the copies do not agree on the answer (INVALID_KEY, identical option sets): book-ch2_116 -> (correct_option_index 5, out of range) | book-ch2_125 -> (correct_option_index 5, out of range). Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_123",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_337 -> \"The time constant of the RC circuit\" | book-ch1_347 -> \"The slope of the waveform\" | book-ch2_123 -> \"The time constant of the RC circuit\" | book-ch2_124 -> \"The slope of the waveform\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_124",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch1_337 -> \"The time constant of the RC circuit\" | book-ch1_347 -> \"The slope of the waveform\" | book-ch2_123 -> \"The time constant of the RC circuit\" | book-ch2_124 -> \"The slope of the waveform\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_125",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT",
+      "INDEX_RANGE"
+    ],
+    "notes": [
+      "correct_option_index is 5 but there are only 4 options - this question is unanswerable",
+      "Stem appears 2x and the copies do not agree on the answer (INVALID_KEY, identical option sets): book-ch2_116 -> (correct_option_index 5, out of range) | book-ch2_125 -> (correct_option_index 5, out of range). Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_136",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch2_136 -> \"A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder g…\" | book-ch2_145 -> \"A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n…\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_145",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch2_136 -> \"A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder g…\" | book-ch2_145 -> \"A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n…\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_150",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 3 points at \"110110\" but correct_option says \"110100\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_156",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"0100\" but correct_option says \"11000\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_158",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"10110110\" but correct_option says \"101110110\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_160",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"00000010\" but correct_option says \"10000\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_163",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"1110\" but correct_option says \"1100\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_175",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt3 and opt4 are both \"1001\" - two options can be simultaneously correct"
+    ]
+  },
+  {
+    "id": "book-ch2_189",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch2_189 -> \"0 to 255\" | book-ch2_193 -> \"0 to 256\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_193",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT",
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"0 to 256\" but correct_option says \"0 to 255\" - and that text is not among the options at all",
+      "Stem appears 2x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch2_189 -> \"0 to 255\" | book-ch2_193 -> \"0 to 256\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_198",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"1101\" but correct_option says \"0011\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_200",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"0010\" but correct_option says \"0101\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_203",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"0110\" but correct_option says \"11110\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch2_240",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_240 -> \"Secondary storage\" | book-ch2_253 -> \"Multiuser\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_253",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_240 -> \"Secondary storage\" | book-ch2_253 -> \"Multiuser\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_303",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_303 -> \"They occur when an ISR triggers another interrupt\" | book-ch2_325 -> \"They occur when an ISR is triggered while another ISR is being serviced\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_305",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_305 -> \"The process of handling an interrupt request from an external device\" | book-ch2_312 -> \"The process of handling interrupts\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_312",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_305 -> \"The process of handling an interrupt request from an external device\" | book-ch2_312 -> \"The process of handling interrupts\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_315",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_315 -> \"It is the time between the occurrence of an interrupt and the start of the ISR\" | book-ch2_324 -> \"It refers to the time required for an interrupt to be detected and an ISR to be initiated\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_320",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_320 -> \"They are triggered by the rising or falling edge of a signal\" | book-ch2_330 -> \"They are triggered by a change in the interrupt request signal\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_324",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_315 -> \"It is the time between the occurrence of an interrupt and the start of the ISR\" | book-ch2_324 -> \"It refers to the time required for an interrupt to be detected and an ISR to be initiated\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_325",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_303 -> \"They occur when an ISR triggers another interrupt\" | book-ch2_325 -> \"They occur when an ISR is triggered while another ISR is being serviced\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch2_330",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch2_320 -> \"They are triggered by the rising or falling edge of a signal\" | book-ch2_330 -> \"They are triggered by a change in the interrupt request signal\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_59",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_59 -> \"A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows a…\" | book-ch3_69 -> \"A two-dimensional array has more dimensions than a one-dimensional array\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_69",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_59 -> \"A one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows a…\" | book-ch3_69 -> \"A two-dimensional array has more dimensions than a one-dimensional array\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_105",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"4\" but correct_option says \"Undefined\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch3_112",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 3 points at \"11 21 30\" but correct_option says \"10 21 30\" - and that text is not among the options at all"
+    ]
+  },
+  {
+    "id": "book-ch3_157",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt2 and opt3 are both \"array_name[size] struct;\" - two options can be simultaneously correct"
+    ]
+  },
+  {
+    "id": "book-ch3_164",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt1 and opt3 are both \"struct *array_name[size];\" - two options can be simultaneously correct",
+      "opt2 and opt4 are both \"struct (*array_name)[size];\" - two options can be simultaneously correct"
+    ]
+  },
+  {
+    "id": "book-ch3_190",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_190 -> \"It is a mechanism for managing the scope of identifiers in large programs\" | book-ch3_200 -> \"A container that holds a group of related variables and functions\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_192",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_192 -> \"You can have multiple namespaces with the same name in the same program\" | book-ch3_201 -> \"Namespace members are accessed using the :: operator\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_200",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_190 -> \"It is a mechanism for managing the scope of identifiers in large programs\" | book-ch3_200 -> \"A container that holds a group of related variables and functions\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_201",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_192 -> \"You can have multiple namespaces with the same name in the same program\" | book-ch3_201 -> \"Namespace members are accessed using the :: operator\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_319",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_319 -> \"It points to the object on which the member function is called\" | book-ch3_338 -> \"To refer to the object's own data members\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_338",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_319 -> \"It points to the object on which the member function is called\" | book-ch3_338 -> \"To refer to the object's own data members\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_356",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_356 -> \"A data member that is shared among all instances of a class\" | book-ch3_366 -> \"A data member that belongs to the class and not to any instance of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_357",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_357 -> \"Using the keyword static before the data type\" | book-ch3_367 -> \"With the keyword 'static' and the data type of the member\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_358",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch3_358 -> \"They are initialized to 0 by default\" | book-ch3_362 -> \"They can be initialized only outside the class definition\" | book-ch3_364 -> \"All of the above are true\" | book-ch3_368 -> \"They are initialized to zero by default\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_359",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_359 -> \"Using the keyword static before the return type\" | book-ch3_370 -> \"With the keyword 'static' and the return type of the function\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_360",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_360 -> \"They can access only static data members of the class\" | book-ch3_363 -> \"They cannot access non-static data members\" | book-ch3_371 -> \"They cannot be virtual\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_362",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch3_358 -> \"They are initialized to 0 by default\" | book-ch3_362 -> \"They can be initialized only outside the class definition\" | book-ch3_364 -> \"All of the above are true\" | book-ch3_368 -> \"They are initialized to zero by default\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_363",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_360 -> \"They can access only static data members of the class\" | book-ch3_363 -> \"They cannot access non-static data members\" | book-ch3_371 -> \"They cannot be virtual\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_364",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch3_358 -> \"They are initialized to 0 by default\" | book-ch3_362 -> \"They can be initialized only outside the class definition\" | book-ch3_364 -> \"All of the above are true\" | book-ch3_368 -> \"They are initialized to zero by default\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_366",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_356 -> \"A data member that is shared among all instances of a class\" | book-ch3_366 -> \"A data member that belongs to the class and not to any instance of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_367",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_357 -> \"Using the keyword static before the data type\" | book-ch3_367 -> \"With the keyword 'static' and the data type of the member\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_368",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 4x and the copies do not agree on the answer (NUMERIC_MISMATCH, option sets differ): book-ch3_358 -> \"They are initialized to 0 by default\" | book-ch3_362 -> \"They can be initialized only outside the class definition\" | book-ch3_364 -> \"All of the above are true\" | book-ch3_368 -> \"They are initialized to zero by default\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_370",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_359 -> \"Using the keyword static before the return type\" | book-ch3_370 -> \"With the keyword 'static' and the return type of the function\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_371",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_360 -> \"They can access only static data members of the class\" | book-ch3_363 -> \"They cannot access non-static data members\" | book-ch3_371 -> \"They cannot be virtual\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_375",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_375 -> \"A member function that cannot modify any data members of the class\" | book-ch3_383 -> \"A member function that cannot be modified\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_379",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 5x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_379 -> \"They cannot modify any data members of the class\" | book-ch3_384 -> \"They cannot modify the data members of the class\" | book-ch3_386 -> \"They can be created using the const keyword before the object name\" | book-ch3_387 -> \"They cannot call non-constant member functions of the class\" | book-ch3_388 -> \"They can access only constant member functions of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_383",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_375 -> \"A member function that cannot modify any data members of the class\" | book-ch3_383 -> \"A member function that cannot be modified\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_384",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 5x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_379 -> \"They cannot modify any data members of the class\" | book-ch3_384 -> \"They cannot modify the data members of the class\" | book-ch3_386 -> \"They can be created using the const keyword before the object name\" | book-ch3_387 -> \"They cannot call non-constant member functions of the class\" | book-ch3_388 -> \"They can access only constant member functions of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_386",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 5x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_379 -> \"They cannot modify any data members of the class\" | book-ch3_384 -> \"They cannot modify the data members of the class\" | book-ch3_386 -> \"They can be created using the const keyword before the object name\" | book-ch3_387 -> \"They cannot call non-constant member functions of the class\" | book-ch3_388 -> \"They can access only constant member functions of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_387",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 5x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_379 -> \"They cannot modify any data members of the class\" | book-ch3_384 -> \"They cannot modify the data members of the class\" | book-ch3_386 -> \"They can be created using the const keyword before the object name\" | book-ch3_387 -> \"They cannot call non-constant member functions of the class\" | book-ch3_388 -> \"They can access only constant member functions of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch3_388",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 5x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch3_379 -> \"They cannot modify any data members of the class\" | book-ch3_384 -> \"They cannot modify the data members of the class\" | book-ch3_386 -> \"They can be created using the const keyword before the object name\" | book-ch3_387 -> \"They cannot call non-constant member functions of the class\" | book-ch3_388 -> \"They can access only constant member functions of the class\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_14",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_14 -> \"Cache replacement\" | book-ch7_50 -> \"Page replacement\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_62",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_62 -> \"Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents\" | book-ch4_202 -> \"Volatile memory requires power to retain its data, while non-volatile memory retains data even without power\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_130",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_130 -> \"Shift left\" | book-ch4_136 -> \"Comparison\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_133",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt1 and opt4 are both \"NOT 0 = 0\" - two options can be simultaneously correct"
+    ]
+  },
+  {
+    "id": "book-ch4_136",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_130 -> \"Shift left\" | book-ch4_136 -> \"Comparison\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_202",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_62 -> \"Volatile memory loses its contents when power is lost, while non-volatile memory retains its contents\" | book-ch4_202 -> \"Volatile memory requires power to retain its data, while non-volatile memory retains data even without power\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_280",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_280 -> \"Sequential execution\" | book-ch4_288 -> \"Single processing unit\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_281",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_281 -> \"The ability of multiple processors to execute instructions simultaneously\" | book-ch4_289 -> \"The ability to use multiple processors to complete a single task\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_282",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_282 -> \"The ability of the system to increase performance as more processors are added\" | book-ch4_290 -> \"The ability to add more processors to the system as needed\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_286",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_286 -> \"The ability of the system to maintain consistency of data stored in the caches of multiple processors\" | book-ch4_293 -> \"The ability to maintain consistency of shared data in different processor caches\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_288",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_280 -> \"Sequential execution\" | book-ch4_288 -> \"Single processing unit\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_289",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_281 -> \"The ability of multiple processors to execute instructions simultaneously\" | book-ch4_289 -> \"The ability to use multiple processors to complete a single task\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_290",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_282 -> \"The ability of the system to increase performance as more processors are added\" | book-ch4_290 -> \"The ability to add more processors to the system as needed\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_293",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_286 -> \"The ability of the system to maintain consistency of data stored in the caches of multiple processors\" | book-ch4_293 -> \"The ability to maintain consistency of shared data in different processor caches\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_333",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_333 -> \"A computer system that is embedded within a larger device\" | book-ch4_342 -> \"A system designed to perform a specific task\" | book-ch4_378 -> \"A computer system used in industrial control applications\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_342",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_333 -> \"A computer system that is embedded within a larger device\" | book-ch4_342 -> \"A system designed to perform a specific task\" | book-ch4_378 -> \"A computer system used in industrial control applications\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_343",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_343 -> \"General-purpose computing\" | book-ch4_356 -> \"Standard operating system\" | book-ch4_381 -> \"High processing speed\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_344",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_344 -> \"Home computer\" | book-ch4_379 -> \"Personal computer\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_348",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_348 -> \"To manage system resources and scheduling\" | book-ch4_391 -> \"To schedule and manage tasks in real-time.\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_352",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_352 -> \"Web-based embedded system\" | book-ch4_383 -> \"Mainframe system\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_356",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_343 -> \"General-purpose computing\" | book-ch4_356 -> \"Standard operating system\" | book-ch4_381 -> \"High processing speed\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_378",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_333 -> \"A computer system that is embedded within a larger device\" | book-ch4_342 -> \"A system designed to perform a specific task\" | book-ch4_378 -> \"A computer system used in industrial control applications\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_379",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_344 -> \"Home computer\" | book-ch4_379 -> \"Personal computer\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_381",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 3x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_343 -> \"General-purpose computing\" | book-ch4_356 -> \"Standard operating system\" | book-ch4_381 -> \"High processing speed\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_383",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_352 -> \"Web-based embedded system\" | book-ch4_383 -> \"Mainframe system\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_391",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_348 -> \"To manage system resources and scheduling\" | book-ch4_391 -> \"To schedule and manage tasks in real-time.\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_413",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_413 -> \"Tensilica Xtensa\" | book-ch4_417 -> \"Digital Signal Processor (DSP)\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch4_417",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_413 -> \"Tensilica Xtensa\" | book-ch4_417 -> \"Digital Signal Processor (DSP)\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch7_50",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch4_14 -> \"Cache replacement\" | book-ch7_50 -> \"Page replacement\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch8_28",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch8_28 -> \"Sequence diagrams\" | book-ch8_61 -> \"State diagrams\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch8_36",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch8_36 -> \"Provides a mechanism for handling runtime errors\" | book-ch8_69 -> \"Provides a structured way to handle errors\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch8_61",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch8_28 -> \"Sequence diagrams\" | book-ch8_61 -> \"State diagrams\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  },
+  {
+    "id": "book-ch8_69",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Stem appears 2x and the copies do not agree on the answer (DIVERGENT_PROSE, option sets differ): book-ch8_36 -> \"Provides a mechanism for handling runtime errors\" | book-ch8_69 -> \"Provides a structured way to handle errors\". Withheld from practice until a human picks the correct key; see duplicate-triage.json."
+    ]
+  }
+]

@@ -1,0 +1,103 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3, 0.75rem);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--text-sm, 0.95rem);
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+.grid {
+  display: grid;
+  /* Auto-fills to the container, so the same grid works in a sidebar and in a
+   * full-width sheet on a phone. */
+  grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+  gap: var(--spacing-2, 0.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 2.5rem;
+  font: inherit;
+  font-size: var(--text-xs, 0.8rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border, var(--color-surface));
+  background: var(--color-surface);
+  color: var(--color-fg-muted, var(--color-fg));
+  cursor: pointer;
+}
+
+.dot:hover {
+  border-color: var(--color-accent);
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline-offset: 2px;
+}
+
+.unanswered {
+  background: var(--color-surface);
+}
+
+.answered {
+  background: var(--color-surface-2, var(--color-surface-2, var(--color-surface)));
+  border-color: var(--color-success-500, var(--color-accent));
+  color: var(--color-fg);
+}
+
+.flagged {
+  border-color: var(--color-warning-500, var(--color-accent));
+}
+
+.current {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-fg, var(--color-surface));
+}
+
+.pin {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.2rem;
+  font-size: 0.6rem;
+  color: var(--color-warning-500, var(--color-accent));
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3, 0.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.swatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--radius-sm, 0.25rem);
+}

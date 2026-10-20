@@ -522,15 +522,6 @@
     "correct_option_index": 2
   },
   {
-    "qsns": "What is the purpose of star-delta conversion?",
-    "opt1": "To convert a three-phase system from a delta to a star configuration",
-    "opt2": "To reduce the starting current of a motor",
-    "opt3": "To regulate the voltage levels of a power distribution system",
-    "opt4": "None of above",
-    "correct_option": "To reduce the starting current of a motor",
-    "correct_option_index": 2
-  },
-  {
     "qsns": "What is the purpose of delta-star conversion?",
     "opt1": "To convert a three-phase system from a star to a delta configuration",
     "opt2": "To reduce the starting current of a motor",
@@ -556,24 +547,6 @@
     "opt4": "None of above",
     "correct_option": "The three phases are connected in a closed loop",
     "correct_option_index": 1
-  },
-  {
-    "qsns": "Which type of conversion is commonly used in motor control circuits?",
-    "opt1": "Star-delta conversion",
-    "opt2": "Delta-star conversion",
-    "opt3": "Both A and B",
-    "opt4": "None of above",
-    "correct_option": "Star-delta conversion",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "Which type of conversion is commonly used in power distribution systems?",
-    "opt1": "Star-delta conversion",
-    "opt2": "Delta-star conversion",
-    "opt3": "Both a and b",
-    "opt4": "None of above",
-    "correct_option": "Delta-star conversion",
-    "correct_option_index": 2
   },
   {
     "qsns": "What is the primary benefit of star-delta conversion in motor control circuits?",
@@ -834,15 +807,6 @@
     "opt3": "Both A and B",
     "opt4": "None of above",
     "correct_option": "Both A and B",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "Which of the following circuits is an example of a non-linear circuit?",
-    "opt1": "Resistor-capacitor circuit",
-    "opt2": "Op-amp circuit",
-    "opt3": "Diode rectifier circuit",
-    "opt4": "All of above",
-    "correct_option": "Diode rectifier circuit",
     "correct_option_index": 3
   },
   {
@@ -1175,15 +1139,6 @@
     "opt2": "Active circuit",
     "opt3": "Both A and B",
     "opt4": "None of above",
-    "correct_option": "Active circuit",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Which of the following circuits requires an external source of power to function?",
-    "opt1": "Passive circuit",
-    "opt2": "Active circuit",
-    "opt3": "Bilateral circuit",
-    "opt4": "Unilateral circuit",
     "correct_option": "Active circuit",
     "correct_option_index": 2
   },
@@ -1557,60 +1512,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "What is the Thevenin equivalent circuit?",
-    "opt1": "A circuit consisting of multiple voltage sources and resistors",
-    "opt2": "A circuit consisting of a single voltage source and a single resistor",
-    "opt3": "A circuit consisting of multiple voltage sources and a single resistor",
-    "opt4": "A circuit consisting of a single voltage source and multiple resistors",
-    "correct_option": "A circuit consisting of a single voltage source and a single resistor",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the first step in determining the Thevenin equivalent circuit?",
-    "opt1": "Identify the load circuit that is connected to the circuit of interest",
-    "opt2": "Remove the load circuit from the circuit of interest",
-    "opt3": "Determine the internal resistance of the circuit between those terminals",
-    "opt4": "Determine the open-circuit voltage across the terminals where the load was connected",
-    "correct_option": "Identify the load circuit that is connected to the circuit of interest",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the second step in determining the Thevenin equivalent circuit?",
-    "opt1": "Identify the load circuit that is connected to the circuit of interest",
-    "opt2": "Determine the internal resistance of the circuit between those terminals",
-    "opt3": "Determine the open-circuit voltage across the terminals where the load was connected",
-    "opt4": "Remove the load circuit from the circuit of interest",
-    "correct_option": "Remove the load circuit from the circuit of interest",
-    "correct_option_index": 4
-  },
-  {
-    "qsns": "What is the third step in determining the Thevenin equivalent circuit?",
-    "opt1": "Identify the load circuit that is connected to the circuit of interest",
-    "opt2": "Determine the open-circuit voltage across the terminals where the load was connected",
-    "opt3": "Determine the internal resistance of the circuit between those terminals",
-    "opt4": "Remove the load circuit from the circuit of interest",
-    "correct_option": "Determine the open-circuit voltage across the terminals where the load was connected",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the fourth step in determining the Thevenin equivalent circuit?",
-    "opt1": "Identify the load circuit that is connected to the circuit of interest",
-    "opt2": "Determine the open-circuit voltage across the terminals where the load was connected",
-    "opt3": "Determine the internal resistance of the circuit between those terminals",
-    "opt4": "Remove the load circuit from the circuit of interest",
-    "correct_option": "Determine the internal resistance of the circuit between those terminals",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "Can Thevenin's theorem be used for non-linear circuits?",
-    "opt1": "No, it can only be used for linear circuits",
-    "opt2": "Yes, it can be used for both linear and non-linear circuits",
-    "opt3": "Yes, but only for circuits with a single non-linear element",
-    "opt4": "It depends on the complexity of the circuit",
-    "correct_option": "No, it can only be used for linear circuits",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What is the advantage of using Thevenin's theorem to simplify a circuit?",
     "opt1": "It reduces the number of components that need to be analyzed",
     "opt2": "It increases the voltage of the circuit",
@@ -1728,15 +1629,6 @@
     "correct_option_index": 4
   },
   {
-    "qsns": "What is the Norton equivalent circuit of a linear circuit?",
-    "opt1": "A voltage source and a series resistor",
-    "opt2": "A current source and a series resistor",
-    "opt3": "A voltage source and a parallel resistor",
-    "opt4": "A current source and a parallel resistor",
-    "correct_option": "A current source and a parallel resistor",
-    "correct_option_index": 4
-  },
-  {
     "qsns": "When using Norton's theorem, what must be disconnected from the circuit first?",
     "opt1": "The voltage source",
     "opt2": "The current source",
@@ -1762,15 +1654,6 @@
     "opt4": "The resistance seen from the output terminals with all voltage sources replaced by their internal resistances",
     "correct_option": "The resistance seen from the output terminals with all voltage sources replaced by their internal resistances",
     "correct_option_index": 4
-  },
-  {
-    "qsns": "What is the advantage of using Norton's theorem?",
-    "opt1": "It simplifies complex circuits",
-    "opt2": "It allows the calculation of voltage at any point in the circuit",
-    "opt3": "It is applicable to nonlinear circuits",
-    "opt4": "It requires only one step to calculate the output",
-    "correct_option": "It simplifies complex circuits",
-    "correct_option_index": 1
   },
   {
     "qsns": "In Norton's theorem, what is the Norton equivalent current source dependent on?",
@@ -2412,87 +2295,6 @@
     "correct_option_index": 4
   },
   {
-    "qsns": "What is the maximum power transfer theorem?",
-    "opt1": "It states that the power transferred from a source to a load is maximum when the load impedance is equal to the source impedance.",
-    "opt2": "It states that the power transferred from a source to a load is maximum when the load impedance is greater than the source impedance.",
-    "opt3": "It states that the power transferred from a source to a load is maximum when the load impedance is less than the source impedance.",
-    "opt4": "None of the above.",
-    "correct_option": "It states that the power transferred from a source to a load is maximum when the load impedance is equal to the source impedance.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What type of circuits does the maximum power transfer theorem apply to?",
-    "opt1": "Linear circuits only.",
-    "opt2": "Non-linear circuits only.",
-    "opt3": "Both linear and non-linear circuits.",
-    "opt4": "None of the above.",
-    "correct_option": "Linear circuits only.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the advantage of applying the maximum power transfer theorem in a circuit?",
-    "opt1": "It reduces the power loss in the circuit.",
-    "opt2": "It increases the power loss in the circuit.",
-    "opt3": "It reduces the voltage and current in the circuit.",
-    "opt4": "None of the above.",
-    "correct_option": "It reduces the power loss in the circuit.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "How does the maximum power transfer theorem help in designing power systems?",
-    "opt1": "It helps to optimize the power transfer in the system.",
-    "opt2": "It helps to increase the efficiency of the system.",
-    "opt3": "It helps to reduce the power loss in the system.",
-    "opt4": "All of the above.",
-    "correct_option": "All of the above.",
-    "correct_option_index": 4
-  },
-  {
-    "qsns": "What happens when the load impedance is not equal to the source impedance in a circuit?",
-    "opt1": "The power transfer is maximum.",
-    "opt2": "The power transfer is minimum.",
-    "opt3": "The power transfer is zero.",
-    "opt4": "None of the above.",
-    "correct_option": "The power transfer is minimum.",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Is the maximum power transfer theorem applicable to AC circuits?",
-    "opt1": "Yes, it is applicable to AC circuits.",
-    "opt2": "No, it is applicable only to DC circuits.",
-    "opt3": "It depends on the type of load.",
-    "opt4": "None of the above.",
-    "correct_option": "Yes, it is applicable to AC circuits.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the formula for calculating the maximum power transfer in a circuit?",
-    "opt1": "P=V*2/R",
-    "opt2": "P=I^2R",
-    "opt3": "P=V^2/2R",
-    "opt4": "P=V^2/R+L",
-    "correct_option": "P=I^2R",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Can the maximum power transfer occur at multiple values of load impedance?",
-    "opt1": "Yes, it can occur at multiple values of load impedance.",
-    "opt2": "No, it can occur at only one value of load impedance.",
-    "opt3": "It depends on the source impedance.",
-    "opt4": "None of the above.",
-    "correct_option": "No, it can occur at only one value of load impedance.",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the condition for maximum power transfer in a circuit?",
-    "opt1": "The load impedance must be equal to the source impedance.",
-    "opt2": "The load impedance must be greater than the source impedance.",
-    "opt3": "The load impedance must be less than the source impedance.",
-    "opt4": "None of the above.",
-    "correct_option": "The load impedance must be equal to the source impedance.",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What is the maximum efficiency that can be achieved in a circuit using the maximum power transfer theorem?",
     "opt1": "100%",
     "opt2": "50%",
@@ -2500,69 +2302,6 @@
     "opt4": "It depends on the circuit.",
     "correct_option": "50%",
     "correct_option_index": 2
-  },
-  {
-    "qsns": "The maximum power transfer theorem is applicable to:",
-    "opt1": "Linear circuits only.",
-    "opt2": "Non-linear circuits only.",
-    "opt3": "Both linear and non-linear circuits.",
-    "opt4": "All of above",
-    "correct_option": "Linear circuits only.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "The maximum power transfer occurs when:",
-    "opt1": "The load impedance is zero.",
-    "opt2": "The load impedance is equal to the source impedance",
-    "opt3": "The load impedance is infinite.",
-    "opt4": "When load impedance is double of source impedance",
-    "correct_option": "The load impedance is equal to the source impedance",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the formula for calculating the maximum power transfer?",
-    "opt1": "Pmax=V*2",
-    "opt2": "Pmax=V^2 2",
-    "opt3": "Pmax=V^2/4R",
-    "opt4": "Pmax=V^2 2/(2R)",
-    "correct_option": "Pmax=V^2/4R",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "In which applications is the maximum power transfer theorem useful?",
-    "opt1": "Audio",
-    "opt2": "Power supplies",
-    "opt3": "Power transmission systems",
-    "opt4": "All of the above",
-    "correct_option": "All of the above",
-    "correct_option_index": 4
-  },
-  {
-    "qsns": "What happens when the load impedance is much larger than the source impedance?",
-    "opt1": "The power transfer is maximum",
-    "opt2": "The power transfer is minimum.",
-    "opt3": "The power transfer is zero",
-    "opt4": "None of above",
-    "correct_option": "The power transfer is minimum.",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "The maximum power transfer theorem helps to:",
-    "opt1": "Minimize the amount of energy lost in transmission.",
-    "opt2": "Maximize the amount of energy lost in transmission.",
-    "opt3": "Have no effect on the amount of energy lost in transmission.",
-    "opt4": "Helps to distribute energy evenly in transmission.",
-    "correct_option": "Minimize the amount of energy lost in transmission.",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "The maximum power transfer theorem is useful in designing and optimizing:",
-    "opt1": "Power systems",
-    "opt2": "Lighting systems",
-    "opt3": "Communication systems",
-    "opt4": "Both a and c",
-    "correct_option": "Power systems",
-    "correct_option_index": 1
   },
   {
     "qsns": "What is the time constant of an R-C circuit consisting of a 1 kΩ resistor and a 100 nF capacitor?",
@@ -2601,24 +2340,6 @@
     "correct_option_index": 2
   },
   {
-    "qsns": "A series R-C circuit has a resistor of 100 Ω and a capacitor of 10 µF. What is the cutoff frequency?",
-    "opt1": "15.9 Hz",
-    "opt2": "159 Hz",
-    "opt3": "1.59 kHz",
-    "opt4": "1.59 Hz",
-    "correct_option": "159 Hz",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "In an R-L circuit, what happens to the impedance as the frequency increases?",
-    "opt1": "It increases",
-    "opt2": "It decreases",
-    "opt3": "It remains constant",
-    "opt4": "It oscillates",
-    "correct_option": "It increases",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What is the phase angle between the voltage and current in an R-L-C circuit at resonance?",
     "opt1": "0°",
     "opt2": "45°",
@@ -2655,15 +2376,6 @@
     "correct_option_index": 4
   },
   {
-    "qsns": "Which type of circuit contains an inductor and a resistor?",
-    "opt1": "R-L circuit",
-    "opt2": "R-C circuit",
-    "opt3": "R-L-C circuit",
-    "opt4": "None of the above",
-    "correct_option": "R-L circuit",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What is the time constant of an R-C circuit?",
     "opt1": "R/C",
     "opt2": "CR",
@@ -2682,24 +2394,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "What happens to the current in an R-L circuit if the inductance is increased?",
-    "opt1": "The current decreases",
-    "opt2": "The current increases",
-    "opt3": "The current remains the same",
-    "opt4": "The current becomes erratic",
-    "correct_option": "The current remains the same",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "In an R-C circuit, what happens to the current as the capacitor becomes fully charged?",
-    "opt1": "The current increases",
-    "opt2": "The current decreases",
-    "opt3": "The current remains the same",
-    "opt4": "The current becomes zero",
-    "correct_option": "The current becomes zero",
-    "correct_option_index": 4
-  },
-  {
     "qsns": "What is the resonance frequency of an R-L-C circuit?",
     "opt1": "1/(2pisqrt(LC))",
     "opt2": "2pisqrt(LC)",
@@ -2716,33 +2410,6 @@
     "opt4": "The impedance remains the same",
     "correct_option": "The impedance is minimum",
     "correct_option_index": 2
-  },
-  {
-    "qsns": "In an R-L-C circuit, what happens to the phase angle at resonance?",
-    "opt1": "The phase angle is zero",
-    "opt2": "The phase angle is 180 degrees",
-    "opt3": "The phase angle is 90 degrees",
-    "opt4": "The phase angle remains the same",
-    "correct_option": "The phase angle is zero",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the resonant frequency of an AC series circuit consisting of a 20mH Inductor and a 10µF capacitor?",
-    "opt1": "159.15 Hz",
-    "opt2": "318.3 Hz",
-    "opt3": "500 Hz",
-    "opt4": "1000 Hz",
-    "correct_option": "159.15 Hz",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the resonant frequency of an AC parallel circuit consisting of a 10mH inductor and a capacitor 100µF?",
-    "opt1": "318.3 Hz",
-    "opt2": "1000 Hz",
-    "opt3": "159.15 Hz",
-    "opt4": "159.15 Hz",
-    "correct_option": "159.15 Hz",
-    "correct_option_index": 4
   },
   {
     "qsns": "What happens to the Impedance of an AC series resonant circuit at resonance?",
@@ -2781,48 +2448,12 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "What is the phase angle between the voltage and current in an AC series resonant circuit at resonance?",
-    "opt1": "0 degrees",
-    "opt2": "45 degrees",
-    "opt3": "90 degrees",
-    "opt4": "180 degrees",
-    "correct_option": "0 degrees",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the phase angle between the voltage and current in an AC parallel resonant circuit at resonance?",
-    "opt1": "0 degrees",
-    "opt2": "45 degrees",
-    "opt3": "90 degrees",
-    "opt4": "180 degrees",
-    "correct_option": "0 degrees",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What happens to the voltage across the capacitor in an AC series resonant circuit at resonance?",
     "opt1": "It is maximum",
     "opt2": "It is minimum",
     "opt3": "It is zero",
     "opt4": "It is infinity",
     "correct_option": "It is maximum",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "In an AC series resonant circuit, at the resonant frequency, what is the power factor?",
-    "opt1": "Zero",
-    "opt2": "Unity",
-    "opt3": "Inductive",
-    "opt4": "Capacitive",
-    "correct_option": "Unity",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the resonant frequency of an AC series resonant circuit with an inductance of 5mH and a capacitance 10µF?",
-    "opt1": "3.18 kHz",
-    "opt2": "31.8 kHz",
-    "opt3": "318 kHz",
-    "opt4": "3.18 MHz",
-    "correct_option": "3.18 kHz",
     "correct_option_index": 1
   },
   {
@@ -2844,165 +2475,12 @@
     "correct_option_index": 3
   },
   {
-    "qsns": "What is the phase relationship between the voltage across the capacitor and the voltage across the inductor in an AC series resonant circuit at resonance?",
-    "opt1": "They are in phase",
-    "opt2": "They are 180 degrees out of phase",
-    "opt3": "They cancel each other out",
-    "opt4": "None of the above",
-    "correct_option": "They are 180 degrees out of phase",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the phase relationship between the current and the voltage in an AC series resonant circuit at resonance?",
-    "opt1": "They are in phase",
-    "opt2": "They are 180 degrees out of phase",
-    "opt3": "They cancel each other out",
-    "opt4": "None of the above",
-    "correct_option": "They are in phase",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the unit of active power?",
-    "opt1": "Volt-amperes reactive (VAR)",
-    "opt2": "Watts (W)",
-    "opt3": "Volt-amperes (VA)",
-    "opt4": "None of the above",
-    "correct_option": "Watts (W)",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the formula for reactive power?",
-    "opt1": "Q=V*I",
-    "opt2": "Q=V*I*cos(theta)",
-    "opt3": "Q=V*I*sin(theta)",
-    "opt4": "None of the above",
-    "correct_option": "Q=V*I*sin(theta)",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "What is the unit of reactive power?",
-    "opt1": "Volt-amperes reactive (VAR)",
-    "opt2": "Watts (W)",
-    "opt3": "Volt-amperes (VA)",
-    "opt4": "None of the above",
-    "correct_option": "Volt-amperes reactive (VAR)",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the formula for active power?",
-    "opt1": "P=V^2I",
-    "opt2": "P=V*I*cos(theta)",
-    "opt3": "P=V*I*sin(theta)",
-    "opt4": "None of the above",
-    "correct_option": "P=V*I*cos(theta)",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the unit of apparent power?",
-    "opt1": "Volt-amperes reactive (VAR)",
-    "opt2": "Watts (W)",
-    "opt3": "Volt-amperes (VA)",
-    "opt4": "None of the above",
-    "correct_option": "Volt-amperes (VA)",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "What is the formula for power factor?",
-    "opt1": "pf=Q/S",
-    "opt2": "pf=P/Q",
-    "opt3": "pf=P/S",
-    "opt4": "None of the above",
-    "correct_option": "pf=P/S",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "What is the unit of power factor?",
-    "opt1": "Volt-amperes reactive (VAR)",
-    "opt2": "Watts (W)",
-    "opt3": "Volt-amperes (VA)",
-    "opt4": "None of the above",
-    "correct_option": "None of the above",
-    "correct_option_index": 4
-  },
-  {
     "qsns": "What is the relationship between active power and reactive power?",
     "opt1": "They are the same thing",
     "opt2": "Reactive power is always greater than active power",
     "opt3": "Active power is always greater than reactive power",
     "opt4": "They are two different types of power",
     "correct_option": "They are two different types of power",
-    "correct_option_index": 4
-  },
-  {
-    "qsns": "What is the formula for apparent power?",
-    "opt1": "S=V",
-    "opt2": "S=V*I*cos(theta)",
-    "opt3": "S=V^2I*sin(theta)",
-    "opt4": "None of the above",
-    "correct_option": "S=V*I (Calculated)",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the significance of power factor in electrical circuits?",
-    "opt1": "It determines the maximum power that can be delivered to the circuit",
-    "opt2": "It measures the efficiency of the circuit in using the power delivered to it",
-    "opt3": "It is a measure of the resistance of the circuit",
-    "opt4": "None of the above",
-    "correct_option": "It measures the efficiency of the circuit in using the power delivered to it",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Which of the following is a measure of how efficiently the circuit is using the power delivered to it?",
-    "opt1": "Active power",
-    "opt2": "Reactive power",
-    "opt3": "Apparent power",
-    "opt4": "Power factor",
-    "correct_option": "Power factor",
-    "correct_option_index": 4
-  },
-  {
-    "qsns": "Which type of power is used in the circuit to perform useful work?",
-    "opt1": "Active power",
-    "opt2": "Reactive power",
-    "opt3": "Apparent power",
-    "opt4": "None of the above",
-    "correct_option": "Active power",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "Which type of power is stored and released by the circuit?",
-    "opt1": "Active power",
-    "opt2": "Reactive power",
-    "opt3": "Apparent power",
-    "opt4": "None of the above",
-    "correct_option": "Reactive power",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "What is the power factor of a circuit that has 100 W of active power and 120 VA of apparent power?",
-    "opt1": "0.83",
-    "opt2": "1.20",
-    "opt3": "0.20",
-    "opt4": "0.01",
-    "correct_option": "0.83",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What happens to the power factor of a circuit if the reactive power increases?",
-    "opt1": "It increases",
-    "opt2": "It decreases",
-    "opt3": "It remains the same",
-    "opt4": "Cannot be determined",
-    "correct_option": "It decreases",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Which of the following is not a measure of power in an AC circuit?",
-    "opt1": "Volt-amperes reactive (VAR)",
-    "opt2": "Watts (W)",
-    "opt3": "Volt-amperes (VA)",
-    "opt4": "Hertz (Hz)",
-    "correct_option": "Hertz (Hz)",
     "correct_option_index": 4
   },
   {
@@ -3435,15 +2913,6 @@
     "opt3": "An oscillator that uses a quartz crystal in a feedback circuit",
     "opt4": "An oscillator that uses a diode in a feedback circuit",
     "correct_option": "An oscillator that uses a resistor and capacitor in a feedback circuit",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What determines the frequency of an RC oscillator?",
-    "opt1": "The time constant of the RC circuit",
-    "opt2": "The resonant frequency of the tank circuit",
-    "opt3": "The frequency of the crystal",
-    "opt4": "The input voltage of the oscillator",
-    "correct_option": "The time constant of the RC circuit",
     "correct_option_index": 1
   },
   {
@@ -3966,15 +3435,6 @@
     "opt3": "100 to 1000",
     "opt4": "More than 1000",
     "correct_option": "10 to 100",
-    "correct_option_index": 2
-  },
-  {
-    "qsns": "Which of the following is a characteristic of a Class A output stage?",
-    "opt1": "High efficiency",
-    "opt2": "Low distortion",
-    "opt3": "Crossover distortion",
-    "opt4": "Conducts for less than half of the input signal cycle",
-    "correct_option": "Low distortion",
     "correct_option_index": 2
   },
   {
@@ -5040,30 +4500,12 @@
     "correct_option_index": 3
   },
   {
-    "qsns": "What is the difference between a single tuned amplifier and a double tuned amplifier?",
-    "opt1": "A single tuned amplifier uses one resonant circuit, while a double tuned amplifier uses two resonant circuits.",
-    "opt2": "A single tuned amplifier is only used in audio applications, while a double tuned amplifier is only used in radio applications.",
-    "opt3": "A single tuned amplifier is less efficient than a double tuned amplifier.",
-    "opt4": "A single tuned amplifier has a lower Q factor than a double tuned amplifier.",
-    "correct_option": "A single tuned amplifier uses one resonant circuit, while a double tuned amplifier uses two resonant circuits.",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "Where are tuned amplifiers commonly used?",
     "opt1": "In power supplies",
     "opt2": "In digital circuits",
     "opt3": "In radio receivers and transmitters",
     "opt4": "In microcontrollers",
     "correct_option": "In radio receivers and transmitters",
-    "correct_option_index": 3
-  },
-  {
-    "qsns": "What is the Q factor of a resonant circuit?",
-    "opt1": "The amount of power dissipated in the circuit",
-    "opt2": "The amount of power supplied to the circuit",
-    "opt3": "The ratio of energy stored in the circuit to energy lost per cycle",
-    "opt4": "The ratio of energy lost in the circuit to energy stored per cycle",
-    "correct_option": "The ratio of energy stored in the circuit to energy lost per cycle",
     "correct_option_index": 3
   },
   {

@@ -1539,15 +1539,6 @@
     "correct_option_index": 2
   },
   {
-    "qsns": "Sinking fund is",
-    "opt1": "The fund for rebuilding a structure when its economic life is over",
-    "opt2": "Raised to meet maintenance costs",
-    "opt3": "The total sum to be paid to the municipal authorities by the tenants",
-    "opt4": "A part of the money kept in reserve for providing additional structures and structural modifications",
-    "correct_option": "The fund for rebuilding a structure when its economic life is over",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "The rules of Ethics are also called as a",
     "opt1": "Rules",
     "opt2": "Law",
@@ -1582,15 +1573,6 @@
     "opt4": "Evaluation of policy alternatives",
     "correct_option": "Evaluation of policy alternatives",
     "correct_option_index": 4
-  },
-  {
-    "qsns": "Resource smoothing is",
-    "opt1": "An optimization and economical utilization of resources",
-    "opt2": "An adjustment of resources without affecting project duration",
-    "opt3": "A gradual increase in resources",
-    "opt4": "A gradual decrease in resources",
-    "correct_option": "An adjustment of resources without affecting project duration",
-    "correct_option_index": 2
   },
   {
     "qsns": "The estimated time Te can be found if To. Tp and Tm are given in PERT activity as",

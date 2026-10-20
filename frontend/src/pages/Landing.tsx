@@ -1,15 +1,34 @@
-import { useState, type KeyboardEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Trophy, Users } from 'lucide-react';
 import { useUser } from '../context/user-context';
 import { bookChapters } from '../data/bookChapters.generated';
+import styles from './Landing.module.css';
 
 // Live content figures, derived from the generated chapter manifest so the
 // landing page can never drift from what is actually shipped.
 const LIVE_QUESTIONS = bookChapters.reduce((sum, c) => sum + c.questionCount, 0);
 const LIVE_CHAPTERS = bookChapters.length;
 const SYLLABUS_SUBCHAPTERS = 60; // NEC ACtE: 10 chapters x 6 sub-chapters
+
+// TODO(platform-rebuild): a shared <Dialog> primitive is being built under
+// src/components/ui/. When it lands, replace the local focus trap, Escape
+// handler, scroll lock and focus restoration below with it, and delete this
+// selector list along with `focusableWithin`.
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ');
+
+function focusableWithin(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+}
 
 function scrollToFeatures() {
   const el = document.getElementById('features');
@@ -41,6 +60,9 @@ export default function Landing() {
   const [isNamePortalOpen, setIsNamePortalOpen] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [portalError, setPortalError] = useState('');
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const portalTriggerRef = useRef<HTMLElement | null>(null);
 
   const features = [
     {
@@ -86,7 +108,9 @@ export default function Landing() {
     }
   };
 
-  const openNamePortal = () => {
+  const openNamePortal = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // Remember where focus came from so it can be put back on close.
+    portalTriggerRef.current = event.currentTarget;
     setIsNamePortalOpen(true);
     setPortalError('');
   };
@@ -95,6 +119,59 @@ export default function Landing() {
     setIsNamePortalOpen(false);
     setPortalError('');
   };
+
+  // Everything a role="dialog" aria-modal="true" element has to do and this one
+  // previously did not: initial focus, a Tab trap, Escape, a background scroll
+  // lock, and focus restoration on close.
+  // TODO(platform-rebuild): delete in favour of the shared <Dialog> primitive.
+  useEffect(() => {
+    if (!isNamePortalOpen) return;
+
+    const trigger = portalTriggerRef.current;
+    const previousOverflow = document.body.style.overflow;
+
+    nameInputRef.current?.focus();
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setIsNamePortalOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = focusableWithin(dialogRef.current);
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (!dialogRef.current?.contains(active)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+        return;
+      }
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      // A no-op when the trigger has already unmounted, which is what happens
+      // after a successful submit navigates to /app.
+      trigger?.focus();
+    };
+  }, [isNamePortalOpen]);
 
   const handleNamePortalSubmit = () => {
     const trimmed = nameInput.trim();
@@ -109,7 +186,7 @@ export default function Landing() {
     navigate('/app');
   };
 
-  const handlePortalKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+  const handlePortalKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       handleNamePortalSubmit();
@@ -117,7 +194,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="landing-page">
+    <div className={`landing-page ${styles.page}`}>
       {/* Navigation */}
       <nav className="nav-container">
         <div className="nav-content">
@@ -156,9 +233,13 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Master Your
-            <span className="gradient-text"> NEC License </span>
-            Exam
+            {/* `.gradient-text` ran a three-stop ramp across the two longest
+                words of the largest text on the page, bottoming out at 4.42:1.
+                The accent is now one short word on a measured two-stop ramp
+                whose darkest point is 6.62:1 — see Landing.module.css. */}
+            Master Your{' '}
+            <span className={styles.heroAccent}>NEC</span>{' '}
+            License Exam
           </motion.h1>
           
           <motion.p 
@@ -302,41 +383,62 @@ export default function Landing() {
       </section>
 
       {isNamePortalOpen && (
-        <div className="name-portal-overlay" role="dialog" aria-modal="true" aria-label="Welcome portal">
+        <div
+          className="name-portal-overlay"
+          // The dialog role belongs on the dialog, not on its backdrop.
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeNamePortal();
+          }}
+        >
           <motion.div
+            ref={dialogRef}
             className="name-portal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="namePortalTitle"
+            aria-describedby="namePortalDescription"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
             <button
-              className="name-portal-close"
+              className={`name-portal-close ${styles.dialogClose}`}
               type="button"
-              aria-label="Close portal"
+              aria-label="Close"
               onClick={closeNamePortal}
             >
               &times;
             </button>
 
             <div className="name-portal-header">
-              <h3>Nice to meet you!</h3>
-              <p>We&rsquo;ll use this to personalise your dashboard. Nothing leaves your device.</p>
+              {/* Was an <h3> under the page <h1>, skipping h2. */}
+              <h2 id="namePortalTitle" className={styles.dialogTitle}>Nice to meet you!</h2>
+              <p id="namePortalDescription">
+                We&rsquo;ll use this to personalise your dashboard. Nothing leaves your device.
+              </p>
             </div>
 
             <label htmlFor="namePortalInput" className="name-portal-label">
               Full name
             </label>
             <input
+              ref={nameInputRef}
               id="namePortalInput"
-              className="name-portal-input"
+              className={`name-portal-input ${styles.dialogInput}`}
               type="text"
               placeholder="e.g. Samir Wagle"
               value={nameInput}
               onChange={(event) => setNameInput(event.target.value)}
               onKeyDown={handlePortalKeyDown}
+              aria-invalid={portalError ? true : undefined}
+              aria-describedby={portalError ? 'namePortalError' : undefined}
             />
 
-            {portalError && <p className="name-portal-error">{portalError}</p>}
+            {portalError && (
+              <p className="name-portal-error" id="namePortalError" role="alert">
+                {portalError}
+              </p>
+            )}
 
             <motion.button
               className="btn-primary name-portal-submit"

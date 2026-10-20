@@ -1,0 +1,83 @@
+/* Accessibility styles for AppShell.
+ *
+ * These live in a CSS Module rather than App.css because App.css is owned by
+ * another workstream, and because the five global `:focus { outline: none }`
+ * rules it ships would otherwise have to be fought with !important.
+ *
+ * Focus ring colour: #ffffff at 3px with a 3px offset. Measured against every
+ * background a shell control sits on:
+ *   #ffffff on --bg-primary  #0a0a0f          = 19.75:1
+ *   #ffffff on --bg-secondary #12121a         = 18.63:1
+ *   #ffffff on --accent-primary #6366f1       =  4.47:1  (active nav link)
+ * All well clear of the 3:1 WCAG 1.4.11 non-text contrast minimum.
+ */
+
+.skipLink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  background: #12121a;
+  color: #ffffff;
+  border: 2px solid #a5b4fc;
+  border-radius: 0 0 10px 0;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease-out;
+}
+
+/* :focus as well as :focus-visible — a skip link must reveal itself for any
+ * focus origin, including programmatic focus from assistive tech. */
+.skipLink:focus,
+.skipLink:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skipLink {
+    transition: none;
+  }
+}
+
+/* <main> carries tabindex="-1" so the skip link can move focus into it.
+ * Suppress the ring for that programmatic focus; keep it for real keyboard
+ * focus so the landing point is never invisible. */
+.mainContent:focus {
+  outline: none;
+}
+
+.mainContent:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+}
+
+/* One visible focus ring for every interactive descendant of the shell. */
+.shell a:focus-visible,
+.shell button:focus-visible,
+.shell input:focus-visible,
+.shell [tabindex]:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* WCAG 2.5.8 target size: the icon-only controls were 18px glyphs inside
+ * 0.5rem padding, i.e. roughly 34x34. */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.userMenuTrigger {
+  min-height: 44px;
+}

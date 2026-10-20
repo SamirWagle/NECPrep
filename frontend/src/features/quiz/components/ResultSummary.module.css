@@ -1,0 +1,107 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3, 0.75rem);
+  padding: var(--spacing-6, 1.5rem);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border, var(--color-surface));
+  border-radius: var(--radius-lg, var(--radius-md));
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--text-lg, 1.125rem);
+  color: var(--color-fg);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-sm, 0.95rem);
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+.score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreValue {
+  font-size: var(--text-3xl, 3rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.scoreTotal {
+  font-size: var(--text-lg, 1.25rem);
+  font-weight: 600;
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+.pass .scoreValue {
+  color: var(--color-success-500, var(--color-accent));
+}
+
+.fail .scoreValue {
+  color: var(--color-danger-500, var(--color-accent));
+}
+
+.accuracy {
+  margin: 0;
+  font-size: var(--text-base, 1rem);
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: var(--spacing-3, 0.75rem);
+  width: 100%;
+  margin: var(--spacing-2, 0.5rem) 0 0;
+}
+
+.stat {
+  padding: var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-border, var(--color-surface));
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2, var(--color-surface));
+}
+
+.stat dt {
+  font-size: var(--text-xs, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-fg-muted, var(--color-fg));
+}
+
+.stat dd {
+  margin: 0.25rem 0 0;
+  font-size: var(--text-lg, 1.25rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg);
+}
+
+.small {
+  font-size: var(--text-sm, 0.9rem) !important;
+}
+
+.note {
+  margin: 0;
+  font-size: var(--text-xs, 0.8rem);
+  color: var(--color-fg-muted, var(--color-fg));
+  max-width: 44ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-3, 0.75rem);
+  margin-top: var(--spacing-2, 0.5rem);
+}

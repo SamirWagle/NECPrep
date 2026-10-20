@@ -1,6 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { mockTests as allMockTests, getProgress } from '../../services/localData';
 import { useChapters } from '../../hooks/useChapters';
+import styles from './PracticeHub.module.css';
 
 // Topic icon component
 function TopicIcon({ icon, color }: { icon: string; color: string }) {
@@ -104,7 +105,6 @@ function TopicIcon({ icon, color }: { icon: string; color: string }) {
 }
 
 export default function PracticeHub() {
-  const navigate = useNavigate();
   const bookChapters = useChapters();
   const mockTests = allMockTests;
   const progress = getProgress();
@@ -113,28 +113,32 @@ export default function PracticeHub() {
     Object.entries(progress).map(([tId, entry]) => [tId, { attempted: entry.attempted.length }])
   );
 
+  // The empty state used to be an early return carrying its own <h1>, so the
+  // file declared the page title twice. There is now exactly one h1, shared by
+  // both render paths.
+  const pageHeader = (
+    <header className="page-header">
+      <h1>Practice Questions</h1>
+      <p>
+        {bookChapters.length === 0
+          ? 'No topics found. Please check your database.'
+          : `Test your knowledge with ${totalQuestions.toLocaleString()}+ questions across all topics`}
+      </p>
+    </header>
+  );
+
   if (bookChapters.length === 0) {
-    return (
-      <div className="practice-hub-page">
-        <header className="page-header">
-          <h1>Practice Questions</h1>
-          <p>No topics found. Please check your database.</p>
-        </header>
-      </div>
-    );
+    return <div className={`practice-hub-page ${styles.page}`}>{pageHeader}</div>;
   }
 
   return (
-    <div className="practice-hub-page">
-      {/* Page header */}
-      <header className="page-header">
-        <h1>Practice Questions</h1>
-        <p>Test your knowledge with {totalQuestions.toLocaleString()}+ questions across all topics</p>
-      </header>
+    <div className={`practice-hub-page ${styles.page}`}>
+      {pageHeader}
 
-      {/* Practice modes */}
+      {/* Practice modes. The h2 used to be .sr-only, which left the visible
+          outline jumping h1 -> h3 across the mode cards. */}
       <section className="practice-modes" aria-labelledby="modes-title">
-        <h2 id="modes-title" className="sr-only">Practice Modes</h2>
+        <h2 id="modes-title">Practice Modes</h2>
         <div className="modes-grid">
           <Link to="/app/mock-tests" className="mode-card mode-mock">
             <div className="mode-icon">
@@ -150,7 +154,10 @@ export default function PracticeHub() {
             <span className="mode-badge">{mockTests.length} tests</span>
           </Link>
 
-          <div className="mode-card mode-quick" onClick={() => navigate('/app/practice/quick')} style={{ cursor: 'pointer' }}>
+          {/* Was a <div onClick> with no role, no tabIndex and no key handler,
+              wrapping a nested <button> — unreachable by keyboard and invalid
+              nesting. Now a real link, like the Mock Tests card beside it. */}
+          <Link to="/app/practice/quick" className="mode-card mode-quick">
             <div className="mode-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -160,10 +167,10 @@ export default function PracticeHub() {
               <h3>Quick Practice</h3>
               <p>10 random questions across all topics</p>
             </div>
-            <button className="mode-btn" onClick={e => { e.stopPropagation(); navigate('/app/practice/quick'); }}>Start</button>
-          </div>
+            <span className={`mode-btn ${styles.modeCta}`}>Start</span>
+          </Link>
 
-          <div className="mode-card mode-custom" onClick={() => navigate('/app/practice/custom')} style={{ cursor: 'pointer' }}>
+          <Link to="/app/practice/custom" className="mode-card mode-custom">
             <div className="mode-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="3"/>
@@ -174,8 +181,8 @@ export default function PracticeHub() {
               <h3>Custom Practice</h3>
               <p>Choose topics and number of questions</p>
             </div>
-            <button className="mode-btn" onClick={e => { e.stopPropagation(); navigate('/app/practice/custom'); }}>Configure</button>
-          </div>
+            <span className={`mode-btn ${styles.modeCta}`}>Configure</span>
+          </Link>
         </div>
       </section>
 

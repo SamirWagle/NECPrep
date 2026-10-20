@@ -1,0 +1,62 @@
+.card {
+  display: block;
+  min-width: 0;
+  box-sizing: border-box;
+  background-color: var(--color-surface, #fff);
+  color: var(--color-fg, #15171a);
+  border: 1px solid var(--color-border, #e3e5e8);
+  border-radius: var(--radius-lg, 14px);
+}
+
+.none {
+  padding: 0;
+}
+
+.sm {
+  padding: 0.75rem;
+}
+
+.md {
+  padding: 1rem;
+}
+
+.lg {
+  padding: 1.5rem;
+}
+
+.raised {
+  box-shadow: var(--shadow-sm, 0 1px 3px rgb(9 11 15 / 8%));
+  border-color: transparent;
+}
+
+.flat {
+  background-color: var(--color-surface-2, #f4f5f7);
+  border-color: transparent;
+}
+
+/* `interactive` only supplies the affordance styling. The card must still be
+   rendered as (or contain) a real button or link — a clickable <div> is not
+   keyboard reachable. */
+.interactive {
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast, 120ms) ease,
+    box-shadow var(--duration-fast, 120ms) ease,
+    transform var(--duration-fast, 120ms) ease;
+}
+
+.interactive:hover {
+  border-color: var(--color-border-strong, #c7cbd1);
+  box-shadow: var(--shadow-md, 0 6px 16px -6px rgb(9 11 15 / 16%));
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--color-ring, #2f6bff);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive {
+    transition: none;
+  }
+}

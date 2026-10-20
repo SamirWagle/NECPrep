@@ -503,7 +503,6 @@
     "correct_option": "switch (expression) { case constant-expression: statements; break; default: statements; }",
     "correct_option_index": 1
   },
-  
   {
     "qsns": "What is the index of the first element in a one-dimensional array in C?",
     "opt1": "0",
@@ -793,15 +792,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "How can you reverse a string in C programming?",
-    "opt1": "By using the strrev() function.",
-    "opt2": "By using a loop and swapping characters.",
-    "opt3": "By using the strcat() function.",
-    "opt4": "By using the strcmp() function.",
-    "correct_option": "By using a loop and swapping characters.",
-    "correct_option_index": 2
-  },
-  {
     "qsns": "How can you convert a string to uppercase in C programming?",
     "opt1": "By using the toupper() function.",
     "opt2": "By using a loop and converting each character.",
@@ -946,15 +936,6 @@
     "correct_option_index": 4
   },
   {
-    "qsns": "If 'ptr' is a pointer to an integer variable, what will be the output of the following code? printf(\"%d\", *(ptr+1));",
-    "opt1": "The memory address of ptr",
-    "opt2": "The value of ptr",
-    "opt3": "The memory address of the integer variable ptr is pointing to",
-    "opt4": "The value of the integer variable ptr+1 is pointing to",
-    "correct_option": "The value of the integer variable ptr+1 is pointing to",
-    "correct_option_index": 4
-  },
-  {
     "qsns": "What is the result of the following code? int arr[] = {1, 2, 3, 4}; int *p = arr; printf(\"%d\", *(p++));",
     "opt1": "1",
     "opt2": "2",
@@ -1062,7 +1043,6 @@
     "correct_option": "3",
     "correct_option_index": 3
   },
-  
   {
     "qsns": "Which of the following is true about structures in C?",
     "opt1": "Structures can contain only variables of the same data type",
@@ -1432,7 +1412,6 @@
     "correct_option": "struct person {char name[50]; int age;}",
     "correct_option_index": 1
   },
-  
   {
     "qsns": "What is the syntax for declaring an array of structures in C?",
     "opt1": "struct array_name[size];",
@@ -1731,24 +1710,6 @@
     "correct_option_index": 3
   },
   {
-    "qsns": "Which of the following is the correct way to access a structure member using a pointer to a structure?",
-    "opt1": "structure_pointer->member_name",
-    "opt2": "*structure_pointer.member_name",
-    "opt3": "structure_pointer.member_name",
-    "opt4": "None of the above",
-    "correct_option": "structure_pointer->member_name",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "What is the difference between passing a structure by value and passing a structure by pointer in C?",
-    "opt1": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
-    "opt2": "When a structure is passed by value, any modifications made to it in the function are retained when the function returns. When a structure is passed by pointer, the modifications are lost.",
-    "opt3": "There is no difference between passing a structure by value and passing a structure by pointer in C.",
-    "opt4": "None of the above",
-    "correct_option": "When a structure is passed by value, any modifications made to it in the function are lost when the function returns. When a structure is passed by pointer, the modifications are retained.",
-    "correct_option_index": 1
-  },
-  {
     "qsns": "What is a namespace in C++?",
     "opt1": "It is a block of code that is used to group related variables and functions",
     "opt2": "It is a feature that allows a class to inherit from multiple base classes",
@@ -1848,15 +1809,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "Which keyword is used to define a namespace in C++?",
-    "opt1": "using",
-    "opt2": "namespace",
-    "opt3": "define",
-    "opt4": "typedef",
-    "correct_option": "namespace",
-    "correct_option_index": 2
-  },
-  {
     "qsns": "Which of the following statements is true regarding namespaces in C++?",
     "opt1": "Nested namespaces are not allowed",
     "opt2": "A namespace can only contain functions",
@@ -1919,7 +1871,6 @@
     "correct_option": "A namespace can be used anywhere in the program",
     "correct_option_index": 1
   },
-  
   {
     "qsns": "Which of the following statements is true about function overloading in C++?",
     "opt1": "Only the function name should be the same for overloaded functions",
@@ -2370,7 +2321,6 @@
     "correct_option": "argumentType argumentName = defaultValue",
     "correct_option_index": 1
   },
-  
   {
     "qsns": "Which of the following is true about classes in C++?",
     "opt1": "A class is a blueprint for objects",
@@ -2813,15 +2763,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "Which of the following is true about friend functions in C++?",
-    "opt1": "They are member functions of a class",
-    "opt2": "They can access private and protected members of a class",
-    "opt3": "They can access only public members of a class",
-    "opt4": "None of the above",
-    "correct_option": "They can access private and protected members of a class",
-    "correct_option_index": 2
-  },
-  {
     "qsns": "What is a member function in C++?",
     "opt1": "A function that can only be used outside of a class",
     "opt2": "A function that belongs to a class",
@@ -3001,7 +2942,6 @@
     "correct_option": "It indicates that the function does not modify the object on which it is called",
     "correct_option_index": 3
   },
-  
   {
     "qsns": "What is a constructor in C++?",
     "opt1": "A function that is used to allocate memory for an object",
@@ -3263,7 +3203,6 @@
     "correct_option": "The address of obj1 and obj2 are different",
     "correct_option_index": 2
   },
-  
   {
     "qsns": "What is a static data member in C++?",
     "opt1": "A data member that is unique to each instance of a class",
@@ -3514,15 +3453,6 @@
     "opt3": "A member function that does not have any return type",
     "opt4": "None of the above",
     "correct_option": "A member function that cannot be modified",
-    "correct_option_index": 1
-  },
-  {
-    "qsns": "How is a constant member function declared in C++?",
-    "opt1": "Using the keyword const after the function name",
-    "opt2": "Using the keyword const after the return type",
-    "opt3": "Using the keyword const before the function name",
-    "opt4": "None of the above",
-    "correct_option": "Using the keyword const after the function name",
     "correct_option_index": 1
   },
   {

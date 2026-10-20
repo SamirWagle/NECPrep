@@ -1,0 +1,94 @@
+/* ============================================================================
+   Global base layer — accessibility primitives that must apply everywhere.
+
+   Everything here is deliberately written to WIN the cascade against App.css.
+   App.css is 6,175 unlayered lines loaded AFTER this file, so a plain `:root` or
+   `:focus-visible` rule here would simply lose. The doubled selectors
+   (`:focus-visible:focus-visible`) raise specificity from (0,1,0) to (0,2,0)
+   without adding an `!important`, which is enough to beat App.css's
+   `.search-input:focus { outline: none }` at (0,1,1).
+
+   The doubling is a migration shim, not a style. When App.css is retired the
+   duplicate can be dropped.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   FOCUS VISIBILITY
+   App.css contains exactly 6 `:focus` rules in 6,175 lines and 5 of them are
+   `outline: none` with no replacement indicator. A keyboard or switch-control
+   user currently cannot tell where they are anywhere in the app. This restores a
+   single consistent ring on every focusable element.
+
+   `:focus-visible` (not `:focus`) means mouse and touch users never see it.
+
+   Only `outline` is set. A box-shadow halo would read better on accent-filled
+   buttons but would clobber whatever box-shadow the element already carries, so
+   the ring relies on `outline-offset` instead: the 2px gap paints in the page
+   background and gives the ring an edge on any fill.
+   -------------------------------------------------------------------------- */
+:focus-visible:focus-visible {
+  outline: var(--ring-width) solid var(--color-ring);
+  outline-offset: var(--ring-offset);
+}
+
+/* ----------------------------------------------------------------------------
+   REDUCED MOTION
+   App.css has zero `prefers-reduced-motion` blocks and animates aggressively
+   (spinners, slide-ins, hover transforms). For users with vestibular disorders
+   this is an accessibility blocker, not a preference.
+
+   `!important` is required: App.css declares transitions inline on element rules
+   that this file cannot out-specify generically. Durations are collapsed to 1ms
+   rather than 0 so `transitionend`/`animationend` listeners still fire.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scrollbars, themed.
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg-subtle);
+}
+
+/* Firefox (both properties inherit, so :root is enough) */
+:root {
+  scrollbar-color: var(--color-border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+/* ----------------------------------------------------------------------------
+   Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}

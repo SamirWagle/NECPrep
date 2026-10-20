@@ -1,0 +1,56 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full, 999px);
+}
+
+.sm {
+  padding: 0.0625rem 0.4375rem;
+  font-size: 0.6875rem;
+}
+
+.md {
+  padding: 0.1875rem 0.5625rem;
+  font-size: 0.75rem;
+}
+
+.neutral {
+  color: var(--color-fg-muted, #5b6169);
+  background-color: var(--color-surface-2, #f4f5f7);
+  border-color: var(--color-border, #e3e5e8);
+}
+
+.accent {
+  color: var(--color-accent, #2f6bff);
+  background-color: color-mix(in srgb, var(--color-accent, #2f6bff) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent, #2f6bff) 30%, transparent);
+}
+
+.success {
+  color: var(--color-success-500, #16a34a);
+  background-color: color-mix(in srgb, var(--color-success-500, #16a34a) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-success-500, #16a34a) 30%, transparent);
+}
+
+.warning {
+  color: var(--color-warning-500, #d97706);
+  background-color: color-mix(in srgb, var(--color-warning-500, #d97706) 14%, transparent);
+  border-color: color-mix(in srgb, var(--color-warning-500, #d97706) 30%, transparent);
+}
+
+.danger {
+  color: var(--color-danger-500, #dc2626);
+  background-color: color-mix(in srgb, var(--color-danger-500, #dc2626) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-danger-500, #dc2626) 30%, transparent);
+}
+
+.info {
+  color: var(--color-info-500, #0284c7);
+  background-color: color-mix(in srgb, var(--color-info-500, #0284c7) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-info-500, #0284c7) 30%, transparent);
+}

@@ -1,0 +1,86 @@
+name: Question error report
+description: A question has the wrong answer, bad options, or is a duplicate.
+title: '[question] '
+labels: [question-bank]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A wrong answer key teaches the wrong thing, so these are the highest
+        priority reports in the project.
+
+        Before filing, it helps to know that `scripts/validate-questions.mjs`
+        already catches several classes of defect automatically, and that
+        questions it proved unanswerable are listed in
+        `frontend/src/data/quarantine.json` and withheld from practice. If the
+        question you hit is already in that file, there is nothing to report —
+        though a suggested correction is very welcome.
+
+        `docs/question-format.md` explains the data format and every failure
+        mode the validator checks.
+
+  - type: dropdown
+    id: chapter
+    attributes:
+      label: Chapter
+      description: Shown in the practice header, and in the URL as `book-chN`.
+      options:
+        - ch1
+        - ch2
+        - ch3
+        - ch4
+        - ch5
+        - ch6
+        - ch7
+        - ch8
+        - ch9
+        - ch10
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: stem
+    attributes:
+      label: The question text
+      description: >
+        Copy it exactly. This is what we search the JSON for, so an exact copy
+        locates the row faster than anything else.
+      render: text
+    validations:
+      required: true
+
+  - type: dropdown
+    id: defect
+    attributes:
+      label: What is wrong with it
+      options:
+        - The marked correct answer is wrong
+        - Two or more options are identical
+        - No option is correct
+        - More than one option is correct
+        - The question text is cut off or incomplete
+        - It is a duplicate of another question
+        - Typo or formatting only
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What it should be
+      description: >
+        Which option is actually correct, and ideally why — a textbook section,
+        a formula, or a past paper. A correction with a source can be applied
+        directly; one without needs independent verification first.
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        **Note on option order.** Options are deliberately reordered before they
+        are shown to you, because the authored bank has a severe answer-position
+        bias. "Option B is marked correct but it should be C" is therefore
+        ambiguous — please quote the option *text*, not its letter or number.

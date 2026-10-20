@@ -37,3 +37,23 @@ frontend/.vite/
 
 # Debug artifacts
 debug_screenshot.png
+
+# Test / coverage output
+coverage/
+frontend/coverage/
+.vitest/
+
+# Lint cache
+.eslintcache
+
+# Validator and budget reports (generated on demand and in CI)
+question-bank-triage.csv
+*-triage.csv
+bundle-budget.json
+
+# Hosting CLI state
+.vercel
+frontend/.vercel
+
+# Local agent / tool scratch
+.claude/settings.local.json
