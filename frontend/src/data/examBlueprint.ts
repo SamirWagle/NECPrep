@@ -19,21 +19,32 @@
  * acknowledgement object. Reading an unverified number by accident is
  * therefore not possible.
  *
- * WHAT IS CONFIRMED
- * -----------------
- * - `questionCount` = 100 and `marksPerQuestion` = 1 (so 100 marks total).
- *   Confirmed directly by the project owner on 2026-10-20.
+ * WHAT IS CONFIRMED, AND BY WHOM
+ * ------------------------------
+ * All four format fields are confirmed by the project owner (2026-10-20):
  *
- * WHAT IS NOT
- * -----------
- * - `durationMinutes` - secondary sources say 120; the app's mock tests are
- *   currently configured at 45. The two disagree and neither is sourced from an
- *   official document.
- * - `passMark` - secondary sources say 50/100. Not in the official PDF.
+ *   questionCount    100 questions
+ *   marksPerQuestion 1 mark each, so 100 marks total (derived, never stored)
+ *   durationMinutes  120 minutes
+ *   passMark         50 of 100
  *
- * `listUnverifiedFields()` / `formatUnverifiedFields()` exist so the UI can say
- * "Blueprint: unverified fields: duration, passMark" rather than presenting a
- * guess as fact.
+ * The provenance is `kind: 'project-owner'` with `sourceUrl: null`, and that
+ * null is deliberate. There is no published document behind these numbers -
+ * the official syllabus PDF carries no marking scheme - so citing a URL would
+ * manufacture an authority that does not exist. If an NEC exam notice ever
+ * contradicts any of this, the notice wins and this file is the only place that
+ * has to change.
+ *
+ * `topics.ts` previously configured mock tests at 45 minutes, against a real
+ * exam of 120. That is now driven from here instead of being restated.
+ *
+ * WHAT IS STILL UNVERIFIED
+ * ------------------------
+ * Nothing in `examFormat`. `listUnverifiedFields()` and
+ * `formatUnverifiedFields()` remain, and remain wired into the UI, because the
+ * next field added is likelier to be a guess than a confirmation - negative
+ * marking and per-chapter weights are both unknown, and the machinery to refuse
+ * to display a guess as fact should already be in place when they arrive.
  */
 
 import type { ChapterCode, SubchapterCode, SubchapterIndex } from './syllabus';
@@ -159,9 +170,12 @@ const OWNER_CONFIRMATION: ProvenanceSource & { readonly verifiedOn: string } = {
   sourceUrl: null,
   verifiedOn: '2026-10-20',
   note:
-    'Owner confirmed the paper is 100 questions at 1 mark each (100 marks). ' +
-    'The official NEC syllabus PDF carries no marking scheme, so there is no ' +
-    'document URL to cite for this.',
+    'Owner confirmed the paper is 100 questions at 1 mark each (100 marks), ' +
+    'runs for 120 minutes, and is passed at 50 of 100. The official NEC ' +
+    'syllabus PDF carries no marking scheme at all, so there is no document ' +
+    'URL to cite for any of it - the provenance is the project owner, not a ' +
+    'published source. If a future NEC notice contradicts this, that notice ' +
+    'wins and this is the single place to change.',
 };
 
 export interface ExamFormatBlueprint {
@@ -169,10 +183,10 @@ export interface ExamFormatBlueprint {
   readonly questionCount: ConfirmedValue<number>;
   /** Marks awarded per correct question. */
   readonly marksPerQuestion: ConfirmedValue<number>;
-  /** Minutes allowed for the paper. NOT VERIFIED. */
-  readonly durationMinutes: UnverifiedValue<number>;
-  /** Marks required to pass, out of `totalMarks()`. NOT VERIFIED. */
-  readonly passMark: UnverifiedValue<number>;
+  /** Minutes allowed for the paper. */
+  readonly durationMinutes: ConfirmedValue<number>;
+  /** Marks required to pass, out of `totalMarks()`. */
+  readonly passMark: ConfirmedValue<number>;
 }
 
 export const examFormat: ExamFormatBlueprint = {
@@ -192,43 +206,17 @@ export const examFormat: ExamFormatBlueprint = {
   },
   durationMinutes: {
     value: 120,
-    status: 'needs-verification',
+    status: 'confirmed',
     label: 'duration',
     unit: 'minutes',
-    source: {
-      kind: 'secondary-source',
-      label: 'Coaching-site and forum write-ups (unofficial)',
-      sourceUrl: 'https://nec.gov.np/',
-      verifiedOn: null,
-      note:
-        'Secondary sources quote 120 minutes. The app has historically ' +
-        'configured 45 minutes for its mock tests (see mockTests in topics.ts), ' +
-        'which conflicts. The official syllabus PDF states no duration. ' +
-        'Resolve against an NEC exam notice or admit card before display.',
-    },
-    conflicts: [
-      {
-        value: 45,
-        label: 'App mock-test default (mockTests in src/data/topics.ts)',
-        sourceUrl: null,
-      },
-    ],
+    source: OWNER_CONFIRMATION,
   },
   passMark: {
     value: 50,
-    status: 'needs-verification',
+    status: 'confirmed',
     label: 'passMark',
     unit: 'marks',
-    source: {
-      kind: 'secondary-source',
-      label: 'Coaching-site and forum write-ups (unofficial)',
-      sourceUrl: 'https://nec.gov.np/',
-      verifiedOn: null,
-      note:
-        'Secondary sources quote 50 out of 100 (50%). The official syllabus ' +
-        'PDF states no pass mark. Resolve against an NEC regulation or result ' +
-        'notice before display.',
-    },
+    source: OWNER_CONFIRMATION,
   },
 };
 

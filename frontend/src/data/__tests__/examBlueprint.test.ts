@@ -44,66 +44,85 @@ describe('exam format provenance', () => {
     expect(totalMarks()).toBe(100);
   });
 
-  it('records a verifiedOn date on every confirmed value', () => {
-    expect(examFormat.questionCount.source.verifiedOn).toBe('2026-10-20');
-    expect(examFormat.marksPerQuestion.source.verifiedOn).toBe('2026-10-20');
-    expect(examFormat.questionCount.source.kind).toBe('project-owner');
+  it('records a verifiedOn date and a provenance kind on every field', () => {
+    for (const [key, field] of Object.entries(examFormat)) {
+      expect(field.status, key).toBe('confirmed');
+      expect(field.source.verifiedOn, key).toBe('2026-10-20');
+      expect(field.source.kind, key).toBe('project-owner');
+    }
   });
 
-  it('never claims a verifiedOn date for an unverified value', () => {
-    expect(examFormat.durationMinutes.source.verifiedOn).toBeNull();
-    expect(examFormat.passMark.source.verifiedOn).toBeNull();
+  it('carries a null sourceUrl, because no published document states these', () => {
+    // The official syllabus PDF contains no marking scheme. Citing a URL here
+    // would manufacture an authority that does not exist, so null is the
+    // honest value and this test exists to stop a plausible-looking URL being
+    // added later.
+    for (const [key, field] of Object.entries(examFormat)) {
+      expect(field.source.sourceUrl, key).toBeNull();
+    }
   });
 
-  it('keeps the conflicting 45-minute app default on the record', () => {
-    expect(examFormat.durationMinutes.value).toBe(120);
-    expect(examFormat.durationMinutes.conflicts?.map(conflict => conflict.value)).toEqual([45]);
+  it('holds the owner-confirmed exam format', () => {
+    expect(readConfirmed(examFormat.questionCount)).toBe(100);
+    expect(readConfirmed(examFormat.marksPerQuestion)).toBe(1);
+    expect(readConfirmed(examFormat.durationMinutes)).toBe(120);
+    expect(readConfirmed(examFormat.passMark)).toBe(50);
+    expect(totalMarks()).toBe(100);
+  });
+
+  it('allows 72 seconds per question, not the 27 the old 45-minute default gave', () => {
+    // Pacing analytics depend on this, and the app shipped 45 minutes against a
+    // 120-minute exam - a 2.7x error in every per-question time budget.
+    const seconds =
+      (readConfirmed(examFormat.durationMinutes) * 60) /
+      readConfirmed(examFormat.questionCount);
+    expect(seconds).toBeCloseTo(72, 5);
   });
 });
 
 describe('unverified-field reporting', () => {
-  it('reports exactly duration and passMark as needing verification', () => {
-    const reports = listUnverifiedFields();
-    expect(reports.map(report => report.key)).toEqual(['durationMinutes', 'passMark']);
-    expect(reports.map(report => report.label)).toEqual(['duration', 'passMark']);
+  it('reports nothing unverified now that the owner has confirmed all four', () => {
+    expect(listUnverifiedFields()).toEqual([]);
+    expect(formatUnverifiedFields()).toBe('');
+    expect(isFormatFullyVerified()).toBe(true);
   });
 
-  it('formats a UI banner string', () => {
-    expect(formatUnverifiedFields()).toBe('duration, passMark');
-    expect('Blueprint: unverified fields: ' + formatUnverifiedFields()).toBe(
-      'Blueprint: unverified fields: duration, passMark',
-    );
+  // The machinery stays tested against a synthetic field rather than a real one.
+  // Negative marking and per-chapter weights are still unknown, so the next
+  // field added is likelier to be a guess than a confirmation, and the refusal
+  // path has to still work when it arrives.
+  const syntheticUnverified = {
+    value: 0.25,
+    status: 'needs-verification',
+    label: 'negativeMarkPerWrong',
+    unit: 'marks',
+    source: {
+      kind: 'secondary-source',
+      label: 'Not established',
+      sourceUrl: null,
+      verifiedOn: null,
+      note: 'No source states whether NEC applies negative marking.',
+    },
+  } as const;
+
+  it('still refuses to read an unverified value without acknowledgement', () => {
+    expect(() => readBlueprintValue(syntheticUnverified)).toThrow(/needs-verification/);
   });
 
-  it('knows the format is not fully verified yet', () => {
-    expect(isFormatFullyVerified()).toBe(false);
-  });
-
-  it('attaches a source note to every unverified field', () => {
-    for (const report of listUnverifiedFields()) {
-      expect(report.source.note.length, report.key).toBeGreaterThan(0);
-      expect(report.source.kind).toBe('secondary-source');
-    }
+  it('still allows an acknowledged unverified read', () => {
+    expect(
+      readUnverified(syntheticUnverified, {
+        acknowledgeUnverified: true,
+        reason: 'test: displaying a best guess behind a warning banner',
+      }),
+    ).toBe(0.25);
   });
 });
 
 describe('reading values safely', () => {
-  it('refuses an unverified value unless it is acknowledged', () => {
-    expect(() => readBlueprintValue(examFormat.durationMinutes)).toThrow(/needs-verification/);
-    expect(() => readBlueprintValue(examFormat.passMark)).toThrow(/needs-verification/);
-  });
-
-  it('allows a confirmed value through without ceremony', () => {
+  it('allows every confirmed value through without ceremony', () => {
     expect(readBlueprintValue(examFormat.questionCount)).toBe(100);
-  });
-
-  it('allows an acknowledged unverified read', () => {
-    const acknowledgement = {
-      acknowledgeUnverified: true,
-      reason: 'test: displaying the best current guess behind a warning banner',
-    } as const;
-    expect(readUnverified(examFormat.durationMinutes, acknowledgement)).toBe(120);
-    expect(readBlueprintValue(examFormat.passMark, acknowledgement)).toBe(50);
+    expect(readBlueprintValue(examFormat.durationMinutes)).toBe(120);
   });
 });
 

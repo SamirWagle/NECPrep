@@ -1,6 +1,6 @@
 {
   "generatedFrom": "duplicate-stem triage over frontend/public/data/books/, cross-checked with scripts/validate-questions.mjs",
-  "note": "SAFE duplicate groups have already been de-duplicated in the bank: the copy in the lowest-numbered chapter was kept and the rest deleted. CONFLICT groups were left in place and every copy was added to quarantine.json with code DUPLICATE_ANSWER_CONFLICT, because at least one copy keys an answer the other copies contradict. Ids below are post-dedupe array positions and move if the bank is re-ordered.",
+  "note": "SAFE duplicate groups have already been de-duplicated in the bank: the copy in the lowest-numbered chapter was kept and the rest deleted. CONFLICT groups were left in place and every copy was added to quarantine.json with code DUPLICATE_ANSWER_CONFLICT, because at least one copy keys an answer the other copies contradict. Ids below are post-dedupe array positions and move if the bank is re-ordered. As of 2026-10-20 the suggestedResolutions above have been applied; see appliedResolutions for the audit trail and for what was deliberately not applied.",
   "summary": {
     "duplicateGroupsFound": 391,
     "safeGroupsDeduplicated": 332,
@@ -5046,5 +5046,221 @@
         "book-ch10_176"
       ]
     }
-  ]
+  ],
+  "appliedResolutions": {
+    "appliedOn": "2026-10-20",
+    "authority": "Project owner instructed that the 13 recorded resolutions be applied. Each arithmetic or physics claim was re-derived before the edit, and every edit asserted the row still matched the state the resolution assumed, so a shifted index would fail the run rather than re-key the wrong question.",
+    "summary": {
+      "changes": 24,
+      "rekeys": 10,
+      "optionReplacements": 5,
+      "stemRewrites": 9,
+      "questionsTouched": 19,
+      "quarantineBefore": 145,
+      "quarantineAfter": 118,
+      "released": 27
+    },
+    "changes": [
+      {
+        "id": "book-ch1_198",
+        "change": "rekey",
+        "from": "25%",
+        "to": "50%",
+        "why": "R_load = R_th at max power transfer, so efficiency = P_load/(P_load+P_source) = 50%"
+      },
+      {
+        "id": "book-ch1_206",
+        "change": "rekey",
+        "from": "1 ms",
+        "to": "100 µs",
+        "why": "tau = RC = 1e3 * 100e-9 = 100 us"
+      },
+      {
+        "id": "book-ch1_208",
+        "change": "rekey",
+        "from": "160 kHz",
+        "to": "16 kHz",
+        "why": "f0 = 1/(2*pi*sqrt(1mH * 100nF)) = 15.9 kHz"
+      },
+      {
+        "id": "book-ch1_212",
+        "change": "rekey",
+        "from": "45°",
+        "to": "0°",
+        "why": "at resonance X_L = X_C so Z is purely resistive and the phase angle is 0"
+      },
+      {
+        "id": "book-ch1_213",
+        "change": "rekey",
+        "from": "1 µs",
+        "to": "100 µs",
+        "why": "tau = L/R = 10e-3 / 100 = 100 us"
+      },
+      {
+        "id": "book-ch1_221",
+        "change": "rekey",
+        "from": "2pisqrt(LC)",
+        "to": "1/(2pisqrt(LC))",
+        "why": "f0 = 1/(2*pi*sqrt(LC)); the keyed option was the reciprocal"
+      },
+      {
+        "id": "book-ch2_145",
+        "change": "rekey",
+        "from": "A binary encoder has 2^n input lines and n output lines, while a priority encoder has n input lines and log2n output lines.",
+        "to": "A binary encoder converts a binary input signal into an n-bit coded output signal, while a priority encoder generates a binary code corresponding to the highest priority input signal.",
+        "why": "both encoder types have 2^n inputs and n outputs; the real difference is priority resolution"
+      },
+      {
+        "id": "book-ch2_193",
+        "change": "replace-option",
+        "slot": 2,
+        "from": "0 to 256",
+        "to": "0 to 255",
+        "keyed": true,
+        "why": "2^8 = 256 distinct values, so the range is 0..255; correct_option already said so"
+      },
+      {
+        "id": "book-ch1_207",
+        "change": "restem",
+        "from": "In an R-L circuit, the voltage across the Inductor lags behind the current by how many degrees?",
+        "to": "In an R-L circuit, the voltage across the inductor leads the current by how many degrees?",
+        "why": "v_L = L di/dt, so inductor voltage leads current by 90 degrees; \"lags\" made the question unanswerable"
+      },
+      {
+        "id": "book-ch1_257",
+        "change": "restem",
+        "from": "In an R-L circuit, the voltage across the Inductor lags behind the current by how many degrees?",
+        "to": "In an R-L circuit, the voltage across the inductor leads the current by how many degrees?",
+        "why": "v_L = L di/dt, so inductor voltage leads current by 90 degrees; \"lags\" made the question unanswerable"
+      },
+      {
+        "id": "book-ch1_207",
+        "change": "rekey",
+        "from": "0°",
+        "to": "90°",
+        "why": "inductor voltage leads current by 90 degrees"
+      },
+      {
+        "id": "book-ch1_215",
+        "change": "restem",
+        "from": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the resonant frequency?",
+        "to": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the cutoff (corner) frequency?",
+        "why": "an R-C network has no resonant frequency; the quantity being asked for is the corner frequency"
+      },
+      {
+        "id": "book-ch1_215",
+        "change": "replace-option",
+        "slot": 4,
+        "from": "1.59 kHz",
+        "to": "1.59 Hz",
+        "keyed": true,
+        "why": "f_c = 1/(2*pi*R*C) = 1/(2*pi*100e3*1e-6) = 1.59 Hz"
+      },
+      {
+        "id": "book-ch1_263",
+        "change": "restem",
+        "from": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the resonant frequency?",
+        "to": "A parallel R-C circuit has a resistor of 100 kΩ and a capacitor of 1 µF. What is the cutoff (corner) frequency?",
+        "why": "an R-C network has no resonant frequency; the quantity being asked for is the corner frequency"
+      },
+      {
+        "id": "book-ch1_263",
+        "change": "replace-option",
+        "slot": 4,
+        "from": "1.59 kHz",
+        "to": "1.59 Hz",
+        "keyed": true,
+        "why": "f_c = 1/(2*pi*R*C) = 1/(2*pi*100e3*1e-6) = 1.59 Hz"
+      },
+      {
+        "id": "book-ch2_116",
+        "change": "replace-option",
+        "slot": 4,
+        "from": "11",
+        "to": "21",
+        "keyed": true,
+        "why": "correct_option named \"21\", which is not a binary combination and so is the intended answer; it was missing from the options"
+      },
+      {
+        "id": "book-ch2_125",
+        "change": "replace-option",
+        "slot": 4,
+        "from": "11",
+        "to": "21",
+        "keyed": true,
+        "why": "correct_option named \"21\", which is not a binary combination and so is the intended answer; it was missing from the options"
+      },
+      {
+        "id": "book-ch3_358",
+        "change": "restem",
+        "from": "Which of the following statements is true about static data members in C++?",
+        "to": "Which of the following statements is true about the default initial value of static data members in C++?",
+        "why": "its options are all about the default initial value"
+      },
+      {
+        "id": "book-ch3_362",
+        "change": "restem",
+        "from": "Which of the following statements is true about static data members in C++?",
+        "to": "Which of the following statements is true about where a static data member of a C++ class must be initialized?",
+        "why": "its options are all about where initialization may appear"
+      },
+      {
+        "id": "book-ch3_364",
+        "change": "restem",
+        "from": "Which of the following statements is true about static data members in C++?",
+        "to": "Which of the following statements is true about how static data members in C++ can be accessed?",
+        "why": "its options are all about access syntax"
+      },
+      {
+        "id": "book-ch1_236",
+        "change": "restem",
+        "from": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 5µF?",
+        "to": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 0.1µF?",
+        "why": "NEEDS SOURCE CHECK: options fit C = 0.1 uF (f0 = 3.56 kHz); as authored with 5 uF, f0 = 503 Hz and no option is correct"
+      },
+      {
+        "id": "book-ch1_236",
+        "change": "rekey",
+        "from": "35.7 kHz",
+        "to": "3.57 kHz",
+        "why": "f0 = 1/(2*pi*sqrt(20mH * 0.1uF)) = 3.56 kHz"
+      },
+      {
+        "id": "book-ch1_274",
+        "change": "restem",
+        "from": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 5µF?",
+        "to": "What is the resonant frequency of an AC parallel resonant circuit with an inductance of 20mH and a capacitance of 0.1µF?",
+        "why": "NEEDS SOURCE CHECK: options fit C = 0.1 uF (f0 = 3.56 kHz); as authored with 5 uF, f0 = 503 Hz and no option is correct"
+      },
+      {
+        "id": "book-ch1_274",
+        "change": "rekey",
+        "from": "357 kHz",
+        "to": "3.57 kHz",
+        "why": "f0 = 1/(2*pi*sqrt(20mH * 0.1uF)) = 3.56 kHz"
+      }
+    ],
+    "notAppliedAndWhy": [
+      {
+        "id": "book-ch3_368",
+        "reason": "OPTION_MULTIPLE_TRUE",
+        "detail": "The triage classified all four static-data-member questions as a stem collision with no wrong key. That holds for three of them, but not this one: both the keyed \"They are initialized to zero by default\" and the distractor \"They cannot be initialized inside the class declaration\" are true statements - the latter being exactly what book-ch3_362 keys as correct. A single-answer MCQ cannot have two correct options, so this needs the distractor rewritten or the question retired. It remains quarantined and is the only entry in quarantine.json that no automated rule can re-derive."
+      },
+      {
+        "ids": [
+          "book-ch1_236",
+          "book-ch1_274"
+        ],
+        "reason": "APPLIED BUT NEEDS SOURCE VERIFICATION",
+        "detail": "As authored the stem gives L = 20 mH and C = 5 uF, for which f0 = 1/(2*pi*sqrt(LC)) = 503 Hz - and none of the four options is close. The options (3.57 kHz / 35.7 kHz / 357 kHz / 3.57 MHz) form a decade ladder around 3.57 kHz, which is exactly what L = 20 mH gives for C = 0.1 uF. The stem capacitance was therefore treated as the typo and changed to 0.1 uF, which is the smaller edit than replacing four options. This is the one change that altered a question premise rather than a key; confirm against the source textbook."
+      },
+      {
+        "ids": [
+          "12 remaining KEY_CONFLICT rows"
+        ],
+        "reason": "STILL UNADJUDICATED",
+        "detail": "Twelve rows still have a correct_option naming text that is absent from all four options - mostly binary and hexadecimal arithmetic in ch2. They were not among the 13 recorded resolutions and no answer can be derived without the source material, since both the keyed option and the stated answer may be wrong. They remain quarantined."
+      }
+    ]
+  }
 }
