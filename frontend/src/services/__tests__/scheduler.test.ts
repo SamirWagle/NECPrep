@@ -75,7 +75,7 @@ describe('rating from outcome', () => {
 
   it('never returns Easy, whatever the outcome', () => {
     for (const correct of [true, false]) {
-      for (const latencyMs of [0, 1, 1999, 2000, 5000, 29999, 30001, 600000]) {
+      for (const latencyMs of [0, 1, 3999, 4000, 5000, 29999, 30001, 600000]) {
         for (const flaggedGuess of [true, false]) {
           expect(ratingFromOutcome({ correct, latencyMs, flaggedGuess })).not.toBe(Rating.Easy);
         }
@@ -88,6 +88,8 @@ describe('rating from outcome', () => {
     // an impossibly fast guess.
     expect(ratingFromOutcome({ correct: true, latencyMs: 0, imputed: ['latencyMs'] })).toBe(Rating.Good);
     expect(ratingFromOutcome({ correct: true, latencyMs: 0 })).toBe(Rating.Hard);
+    // The default floor matches features/quiz/guess.ts's GUESS_FLOOR_MS.
+    expect(DEFAULT_LATENCY_THRESHOLDS.guessMs).toBe(4000);
   });
 });
 

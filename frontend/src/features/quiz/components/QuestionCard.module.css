@@ -1,23 +1,23 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4, 1rem);
-  padding: var(--spacing-5, 1.25rem);
+  gap: var(--spacing-4);
+  padding: var(--spacing-5);
   background: var(--color-surface);
-  border: 1px solid var(--color-border, var(--color-surface));
-  border-radius: var(--radius-lg, var(--radius-md));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
 }
 
 .number {
   margin: 0;
-  font-size: var(--text-xs, 0.8rem);
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -25,7 +25,7 @@
 }
 
 .of {
-  color: var(--color-fg-muted, var(--color-fg));
+  color: var(--color-fg-muted);
   font-weight: 500;
   text-transform: none;
   letter-spacing: normal;
@@ -33,7 +33,7 @@
 
 .stem {
   margin: 0;
-  font-size: var(--text-lg, 1.125rem);
+  font-size: var(--text-lg);
   line-height: 1.45;
   font-weight: 600;
   color: var(--color-fg);
@@ -41,36 +41,37 @@
 
 .verdict {
   margin: 0;
-  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  padding: var(--spacing-3) var(--spacing-4);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border, var(--color-surface));
-  font-size: var(--text-sm, 0.95rem);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-sm);
   color: var(--color-fg);
-  background: var(--color-surface-2, var(--color-surface));
+  background: var(--color-surface-2);
 }
 
 .positive {
-  border-color: var(--color-success-500, var(--color-accent));
-  color: var(--color-success-500, var(--color-fg));
+  border-color: var(--color-success-500);
+  /* -fg is the contrast-checked text cut; -500 is for borders and glyphs. */
+  color: var(--color-success-fg);
 }
 
 .negative {
-  border-color: var(--color-danger-500, var(--color-accent));
-  color: var(--color-danger-500, var(--color-fg));
+  border-color: var(--color-danger-500);
+  color: var(--color-danger-fg);
 }
 
 .neutral {
-  border-color: var(--color-border, var(--color-surface));
+  border-color: var(--color-border);
 }
 
 @media (max-width: 767px) {
   .card {
-    padding: var(--spacing-4, 1rem);
+    padding: var(--spacing-4);
     /* Room for the fixed action bar so the last option is never under it. */
-    padding-bottom: var(--spacing-4, 1rem);
+    padding-bottom: var(--spacing-4);
   }
 
   .stem {
-    font-size: var(--text-base, 1rem);
+    font-size: var(--text-base);
   }
 }

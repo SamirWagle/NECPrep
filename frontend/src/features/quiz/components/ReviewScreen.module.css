@@ -1,62 +1,62 @@
 .wrap {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4, 1rem);
-  padding: var(--spacing-5, 1.25rem);
+  gap: var(--spacing-4);
+  padding: var(--spacing-5);
   background: var(--color-surface);
-  border: 1px solid var(--color-border, var(--color-surface));
-  border-radius: var(--radius-lg, var(--radius-md));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .heading {
   margin: 0;
-  font-size: var(--text-lg, 1.125rem);
+  font-size: var(--text-lg);
   color: var(--color-fg);
 }
 
 .counts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
   margin: 0;
 }
 
 .count {
-  padding: var(--spacing-3, 0.75rem);
-  border: 1px solid var(--color-border, var(--color-surface));
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-surface-2, var(--color-surface));
+  background: var(--color-surface-2);
 }
 
 .count dt {
-  font-size: var(--text-xs, 0.75rem);
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-fg-muted, var(--color-fg));
+  color: var(--color-fg-muted);
 }
 
 .count dd {
   margin: 0.25rem 0 0;
-  font-size: var(--text-xl, 1.5rem);
+  font-size: var(--text-xl);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   color: var(--color-fg);
 }
 
 .of {
-  font-size: var(--text-sm, 0.95rem);
+  font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--color-fg-muted, var(--color-fg));
+  color: var(--color-fg-muted);
 }
 
 .warn {
-  border-color: var(--color-warning-500, var(--color-accent));
+  border-color: var(--color-warning-500);
 }
 
 .detail {
   margin: 0;
-  font-size: var(--text-sm, 0.95rem);
-  color: var(--color-fg-muted, var(--color-fg));
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
   overflow-wrap: anywhere;
 }
 
@@ -67,16 +67,16 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
 }
 
 .primary,
 .secondary,
 .danger {
   min-height: 44px;
-  padding: var(--spacing-3, 0.75rem) var(--spacing-5, 1.25rem);
+  padding: var(--spacing-3) var(--spacing-5);
   font: inherit;
-  font-size: var(--text-sm, 0.95rem);
+  font-size: var(--text-sm);
   font-weight: 600;
   border-radius: var(--radius-md);
   border: 1px solid transparent;
@@ -86,29 +86,29 @@
 
 .primary {
   background: var(--color-accent);
-  color: var(--color-accent-fg, var(--color-surface));
+  color: var(--color-accent-fg);
 }
 
 .secondary {
   background: transparent;
   color: var(--color-fg);
-  border-color: var(--color-border, var(--color-surface));
+  border-color: var(--color-border);
 }
 
 .danger {
-  background: var(--color-danger-500, var(--color-accent));
-  color: var(--color-accent-fg, var(--color-surface));
+  background: var(--color-danger-500);
+  color: var(--color-accent-fg);
 }
 
 .primary:focus-visible,
 .secondary:focus-visible,
 .danger:focus-visible {
-  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
 
 .warning {
   margin: 0;
-  font-size: var(--text-sm, 0.95rem);
-  color: var(--color-danger-500, var(--color-fg));
+  font-size: var(--text-sm);
+  color: var(--color-danger-fg);
 }

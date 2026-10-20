@@ -146,10 +146,15 @@ function easeDelta(rating: Rating): number {
 
 export interface LatencyThresholds {
   /**
-   * Answers faster than this are treated as guesses rather than recall. 2s is
-   * below the time it takes to read a four-option NEC question, so a correct
-   * answer under it is either prior memorisation of the *answer position* or
-   * luck — neither deserves a long interval.
+   * Answers faster than this are treated as guesses rather than recall: a
+   * correct answer under it is either prior memorisation of the *answer
+   * position* or luck, and neither deserves a long interval.
+   *
+   * This is only a fallback. `Outcome.flaggedGuess` is the canonical signal and
+   * is computed per session by `features/quiz/guess.ts`, whose threshold is
+   * `max(4000ms, 0.35 x session median)` — adaptive, and therefore better than
+   * any fixed number. The default here matches that module's absolute floor so
+   * the two layers cannot disagree on an unflagged record.
    */
   guessMs: number;
   /** Correct but slower than this means effortful reconstruction, not recall. */
@@ -157,7 +162,7 @@ export interface LatencyThresholds {
 }
 
 export const DEFAULT_LATENCY_THRESHOLDS: LatencyThresholds = {
-  guessMs: 2000,
+  guessMs: 4000,
   slowMs: 30000,
 };
 

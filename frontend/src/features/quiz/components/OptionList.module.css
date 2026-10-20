@@ -1,12 +1,11 @@
 /*
  * Layout only. The shared Radio primitive owns the surface, border and
  * selected/correct/incorrect colouring; this adds the lettered chip and the
- * two-column row the quiz uses. Colours come from design tokens, with fallback
- * chains onto the tokens the platform guarantees.
+ * two-column row the quiz uses. All values come from src/styles/tokens.css.
  */
 
 .group {
-  gap: var(--spacing-2, 0.5rem);
+  gap: var(--spacing-2);
 }
 
 .option {
@@ -17,7 +16,7 @@
 .row {
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
   width: 100%;
 }
 
@@ -28,10 +27,10 @@
   justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
-  border-radius: var(--radius-sm, 0.375rem);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
-  color: var(--color-fg-muted, var(--color-fg));
-  font-size: var(--text-xs, 0.8rem);
+  color: var(--color-fg-muted);
+  font-size: var(--text-xs);
   font-weight: 600;
 }
 
@@ -40,12 +39,12 @@
 .option[data-state='selected'] .letter,
 .option[data-state='correct'] .letter {
   background: var(--color-accent);
-  color: var(--color-accent-fg, var(--color-surface));
+  color: var(--color-accent-fg);
 }
 
 .option[data-state='incorrect'] .letter {
-  background: var(--color-danger-500, var(--color-accent));
-  color: var(--color-accent-fg, var(--color-surface));
+  background: var(--color-danger-500);
+  color: var(--color-accent-fg);
 }
 
 .text {

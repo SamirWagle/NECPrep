@@ -1,12 +1,12 @@
 .wrap {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
 }
 
 .heading {
   margin: 0;
-  font-size: var(--text-sm, 0.95rem);
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-fg);
 }
@@ -16,7 +16,7 @@
   /* Auto-fills to the container, so the same grid works in a sidebar and in a
    * full-width sheet on a phone. */
   grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
-  gap: var(--spacing-2, 0.5rem);
+  gap: var(--spacing-2);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -31,13 +31,13 @@
   aspect-ratio: 1;
   min-height: 2.5rem;
   font: inherit;
-  font-size: var(--text-xs, 0.8rem);
+  font-size: var(--text-xs);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border, var(--color-surface));
+  border: 1px solid var(--color-border);
   background: var(--color-surface);
-  color: var(--color-fg-muted, var(--color-fg));
+  color: var(--color-fg-muted);
   cursor: pointer;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .dot:focus-visible {
-  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
 
@@ -55,19 +55,19 @@
 }
 
 .answered {
-  background: var(--color-surface-2, var(--color-surface-2, var(--color-surface)));
-  border-color: var(--color-success-500, var(--color-accent));
+  background: var(--color-surface-2);
+  border-color: var(--color-success-500);
   color: var(--color-fg);
 }
 
 .flagged {
-  border-color: var(--color-warning-500, var(--color-accent));
+  border-color: var(--color-warning-500);
 }
 
 .current {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-accent-fg, var(--color-surface));
+  color: var(--color-accent-fg);
 }
 
 .pin {
@@ -75,18 +75,18 @@
   top: -0.3rem;
   right: -0.2rem;
   font-size: 0.6rem;
-  color: var(--color-warning-500, var(--color-accent));
+  color: var(--color-warning-500);
 }
 
 .legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-3, 0.75rem);
+  gap: var(--spacing-3);
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-xs, 0.75rem);
-  color: var(--color-fg-muted, var(--color-fg));
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
 }
 
 .legend li {
@@ -99,5 +99,5 @@
   display: inline-block;
   width: 0.75rem;
   height: 0.75rem;
-  border-radius: var(--radius-sm, 0.25rem);
+  border-radius: var(--radius-sm);
 }

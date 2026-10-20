@@ -9,6 +9,7 @@ import type { Topic, MockTest } from '../data/topics';
 import { bookChapters } from '../data/bookChapters.generated';
 import { quarantinedIds } from '../data/quarantine';
 import { assignOptionOrders, fisherYates } from './optionOrdering';
+import { DRAFT_PREFIX, LEGACY_MOCK_DRAFT_PREFIX } from '../features/quiz/draft';
 export { orderOptions, assignOptionOrders } from './optionOrdering';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -280,10 +281,14 @@ export function clearAllData() {
   localStorage.removeItem(STORAGE_KEYS.PROGRESS);
   localStorage.removeItem(STORAGE_KEYS.BOOKMARKS);
   localStorage.removeItem(STORAGE_KEYS.QUIZ_HISTORY);
-  // Also drop any in-progress mock attempt, or a reset would leave a stale
-  // draft that resumes an exam the user believes they deleted.
+  // Also drop any in-progress attempt, or a reset would leave a stale draft that
+  // resumes an exam the user believes they deleted. Both prefixes must be swept:
+  // the quiz engine writes `eng_quiz_draft_v1:`, while `eng_mock_draft_v1:` is
+  // the older mock-only scheme that is still read for migration.
   for (const key of Object.keys(localStorage)) {
-    if (key.startsWith('eng_mock_draft_v1:')) localStorage.removeItem(key);
+    if (key.startsWith(DRAFT_PREFIX) || key.startsWith(LEGACY_MOCK_DRAFT_PREFIX)) {
+      localStorage.removeItem(key);
+    }
   }
 }
 

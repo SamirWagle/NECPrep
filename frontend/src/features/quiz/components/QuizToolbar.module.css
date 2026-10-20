@@ -3,10 +3,10 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--spacing-3, 0.75rem);
-  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
   background: var(--color-surface);
-  border: 1px solid var(--color-border, var(--color-surface));
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 }
 
@@ -17,50 +17,50 @@
 }
 
 .position {
-  font-size: var(--text-base, 1rem);
+  font-size: var(--text-base);
   font-weight: 700;
   color: var(--color-fg);
   font-variant-numeric: tabular-nums;
 }
 
 .answered {
-  font-size: var(--text-xs, 0.8rem);
-  color: var(--color-fg-muted, var(--color-fg));
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
 }
 
 .timer {
-  font-size: var(--text-lg, 1.125rem);
+  font-size: var(--text-lg);
   font-weight: 700;
   /* Tabular figures so the layout does not jitter once a second. */
   font-variant-numeric: tabular-nums;
   color: var(--color-fg);
-  padding: var(--spacing-1, 0.25rem) var(--spacing-3, 0.75rem);
+  padding: var(--spacing-1) var(--spacing-3);
   border-radius: var(--radius-md);
-  background: var(--color-surface-2, var(--color-surface));
-  border: 1px solid var(--color-border, var(--color-surface));
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
 }
 
 .low {
-  color: var(--color-danger-500, var(--color-accent));
-  border-color: var(--color-danger-500, var(--color-accent));
+  color: var(--color-danger-fg);
+  border-color: var(--color-danger-500);
 }
 
 .actions {
   display: flex;
-  gap: var(--spacing-2, 0.5rem);
+  gap: var(--spacing-2);
 }
 
 .action {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-2, 0.5rem);
+  gap: var(--spacing-2);
   min-height: 44px;
-  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  padding: var(--spacing-2) var(--spacing-3);
   font: inherit;
-  font-size: var(--text-sm, 0.95rem);
-  color: var(--color-fg-muted, var(--color-fg));
+  font-size: var(--text-sm);
+  color: var(--color-fg-muted);
   background: transparent;
-  border: 1px solid var(--color-border, var(--color-surface));
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   cursor: pointer;
 }
@@ -71,7 +71,7 @@
 }
 
 .action:focus-visible {
-  outline: 2px solid var(--color-ring, var(--color-accent));
+  outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
 
@@ -82,11 +82,11 @@
 
 .kbd {
   font: inherit;
-  font-size: var(--text-xs, 0.75rem);
+  font-size: var(--text-xs);
   padding: 0 0.35em;
-  border: 1px solid var(--color-border, var(--color-surface));
-  border-radius: var(--radius-sm, 0.25rem);
-  color: var(--color-fg-muted, var(--color-fg));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-fg-muted);
 }
 
 @media (max-width: 767px) {
@@ -97,6 +97,6 @@
   }
 
   .bar {
-    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+    padding: var(--spacing-2) var(--spacing-3);
   }
 }
