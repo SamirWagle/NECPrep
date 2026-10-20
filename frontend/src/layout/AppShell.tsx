@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useUser } from '../context/user-context';
 
 // Icon components
 const Icons = {
@@ -132,7 +132,7 @@ const secondaryNavItems = [
 ];
 
 export default function AppShell() {
-  const { name } = useUser();
+  const { name, setName } = useUser();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -150,10 +150,17 @@ export default function AppShell() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
+  // Close both menus on navigation. The previous effect had empty deps despite
+  // a comment claiming it ran on route change, so the mobile drawer stayed open
+  // after every navigation. Adjusting state during render is React's
+  // recommended pattern for responding to a changed value.
+  const { pathname } = useLocation();
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
     setMobileMenuOpen(false);
-  }, []);
+    setUserMenuOpen(false);
+  }
 
   // Handle keyboard navigation for user menu
   const handleUserMenuKeyDown = (e: React.KeyboardEvent) => {
@@ -163,7 +170,9 @@ export default function AppShell() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
+    // Clearing storage alone left the context holding the old name, so going
+    // back to /app still greeted the "logged out" user.
+    setName('');
     navigate('/');
   };
 

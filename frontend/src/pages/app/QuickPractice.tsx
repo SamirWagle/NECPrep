@@ -31,35 +31,67 @@ export default function QuickPractice() {
   const [error, setError]         = useState<string | null>(null);
 
   const [idx, setIdx]             = useState(0);
-  const [selected, setSelected]   = useState<number | null>(null);
-  const [revealed, setRevealed]   = useState(false);
+  // Per-question selections. Previously a single scalar that navigation reset,
+  // which erased the user's answer and made revisited questions always read as
+  // "Incorrect". See TopicPractice for the same fix.
+  const [selections, setSelections] = useState<(number | null)[]>([]);
   const [score, setScore]         = useState(0);
   const [answered, setAnswered]   = useState<Set<number>>(new Set());
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [done, setDone]           = useState(false);
 
-  useEffect(() => {
-    if (ALL_SOURCES.length === 0) return;
-    const perTopic = Math.max(1, Math.ceil(count / ALL_SOURCES.length));
-    Promise.all(ALL_SOURCES.map(s => loadQuestionsSlice(s.id, perTopic)))
-      .then(results => {
-        const combined = shuffle(results.flat()).slice(0, count);
-        if (combined.length === 0) setError('No questions available.');
-        else setQuestions(combined);
-      })
-      .catch(() => setError('Failed to load questions. Please try again.'))
-      .finally(() => setLoading(false));
-  }, [ALL_SOURCES.length]);
+  const selected = selections[idx] ?? null;
+  const revealed = answered.has(idx);
+
+  // Reset when the requested count changes — during render, not in the effect.
+  const [activeCount, setActiveCount] = useState(count);
+  if (activeCount !== count) {
+    setActiveCount(count);
+    setLoading(true);
+    setError(null);
+    setQuestions([]);
+    setSelections([]);
+    setIdx(0);
+    setScore(0);
+    setAnswered(new Set());
+    setDone(false);
+  }
+
+  // The chapter manifest is static, so an empty list means a broken build
+  // rather than a transient state. Surfaced as a render guard below instead of
+  // as state written from inside the effect.
+  const noSources = ALL_SOURCES.length === 0;
 
   useEffect(() => {
-    if (questions.length === 0) return;
-    const id = questions[idx]?.id;
-    if (id && isBookmarked(id)) setBookmarkedIds(p => new Set(p).add(id));
-  }, [idx, questions]);
+    if (noSources) return;
+    let cancelled = false;
+
+    const perTopic = Math.max(1, Math.ceil(count / ALL_SOURCES.length));
+    Promise.all(ALL_SOURCES.map(src => loadQuestionsSlice(src.id, perTopic)))
+      .then(results => {
+        if (cancelled) return;
+        const combined = shuffle(results.flat()).slice(0, count);
+        if (combined.length === 0) {
+          setError('No questions available.');
+          return;
+        }
+        setQuestions(combined);
+        setSelections(Array<number | null>(combined.length).fill(null));
+        setBookmarkedIds(new Set(combined.filter(q => isBookmarked(q.id)).map(q => q.id)));
+      })
+      .catch(() => { if (!cancelled) setError('Failed to load questions. Please try again.'); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+
+    return () => { cancelled = true; };
+  }, [ALL_SOURCES, count, noSources]);
 
   const handleSelect = (i: number) => {
     if (answered.has(idx)) return;
-    setSelected(i);
+    setSelections((prev) => {
+      const next = [...prev];
+      next[idx] = i;
+      return next;
+    });
   };
 
   const handleSubmit = useCallback(() => {
@@ -67,7 +99,6 @@ export default function QuickPractice() {
     const q = questions[idx];
     const hasAnswer = q.correctIndex >= 0;
     const correct = hasAnswer && selected === q.correctIndex;
-    setRevealed(true);
     setAnswered(p => new Set(p).add(idx));
     if (correct) setScore(s => s + 1);
     if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
@@ -88,8 +119,6 @@ export default function QuickPractice() {
   const handleNext = () => {
     if (idx < questions.length - 1) {
       setIdx(i => i + 1);
-      setSelected(null);
-      setRevealed(false);
     } else if (answered.has(idx)) {
       saveQuizResult({
         topicId:   'quick-practice',
@@ -105,8 +134,6 @@ export default function QuickPractice() {
   const handlePrev = () => {
     if (idx > 0) {
       setIdx(i => i - 1);
-      setSelected(null);
-      setRevealed(answered.has(idx - 1));
     }
   };
 
@@ -118,6 +145,14 @@ export default function QuickPractice() {
     if (selected === i) return 'incorrect';
     return '';
   };
+
+  if (noSources) return (
+    <div className="topic-not-found">
+      <h2>No question sources available</h2>
+      <p>The chapter manifest is empty. Try rebuilding the app.</p>
+      <Link to="/app/practice" className="btn-primary">Back to Practice</Link>
+    </div>
+  );
 
   if (loading) return (
     <div className="loading-container">
@@ -134,7 +169,7 @@ export default function QuickPractice() {
   );
 
   if (done) {
-    const pct = Math.round((score / questions.length) * 100);
+    const pct = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
     return (
       <div className="quiz-complete">
         <div className="quiz-complete-card">
@@ -230,7 +265,11 @@ export default function QuickPractice() {
         </div>
 
         {revealed && (
-          <div className={`result-message ${q.correctIndex >= 0 ? (selected === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
+          <div
+            className={`result-message ${q.correctIndex >= 0 ? (selected === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}
+            role="status"
+            aria-live="polite"
+          >
             {q.correctIndex < 0
               ? <p>Answer recorded. No answer key available for this topic yet.</p>
               : selected === q.correctIndex

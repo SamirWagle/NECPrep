@@ -1,4 +1,4 @@
-﻿import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import {
   loadQuestionsSlice,
@@ -32,45 +32,69 @@ export default function TopicPractice() {
   const [error, setError] = useState<string | null>(null);
 
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  // One slot per question holding the option the user picked, or null if
+  // untouched. This was previously a single scalar that handleNext/handlePrev
+  // reset to null: navigating back to an already-answered question wiped the
+  // choice, and the feedback block then compared null against correctIndex and
+  // rendered "Incorrect" on questions the user had got right.
+  const [selections, setSelections] = useState<(number | null)[]>([]);
   const [score, setScore] = useState(0);
   const [answeredSet, setAnsweredSet] = useState<Set<number>>(new Set());
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [quizDone, setQuizDone] = useState(false);
 
-  useEffect(() => {
-    if (!topicId) return;
+  const selectedAnswer = selections[currentIdx] ?? null;
+  const showResult = answeredSet.has(currentIdx);
+
+  // Reset when the requested topic or question count changes. Done during
+  // render rather than inside the effect: React recommends adjusting state
+  // directly in response to a changed value, and doing it in an effect causes
+  // a cascading render.
+  const loadKey = `${topicId ?? ''}:${questionCount}`;
+  const [activeKey, setActiveKey] = useState(loadKey);
+  if (activeKey !== loadKey) {
+    setActiveKey(loadKey);
     setLoading(true);
     setError(null);
-    loadQuestionsSlice(topicId, questionCount)
-      .then((qs) => {
-        if (qs.length === 0) setError('No questions found for this topic.');
-        else setQuestions(qs);
-      })
-      .catch(() => setError('Failed to load questions. Please try again.'))
-      .finally(() => setLoading(false));
-  }, [topicId, questionCount]);
-
-  useEffect(() => {
+    setQuestions([]);
+    setSelections([]);
     setCurrentIdx(0);
-    setSelectedAnswer(null);
-    setShowResult(false);
     setScore(0);
     setAnsweredSet(new Set());
-    setBookmarkedIds(new Set());
     setQuizDone(false);
-  }, [topicId]);
+  }
 
   useEffect(() => {
-    if (questions.length === 0) return;
-    const id = questions[currentIdx]?.id;
-    if (id && isBookmarked(id)) setBookmarkedIds(prev => new Set(prev).add(id));
-  }, [currentIdx, questions]);
+    if (!topicId) return;
+    let cancelled = false;
+
+    loadQuestionsSlice(topicId, questionCount)
+      .then((qs) => {
+        if (cancelled) return;
+        if (qs.length === 0) {
+          setError('No questions found for this topic.');
+          return;
+        }
+        setQuestions(qs);
+        setSelections(Array<number | null>(qs.length).fill(null));
+        // Seed the bookmark set once for the whole question set. The previous
+        // per-index effect could only ever .add(), so removing a bookmark left
+        // the in-session set disagreeing with storage.
+        setBookmarkedIds(new Set(qs.filter(q => isBookmarked(q.id)).map(q => q.id)));
+      })
+      .catch(() => { if (!cancelled) setError('Failed to load questions. Please try again.'); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+
+    return () => { cancelled = true; };
+  }, [topicId, questionCount]);
 
   const handleAnswerSelect = (index: number) => {
     if (answeredSet.has(currentIdx)) return;
-    setSelectedAnswer(index);
+    setSelections((prev) => {
+      const next = [...prev];
+      next[currentIdx] = index;
+      return next;
+    });
   };
 
   const handleSubmit = useCallback(() => {
@@ -78,7 +102,6 @@ export default function TopicPractice() {
     const q = questions[currentIdx];
     const hasAnswer = q.correctIndex >= 0;
     const correct = hasAnswer && selectedAnswer === q.correctIndex;
-    setShowResult(true);
     setAnsweredSet(prev => new Set(prev).add(currentIdx));
     if (correct) setScore(s => s + 1);
     if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
@@ -99,8 +122,6 @@ export default function TopicPractice() {
   const handleNext = () => {
     if (currentIdx < questions.length - 1) {
       setCurrentIdx(i => i + 1);
-      setSelectedAnswer(null);
-      setShowResult(false);
     } else if (answeredSet.has(currentIdx)) {
       // quiz finished
       // correct answer already counted above
@@ -120,8 +141,6 @@ export default function TopicPractice() {
   const handlePrev = () => {
     if (currentIdx > 0) {
       setCurrentIdx(i => i - 1);
-      setSelectedAnswer(null);
-      setShowResult(answeredSet.has(currentIdx - 1));
     }
   };
 
@@ -152,7 +171,7 @@ export default function TopicPractice() {
   }
 
   if (quizDone) {
-    const pct = Math.round((score / questions.length) * 100);
+    const pct = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
     return (
       <div className="quiz-complete">
         <div className="quiz-complete-card">
@@ -251,7 +270,11 @@ export default function TopicPractice() {
         </div>
 
         {showResult && (
-          <div className={`result-message ${currentQuestion.correctIndex >= 0 ? (selectedAnswer === currentQuestion.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
+          <div
+            className={`result-message ${currentQuestion.correctIndex >= 0 ? (selectedAnswer === currentQuestion.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}
+            role="status"
+            aria-live="polite"
+          >
             {currentQuestion.correctIndex < 0 ? (
               <p>Answer recorded. No answer key available for this topic yet.</p>
             ) : selectedAnswer === currentQuestion.correctIndex ? (

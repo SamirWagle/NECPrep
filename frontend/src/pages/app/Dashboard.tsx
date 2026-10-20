@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/user-context';
 import { getOverallStats, getProgress, getQuizHistory } from '../../services/localData';
 import { useChapters } from '../../hooks/useChapters';
 
@@ -29,16 +28,14 @@ function QuickActionCard({ to, icon, title, description, color }: { to: string; 
 export default function Dashboard() {
   const { name } = useUser();
   const firstName = (name || 'Student').split(' ')[0];
-  const [stats, setStats] = useState({ attempted: 0, correct: 0, totalAvailable: 0 });
-  const [recentHistory, setRecentHistory] = useState<{ topicId: string; topicName: string; score: number; total: number; date: string }[]>([]);
   const bookChapters = useChapters();
   const progress = getProgress();
   const topicsStarted = Object.keys(progress).length;
-
-  useEffect(() => {
-    setStats(getOverallStats(bookChapters));
-    setRecentHistory(getQuizHistory().slice(0, 5));
-  }, [bookChapters]);
+  // Read straight through on render. These are synchronous localStorage reads,
+  // and holding them in state behind an effect left the dashboard showing
+  // stale figures until the component happened to remount.
+  const stats = getOverallStats(bookChapters);
+  const recentHistory = getQuizHistory().slice(0, 5);
 
   const accuracy = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
 
@@ -46,7 +43,7 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <section className="dashboard-welcome">
         <div className="welcome-text">
-          <h1>Welcome back, {firstName}! ??</h1>
+          <h1>Welcome back, {firstName}</h1>
           <p>Continue your engineering license exam preparation</p>
         </div>
         <div className="welcome-date">

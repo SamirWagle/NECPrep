@@ -6,7 +6,6 @@ export default function MockTests() {
   const mockTests = allMockTests;
   const bookChapters = useChapters();
   const attempts = getQuizHistory();
-  const loading = false;
 
   return (
     <div className="mock-tests-page">
@@ -32,7 +31,8 @@ export default function MockTests() {
           <h3>About Mock Tests</h3>
           <p>
             Mock tests simulate the actual exam environment with a fixed number of questions and time limit.
-            Your progress will be saved, and you can review your answers after completing the test.
+            Your answers and the countdown are saved in this browser, so you can safely reload or close the tab
+            and pick the attempt back up. The clock keeps running either way, just like the real exam.
           </p>
         </div>
       </div>
@@ -40,13 +40,7 @@ export default function MockTests() {
       {/* Tests grid */}
       <section className="tests-section">
         <h2>Available Tests</h2>
-        {loading ? (
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <p>Loading tests...</p>
-          </div>
-        ) : (
-          <div className="tests-grid">
+        <div className="tests-grid">
             {mockTests.map((test) => (
               <div key={test.id} className="test-card">
                 <div className="test-header">
@@ -86,7 +80,6 @@ export default function MockTests() {
               </div>
             ))}
           </div>
-        )}
       </section>
 
       {/* Past attempts section */}

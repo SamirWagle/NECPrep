@@ -2,8 +2,21 @@ import { useState, type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Trophy, Users } from 'lucide-react';
-import ThreeBackground from '../components/ThreeBackground';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../context/user-context';
+import { bookChapters } from '../data/bookChapters.generated';
+
+// Live content figures, derived from the generated chapter manifest so the
+// landing page can never drift from what is actually shipped.
+const LIVE_QUESTIONS = bookChapters.reduce((sum, c) => sum + c.questionCount, 0);
+const LIVE_CHAPTERS = bookChapters.length;
+const SYLLABUS_SUBCHAPTERS = 60; // NEC ACtE: 10 chapters x 6 sub-chapters
+
+function scrollToFeatures() {
+  const el = document.getElementById('features');
+  if (!el) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+}
 
 // Inline brand icon — matches the favicon book+checkmark design
 function NECPrepIcon({ small }: { small?: boolean }) {
@@ -47,8 +60,8 @@ export default function Landing() {
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: 'Community Support',
-      description: 'Join thousands of engineers preparing for their license exam.'
+      title: 'Open Source',
+      description: 'Free, MIT-licensed, and improved by the engineers who use it.'
     }
   ];
 
@@ -105,8 +118,6 @@ export default function Landing() {
 
   return (
     <div className="landing-page">
-      <ThreeBackground />
-      
       {/* Navigation */}
       <nav className="nav-container">
         <div className="nav-content">
@@ -119,18 +130,6 @@ export default function Landing() {
             <NECPrepIcon />
             <span className="logo-text">NECPrep</span>
           </motion.div>
-          
-          <motion.button
-            className="btn-signin"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            onClick={() => navigate('/auth/login')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Sign In
-          </motion.button>
         </div>
       </nav>
 
@@ -168,8 +167,8 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            The most comprehensive platform to study, practice, and ace your 
-            NEC license examination. Powered by proven study methods, built by engineers, for engineers.
+            Practise {LIVE_QUESTIONS.toLocaleString()} questions across all {LIVE_CHAPTERS} chapters of the
+            NEC Computer Engineering syllabus. Free, open source, and works offline.
           </motion.p>
           
           <motion.div 
@@ -190,6 +189,8 @@ export default function Landing() {
             
             <motion.button
               className="btn-secondary"
+              type="button"
+              onClick={scrollToFeatures}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -200,7 +201,7 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section className="features-section" id="features">
         <motion.div
           className="features-container"
           variants={containerVariants}
@@ -233,34 +234,45 @@ export default function Landing() {
         </motion.div>
       </section>
 
-      {/* Stats Section */}
-      <section className="stats-section">
+      {/* Goals Section — aspirational targets, explicitly labelled as such,
+          with the actual shipped figures stated directly underneath. */}
+      <section className="stats-section" aria-labelledby="goals-heading">
         <motion.div
-          className="stats-container"
+          className="stats-wrapper"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="stat-item">
-            <span className="stat-number">10,000+</span>
-            <span className="stat-label">Practice Questions</span>
+          <p className="stats-eyebrow" id="goals-heading">Our 2026 goals</p>
+
+          <div className="stats-container">
+            <div className="stat-item">
+              <span className="stat-number">10,000+</span>
+              <span className="stat-label">Practice Questions</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">95%</span>
+              <span className="stat-label">Pass Rate</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">5,000+</span>
+              <span className="stat-label">Students</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">12</span>
+              <span className="stat-label">Subject Areas</span>
+            </div>
           </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">95%</span>
-            <span className="stat-label">Pass Rate</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">5,000+</span>
-            <span className="stat-label">Students</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">12</span>
-            <span className="stat-label">Subject Areas</span>
-          </div>
+
+          <p className="stats-live">
+            <strong>Live today:</strong> {LIVE_QUESTIONS.toLocaleString()} questions
+            {' · '}{LIVE_CHAPTERS} chapters
+            {' · '}{SYLLABUS_SUBCHAPTERS} NEC syllabus sub-chapters
+          </p>
         </motion.div>
       </section>
 
@@ -275,7 +287,7 @@ export default function Landing() {
         >
           <h2 className="cta-title">Ready to Start Your Journey?</h2>
           <p className="cta-description">
-            Join thousands of engineers who have successfully passed their license exam with our platform.
+            Free and open source. No account needed — enter your name and start practising in seconds.
           </p>
           <motion.button
             className="btn-primary btn-large"
@@ -308,7 +320,7 @@ export default function Landing() {
 
             <div className="name-portal-header">
               <h3>Nice to meet you!</h3>
-              <p>Tell us your name so we can keep this stoplight-ready proof of concept tidy.</p>
+              <p>We&rsquo;ll use this to personalise your dashboard. Nothing leaves your device.</p>
             </div>
 
             <label htmlFor="namePortalInput" className="name-portal-label">
@@ -332,7 +344,7 @@ export default function Landing() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
             >
-              Continue to login
+              Start studying
               <ArrowRight className="w-5 h-5 ml-2" />
             </motion.button>
           </motion.div>

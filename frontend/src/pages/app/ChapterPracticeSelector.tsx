@@ -1,14 +1,12 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getTopicById } from '../../services/localData';
-import ThreeBackground from '../../components/ThreeBackground';
 import './ChapterSelector.css';
 
 export default function ChapterPracticeSelector() {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
   const chapter = chapterId ? getTopicById(chapterId) : null;
-  const loading = false;
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   const handleStartPractice = (questionCount: number) => {
@@ -18,24 +16,9 @@ export default function ChapterPracticeSelector() {
     }, 300);
   };
 
-  if (loading) {
-    return (
-      <div className="chapter-selector-container">
-        <ThreeBackground />
-        <div className="chapter-selector-content">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading chapter...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (!chapter) {
     return (
       <div className="chapter-selector-container">
-        <ThreeBackground />
         <div className="chapter-selector-content">
           <div className="error-message">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -83,7 +66,6 @@ export default function ChapterPracticeSelector() {
 
   return (
     <div className="chapter-selector-container">
-      <ThreeBackground />
       
       <div className="chapter-selector-content">
         {/* Header Section */}

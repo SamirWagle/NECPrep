@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   loadQuestionsSlice,
   recordAttempt,
@@ -27,15 +27,11 @@ export default function CustomPractice() {
   const [phase, setPhase] = useState<Phase>('config');
 
   // ── Config state ───────────────────────────────────────────────────────────
-  // We initialize with empty array on first render, but will sync in effect
-  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
-  
-  // Initialize selected topics once ALL_SOURCES is loaded
-  useEffect(() => {
-    if (selectedTopics.size === 0 && ALL_SOURCES.length > 0) {
-      setSelectedTopics(new Set(ALL_SOURCES.map(t => t.id)));
-    }
-  }, [ALL_SOURCES.length]);
+  // All chapters start selected. The chapter manifest is static, so this can be
+  // a lazy initializer rather than the previous set-state-in-effect round trip.
+  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(
+    () => new Set(ALL_SOURCES.map(t => t.id))
+  );
   const [count, setCount] = useState(20);
   const [configError, setConfigError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -43,23 +39,21 @@ export default function CustomPractice() {
   // ── Quiz state ─────────────────────────────────────────────────────────────
   const [questions, setQuestions] = useState<Question[]>([]);
   const [idx, setIdx]             = useState(0);
-  const [answer, setAnswer]       = useState<number | null>(null);
-  const [revealed, setRevealed]   = useState(false);
+  // Per-question selections. Previously a single scalar reset by navigation,
+  // which erased the user's answer on revisit. See TopicPractice.
+  const [selections, setSelections] = useState<(number | null)[]>([]);
   const [score, setScore]         = useState(0);
   const [answered, setAnswered]   = useState<Set<number>>(new Set());
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    if (questions.length === 0) return;
-    const id = questions[idx]?.id;
-    if (id && isBookmarked(id)) setBookmarkedIds(p => new Set(p).add(id));
-  }, [idx, questions]);
+  const answer = selections[idx] ?? null;
+  const revealed = answered.has(idx);
 
   // ── Config helpers ─────────────────────────────────────────────────────────
   const toggleTopic = (id: string) => {
     setSelectedTopics(p => {
       const n = new Set(p);
-      n.has(id) ? n.delete(id) : n.add(id);
+      if (n.has(id)) n.delete(id); else n.add(id);
       return n;
     });
   };
@@ -82,12 +76,13 @@ export default function CustomPractice() {
         return;
       }
       setQuestions(combined);
+      setSelections(Array<number | null>(combined.length).fill(null));
       setIdx(0);
-      setAnswer(null);
-      setRevealed(false);
       setScore(0);
       setAnswered(new Set());
-      setBookmarkedIds(new Set());
+      // Seed once for the whole set; the old per-index effect only ever added,
+      // so removing a bookmark left this set disagreeing with storage.
+      setBookmarkedIds(new Set(combined.filter(q => isBookmarked(q.id)).map(q => q.id)));
       setPhase('quiz');
     } catch {
       setConfigError('Failed to load questions. Please try again.');
@@ -99,7 +94,11 @@ export default function CustomPractice() {
   // ── Quiz helpers ───────────────────────────────────────────────────────────
   const handleSelect = (i: number) => {
     if (answered.has(idx)) return;
-    setAnswer(i);
+    setSelections((prev) => {
+      const next = [...prev];
+      next[idx] = i;
+      return next;
+    });
   };
 
   const handleSubmit = useCallback(() => {
@@ -107,7 +106,6 @@ export default function CustomPractice() {
     const q = questions[idx];
     const hasAnswer = q.correctIndex >= 0;
     const correct = hasAnswer && answer === q.correctIndex;
-    setRevealed(true);
     setAnswered(p => new Set(p).add(idx));
     if (correct) setScore(s => s + 1);
     if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
@@ -128,8 +126,6 @@ export default function CustomPractice() {
   const handleNext = () => {
     if (idx < questions.length - 1) {
       setIdx(i => i + 1);
-      setAnswer(null);
-      setRevealed(false);
     } else if (answered.has(idx)) {
       saveQuizResult({
         topicId:   'custom-practice',
@@ -145,8 +141,6 @@ export default function CustomPractice() {
   const handlePrev = () => {
     if (idx > 0) {
       setIdx(i => i - 1);
-      setAnswer(null);
-      setRevealed(answered.has(idx - 1));
     }
   };
 
@@ -242,7 +236,7 @@ export default function CustomPractice() {
 
   // ── Done screen ────────────────────────────────────────────────────────────
   if (phase === 'done') {
-    const pct = Math.round((score / questions.length) * 100);
+    const pct = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
     return (
       <div className="quiz-complete">
         <div className="quiz-complete-card">
@@ -339,7 +333,11 @@ export default function CustomPractice() {
         </div>
 
         {revealed && (
-          <div className={`result-message ${q.correctIndex >= 0 ? (answer === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
+          <div
+            className={`result-message ${q.correctIndex >= 0 ? (answer === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}
+            role="status"
+            aria-live="polite"
+          >
             {q.correctIndex < 0
               ? <p>Answer recorded. No answer key available for this topic yet.</p>
               : answer === q.correctIndex

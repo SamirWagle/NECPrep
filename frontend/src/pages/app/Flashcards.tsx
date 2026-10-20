@@ -36,18 +36,31 @@ export default function Flashcards() {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!selectedChapter) {
-      setFlashcards([]);
-      return;
-    }
-    setLoading(true);
+  // Reset when the chosen chapter changes, during render rather than in an
+  // effect (which caused a cascading render).
+  const [activeChapter, setActiveChapter] = useState(selectedChapter);
+  if (activeChapter !== selectedChapter) {
+    setActiveChapter(selectedChapter);
     setCurrentIndex(0);
     setIsFlipped(false);
-    loadTopicQuestions(selectedChapter).then(questions => {
-      setFlashcards(shuffle(questionsToFlashcards(questions)));
-      setLoading(false);
-    });
+    setFlashcards([]);
+    setLoading(Boolean(selectedChapter));
+  }
+
+  useEffect(() => {
+    if (!selectedChapter) return;
+    let cancelled = false;
+
+    loadTopicQuestions(selectedChapter)
+      .then((questions) => {
+        if (cancelled) return;
+        setFlashcards(shuffle(questionsToFlashcards(questions)));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
   }, [selectedChapter]);
 
   const currentCard = flashcards[currentIndex];

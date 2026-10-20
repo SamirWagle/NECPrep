@@ -1,50 +1,16 @@
-import { useState, useEffect } from 'react';
-import { bookChapters as staticChapters } from '../data/bookChapters.generated';
+import { bookChapters } from '../data/bookChapters.generated';
 import type { Topic } from '../data/topics';
 
-let cachedChapters: Topic[] | null = null;
-let fetchPromise: Promise<Topic[]> | null = null;
-
-async function fetchCounts(): Promise<Topic[]> {
-  if (!fetchPromise) {
-    fetchPromise = Promise.all(
-      staticChapters.map(async (c) => {
-        try {
-          const res = await fetch(`/data/${c.dataFile}?t=${Date.now()}`);
-          if (res.ok) {
-            const data = await res.json();
-            return { ...c, questionCount: data.length };
-          }
-        } catch {
-          // Silently fall back to static count
-        }
-        return c;
-      })
-    ).then(updated => {
-      cachedChapters = updated;
-      return updated;
-    });
-  }
-  return fetchPromise;
-}
-
 /**
- * Returns book chapters with dynamically-fetched question counts.
- * On first call, counts are fetched from the JSON files.
- * Subsequent calls return the cached result immediately (no re-fetch).
+ * Returns the book chapters.
+ *
+ * Question counts come straight from `bookChapters.generated.ts`, which
+ * `scripts/sync-chapters.mjs` regenerates from the JSON files on every dev
+ * start and every build. This previously re-fetched all ten chapter JSONs at
+ * runtime — roughly 1 MB, cache-busted with `?t=${Date.now()}` so it could
+ * never be served from cache — purely to read `data.length`. The generated
+ * manifest is the source of truth; if it drifts, the build is wrong.
  */
 export function useChapters(): Topic[] {
-  const [chapters, setChapters] = useState<Topic[]>(cachedChapters || staticChapters);
-
-  useEffect(() => {
-    let mounted = true;
-
-    fetchCounts().then(updated => {
-      if (mounted) setChapters(updated);
-    });
-
-    return () => { mounted = false; };
-  }, []);
-
-  return chapters;
+  return bookChapters;
 }

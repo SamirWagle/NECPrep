@@ -2,23 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { mockTests as allMockTests, getProgress } from '../../services/localData';
 import { useChapters } from '../../hooks/useChapters';
 
-// Loading skeleton component
-function LoadingSkeleton() {
-  return (
-    <div className="loading-skeleton">
-      <div className="skeleton-header">
-        <div className="skeleton-title"></div>
-        <div className="skeleton-subtitle"></div>
-      </div>
-      <div className="skeleton-grid">
-        {[1, 2, 3, 4, 5, 6].map(i => (
-          <div key={i} className="skeleton-card"></div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // Topic icon component
 function TopicIcon({ icon, color }: { icon: string; color: string }) {
   const icons: Record<string, React.ReactNode> = {
@@ -126,15 +109,9 @@ export default function PracticeHub() {
   const mockTests = allMockTests;
   const progress = getProgress();
   const totalQuestions = bookChapters.reduce((s, t) => s + t.questionCount, 0);
-  const loading = false;
-
-  // Keep the same variable name used in JSX
   const topicProgress = new Map(
     Object.entries(progress).map(([tId, entry]) => [tId, { attempted: entry.attempted.length }])
   );
-  if (loading) {
-    return <LoadingSkeleton />;
-  }
 
   if (bookChapters.length === 0) {
     return (
@@ -209,8 +186,10 @@ export default function PracticeHub() {
         <div className="topics-grid">
           {bookChapters.map((topic) => {
             const stats = topicProgress.get(topic.id);
-            const progress = 0 || 0;
             const questionsAnswered = stats?.attempted || 0;
+            const chapterProgress = topic.questionCount > 0
+              ? Math.min(100, (questionsAnswered / topic.questionCount) * 100)
+              : 0;
             const isAvailable = topic.questionCount > 0;
             
             return (
@@ -229,7 +208,7 @@ export default function PracticeHub() {
                         <span className="question-count">{topic.questionCount} questions</span>
                         {questionsAnswered > 0 && (
                           <span className="progress-badge" style={{ color: topic.color || '#6366f1' }}>
-                            {Math.round(progress)}% complete
+                            {Math.round(chapterProgress)}% complete
                           </span>
                         )}
                       </>
@@ -241,7 +220,7 @@ export default function PracticeHub() {
                     <div className="progress-bar-container">
                       <div 
                         className="progress-bar-fill" 
-                        style={{ width: `${progress}%`, backgroundColor: topic.color || '#6366f1' }}
+                        style={{ width: `${chapterProgress}%`, backgroundColor: topic.color || '#6366f1' }}
                       />
                     </div>
                   )}

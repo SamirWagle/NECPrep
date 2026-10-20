@@ -230,8 +230,51 @@ export async function loadBookmarkedQuestions(): Promise<Question[]> {
   return results;
 }
 
+/**
+ * Loads specific questions by id, preserving the order of `ids`.
+ *
+ * Ids are the synthetic `{topicId}_{index}` form minted by loadTopicQuestions,
+ * so this groups by topic, loads each topic once, then maps back. Used to
+ * reconstruct an in-progress mock test after a page reload. Ids that no longer
+ * resolve are dropped, so callers must compare lengths before trusting the
+ * result as a faithful restore.
+ */
+export async function loadQuestionsByIds(ids: string[]): Promise<Question[]> {
+  const topicIds = new Set<string>();
+  for (const id of ids) {
+    const cut = id.lastIndexOf('_');
+    if (cut > 0) topicIds.add(id.slice(0, cut));
+  }
+
+  const lookup = new Map<string, Question>();
+  for (const topicId of topicIds) {
+    for (const q of await loadTopicQuestions(topicId)) lookup.set(q.id, q);
+  }
+
+  return ids
+    .map(id => lookup.get(id))
+    .filter((q): q is Question => q !== undefined);
+}
+
 export function clearAllData() {
   localStorage.removeItem(STORAGE_KEYS.PROGRESS);
   localStorage.removeItem(STORAGE_KEYS.BOOKMARKS);
   localStorage.removeItem(STORAGE_KEYS.QUIZ_HISTORY);
+  // Also drop any in-progress mock attempt, or a reset would leave a stale
+  // draft that resumes an exam the user believes they deleted.
+  for (const key of Object.keys(localStorage)) {
+    if (key.startsWith('eng_mock_draft_v1:')) localStorage.removeItem(key);
+  }
+}
+
+/** Everything this browser holds for the current user, for the export button. */
+export function exportAllData() {
+  return {
+    schema: 'necprep-export-v1',
+    exportedAt: new Date().toISOString(),
+    userName: localStorage.getItem('userName') ?? null,
+    progress: getProgress(),
+    bookmarks: getBookmarks(),
+    quizHistory: getQuizHistory(),
+  };
 }

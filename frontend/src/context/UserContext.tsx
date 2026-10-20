@@ -1,17 +1,14 @@
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
+import { UserContext } from './user-context';
 
-interface UserContextType {
-  name: string;
-  setName: (name: string) => void;
-}
-
-const UserContext = createContext<UserContextType>({ name: '', setName: () => {} });
+const STORAGE_KEY = 'userName';
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [name, setNameState] = useState(() => localStorage.getItem('userName') || '');
+  const [name, setNameState] = useState(() => localStorage.getItem(STORAGE_KEY) || '');
 
   const setName = (n: string) => {
-    localStorage.setItem('userName', n);
+    if (n) localStorage.setItem(STORAGE_KEY, n);
+    else localStorage.removeItem(STORAGE_KEY);
     setNameState(n);
   };
 
@@ -20,8 +17,4 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       {children}
     </UserContext.Provider>
   );
-}
-
-export function useUser() {
-  return useContext(UserContext);
 }
