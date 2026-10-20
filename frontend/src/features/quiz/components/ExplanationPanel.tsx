@@ -1,42 +1,147 @@
 /**
  * ExplanationPanel — why the right answer is right.
  *
- * No question in the bank carries an explanation today, so `explanation` is
- * optional and the empty state says so plainly. It does not invent one: a
- * fabricated rationale on an engineering-licence question is worse than no
- * rationale, because the student has no way to tell which they are reading.
+ * Explanations carry provenance, because most of them are AI-generated drafts
+ * that no human has read. Three rules follow from that, and all three are
+ * enforced here rather than left to each caller:
+ *
+ *  1. An unreviewed draft is always labelled. The badge is a visible row above
+ *     the text, not an asterisk — a student reading an engineering-licence
+ *     explanation is entitled to know whether a person checked it. A caller
+ *     that forgets to pass `origin` gets the badge anyway (see the default),
+ *     because the failure mode of a missing label is worse than a redundant one.
+ *
+ *  2. A draft is never shown during a timed mock test. `context` must be set to
+ *     `'exam'` there. A wrong explanation mid-exam is worse than no explanation:
+ *     it can talk a student out of a correct answer on a later question, and
+ *     there is no opportunity to check it. Reviewed and human-written
+ *     explanations are withheld in an exam too, for a different reason — they
+ *     name the answer.
+ *
+ *  3. Every draft offers a report link. The students are the only large-scale
+ *     readers these drafts will have, so they are the review capacity that
+ *     actually exists.
+ *
+ * It never invents an explanation. The empty state says there isn't one, which
+ * is honest and lets the student fall back to the chapter.
  */
 
 import styles from './ExplanationPanel.module.css';
 
+/** Mirrors `explanations.origin` in the database. */
+export type ExplanationOrigin = 'ai_draft' | 'ai_reviewed' | 'human';
+
+/** Where the panel is being rendered, which decides what may be shown. */
+export type ExplanationContext = 'practice' | 'review' | 'exam';
+
+export interface DistractorRationale {
+  /** Option id this rationale is about. */
+  optionId: string;
+  /** The option's text, so the rationale reads without relying on position. */
+  optionText: string;
+  why: string;
+}
+
 export interface ExplanationPanelProps {
-  /** Authored explanation. Undefined or blank renders the empty state. */
+  /** Authored or generated explanation. Undefined or blank renders the empty state. */
   explanation?: string | null;
+  /**
+   * Provenance. Defaults to `'ai_draft'` so an omitted value fails safe: an
+   * unlabelled draft is the one outcome this component exists to prevent.
+   */
+  origin?: ExplanationOrigin;
+  /**
+   * Render context. Defaults to `'exam'` — the most restrictive — so a caller
+   * that forgets to set it shows nothing rather than leaking the answer into a
+   * timed paper.
+   */
+  context?: ExplanationContext;
   /** Hide entirely until the answer is revealed. */
   revealed?: boolean;
   /** Reference the student can follow instead, e.g. a chapter name. */
   sourceLabel?: string;
+  /** Why each wrong option is wrong. Often where the real teaching is. */
+  distractors?: readonly DistractorRationale[];
+  /** Called when the student reports a problem with this explanation. */
+  onReport?: () => void;
 }
 
 export function ExplanationPanel({
   explanation,
+  origin = 'ai_draft',
+  context = 'exam',
   revealed = true,
   sourceLabel,
+  distractors,
+  onReport,
 }: ExplanationPanelProps) {
   if (!revealed) return null;
 
-  const text = explanation?.trim();
+  // Rule 2. No explanation of any provenance is shown during a timed paper,
+  // because the explanation names the answer.
+  if (context === 'exam') return null;
 
-  return (
-    <section className={styles.panel} aria-label="Explanation">
-      <h3 className={styles.heading}>Explanation</h3>
-      {text ? (
-        <p className={styles.body}>{text}</p>
-      ) : (
+  const text = explanation?.trim();
+  const isUnreviewed = origin === 'ai_draft';
+  const rationales = (distractors ?? []).filter((d) => d.why.trim().length > 0);
+
+  if (!text && rationales.length === 0) {
+    return (
+      <section className={styles.panel} aria-label="Explanation">
+        <h3 className={styles.heading}>Explanation</h3>
         <p className={styles.empty}>
           No explanation has been written for this question yet.
           {sourceLabel ? ` Refer to ${sourceLabel}.` : ''}
         </p>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      className={`${styles.panel} ${isUnreviewed ? styles.unreviewed : ''}`}
+      aria-label={isUnreviewed ? 'Explanation, AI-generated and unreviewed' : 'Explanation'}
+    >
+      <div className={styles.headerRow}>
+        <h3 className={styles.heading}>Explanation</h3>
+        {isUnreviewed ? (
+          // Not a tooltip and not an asterisk: the label has to survive being
+          // skim-read on a phone.
+          <span className={styles.badge}>
+            <span aria-hidden="true">⚠</span> AI draft &middot; not yet reviewed
+          </span>
+        ) : origin === 'ai_reviewed' ? (
+          <span className={`${styles.badge} ${styles.badgeReviewed}`}>AI draft, reviewed</span>
+        ) : null}
+      </div>
+
+      {isUnreviewed && (
+        <p className={styles.disclaimer}>
+          This explanation was generated by AI and has not been checked by a person. Treat it as a
+          starting point, not as authority, and verify anything you plan to rely on.
+        </p>
+      )}
+
+      {text && <p className={styles.body}>{text}</p>}
+
+      {rationales.length > 0 && (
+        <div className={styles.distractors}>
+          <h4 className={styles.subheading}>Why the other options are wrong</h4>
+          <ul className={styles.distractorList}>
+            {rationales.map((d) => (
+              <li key={d.optionId} className={styles.distractorItem}>
+                <span className={styles.distractorOption}>{d.optionText}</span>
+                <span className={styles.distractorWhy}>{d.why}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {onReport && (
+        <button type="button" className={styles.report} onClick={onReport}>
+          {isUnreviewed ? 'This explanation looks wrong' : 'Report a problem'}
+        </button>
       )}
     </section>
   );

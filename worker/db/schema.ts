@@ -587,6 +587,18 @@ export const explanations = sqliteTable(
     status: text('status', { enum: ['draft', 'published', 'rejected'] })
       .notNull()
       .default('draft'),
+    /**
+     * Provenance, independent of `status`. The UI badges an `ai_draft`; see the
+     * delivery rule in migrations/0002_content.sql.
+     */
+    origin: text('origin', { enum: ['ai_draft', 'ai_reviewed', 'human'] })
+      .notNull()
+      .default('human'),
+    generatorModel: text('generator_model'),
+    generatorPromptVersion: text('generator_prompt_version'),
+    generatedAt: integer('generated_at'),
+    /** Model-reported confidence in basis points. Advisory; gates nothing. */
+    generatorConfidenceBp: integer('generator_confidence_bp'),
     authorUserId: text('author_user_id').references(() => users.id, { onDelete: 'set null' }),
     reviewedBy: text('reviewed_by').references(() => users.id, { onDelete: 'set null' }),
     reviewedAt: integer('reviewed_at'),
@@ -601,7 +613,39 @@ export const explanations = sqliteTable(
       .on(t.questionId)
       .where(sql`is_primary = 1 AND status = 'published'`),
     index('idx_explanations_draft').on(t.id).where(sql`status = 'draft'`),
+    index('idx_explanations_ai_draft_published')
+      .on(t.generatorConfidenceBp, t.questionId)
+      .where(sql`origin = 'ai_draft' AND status = 'published'`),
     check('explanations_is_primary', sql`is_primary IN (0, 1)`),
+    check(
+      'explanations_confidence_range',
+      sql`generator_confidence_bp IS NULL
+                                          OR generator_confidence_bp BETWEEN 0 AND 10000`
+    ),
+    check(
+      'explanations_generator_provenance',
+      sql`
+    CASE WHEN origin IN ('ai_draft', 'ai_reviewed')
+         THEN generator_model IS NOT NULL
+              AND generator_prompt_version IS NOT NULL
+              AND generated_at IS NOT NULL
+         ELSE generator_model IS NULL
+              AND generator_prompt_version IS NULL
+              AND generated_at IS NULL
+              AND generator_confidence_bp IS NULL
+    END
+  `
+    ),
+    check(
+      'explanations_reviewed_complete',
+      sql`
+    CASE WHEN origin = 'ai_reviewed'
+         THEN reviewed_by IS NOT NULL AND reviewed_at IS NOT NULL
+         ELSE 1
+    END
+  `
+    ),
+    check('explanations_reviewed_pair', sql`(reviewed_by IS NULL) = (reviewed_at IS NULL)`),
     check(
       'explanations_same_question',
       sql`about_option_id IS NULL

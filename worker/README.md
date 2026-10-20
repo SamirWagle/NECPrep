@@ -642,10 +642,29 @@ Three items on the API author's checklist, answered:
   source JSON has no syllabus field, so the importer does not guess;
   classifying them is a contributor workflow, and `NQ-38b` is the queue that
   drives it.
-- `questions.p_value_bp`, `tags`/`question_tags`, `explanations` and
-  `content_versions` are modelled and indexed but unpopulated — the jobs and
-  editor flows that fill them are later phases. `explanations` being empty is
-  why every `explanation` field on the wire is `null` today.
+- `questions.p_value_bp`, `tags`/`question_tags` and `content_versions` are
+  modelled and indexed but unpopulated — the jobs and editor flows that fill
+  them are later phases.
+- **`explanations` is empty until the generator is run**, so every `explanation`
+  field on the wire is `null` today. The owner confirmed no authored
+  explanations are coming, so the content comes from
+  `scripts/generate-explanations.mjs` (Batch API, 50% rates, one cached
+  instruction prefix) and is drained by `scripts/review-explanations.mjs`:
+
+  ```sh
+  npm run explain:estimate          # measured token/cost estimate, no spend
+  npm run explain:generate -- --limit 20   # pilot
+  npm run explain:collect -- <batchId>     # ingest
+  npm run explain:stats             # backlog + confidence buckets
+  npm run explain:review            # drain, least-confident first
+  ```
+
+  Rows land as `origin = 'ai_draft', status = 'published'` — served to students
+  **with an unreviewed badge** and never during a timed mock test. The
+  generator is given the keyed answer and asked to explain it rather than to
+  solve the question; when it disagrees with the key it files a
+  `question_reports` row and publishes nothing, which makes the pass a second
+  independent audit of all 2,184 answer keys.
 - **`strict_subchapter` must stay `false`** in every blueprint while
   `subchapter_id` is NULL: a strict run would fail all 60 rules. The selection
   query does not change when tagging arrives, only the mix of its two pools.

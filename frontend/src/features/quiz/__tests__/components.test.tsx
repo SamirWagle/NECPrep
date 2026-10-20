@@ -282,18 +282,115 @@ describe('ResultSummary', () => {
 
 describe('ExplanationPanel', () => {
   it('renders an authored explanation', () => {
-    render(<ExplanationPanel explanation="Ohm's law gives V = IR." />);
+    render(
+      <ExplanationPanel explanation="Ohm's law gives V = IR." origin="human" context="review" />
+    );
     expect(screen.getByText(/Ohm/)).toBeInTheDocument();
   });
 
   it('states plainly that there is none rather than inventing one', () => {
-    render(<ExplanationPanel sourceLabel="Chapter 3" />);
+    render(<ExplanationPanel sourceLabel="Chapter 3" context="review" />);
     expect(screen.getByText(/No explanation has been written/)).toBeInTheDocument();
     expect(screen.getByText(/Refer to Chapter 3/)).toBeInTheDocument();
   });
 
   it('stays hidden until the answer is revealed', () => {
-    render(<ExplanationPanel explanation="Because." revealed={false} />);
+    render(<ExplanationPanel explanation="Because." revealed={false} context="review" />);
     expect(screen.queryByText('Because.')).not.toBeInTheDocument();
+  });
+
+  // Most explanations in the bank are AI drafts no human has read. The label is
+  // the whole reason a draft is allowed to ship, so it is not optional and the
+  // defaults have to fail toward showing it.
+  it('badges an unreviewed AI draft, visibly and in the accessible name', () => {
+    render(
+      <ExplanationPanel explanation="Series resonance minimises impedance." context="review" />
+    );
+    expect(screen.getByText(/AI draft/)).toBeInTheDocument();
+    expect(screen.getByText(/not yet reviewed/)).toBeInTheDocument();
+    expect(screen.getByText(/has not been checked by a person/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('region', { name: /AI-generated and unreviewed/i })
+    ).toBeInTheDocument();
+  });
+
+  it('badges an unreviewed draft even when origin is omitted', () => {
+    // A caller that forgets `origin` must not silently present a draft as
+    // checked. The default is deliberately the unsafe-looking one.
+    render(<ExplanationPanel explanation="Something." context="review" />);
+    expect(screen.getByText(/not yet reviewed/)).toBeInTheDocument();
+  });
+
+  it('does not badge a human-written explanation as unreviewed', () => {
+    render(<ExplanationPanel explanation="Something." origin="human" context="review" />);
+    expect(screen.queryByText(/not yet reviewed/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/AI draft/)).not.toBeInTheDocument();
+  });
+
+  it('marks a reviewed AI draft as reviewed, not as unreviewed', () => {
+    render(<ExplanationPanel explanation="Something." origin="ai_reviewed" context="review" />);
+    expect(screen.getByText('AI draft, reviewed')).toBeInTheDocument();
+    expect(screen.queryByText(/not yet reviewed/)).not.toBeInTheDocument();
+  });
+
+  // An explanation names the answer, and a wrong AI explanation mid-paper can
+  // talk a student out of a correct answer on a later question.
+  it('shows nothing at all during a timed exam, whatever the provenance', () => {
+    for (const origin of ['ai_draft', 'ai_reviewed', 'human'] as const) {
+      const { unmount } = render(
+        <ExplanationPanel explanation="Names the answer." origin={origin} context="exam" />
+      );
+      expect(screen.queryByText('Names the answer.')).not.toBeInTheDocument();
+      expect(screen.queryByRole('region')).not.toBeInTheDocument();
+      unmount();
+    }
+  });
+
+  it('defaults to the exam context, so a caller that forgets it leaks nothing', () => {
+    render(<ExplanationPanel explanation="Names the answer." origin="human" />);
+    expect(screen.queryByText('Names the answer.')).not.toBeInTheDocument();
+  });
+
+  it('renders distractor rationales by option text, never by position', () => {
+    render(
+      <ExplanationPanel
+        explanation="Impedance is minimised."
+        origin="human"
+        context="review"
+        distractors={[
+          { optionId: 'q1#AAA', optionText: 'It is maximum', why: 'That is parallel resonance.' },
+          { optionId: 'q1#BBB', optionText: 'It is infinite', why: 'Confuses the two circuits.' },
+          { optionId: 'q1#CCC', optionText: 'Filler', why: '   ' },
+        ]}
+      />
+    );
+    expect(screen.getByText('It is maximum')).toBeInTheDocument();
+    expect(screen.getByText('That is parallel resonance.')).toBeInTheDocument();
+    // Blank rationales are dropped rather than rendered as an empty bullet.
+    expect(screen.queryByText('Filler')).not.toBeInTheDocument();
+    // Options are reordered per student, so no positional language may appear.
+    expect(screen.queryByText(/second option|option B/i)).not.toBeInTheDocument();
+  });
+
+  it('renders rationales even when there is no summary', () => {
+    render(
+      <ExplanationPanel
+        context="review"
+        origin="human"
+        distractors={[{ optionId: 'q1#AAA', optionText: 'Wrong one', why: 'Because X.' }]}
+      />
+    );
+    expect(screen.getByText('Because X.')).toBeInTheDocument();
+    expect(screen.queryByText(/No explanation has been written/)).not.toBeInTheDocument();
+  });
+
+  it('offers a report path on a draft, since students are the review capacity', async () => {
+    const onReport = vi.fn();
+    render(
+      <ExplanationPanel explanation="Maybe wrong." context="review" onReport={onReport} />
+    );
+    const button = screen.getByRole('button', { name: /looks wrong/i });
+    await userEvent.click(button);
+    expect(onReport).toHaveBeenCalledTimes(1);
   });
 });

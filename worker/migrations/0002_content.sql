@@ -524,6 +524,34 @@ CREATE TABLE explanations (
   is_primary     INTEGER NOT NULL DEFAULT 0 CHECK (is_primary IN (0, 1)),
   status         TEXT    NOT NULL DEFAULT 'draft'
                          CHECK (status IN ('draft', 'published', 'rejected')),
+  -- WHO WROTE IT, which is a different question from whether it is published.
+  --
+  -- `status` is the delivery gate; `origin` is the provenance, and the UI keys
+  -- its "AI draft, unreviewed" badge off this column. The two are independent
+  -- on purpose: a published ai_draft is shown to students *with* the badge,
+  -- because an explanation that merely says "the correct answer is B" teaches
+  -- nothing and a flagged draft is better than that. What is not acceptable is
+  -- showing an unreviewed draft without saying so, or showing one mid-exam
+  -- where a wrong explanation is worse than none at all -- see the delivery
+  -- rule below the table.
+  --
+  --   ai_draft    generated, passed automated validation, no human has read it
+  --   ai_reviewed generated, then read and accepted by a human
+  --   human       written or substantially rewritten by a human
+  origin         TEXT    NOT NULL DEFAULT 'human'
+                         CHECK (origin IN ('ai_draft', 'ai_reviewed', 'human')),
+  -- Generator provenance. Required for an AI origin and forbidden otherwise, so
+  -- a draft can never lose the record of what produced it, and a human-written
+  -- explanation can never carry a misleading model attribution. Needed to
+  -- re-generate or invalidate a cohort when a prompt or model turns out bad.
+  generator_model          TEXT,
+  generator_prompt_version TEXT,
+  generated_at             INTEGER,                               -- epoch ms (UTC)
+  -- Model-reported confidence, 0..10000 basis points. Advisory only: it informs
+  -- review order, and nothing gates delivery on it, because a model's own
+  -- confidence is not evidence about a licensing exam answer.
+  generator_confidence_bp  INTEGER CHECK (generator_confidence_bp IS NULL
+                                          OR generator_confidence_bp BETWEEN 0 AND 10000),
   author_user_id TEXT    REFERENCES users (id) ON DELETE SET NULL,
   reviewed_by    TEXT    REFERENCES users (id) ON DELETE SET NULL,
   reviewed_at    INTEGER,                                         -- epoch ms (UTC)
@@ -532,7 +560,29 @@ CREATE TABLE explanations (
   CHECK (about_option_id IS NULL
          OR substr(about_option_id, 1, length(question_id) + 1) = question_id || '#'),
   CHECK (length(trim(body)) > 0),
-  CHECK (kind <> 'distractor' OR about_option_id IS NOT NULL)
+  CHECK (kind <> 'distractor' OR about_option_id IS NOT NULL),
+  -- An AI origin must carry its generator record; a human one must not.
+  CHECK (
+    CASE WHEN origin IN ('ai_draft', 'ai_reviewed')
+         THEN generator_model IS NOT NULL
+              AND generator_prompt_version IS NOT NULL
+              AND generated_at IS NOT NULL
+         ELSE generator_model IS NULL
+              AND generator_prompt_version IS NULL
+              AND generated_at IS NULL
+              AND generator_confidence_bp IS NULL
+    END
+  ),
+  -- Accepting a draft is one transition, and it must be complete: an
+  -- ai_reviewed row names its reviewer and when. Conversely nothing may claim a
+  -- review it did not have.
+  CHECK (
+    CASE WHEN origin = 'ai_reviewed'
+         THEN reviewed_by IS NOT NULL AND reviewed_at IS NOT NULL
+         ELSE 1
+    END
+  ),
+  CHECK ((reviewed_by IS NULL) = (reviewed_at IS NULL))
 ) STRICT;
 
 -- NQ-12 explanation-for-question: SELECT ... FROM explanations
@@ -548,6 +598,36 @@ CREATE UNIQUE INDEX uq_explanations_primary
 
 -- NQ-12b explanation-review-queue: SELECT ... WHERE status = 'draft' ORDER BY id.
 CREATE INDEX idx_explanations_draft ON explanations (id) WHERE status = 'draft';
+
+-- NQ-12c unreviewed-published: the queue that actually matters. These rows ARE
+-- being served to students, badged, with no human having read them -- so this
+-- is the backlog to drain, ordered by the model's own least-confident first.
+--   SELECT ... FROM explanations
+--    WHERE origin = 'ai_draft' AND status = 'published'
+--    ORDER BY generator_confidence_bp
+CREATE INDEX idx_explanations_ai_draft_published
+  ON explanations (generator_confidence_bp, question_id)
+  WHERE origin = 'ai_draft' AND status = 'published';
+
+-- ---------------------------------------------------------------------------
+-- DELIVERY RULE for explanations, which the API must enforce rather than
+-- leaving to each caller:
+--
+--   practice / post-exam review -> status = 'published', any origin.
+--                                  Send `origin` on the wire so the client can
+--                                  badge an ai_draft. A client that drops the
+--                                  field shows an unlabelled draft, so the
+--                                  field is not optional in the response type.
+--
+--   during a timed mock test    -> never. Not even a published human one: the
+--                                  explanation names the answer. The mock
+--                                  delivery view cannot reach this table at
+--                                  all, which is why the answer key lives in
+--                                  question_answer_keys and not here.
+--
+--   status = 'draft'            -> never delivered, any origin. This is the
+--                                  pre-validation state.
+-- ---------------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------------
 -- tags + question_tags: cross-cutting labels (concepts, past-paper years,

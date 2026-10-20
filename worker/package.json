@@ -17,9 +17,15 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "node --test \"src/__tests__/*.test.ts\"",
     "bundle:check": "wrangler deploy --dry-run --outdir .local/wbuild",
-    "check": "npm run db:check && npm run test && npm run bundle:check"
+    "check": "npm run db:check && npm run test && npm run bundle:check",
+    "explain:estimate": "node scripts/generate-explanations.mjs --estimate",
+    "explain:generate": "node scripts/generate-explanations.mjs",
+    "explain:collect": "node scripts/generate-explanations.mjs --collect",
+    "explain:review": "node scripts/review-explanations.mjs",
+    "explain:stats": "node scripts/review-explanations.mjs --stats"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "drizzle-orm": "^0.45.4",
     "hono": "^4.13.13",
     "zod": "^4.6.7"
