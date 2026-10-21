@@ -384,8 +384,19 @@ export const questions = sqliteTable(
     chapterId: text('chapter_id')
       .notNull()
       .references(() => chapters.id, { onDelete: 'restrict' }),
-    /** NULL until a contributor classifies it. The importer never guesses. */
+    /**
+     * NULL until classified. A label is never anonymous: `subchapterSource`
+     * records whether a person decided it or the term-matching classifier
+     * derived it, and 0009's triggers refuse any combination where the label
+     * and its provenance disagree.
+     */
     subchapterId: text('subchapter_id').references(() => subchapters.id, { onDelete: 'set null' }),
+    /** 'human' is authoritative; 'heuristic' is a classifier hint. */
+    subchapterSource: text('subchapter_source', { enum: ['human', 'heuristic'] }),
+    /** Classifier confidence, 0-10000 bp. NULL for human labels. */
+    subchapterConfidenceBp: integer('subchapter_confidence_bp'),
+    /** Which classifier produced a heuristic label, so term-list changes are traceable. */
+    subchapterClassifierVersion: text('subchapter_classifier_version'),
     stem: text('stem').notNull(),
     stemFormat: text('stem_format', { enum: ['plain', 'markdown', 'latex'] })
       .notNull()
@@ -443,6 +454,10 @@ export const questions = sqliteTable(
       .on(t.status, t.statusChangedAt)
       .where(sql`status IN ('draft', 'flagged')`),
     index('idx_questions_unclassified').on(t.chapterId, t.id).where(sql`subchapter_id IS NULL`),
+    /** The sub-chapter review queue: weakest heuristic labels first. */
+    index('idx_questions_subchapter_review')
+      .on(t.subchapterConfidenceBp, t.chapterId)
+      .where(sql`subchapter_source = 'heuristic'`),
     check('questions_content_hash', sql`length(content_hash) = 64 AND content_hash GLOB '[0-9a-f]*'`),
     check('questions_id_from_hash', sql`id = 'q_' || substr(content_hash, 1, 16)`),
     check('questions_stem_nonblank', sql`length(trim(stem)) > 0`),
@@ -450,6 +465,10 @@ export const questions = sqliteTable(
     check('questions_has_pinned_options', sql`has_pinned_options IN (0, 1)`),
     check('questions_flagged_needs_reason', sql`status <> 'flagged' OR status_reason IS NOT NULL`),
     check('questions_superseded_by', sql`superseded_by IS NULL OR superseded_by <> id`),
+    check(
+      'questions_subchapter_confidence_bp',
+      sql`subchapter_confidence_bp IS NULL OR subchapter_confidence_bp BETWEEN 0 AND 10000`
+    ),
   ]
 );
 

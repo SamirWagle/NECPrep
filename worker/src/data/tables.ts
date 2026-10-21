@@ -173,10 +173,13 @@ export const T = {
  *
  * STILL OPEN, and deliberately not papered over:
  *
- *   * `questions.subchapter_id` is NULL for all 2,290 imported questions, so
- *     every blueprint rule is satisfied by chapter-level fallback and
- *     `strict_subchapter` must stay false. Classifying them is a contributor
- *     workflow (NQ-38b), not a migration.
+ *   * `questions.subchapter_id` is now populated for about two thirds of the
+ *     bank by the deterministic classifier (migration 0009), which is enough
+ *     for every rule of all three shipped templates to be satisfied without
+ *     fallback. It stays OPEN because those labels are heuristic, recorded as
+ *     `subchapter_source = 'heuristic'`: `strict_subchapter` should not be
+ *     turned on against machine labels, and the contributor workflow that
+ *     confirms or corrects them (NQ-38b) is still unbuilt.
  *   * The outbox in `frontend/src/services/api.ts` uses localStorage where
  *     `responseLog.ts` already has an IndexedDB store whose `rid` is
  *     documented as a cross-device merge key -- i.e. an idempotency key. That

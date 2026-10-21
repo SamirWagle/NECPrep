@@ -57,3 +57,8 @@ frontend/.vercel
 
 # Local agent / tool scratch
 .claude/settings.local.json
+
+# Working artefact from scripts/classify-subchapters.mjs --review. Regenerate it
+# rather than committing it: it is 1,536 rows derived from the term lists, so a
+# committed copy is stale the moment a term changes.
+subchapter-review.tsv

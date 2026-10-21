@@ -686,6 +686,163 @@ export function runSmoke(db) {
     []
   );
 
+  console.log('\n-- sub-chapter classification carries its provenance (0009) --');
+
+  // The bank is labelled by a heuristic, so the question is never "is this
+  // label right" -- it is "can a reader tell that it is a guess". These assert
+  // the database refuses every state where it could not.
+  const labelled = one(
+    `SELECT id, subchapter_id, subchapter_source, subchapter_confidence_bp,
+            subchapter_classifier_version
+       FROM questions
+      WHERE subchapter_source = 'heuristic'
+      LIMIT 1`
+  );
+  assert('a heuristic label records its source', labelled.subchapter_source, 'heuristic');
+  assert(
+    'a heuristic label records a confidence',
+    typeof labelled.subchapter_confidence_bp === 'number',
+    true
+  );
+  assert(
+    'a heuristic label records the classifier version',
+    typeof labelled.subchapter_classifier_version === 'string',
+    true
+  );
+  assert(
+    'no row carries provenance without a label',
+    one(
+      `SELECT COUNT(*) n FROM questions
+        WHERE subchapter_id IS NULL
+          AND (subchapter_source IS NOT NULL
+               OR subchapter_confidence_bp IS NOT NULL
+               OR subchapter_classifier_version IS NOT NULL)`
+    ).n,
+    0
+  );
+  assert(
+    'no row carries a label without provenance',
+    one(
+      `SELECT COUNT(*) n FROM questions
+        WHERE subchapter_id IS NOT NULL AND subchapter_source IS NULL`
+    ).n,
+    0
+  );
+
+  assertThrows(
+    'a sub-chapter label cannot be written without saying where it came from',
+    () =>
+      run(
+        `UPDATE questions SET subchapter_source = NULL WHERE id = ?`,
+        labelled.id
+      ),
+    /provenance disagree/
+  );
+  assertThrows(
+    'clearing a label must clear its confidence with it',
+    () => run(`UPDATE questions SET subchapter_id = NULL WHERE id = ?`, labelled.id),
+    /provenance disagree/
+  );
+  assertThrows(
+    'a heuristic label cannot omit its confidence',
+    () =>
+      run(
+        `UPDATE questions SET subchapter_confidence_bp = NULL WHERE id = ?`,
+        labelled.id
+      ),
+    /provenance disagree/
+  );
+  assertThrows(
+    'a human label cannot carry a machine confidence score',
+    () =>
+      run(
+        `UPDATE questions SET subchapter_source = 'human' WHERE id = ?`,
+        labelled.id
+      ),
+    /provenance disagree/
+  );
+  assertThrows(
+    'a confidence outside 0-10000 bp is rejected',
+    () =>
+      run(
+        `UPDATE questions SET subchapter_confidence_bp = 10001 WHERE id = ?`,
+        labelled.id
+      ),
+    /CHECK constraint/
+  );
+
+  // A librarian's decision must survive the next classifier run. Promote one
+  // row to 'human' the way the review tool would -- clearing the machine
+  // fields in the same statement, which is the only way the trigger allows --
+  // then try to demote it.
+  run(
+    `UPDATE questions
+        SET subchapter_source = 'human',
+            subchapter_confidence_bp = NULL,
+            subchapter_classifier_version = NULL
+      WHERE id = ?`,
+    labelled.id
+  );
+  assert(
+    'a label can be promoted to human when the machine fields go with it',
+    one('SELECT subchapter_source s FROM questions WHERE id = ?', labelled.id).s,
+    'human'
+  );
+  assertThrows(
+    'a classifier re-run cannot overwrite a human classification',
+    () =>
+      run(
+        `UPDATE questions
+            SET subchapter_source = 'heuristic',
+                subchapter_confidence_bp = 4200,
+                subchapter_classifier_version = 'subchapter-terms-v2'
+          WHERE id = ?`,
+        labelled.id
+      ),
+    /may not overwrite a human one/
+  );
+  // Put the borrowed row back, so this suite stays re-runnable.
+  //
+  // This takes two statements, and that is the point of the trigger rather
+  // than a limitation of it: there is no single UPDATE that turns a human
+  // classification back into a machine one. Undoing a human decision means
+  // first clearing it, which is a deliberate act, and not something a
+  // re-import can do by accident.
+  run(
+    `UPDATE questions
+        SET subchapter_id = NULL,
+            subchapter_source = NULL,
+            subchapter_confidence_bp = NULL,
+            subchapter_classifier_version = NULL
+      WHERE id = ?`,
+    labelled.id
+  );
+  run(
+    `UPDATE questions
+        SET subchapter_id = ?,
+            subchapter_source = 'heuristic',
+            subchapter_confidence_bp = ?,
+            subchapter_classifier_version = ?
+      WHERE id = ?`,
+    labelled.subchapter_id,
+    labelled.subchapter_confidence_bp,
+    labelled.subchapter_classifier_version,
+    labelled.id
+  );
+  assert(
+    'the borrowed row is restored',
+    one(
+      `SELECT subchapter_id i, subchapter_source s, subchapter_confidence_bp c
+         FROM questions WHERE id = ?`,
+      labelled.id
+    ),
+    {
+      i: labelled.subchapter_id,
+      s: 'heuristic',
+      c: labelled.subchapter_confidence_bp,
+    }
+  );
+
   // Leave the database exactly as the seed produced it.
   resetFixtures();
 

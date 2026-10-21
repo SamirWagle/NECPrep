@@ -232,4 +232,26 @@ describe('TopicPractice', () => {
     // rather than render blank or invent one.
     expect(screen.getByText(/No explanation has been written/i)).toBeInTheDocument();
   });
+
+  it('points at the syllabus even though no explanation exists', async () => {
+    const user = userEvent.setup();
+    renderAt('book-ch1', 2);
+    await waitFor(() => expect(screen.getByText('Question 1')).toBeInTheDocument());
+
+    const stem = screen.getByRole('heading', { level: 2 }).textContent!;
+    await user.click(screen.getByText(stem.includes('2 + 2') ? 'Four' : 'Kathmandu'));
+    await user.click(screen.getByRole('button', { name: /^Submit$/ }));
+
+    // "Incorrect" with nothing else is a dead end. The derived reference is
+    // what a student without an explanation actually has to revise from.
+    expect(screen.getByText(/Syllabus reference/i)).toBeInTheDocument();
+
+    // These stub questions carry none of chapter 1's vocabulary, so the
+    // classifier must decline and fall back to the chapter — which is always
+    // exact — rather than inventing a sub-chapter.
+    expect(
+      screen.getByText(/Chapter 1: Concept of Basic Electrical and Electronics Engineering/i)
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/^1\.\d /)).not.toBeInTheDocument();
+  });
 });

@@ -101,6 +101,10 @@ import { createHash, randomFillSync } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import {
+  classifySubchapter,
+  CLASSIFIER_VERSION,
+} from '../../../frontend/src/services/subchapterClassifier.ts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const WORKER_ROOT = resolve(HERE, '..', '..');
@@ -141,6 +145,14 @@ export function norm(s) {
  * and in scripts/validate-questions.mjs. When the two disagreed, a pair of
  * stems differing only in quote marks was withheld by the app and published by
  * this importer.
+ */
+/**
+ * Sub-chapter classification is shared with the app rather than reimplemented,
+ * for the same reason `stemKey` had to be: the one time this file and the
+ * frontend disagreed about normalisation, the app withheld a pair of questions
+ * that this importer published. `db:seed:local` therefore runs with
+ * `--import ../scripts/ts-resolve.mjs`, which lets Node resolve the
+ * extensionless specifiers the app's own modules use.
  */
 export function stemKey(stem) {
   return norm(stem).replace(/[^\w\s?]/g, '').replace(/\s+/g, ' ').trim();
@@ -362,6 +374,18 @@ export function importQuestions(db, { dryRun = false } = {}) {
   const subjectByChapter = new Map(
     db.prepare('SELECT id, subject_id FROM chapters').all().map((r) => [r.id, r.subject_id])
   );
+  // '1.1' -> 'nec-1.1'. The classifier reports the dotted display code, which
+  // is exactly `subchapters.code`, so no string building is needed here.
+  const subchapterIdByCode = new Map(
+    db.prepare('SELECT id, code FROM subchapters').all().map((r) => [r.code, r.id])
+  );
+  if (subchapterIdByCode.size !== 60) {
+    throw new Error(
+      `expected 60 subchapters from migration 0007, found ${subchapterIdByCode.size}. ` +
+        'Run db:apply:local first.'
+    );
+  }
+
   if (necCodeByChapter.size !== 10) {
     throw new Error(
       `expected 10 chapters from migration 0007, found ${necCodeByChapter.size}. ` +
@@ -376,10 +400,13 @@ export function importQuestions(db, { dryRun = false } = {}) {
 
   const insertQuestion = db.prepare(`
     INSERT INTO questions (
-      id, content_hash, subject_id, chapter_id, subchapter_id, stem, stem_format,
+      id, content_hash, subject_id, chapter_id,
+      subchapter_id, subchapter_source, subchapter_confidence_bp,
+      subchapter_classifier_version,
+      stem, stem_format,
       status, status_reason, status_changed_at, has_pinned_options,
       source, source_ref, legacy_id, created_at, updated_at)
-    VALUES (?, ?, ?, ?, NULL, ?, 'plain', ?, ?, ?, ?, 'book-import', ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'plain', ?, ?, ?, ?, 'book-import', ?, ?, ?, ?)
     ON CONFLICT (id) DO UPDATE SET
       stem               = excluded.stem,
       status             = excluded.status,
@@ -387,7 +414,24 @@ export function importQuestions(db, { dryRun = false } = {}) {
       has_pinned_options = excluded.has_pinned_options,
       source_ref         = excluded.source_ref,
       legacy_id          = excluded.legacy_id,
-      updated_at         = excluded.updated_at
+      updated_at         = excluded.updated_at,
+      -- A person's classification outranks the classifier's, always. 0009 has
+      -- a trigger that refuses the downgrade outright; this CASE means a
+      -- re-import does not have to trip it to do the right thing. Everything
+      -- else is overwritten, so improving the term lists and re-running is the
+      -- intended way to re-label the bank.
+      subchapter_id = CASE WHEN questions.subchapter_source = 'human'
+                          THEN questions.subchapter_id
+                          ELSE excluded.subchapter_id END,
+      subchapter_source = CASE WHEN questions.subchapter_source = 'human'
+                               THEN 'human'
+                               ELSE excluded.subchapter_source END,
+      subchapter_confidence_bp = CASE WHEN questions.subchapter_source = 'human'
+                                      THEN NULL
+                                      ELSE excluded.subchapter_confidence_bp END,
+      subchapter_classifier_version = CASE WHEN questions.subchapter_source = 'human'
+                                           THEN NULL
+                                           ELSE excluded.subchapter_classifier_version END
   `);
 
   // Conflict target is the AUTHORED SLOT, not the id. A re-run must find the
@@ -450,6 +494,8 @@ export function importQuestions(db, { dryRun = false } = {}) {
     pinnedOptions: 0,
     questionsWithPinnedOptions: 0,
     correctOrdinalHistogram: {},
+    subchapterClassified: 0,
+    subchapterDeclined: 0,
   };
 
   // Seen within this run, to collapse exact duplicates and report them rather
@@ -503,9 +549,38 @@ export function importQuestions(db, { dryRun = false } = {}) {
         const pinned = optionTexts.map((t) => (PINNED_OPTION_RE.test(t) ? 1 : 0));
         const hasPinned = pinned.some((p) => p === 1) ? 1 : 0;
 
+        // Sub-chapter: derived, declined when the evidence is thin, and always
+        // stamped with where it came from. A NULL label carries NULL
+        // provenance -- 0009's trigger rejects any other combination.
+        const match = classifySubchapter({
+          chapterCode: necCode,
+          question: String(row.qsns ?? ''),
+          options: optionTexts,
+        });
+        const subId = match ? (subchapterIdByCode.get(match.displayCode) ?? null) : null;
+        if (match && !subId) {
+          // The classifier returned a code the reference data does not have,
+          // which means the syllabus and migration 0007 have diverged. Failing
+          // loudly beats importing the whole bank unclassified and wondering
+          // later why the blueprint rules never fire.
+          throw new Error(
+            `classifier returned sub-chapter ${match.displayCode}, absent from the subchapters table`
+          );
+        }
+        if (subId) {
+          stats.subchapterClassified++;
+        } else {
+          stats.subchapterDeclined++;
+        }
+
         if (!dryRun) {
           insertQuestion.run(
-            qid, hash, subjectId, chapterId, String(row.qsns),
+            qid, hash, subjectId, chapterId,
+            subId,
+            subId ? 'heuristic' : null,
+            subId ? match.confidenceBp : null,
+            subId ? CLASSIFIER_VERSION : null,
+            String(row.qsns),
             status, statusReason, now, hasPinned, sourceRef, legacyId, now, now
           );
         }
@@ -725,6 +800,10 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     console.log(`  retired as duplicate text   ${stats.optionsRetiredAsDuplicate}`);
     console.log(`  pinned ('all of the above') ${stats.pinnedOptions} across ${stats.questionsWithPinnedOptions} questions`);
     console.log(`answer keys written           ${stats.answerKeysInserted}`);
+    // Declined is not a failure: the classifier refuses rather than guessing,
+    // and a declined question still has its chapter, which is exact.
+    console.log(`sub-chapter labelled          ${stats.subchapterClassified} (heuristic)`);
+    console.log(`  declined, chapter only      ${stats.subchapterDeclined}`);
     console.log(`published without a key       ${stats.publishedWithoutKey}  (must be 0)`);
     console.log(`errata reports filed          ${stats.reportsFiled}`);
     console.log(`\ndefect codes: ${JSON.stringify(stats.byCode)}`);

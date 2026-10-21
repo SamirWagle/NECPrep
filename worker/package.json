@@ -6,7 +6,7 @@
   "description": "Cloudflare Worker + D1 API for NECPrep. Schema in migrations/, Drizzle definitions in db/.",
   "scripts": {
     "db:apply:local": "node db/apply.mjs",
-    "db:seed:local": "node db/seed/import-questions.mjs",
+    "db:seed:local": "node --import ../scripts/ts-resolve.mjs db/seed/import-questions.mjs",
     "db:reference": "node db/seed/generate-reference-sql.mjs",
     "db:verify": "node db/verify-schema.mjs",
     "db:measure": "node db/measure.mjs",

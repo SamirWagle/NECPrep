@@ -26,6 +26,7 @@ import { loadQuestionsSlice, saveQuizResult } from '../../services/localData';
 import type { Question, QuizSummary } from '../../features/quiz';
 import { fisherYates } from '../../services/optionOrdering';
 import { useChapters } from '../../hooks/useChapters';
+import { describeReference } from '../../services/questionReference';
 
 export default function CustomPractice() {
   const chapters = useChapters();
@@ -286,7 +287,9 @@ export default function CustomPractice() {
         verdict={quiz.verdict}
         locked={quiz.isSubmitted}
       >
-        {quiz.isRevealed && <ExplanationPanel context="practice" />}
+        {quiz.isRevealed && (
+          <ExplanationPanel context="practice" reference={describeReference(current)} />
+        )}
       </QuestionCard>
 
       <QuizActionBar

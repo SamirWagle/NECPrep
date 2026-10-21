@@ -28,6 +28,7 @@ import {
 } from '../../features/quiz';
 import { getTopicById, loadQuestionsSlice, saveQuizResult } from '../../services/localData';
 import type { QuizSummary } from '../../features/quiz';
+import { describeReference } from '../../services/questionReference';
 
 function LoadingSpinner() {
   return (
@@ -175,7 +176,11 @@ export default function TopicPractice() {
           // the honest empty state pointing at the chapter rather than
           // inventing a rationale. `context` is 'practice', not 'exam', so a
           // badged AI draft would be allowed to show here once one exists.
-          <ExplanationPanel context="practice" sourceLabel={sourceLabel} />
+          <ExplanationPanel
+            context="practice"
+            sourceLabel={sourceLabel}
+            reference={describeReference(current)}
+          />
         )}
       </QuestionCard>
 

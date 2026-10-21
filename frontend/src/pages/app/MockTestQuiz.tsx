@@ -43,6 +43,7 @@ import {
 import type { Question, QuizSummary } from '../../features/quiz';
 import { fisherYates } from '../../services/optionOrdering';
 import { useChapters } from '../../hooks/useChapters';
+import { describeReference } from '../../services/questionReference';
 
 export default function MockTestQuiz() {
   const { testId } = useParams<{ testId: string }>();
@@ -211,7 +212,7 @@ export default function MockTestQuiz() {
                 </div>
                 {/* Post-exam review is the one place in a mock where an
                     explanation may appear — context is 'review', not 'exam'. */}
-                <ExplanationPanel context="review" />
+                <ExplanationPanel context="review" reference={describeReference(q)} />
               </div>
             );
           })}

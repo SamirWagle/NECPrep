@@ -22,11 +22,14 @@
  *     readers these drafts will have, so they are the review capacity that
  *     actually exists.
  *
- * It never invents an explanation. The empty state says there isn't one, which
- * is honest and lets the student fall back to the chapter.
+ * It never invents an explanation. Where there is none — which today is every
+ * question in the bank — it shows the derived syllabus reference instead, so a
+ * student who got it wrong knows what to revise. A reference is not an
+ * explanation and is labelled as a reference; see `services/questionReference`.
  */
 
 import styles from './ExplanationPanel.module.css';
+import type { QuestionReference } from '../../../services/questionReference';
 
 /** Mirrors `explanations.origin` in the database. */
 export type ExplanationOrigin = 'ai_draft' | 'ai_reviewed' | 'human';
@@ -60,6 +63,12 @@ export interface ExplanationPanelProps {
   revealed?: boolean;
   /** Reference the student can follow instead, e.g. a chapter name. */
   sourceLabel?: string;
+  /**
+   * Derived syllabus reference. Shown in place of a missing explanation, and
+   * as a footer alongside one that exists. Omit it and the panel degrades to
+   * the plain empty state rather than failing.
+   */
+  reference?: QuestionReference | null;
   /** Why each wrong option is wrong. Often where the real teaching is. */
   distractors?: readonly DistractorRationale[];
   /** Called when the student reports a problem with this explanation. */
@@ -72,6 +81,7 @@ export function ExplanationPanel({
   context = 'exam',
   revealed = true,
   sourceLabel,
+  reference,
   distractors,
   onReport,
 }: ExplanationPanelProps) {
@@ -93,6 +103,9 @@ export function ExplanationPanel({
           No explanation has been written for this question yet.
           {sourceLabel ? ` Refer to ${sourceLabel}.` : ''}
         </p>
+        {/* The useful half of the empty state: a student who got this wrong
+            still learns where in the syllabus to revise. */}
+        <ReferenceLine reference={reference} />
       </section>
     );
   }
@@ -138,11 +151,45 @@ export function ExplanationPanel({
         </div>
       )}
 
+      <ReferenceLine reference={reference} />
+
       {onReport && (
         <button type="button" className={styles.report} onClick={onReport}>
           {isUnreviewed ? 'This explanation looks wrong' : 'Report a problem'}
         </button>
       )}
     </section>
+  );
+}
+
+/**
+ * The syllabus reference line.
+ *
+ * Phrasing carries the confidence rather than a number: a sub-chapter the
+ * classifier is sure of is stated ("Syllabus reference: 5.4 Transport Layer"),
+ * a weak match is hedged ("likely 5.4..."), and a declined match falls back to
+ * the chapter, which is always exact. A percentage here would imply a
+ * precision this heuristic does not have.
+ */
+function ReferenceLine({ reference }: { reference?: QuestionReference | null }) {
+  if (!reference) return null;
+
+  const { subchapter, tentative, label, chapterNumber, chapterTitle } = reference;
+
+  return (
+    <p className={styles.reference}>
+      <span className={styles.referenceLabel}>Syllabus reference</span>
+      <span className={styles.referenceValue}>
+        {subchapter && tentative ? 'likely ' : ''}
+        {label}
+      </span>
+      {/* When a sub-chapter was matched, name the chapter too — the dotted code
+          alone is meaningless to someone who has not memorised the syllabus. */}
+      {subchapter && (
+        <span className={styles.referenceChapter}>
+          Chapter {chapterNumber}: {chapterTitle}
+        </span>
+      )}
+    </p>
   );
 }

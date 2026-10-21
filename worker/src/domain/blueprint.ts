@@ -25,13 +25,28 @@
  *   pass 2  top up each rule's deficit from its chapter's pool, and record the
  *           rule as APPROXIMATED.
  *
- * Today pass 1 draws nothing: `questions.subchapter_id` is NULL for all 2,290
- * imported questions because the source JSON has no syllabus field and the
- * importer does not guess. So every rule is approximated and the paper is, in
- * effect, chapter-level -- which is exactly what `strictBlueprint: false` means
- * in the frontend. `approximatedSubchapterCodes` reports it rather than hiding
- * it, and nothing here changes when tagging arrives: only the mix of the two
- * pools does.
+ * Pass 1 draws for real as of migration 0009. The source JSON has no syllabus
+ * field, so `questions.subchapter_id` was NULL for all 2,290 imported
+ * questions and every rule was approximated -- the paper was chapter-level in
+ * all but name. The importer now classifies each question with the
+ * deterministic term-matching classifier the app uses, which labels about two
+ * thirds of the bank and declines the rest, and all 60 sub-chapters are
+ * populated well enough that every rule of all three shipped templates is
+ * satisfied from pass 1 alone.
+ *
+ * Two things follow, and neither is a detail:
+ *
+ *   * Those labels are HEURISTIC. `questions.subchapter_source` says so, and a
+ *     paper built from them is only as well-balanced as the classifier is
+ *     accurate. This planner does not read `subchapter_source` -- requiring
+ *     human labels would empty pass 1 again -- so if that policy is ever
+ *     wanted, it belongs in `drawBlueprintPools`, not here.
+ *   * The decline rate is not a shortfall. A declined question keeps its
+ *     chapter, so it stays available to pass 2 exactly as before.
+ *
+ * `approximatedSubchapterCodes` still reports whatever pass 2 has to cover, so
+ * a term-list regression that empties a sub-chapter shows up as approximation
+ * rather than as a silently worse paper.
  *
  * A chapter that cannot fill its quota contributes what it has and is recorded
  * in `shortfalls`. This matches what the app does today
