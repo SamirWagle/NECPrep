@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../context/user-context';
 import { useAuth } from '../auth/auth-context';
+import BottomNav from './BottomNav';
 import styles from './AppShell.module.css';
 
 // Matches the `@media (max-width: 1024px)` breakpoint in App.css at which the
@@ -103,6 +104,16 @@ const Icons = {
       <line x1="12" y1="10" x2="16" y2="10"/>
     </svg>
   ),
+  // A stopwatch: a mock test is the timed one, and the clock is what makes it
+  // different from practice.
+  Mock: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="13" r="8"/>
+      <path d="M12 9v4l2 2"/>
+      <path d="M5 3 7 5"/>
+      <path d="M19 3l-2 2"/>
+    </svg>
+  ),
   Menu: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <line x1="3" y1="12" x2="21" y2="12"/>
@@ -127,6 +138,10 @@ const Icons = {
 const navItems = [
   { path: '/app', icon: Icons.Dashboard, label: 'Dashboard', end: true },
   { path: '/app/practice', icon: Icons.Practice, label: 'Practice' },
+  // The flagship: a full 100-question, 120-minute rehearsal of the real
+  // paper. It was absent from this list, reachable only from the dashboard
+  // and the practice hub, which is a strange place to hide the product.
+  { path: '/app/mock-tests', icon: Icons.Mock, label: 'Mock Tests' },
   { path: '/app/books', icon: Icons.Books, label: 'Books' },
   { path: '/app/study', icon: Icons.Study, label: 'Study' },
   { path: '/app/flashcards', icon: Icons.Flashcards, label: 'Flashcards' },
@@ -508,6 +523,14 @@ export default function AppShell() {
         >
           <Outlet />
         </main>
+
+        {/* Phones only; see BottomNav.module.css. `<main>` carries matching
+            bottom padding so a fixed bar cannot cover the last question of a
+            paper or the submit button under it. */}
+        <BottomNav
+          onOpenMore={() => setMobileMenuOpen(true)}
+          moreOpen={mobileMenuOpen}
+        />
       </div>
     </div>
   );

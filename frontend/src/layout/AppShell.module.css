@@ -54,6 +54,22 @@
   outline: none;
 }
 
+/* Reserve the bottom bar's height on phones.
+ *
+ * `BottomNav` is `position: fixed`, so without this it floats over the end of
+ * the page — which on a quiz is the submit button, and on a results page is
+ * the whole detailed review. The value is the bar's own height (44px target
+ * plus its vertical padding) and the same safe-area inset the bar adds, so the
+ * two stay in step without either hardcoding the other's number.
+ *
+ * The breakpoint matches BottomNav.module.css exactly: padding reserved where
+ * no bar exists would be a dead strip at the foot of every tablet page. */
+@media (max-width: 640px) {
+  .mainContent {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .mainContent:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: -3px;

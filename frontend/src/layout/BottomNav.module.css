@@ -1,0 +1,106 @@
+/* Bottom navigation — phones only.
+ *
+ * Hidden at 641px and up, where the sidebar is either visible or one tap away
+ * in the drawer. 640px is the same boundary App.css already uses for its
+ * narrowest layout changes, so there is one phone breakpoint rather than two
+ * that disagree. */
+
+.bar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    display: block;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* Above page content, below the drawer overlay and any modal. */
+    z-index: 40;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    /* Keeps the labels clear of an iPhone's home indicator. Zero on anything
+       without an inset, so no magic numbers. */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  flex: 1 1 0;
+  /* Zero min-width or a long label stretches its own cell and the five stop
+     being equal thumb targets. */
+  min-width: 0;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  /* 44px is the floor for a reliable thumb target; the padding takes the real
+     height above it. */
+  min-height: 44px;
+  padding: var(--spacing-2) var(--spacing-1);
+  border: none;
+  background: none;
+  color: var(--color-fg-muted);
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+.active {
+  color: var(--color-accent);
+}
+
+/* A second, non-colour signal for the current section: colour alone fails
+   WCAG 1.4.1 and is invisible to a lot of people. */
+.active .icon::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  border-radius: var(--radius-full);
+  transform: translateX(-50%);
+}
+
+.icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.label {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: var(--text-xs);
+  font-weight: 550;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
