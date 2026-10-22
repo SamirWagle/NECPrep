@@ -193,6 +193,9 @@ export const T0 = Date.parse('2026-03-01T04:00:00.000Z');
 
 const TEST_CONFIG: Config = {
   appOrigin: 'https://app.test',
+  // Google is deliberately unconfigured in the fixture, and unconfigured is
+  // not the same as misconfigured -- see `requireGoogle`.
+  googleConfigError: null,
   // 32+ chars, as `loadConfig` requires.
   permutationSecret: 'test-permutation-secret-0123456789abcdef',
   passwordIterations: 10_000,

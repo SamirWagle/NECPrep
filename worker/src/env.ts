@@ -59,6 +59,15 @@ export interface Config {
   isProduction: boolean;
   /** `null` when Google OAuth is not configured; those routes then 404. */
   google: GoogleOAuthConfig | null;
+  /**
+   * Set when SOME but not all of the three Google values were supplied.
+   *
+   * Distinct from `google === null` with no error, which means "deliberately
+   * not configured". A half-configured OAuth app is a mistake someone is
+   * actively making, and the Google routes say so rather than reporting the
+   * feature as absent.
+   */
+  googleConfigError: string | null;
 }
 
 function required(env: Env, key: 'APP_ORIGIN' | 'CONTENT_PERMUTATION_SECRET'): string {
@@ -94,19 +103,27 @@ export function loadConfig(env: Env): Config {
 
   // All three Google values or none. A half-configured OAuth app produces a
   // redirect_uri_mismatch at Google, which is a confusing place to debug it.
+  //
+  // This used to THROW, and that was wrong in a way only a real deployment
+  // showed: `loadConfig` runs in the `/api/*` middleware, so one missing
+  // Google value 500'd every endpoint on the platform — chapters, guest
+  // sign-in, submitting a paper — each reporting "Google OAuth needs...",
+  // which is a baffling thing to read when you asked for a chapter list.
+  //
+  // An optional feature must not be able to take down a required one. The
+  // misconfiguration is recorded instead, and the three Google handlers (which
+  // already guard on `google === null`) are the only place it surfaces.
   const googleParts = [
     env.GOOGLE_CLIENT_ID,
     env.GOOGLE_CLIENT_SECRET,
     env.GOOGLE_REDIRECT_URI,
   ];
-  const googleSet = googleParts.filter((p) => typeof p === 'string' && p.length > 0).length;
-  if (googleSet !== 0 && googleSet !== 3) {
-    throw new ApiException('INTERNAL', 'Server is not configured.', {
-      internal:
-        'Google OAuth needs GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and ' +
-        'GOOGLE_REDIRECT_URI together, or none of them.',
-    });
-  }
+  const googleSet = googleParts.filter((p) => typeof p === 'string' && p.trim().length > 0).length;
+  const googleConfigError =
+    googleSet === 0 || googleSet === 3
+      ? null
+      : `Google OAuth needs GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and ` +
+        `GOOGLE_REDIRECT_URI together, or none of them; ${String(googleSet)} of 3 are set.`;
 
   return {
     appOrigin,
@@ -117,10 +134,11 @@ export function loadConfig(env: Env): Config {
     google:
       googleSet === 3
         ? {
-            clientId: env.GOOGLE_CLIENT_ID as string,
-            clientSecret: env.GOOGLE_CLIENT_SECRET as string,
-            redirectUri: env.GOOGLE_REDIRECT_URI as string,
+            clientId: (env.GOOGLE_CLIENT_ID as string).trim(),
+            clientSecret: (env.GOOGLE_CLIENT_SECRET as string).trim(),
+            redirectUri: (env.GOOGLE_REDIRECT_URI as string).trim(),
           }
         : null,
+    googleConfigError,
   };
 }

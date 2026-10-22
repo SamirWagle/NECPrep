@@ -41,6 +41,7 @@ import { randomToken } from '../lib/ids.ts';
 import { clearSessionCookie, serializeSessionCookie } from '../lib/cookies.ts';
 import { ok, requireUser } from './context.ts';
 import type { HandlerContext, HandlerResult } from './context.ts';
+import type { GoogleOAuthConfig } from '../env.ts';
 import type { SessionResponse, SessionUser } from '../shared/types.ts';
 import type {
   GoogleCallbackInput,
@@ -361,12 +362,30 @@ async function pkceChallenge(verifier: string): Promise<string> {
  * verifier is stored server-side against the single-use `state`, so an attacker
  * who intercepts the redirect still cannot redeem the code.
  */
+/**
+ * The Google config, or the right failure.
+ *
+ * Two different "no": deliberately not configured, and configured wrongly.
+ * Reporting a half-set OAuth app as NOT_FOUND would tell an operator who just
+ * typed two of three secrets that the feature does not exist, which is the
+ * least useful true statement available.
+ */
+function requireGoogle(ctx: HandlerContext): GoogleOAuthConfig {
+  const google = ctx.config.google;
+  if (google) return google;
+  if (ctx.config.googleConfigError) {
+    fail('INTERNAL', 'Google sign-in is misconfigured.', {
+      internal: ctx.config.googleConfigError,
+    });
+  }
+  fail('NOT_FOUND', 'Google sign-in is not configured.');
+}
+
 export async function googleStart(
   ctx: HandlerContext,
   redirectTo: string | null,
 ): Promise<HandlerResult<{ location: string }>> {
-  const google = ctx.config.google;
-  if (!google) fail('NOT_FOUND', 'Google sign-in is not configured.');
+  const google = requireGoogle(ctx);
 
   const verifier = randomToken(64);
   const state = await createOAuthState(ctx.db, {
@@ -415,8 +434,7 @@ export async function exchangeGoogleCode(
   args: { code: string; codeVerifier: string },
   fetchImpl: FetchLike,
 ): Promise<GoogleIdentity> {
-  const google = ctx.config.google;
-  if (!google) fail('NOT_FOUND', 'Google sign-in is not configured.');
+  const google = requireGoogle(ctx);
 
   const tokenRes = await fetchImpl(GOOGLE_TOKEN_URL, {
     method: 'POST',
@@ -497,8 +515,9 @@ export async function googleCallback(
   input: GoogleCallbackInput,
   fetchImpl: FetchLike,
 ): Promise<HandlerResult<{ location: string }>> {
-  const google = ctx.config.google;
-  if (!google) fail('NOT_FOUND', 'Google sign-in is not configured.');
+  // Guard only: this handler reads the config through `exchangeGoogleCode`
+  // below, but it must refuse before touching the OAuth state table.
+  requireGoogle(ctx);
 
   const now = ctx.clock.now();
 
