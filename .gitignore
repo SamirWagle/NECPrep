@@ -20,6 +20,21 @@ frontend/.env.local
 # docs/deploy-cloudflare.md step 6 says how to recreate it.
 frontend/.env.production
 
+# Local secrets for `wrangler dev`. Wrangler reads this file and puts its
+# contents on `env` exactly as deployed secrets arrive, which is what lets the
+# Google flow be tested locally without a deploy. It holds real credentials.
+worker/.dev.vars
+.dev.vars
+
+# Belt and braces for credentials that end up loose in the tree. A secret
+# should never be in a file here at all -- it belongs in `wrangler secret put`,
+# which reads from the terminal and stores it on Cloudflare -- but a wildcard
+# costs nothing and a leaked client secret costs a rotation.
+*secret*
+*.pem
+*.key
+!scripts/*secret*
+
 # Logs
 *.log
 npm-debug.log*
