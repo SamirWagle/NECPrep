@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import AppShell from '../AppShell';
+import { AuthProvider } from '../../auth/AuthContext';
 
 /**
  * Keyboard-path regressions for the app shell:
@@ -28,15 +29,22 @@ function stubViewport(narrow: boolean) {
   }));
 }
 
+// The shell reads the session to decide what the account menu says and what
+// signing out actually does, so it needs the provider. `VITE_API_BASE_URL` is
+// unset under test, so `AuthProvider` resolves to status 'disabled'
+// synchronously and issues no requests -- these tests stay about layout and
+// focus, which is what they are for.
 function renderShell() {
   return render(
     <MemoryRouter initialEntries={['/app']}>
-      <Routes>
-        <Route path="/app" element={<AppShell />}>
-          <Route index element={<h1>Dashboard</h1>} />
-          <Route path="practice" element={<h1>Practice</h1>} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/app" element={<AppShell />}>
+            <Route index element={<h1>Dashboard</h1>} />
+            <Route path="practice" element={<h1>Practice</h1>} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </MemoryRouter>
   );
 }

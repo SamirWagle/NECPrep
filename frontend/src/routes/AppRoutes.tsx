@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Landing from '../pages/Landing';
+import RequireSession from '../auth/RequireSession';
 
 // Landing is the entry point and stays in the initial chunk. Everything behind
 // /app is split, so a visitor who never signs in never downloads the app, and
@@ -23,6 +24,9 @@ const Progress                 = lazy(() => import('../pages/app/Progress'));
 const Profile                  = lazy(() => import('../pages/app/Profile'));
 const Settings                 = lazy(() => import('../pages/app/Settings'));
 const BookPractice             = lazy(() => import('../pages/app/BookPractice'));
+// Sign-in is split too: a returning visitor with a live session cookie never
+// renders it, and a local-only build never reaches it at all.
+const SignIn                   = lazy(() => import('../pages/auth/SignIn'));
 
 function RouteFallback() {
   return (
@@ -38,7 +42,24 @@ export default function AppRoutes() {
     <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/app" element={<AppShell />}>
+
+        {/* Two URLs, one page. They differ only by which mode opens first, so
+            `/signup` still means what it says without duplicating the layout,
+            the validation and the accessibility work. */}
+        <Route path="/signin" element={<SignIn initialMode="signin" />} />
+        <Route path="/signup" element={<SignIn initialMode="signup" />} />
+
+        {/* The guard wraps the SHELL, not each child route: one decision per
+            navigation, and the attempted path is preserved through the
+            redirect so a deep link survives signing in. */}
+        <Route
+          path="/app"
+          element={
+            <RequireSession>
+              <AppShell />
+            </RequireSession>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="practice" element={<PracticeHub />} />
           <Route path="practice/chapter/:chapterId" element={<ChapterPracticeSelector />} />

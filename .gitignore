@@ -11,6 +11,14 @@ frontend/dist/
 .env.*.local
 frontend/.env
 frontend/.env.local
+# The production build's API base URL. A VITE_ variable is public by
+# definition -- it is compiled into the bundle every visitor downloads -- and
+# this one holds only the Worker's URL, so there is nothing here to protect.
+# It stays out of the repo anyway because the stage guard treats every .env
+# file as a secret file, and that rule is worth more than the convenience of
+# building from a clean checkout without one extra step.
+# docs/deploy-cloudflare.md step 6 says how to recreate it.
+frontend/.env.production
 
 # Logs
 *.log

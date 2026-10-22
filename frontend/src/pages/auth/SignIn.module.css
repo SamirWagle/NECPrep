@@ -1,0 +1,194 @@
+/* Sign-in / sign-up. Single centred card, mobile-first — exam prep is a phone
+   activity and this is the first screen a visitor sees. */
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: var(--spacing-5) var(--spacing-4);
+  background: var(--color-surface-2);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--spacing-6) var(--spacing-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.brand {
+  align-self: center;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.heading {
+  margin: var(--spacing-2) 0 0;
+  font-size: var(--text-xl);
+  font-weight: 650;
+  text-align: center;
+  color: var(--color-fg);
+}
+
+.sub {
+  margin: 0;
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--color-fg-muted);
+}
+
+/* The primary action. Visually dominant because it is what most visitors
+   should do first. */
+.guest {
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.guest:hover:not(:disabled) {
+  filter: brightness(0.94);
+}
+
+.guest:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.guestNote {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-align: center;
+  color: var(--color-fg-muted);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin: var(--spacing-2) 0;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-fg-muted);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 550;
+  color: var(--color-fg);
+}
+
+.input {
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  /* 1rem minimum, or iOS Safari zooms the viewport on focus. */
+  font-size: var(--text-base);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 1px;
+  border-color: var(--color-ring);
+}
+
+.hint {
+  margin: calc(var(--spacing-2) * -1) 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+}
+
+/* Reserves its own height so appearing does not shift the submit button out
+   from under a finger already moving toward it. */
+.errorSlot {
+  min-height: 1.25rem;
+  font-size: var(--text-sm);
+}
+
+.error {
+  color: var(--color-danger-fg);
+}
+
+.submit {
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  color: var(--color-fg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:hover:not(:disabled) {
+  border-color: var(--color-ring);
+}
+
+.submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.swap {
+  margin: 0;
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--color-fg-muted);
+}
+
+/* A button, not an anchor: it changes mode in place rather than navigating,
+   and a link that does not link is a lie to a screen reader. */
+.link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-accent);
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

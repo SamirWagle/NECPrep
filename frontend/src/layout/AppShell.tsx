@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../context/user-context';
+import { useAuth } from '../auth/auth-context';
 import styles from './AppShell.module.css';
 
 // Matches the `@media (max-width: 1024px)` breakpoint in App.css at which the
@@ -140,6 +141,9 @@ const secondaryNavItems = [
 
 export default function AppShell() {
   const { name, setName } = useUser();
+  // The server is the authority on identity; `useUser` only holds a locally
+  // typed-in name, which is all a build with no backend configured has.
+  const { user, status, logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -243,14 +247,31 @@ export default function AppShell() {
   };
 
   const handleLogout = () => {
-    // Clearing storage alone left the context holding the old name, so going
-    // back to /app still greeted the "logged out" user.
-    setName('');
-    navigate('/');
+    // Revoke the SESSION first, then clear the local name.
+    //
+    // This used to do only the second half, which was enough when there was no
+    // backend and a lie once there was: the session is an HttpOnly cookie, so
+    // dropping a local string left a live cookie that the next page load
+    // happily turned back into a signed-in user. `logout()` asks the server to
+    // revoke it.
+    //
+    // Clearing the local name still matters for the same reason it did before:
+    // leaving it set greeted the logged-out visitor by name on the landing
+    // page.
+    void logout().finally(() => {
+      setName('');
+      navigate('/');
+    });
   };
 
-  const displayName = name || 'Guest';
+  // Precedence: what the server knows, then what the visitor typed, then
+  // 'Guest'. An anonymous session has a null `displayName`, so a guest who
+  // typed a name locally still sees it.
+  const displayName = user?.displayName ?? (name || 'Guest');
   const initial = displayName.charAt(0).toUpperCase();
+  // Only true with a backend configured; a local-only build has no concept of
+  // an account to upgrade to.
+  const isGuest = status === 'ready' && user !== null && user.isAnonymous;
 
   // A real fragment jump would push a hash onto the router history and, in
   // several browsers, scroll without moving focus. Move focus explicitly;
@@ -419,11 +440,29 @@ export default function AppShell() {
                     </div>
                     <div className="user-menu-info">
                       <span className="user-menu-name">{displayName}</span>
+                      {user?.email && (
+                        <span className="user-menu-email">{user.email}</span>
+                      )}
                     </div>
                   </div>
                   
                   <div className="user-menu-divider" />
-                  
+
+                  {/* A guest's work is already being recorded server-side
+                      against an identity that survives an upgrade, so this is
+                      an invitation rather than a warning. */}
+                  {isGuest && (
+                    <NavLink
+                      to="/signup"
+                      className="user-menu-item"
+                      role="menuitem"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <Icons.Profile />
+                      <span>Create an account to save your progress</span>
+                    </NavLink>
+                  )}
+
                   <NavLink 
                     to="/app/profile" 
                     className="user-menu-item"
@@ -452,7 +491,7 @@ export default function AppShell() {
                     onClick={handleLogout}
                   >
                     <Icons.Logout />
-                    <span>Leave</span>
+                    <span>{user ? 'Sign out' : 'Leave'}</span>
                   </button>
                 </div>
               )}

@@ -265,20 +265,36 @@ npx wrangler pages deploy dist --project-name necprep
 First run asks to create the project; accept. It prints a URL like
 `https://necprep.pages.dev`.
 
-Then set the API base URL. In the Cloudflare dashboard → **Workers & Pages** →
-`necprep` → **Settings** → **Environment variables**, add for Production:
+### The API base URL
 
-| Name | Value |
-|---|---|
-| `VITE_API_BASE_URL` | the Worker URL from step 4, no trailing slash |
+Vite inlines `VITE_API_BASE_URL` at **build** time. We deploy a bundle that is
+already built, so Cloudflare never runs the build and a Pages dashboard
+variable would have no effect — **the value has to be present on the machine
+that runs `npm run build`.**
 
-Vite inlines this at **build** time, so after adding it you must rebuild and
-redeploy:
+Create `frontend/.env.production` with the Worker URL from step 4, no trailing
+slash:
 
 ```bash
 cd frontend
+printf 'VITE_API_BASE_URL=https://necprep-api.<your-subdomain>.workers.dev\n' > .env.production
 npm run build
-npx wrangler pages deploy dist --project-name necprep
+npx wrangler pages deploy dist --project-name necprep --branch main
+```
+
+That file is **gitignored**. The value is public — a `VITE_` variable is
+compiled into the bundle every visitor downloads — but the stage guard treats
+every `.env` file as a secret file and that rule is worth keeping, so the file
+lives on the build machine rather than in the repo. Anyone setting up a new
+build environment runs the `printf` above once.
+
+**Leaving it out is not an error.** The build succeeds and produces the
+local-only app: questions from `public/data/*.json`, progress in
+localStorage, no sign-in. That is a supported mode. It is also easy to ship by
+accident, so confirm the URL is in the bundle before you call it done:
+
+```bash
+grep -rl "workers.dev" dist/assets/ | head -1    # should print one .js file
 ```
 
 Now go back to **step 3b** and set `APP_ORIGIN` in
