@@ -11,6 +11,7 @@
     "db:verify": "node db/verify-schema.mjs",
     "db:measure": "node db/measure.mjs",
     "db:smoke": "node db/smoke.mjs",
+    "db:export:remote": "node db/seed/export-content-sql.mjs",
     "db:check": "npm run db:apply:local && npm run db:seed:local && npm run db:verify && npm run db:smoke && npm run typecheck",
     "d1:migrate:local": "wrangler d1 migrations apply necprep --local",
     "d1:migrate:remote": "wrangler d1 migrations apply necprep --remote",
