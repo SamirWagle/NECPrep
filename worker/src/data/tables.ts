@@ -70,6 +70,13 @@ export const T = {
   streaks: 'streaks',
   userQuestionStats: 'user_question_stats',
 
+  // 0006_engagement. Written only by the scheduled jobs in src/jobs/ and read
+  // by the leaderboard and notification endpoints; never computed on a
+  // request path.
+  leaderboardSnapshots: 'leaderboard_snapshots',
+  leaderboardEntries: 'leaderboard_entries',
+  notifications: 'notifications',
+
   // 0008_api_infrastructure
   idempotencyKeys: 'idempotency_keys',
   rateLimits: 'rate_limits',

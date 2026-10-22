@@ -33,18 +33,28 @@ enabled = true
 
 [vars]
 ENVIRONMENT = "development"
-# Cookie session lifetimes, seconds. Read by the session code; see
-# migrations/0001_identity.sql for the two-clock design (idle vs absolute).
-SESSION_IDLE_TTL_SECONDS = "1209600"      # 14 days
-SESSION_ABSOLUTE_TTL_SECONDS = "7776000"  # 90 days
-# Raw-answer retention for the archival job. 90 on the free plan (the 500 MB
+# Origin the browser app is served from. Drives CORS and the OAuth redirect,
+# and `loadConfig` REQUIRES it -- every request 500s until it is right, which
+# is the correct failure mode for a value that decides who may call this API.
+# Replace with the deployed frontend origin, no trailing slash.
+APP_ORIGIN = "http://localhost:5173"
+# Raw-answer retention for the retention cron. 90 on the free plan (the 500 MB
 # per-database limit holds roughly 4 million answer rows); 180 once on Workers
-# Paid. See the archival note in migrations/0004_assessment.sql.
+# Paid. See the archival note in migrations/0004_assessment.sql and
+# src/jobs/retention.ts. Validated on read: a non-numeric value throws rather
+# than silently becoming the default.
 ANSWER_RETENTION_DAYS = "90"
 
-# NO SECRETS IN THIS FILE. Password-hash pepper, OAuth client secrets and the
-# cron trigger token go in via `wrangler secret put <NAME>` and arrive on
-# `env`. A missing secret must throw at startup, not fall back to a default.
+# Session lifetimes are NOT here. They were, as SESSION_IDLE_TTL_SECONDS and
+# SESSION_ABSOLUTE_TTL_SECONDS, and nothing read them: the real values are
+# `SESSION_IDLE_TTL_MS` and `SESSION_ABSOLUTE_TTL_MS` in src/data/auth.ts, and
+# every session-creating call already takes a per-call override. Config that
+# looks adjustable and is not is worse than no config, so the dead vars are
+# gone rather than left as a trap for whoever next tries to shorten a session.
+
+# NO SECRETS IN THIS FILE. `CONTENT_PERMUTATION_SECRET` and the Google OAuth
+# client secret go in via `wrangler secret put <NAME>` and arrive on `env`. A
+# missing secret must throw at startup, not fall back to a default.
 
 [[migrations]]
 # Placeholder so `wrangler deploy` does not warn on a project with no Durable
@@ -75,8 +85,9 @@ name = "necprep-api"
 
 [env.production.vars]
 ENVIRONMENT = "production"
-SESSION_IDLE_TTL_SECONDS = "1209600"
-SESSION_ABSOLUTE_TTL_SECONDS = "7776000"
+# Must be the real deployed frontend origin. Leaving localhost here would set
+# a CORS policy that blocks the actual app.
+APP_ORIGIN = "REPLACE_WITH_FRONTEND_ORIGIN"
 ANSWER_RETENTION_DAYS = "90"
 
 [[env.production.d1_databases]]

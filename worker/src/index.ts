@@ -21,6 +21,7 @@ import { Db } from './data/d1.ts';
 import { loadConfig } from './env.ts';
 import type { Env } from './env.ts';
 import { systemClock } from './lib/time.ts';
+import { handleScheduled, type ScheduledEventLike } from './jobs/index.ts';
 import { readCookie, SESSION_COOKIE } from './lib/cookies.ts';
 import { toErrorResponse } from './shared/errors.ts';
 import type { HandlerContext, HandlerResult } from './handlers/context.ts';
@@ -396,4 +397,16 @@ app.get('/api/admin/audit', async (c) => {
   return send(ctx, await moderation.getAuditLog(ctx, input));
 });
 
-export default app;
+/**
+ * The Worker's two entry points.
+ *
+ * Exporting the Hono app directly gave Cloudflare a `fetch` handler and no
+ * `scheduled` handler, so all three declared crons fired into nothing. They
+ * are routed by cron expression in `src/jobs/`.
+ */
+export default {
+  fetch: app.fetch,
+  scheduled: async (event: ScheduledEventLike, env: Env): Promise<void> => {
+    await handleScheduled(event, env);
+  },
+};

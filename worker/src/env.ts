@@ -37,6 +37,12 @@ export interface Env {
   PASSWORD_HASH_ITERATIONS?: string;
   /** Default 45. Raise to ~900 on the paid plan (1,000 queries/invocation). */
   D1_QUERY_BUDGET?: string;
+  /**
+   * Raw-answer retention window in days, read by the retention cron. Default
+   * 90 on the free plan; 180 once on Workers Paid. See the archival note in
+   * migrations/0004_assessment.sql and `src/jobs/index.ts#retentionDays`.
+   */
+  ANSWER_RETENTION_DAYS?: string;
 }
 
 export interface GoogleOAuthConfig {
