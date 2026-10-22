@@ -34,6 +34,10 @@ const mockApi = {
   startAnonymousSession: vi.fn(),
   upgradeAnonymous: vi.fn(),
   logout: vi.fn(),
+  // A plain function, not a spy: it is a pure URL builder with no round trip,
+  // and the test cares about the URL it produces.
+  googleSignInUrl: (redirectTo?: string): string =>
+    `https://api.test/api/auth/google/start${redirectTo ? `?redirect_to=${encodeURIComponent(redirectTo)}` : ''}`,
 };
 let backendConfigured = true;
 
@@ -95,7 +99,11 @@ function wrap(children: ReactNode, entries = ['/']) {
 
 beforeEach(() => {
   backendConfigured = true;
-  for (const fn of Object.values(mockApi)) fn.mockReset();
+  // googleSignInUrl is a plain function, not a spy, so it has nothing to
+  // reset and must be skipped rather than cast away.
+  for (const fn of Object.values(mockApi)) {
+    if ('mockReset' in fn) fn.mockReset();
+  }
   mockApi.getSession.mockResolvedValue(sessionOk(null));
   mockApi.logout.mockResolvedValue({ ok: true, data: { ok: true } });
 });
@@ -312,6 +320,21 @@ describe('SignIn', () => {
     // reads as though the account already exists.
     await user.click(screen.getByRole('button', { name: /create one/i }));
     await waitFor(() => expect(screen.getByRole('alert')).toBeEmptyDOMElement());
+  });
+
+  it('offers Google as a real navigation, carrying the return path', async () => {
+    // The OAuth flow leaves this origin, so the control must be an anchor
+    // rather than a fetch — middle-click and Back have to work, and there is
+    // nothing to await.
+    wrap(page, ['/signin']);
+    const link = await screen.findByRole('link', { name: /continue with google/i });
+    expect(link).toHaveAttribute(
+      'href',
+      expect.stringContaining('/api/auth/google/start'),
+    );
+    // The guard stashes the attempted path; it has to survive the round trip
+    // through Google or a deep link lands on the dashboard instead.
+    expect(link.getAttribute('href')).toContain('redirect_to=');
   });
 
   it('sends an already-signed-in visitor straight on', async () => {

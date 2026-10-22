@@ -167,6 +167,44 @@
   cursor: not-allowed;
 }
 
+/* Google sign-in.
+ *
+ * Deliberately quieter than the guest button and louder than the form: most
+ * visitors should start as a guest, but a returning student with a Google
+ * account should not have to hunt for it. */
+.google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-height: 44px;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.google:hover {
+  border-color: var(--color-ring);
+}
+
+.google:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 1px;
+}
+
+/* Google's brand colours are fixed and must not be re-tinted by the theme, so
+   the mark carries its own fills and never uses `currentColor`. */
+.googleMark {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
 .swap {
   margin: 0;
   font-size: var(--text-sm);
