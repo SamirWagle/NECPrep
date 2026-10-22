@@ -2,6 +2,7 @@
 // Extracts SYLLABUS from BookPractice.tsx and bookChapters from the generated
 // manifest, and emits 0007_reference_data.sql.
 import { readFileSync, writeFileSync } from 'node:fs';
+import { examFormat, readConfirmed } from '../../../frontend/src/data/examBlueprint.ts';
 
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -97,18 +98,40 @@ for (const s of SYLLABUS) {
 }
 out.push(subRows.join(',\n') + ';\n');
 
-// Mock templates, from frontend/src/data/topics.ts, reshaped to the
-// sub-chapter-level blueprint of frontend/src/data/examBlueprint.ts.
+// Mock templates, reshaped to the sub-chapter-level blueprint of
+// frontend/src/data/examBlueprint.ts.
+//
+// DURATIONS ARE DERIVED, NOT WRITTEN HERE.
+//
+// They used to be literals -- 45 and 20 -- copied from topics.ts at a time
+// when that file also held literals. `examBlueprint.ts` later became the
+// single source of truth and was confirmed at 120 minutes by the project
+// owner; topics.ts was updated to derive from it and this file was not. The
+// result shipped to a live database: templates claiming 100 questions in 45
+// minutes, while the client showed 120. The server owns the deadline, so the
+// server would have won, and every candidate would have lost 75 minutes.
+//
+// `readConfirmed` refuses to return an unverified value, so a future change
+// that un-confirms the duration fails this generator rather than silently
+// seeding a guess.
+const FULL_MOCK_DURATION = readConfirmed(examFormat.durationMinutes);
+const FULL_MOCK_PER_CHAPTER = 10;
+const QUICK_PER_CHAPTER = 5;
+// Pro-rata on question count, matching the arithmetic in topics.ts exactly.
+const QUICK_DURATION = Math.round(
+  (FULL_MOCK_DURATION * QUICK_PER_CHAPTER) / FULL_MOCK_PER_CHAPTER,
+);
+
 const templates = [
   { id: 'full-mock-1', slug: 'full-mock-1', name: 'Full Mock Test 1',
     description: '100 questions across all 60 NEC syllabus codes -- a fresh set each time',
-    perChapter: 10, duration: 45, ordinal: 1 },
+    perChapter: FULL_MOCK_PER_CHAPTER, duration: FULL_MOCK_DURATION, ordinal: 1 },
   { id: 'full-mock-2', slug: 'full-mock-2', name: 'Full Mock Test 2',
     description: '100 questions across all 60 NEC syllabus codes -- different selection to Mock 1',
-    perChapter: 10, duration: 45, ordinal: 2 },
+    perChapter: FULL_MOCK_PER_CHAPTER, duration: FULL_MOCK_DURATION, ordinal: 2 },
   { id: 'quick-test', slug: 'quick-test', name: 'Quick Assessment',
     description: '50 questions, five per chapter, for a fast readiness check',
-    perChapter: 5, duration: 20, ordinal: 3 },
+    perChapter: QUICK_PER_CHAPTER, duration: QUICK_DURATION, ordinal: 3 },
 ];
 
 /**
