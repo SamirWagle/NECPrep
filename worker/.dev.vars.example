@@ -1,0 +1,36 @@
+# Local secrets for `wrangler dev`. Copy to `.dev.vars` and fill in.
+#
+#   cp .dev.vars.example .dev.vars
+#
+# `.dev.vars` is gitignored. Wrangler reads it and puts these on `env` exactly
+# the way deployed secrets arrive, so the code path you exercise locally is the
+# same one that runs in production — there is no "dev mode" branch anywhere.
+#
+# These are LOCAL values. Nothing here is uploaded, and `wrangler secret put`
+# does not read this file. Production secrets are set separately; see
+# docs/deploy-cloudflare.md step 3.
+
+# Required. Seeds the option shuffle. Any 32+ characters will do locally —
+# it only has to be unguessable in production, where it protects the
+# permutation from being reproduced offline against the public chapter JSON.
+CONTENT_PERMUTATION_SECRET=local-development-only-not-a-real-secret-0123456789
+
+# Optional: Google sign-in. All three or none — a half-configured OAuth app
+# fails at Google with redirect_uri_mismatch, which is a confusing place to
+# debug a missing variable. Leave them blank and the two Google routes 404
+# while email/password and guest keep working.
+#
+# The redirect URI must ALSO be listed on the OAuth client in Google Cloud
+# Console, alongside the production one. Google permits http://localhost as an
+# explicit exception to its HTTPS rule, which is what makes local testing of
+# the real flow possible:
+#
+#   http://localhost:8787/api/auth/google/callback
+#
+# Use the SAME client as production, with two redirect URIs. A second client
+# means a second secret to rotate and a second consent screen to keep in step.
+# Leave all three commented out until you have all three. Filling in only the
+# redirect URI is the half-configured state, and the Google routes will say so.
+#GOOGLE_CLIENT_ID=
+#GOOGLE_CLIENT_SECRET=
+#GOOGLE_REDIRECT_URI=http://localhost:8787/api/auth/google/callback
