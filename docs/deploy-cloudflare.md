@@ -155,6 +155,36 @@ These are the three things people assume block them, and none of them apply:
   to production through them means creating your own Google OAuth client
   anyway, i.e. doing exactly this section plus running a second auth system.
 
+#### You do not enable an API for this
+
+There is no API to turn on. Sign-in with Google uses the OAuth endpoints
+directly, and the code calls `accounts.google.com` and
+`openidconnect.googleapis.com` without any project-level API being enabled.
+
+In particular **`cloudoauth.googleapis.com` ("Cloud OAuth Service API") is not
+it.** That service issues tokens for calling Google Cloud APIs as a Google
+Cloud user; it has nothing to do with your users signing in. Enabling it is
+harmless and does nothing for this.
+
+If you find yourself on an **API/Service Details** page with Metrics and Quotas
+tabs, you are in the wrong part of the console.
+
+#### The console was renamed
+
+What older guides call the **OAuth consent screen** is now **Google Auth
+Platform**, and it is split into four pages: Branding, Audience, Clients and
+Data access. `APIs & Services → OAuth consent screen` redirects there.
+
+Direct links, with the project already selected — replace `PROJECT_ID` with
+yours:
+
+| Page | URL |
+|---|---|
+| Overview | `https://console.cloud.google.com/auth/overview?project=PROJECT_ID` |
+| Branding | `https://console.cloud.google.com/auth/branding?project=PROJECT_ID` |
+| Audience | `https://console.cloud.google.com/auth/audience?project=PROJECT_ID` |
+| Clients | `https://console.cloud.google.com/auth/clients?project=PROJECT_ID` |
+
 #### Click by click
 
 **1. Create a project.** [console.cloud.google.com](https://console.cloud.google.com)
@@ -163,30 +193,32 @@ These are the three things people assume block them, and none of them apply:
 in the top bar. *Most confusion here comes from configuring one project while
 a different one is selected.*
 
-**2. OAuth consent screen.** Left menu → **APIs & Services** → **OAuth consent
-screen**.
+**2. Branding** (`/auth/branding`) — the old consent screen.
 
-- User type: **External** → **Create**.
-  (*Internal* is only offered on Google Workspace accounts and would restrict
-  sign-in to your own organisation.)
 - **App name**: `NECPrep`
 - **User support email**: your address
 - **Developer contact email**: your address
 - Leave the App domain fields **empty for now** — see "Testing vs Published"
   below.
-- **Save and continue**.
+- Save.
 
-**3. Scopes screen** → change nothing → **Save and continue**. `openid`,
-`email` and `profile` are granted by default and are not listed here; adding
-anything from this page is what turns a no-review app into one that needs
-review.
+**3. Audience** (`/auth/audience`).
 
-**4. Test users screen** → **Add users** → add your own Gmail address →
-**Save and continue**. This matters: while the app is in Testing, *only* the
-addresses listed here can sign in.
+- User type: **External**.
+  (*Internal* is only offered on Google Workspace accounts and would restrict
+  sign-in to your own organisation.)
+- **Test users** → **Add users** → add your own Gmail address → Save.
+  This matters: while the app is in Testing, *only* the addresses listed here
+  can sign in. A correctly configured app will refuse everyone else, with an
+  error that mentions verification and misleads accordingly.
 
-**5. Create the credential.** **APIs & Services** → **Credentials** →
-**Create credentials** → **OAuth client ID**.
+**4. Data access** (`/auth/dataaccess`) → change nothing. `openid`, `email`
+and `profile` are granted by default and need not be added; adding anything
+from this page is what turns a no-review app into one that needs review.
+
+**5. Create the credential.** **Clients** (`/auth/clients`) →
+**Create client**. (Classic console: APIs & Services → Credentials → Create
+credentials → OAuth client ID. Both reach the same place.)
 
 - Application type: **Web application**
 - Name: `necprep-api`
@@ -241,6 +273,8 @@ then publishing is two clicks.
 | "This app isn't verified" warning screen | Expected in Testing. Click **Advanced** → **Go to NECPrep (unsafe)**. It disappears once published. |
 | Google routes return 404 | Fewer than three secrets are set. That is deliberate — see `loadConfig`. |
 | `invalid_client` | Client id or secret mistyped, or they belong to a different project than the redirect URI. |
+| You are on an "API/Service Details" page with Metrics and Quotas tabs | Wrong section. No API needs enabling; go to `/auth/clients`. |
+| Cannot find "OAuth consent screen" | Renamed to **Google Auth Platform**. See the table above. |
 
 Confirm it is live:
 ```bash
