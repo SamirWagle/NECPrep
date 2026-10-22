@@ -139,17 +139,72 @@ You will know this value after step 5, so it is fine to come back to it.
 
 ### 3c. Google sign-in — optional, skip to step 4 if you do not want it
 
-All three or none; a half-configured OAuth app fails at Google with
-`redirect_uri_mismatch`, which is a confusing place to debug it.
+Google is **not required to launch.** Guest and email/password both work
+without it. Everything below is additive.
 
-In **Google Cloud Console** → APIs & Services → Credentials → Create OAuth
-client ID → Web application:
+#### What you do NOT need
 
-- **Authorised redirect URI**, exactly:
-  `https://<your-worker-domain>/api/auth/google/callback`
-- You get a **client id** and a **client secret**
+These are the three things people assume block them, and none of them apply:
 
-Then:
+- **App verification / review.** The code requests `openid email profile`
+  (`worker/src/handlers/auth.ts:384`). All three are *non-sensitive* scopes, so
+  Google requires no review, no demo video and no security assessment.
+- **Billing.** No card, no paid project.
+- **A different auth provider.** Auth0 and the like ship "developer keys" for
+  Google that are documented as testing-only — shared and rate-limited. Going
+  to production through them means creating your own Google OAuth client
+  anyway, i.e. doing exactly this section plus running a second auth system.
+
+#### Click by click
+
+**1. Create a project.** [console.cloud.google.com](https://console.cloud.google.com)
+→ project dropdown in the top bar → **New project** → name it `necprep` →
+**Create**. Wait for the notification, then make sure that project is selected
+in the top bar. *Most confusion here comes from configuring one project while
+a different one is selected.*
+
+**2. OAuth consent screen.** Left menu → **APIs & Services** → **OAuth consent
+screen**.
+
+- User type: **External** → **Create**.
+  (*Internal* is only offered on Google Workspace accounts and would restrict
+  sign-in to your own organisation.)
+- **App name**: `NECPrep`
+- **User support email**: your address
+- **Developer contact email**: your address
+- Leave the App domain fields **empty for now** — see "Testing vs Published"
+  below.
+- **Save and continue**.
+
+**3. Scopes screen** → change nothing → **Save and continue**. `openid`,
+`email` and `profile` are granted by default and are not listed here; adding
+anything from this page is what turns a no-review app into one that needs
+review.
+
+**4. Test users screen** → **Add users** → add your own Gmail address →
+**Save and continue**. This matters: while the app is in Testing, *only* the
+addresses listed here can sign in.
+
+**5. Create the credential.** **APIs & Services** → **Credentials** →
+**Create credentials** → **OAuth client ID**.
+
+- Application type: **Web application**
+- Name: `necprep-api`
+- **Authorised JavaScript origins**: leave **empty**. This is a server-side
+  flow; the browser never holds the token.
+- **Authorised redirect URIs** → **Add URI** → paste exactly:
+  ```
+  https://necprep-api.waglesameer5.workers.dev/api/auth/google/callback
+  ```
+- **Create**
+
+A dialog shows the **Client ID** and **Client secret**. Keep it open, or
+download the JSON — the secret can be re-shown later, but it is easier not to
+have to.
+
+**6. Hand them over.** Either run these three and paste each value when
+prompted:
+
 ```bash
 cd worker
 npx wrangler secret put GOOGLE_CLIENT_ID --env production
@@ -157,12 +212,43 @@ npx wrangler secret put GOOGLE_CLIENT_SECRET --env production
 npx wrangler secret put GOOGLE_REDIRECT_URI --env production
 ```
 
-`GOOGLE_REDIRECT_URI` must match the console value **character for
-character**. The client id is not really a secret but is stored as one for
-symmetry — all three travel together.
+`GOOGLE_REDIRECT_URI` is the full callback URL from step 5, **character for
+character** — a trailing slash or `http` instead of `https` is a mismatch.
 
-Without these three, the two Google routes return 404 and email/password
-sign-up still works.
+The client id is not really a secret, but all three are stored the same way
+because `loadConfig` requires all three or none: a half-configured OAuth app
+fails at Google with `redirect_uri_mismatch`, which is a confusing place to
+debug a missing environment variable.
+
+#### Testing vs Published
+
+Leaving the app in **Testing** is a legitimate place to stop. Up to 100 listed
+test users can sign in, no App-domain fields are required, and nothing expires
+for a non-sensitive-scope app.
+
+**Publishing** removes the test-user list so anyone can sign in, and Google
+then requires an **Application homepage** and a **Privacy policy URL** on the
+consent screen. The platform has neither page yet. Ask and I will build
+`/privacy` and `/terms` — a public exam platform needs them regardless — and
+then publishing is two clicks.
+
+#### If it goes wrong
+
+| Message | Cause |
+|---|---|
+| `Error 400: redirect_uri_mismatch` | The redirect URI in the console differs from `GOOGLE_REDIRECT_URI`. Compare them character for character, including `https` and no trailing slash. |
+| `Error 403: access_denied` + "has not completed the Google verification process" | The app is in Testing and the signing-in address is not in the test-user list. Add it in step 4. |
+| "This app isn't verified" warning screen | Expected in Testing. Click **Advanced** → **Go to NECPrep (unsafe)**. It disappears once published. |
+| Google routes return 404 | Fewer than three secrets are set. That is deliberate — see `loadConfig`. |
+| `invalid_client` | Client id or secret mistyped, or they belong to a different project than the redirect URI. |
+
+Confirm it is live:
+```bash
+curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" \
+  "https://necprep-api.waglesameer5.workers.dev/api/auth/google/start"
+```
+A `302` to `accounts.google.com` means configured. A `404` means the secrets
+are not all set.
 
 **Verify:**
 ```bash
