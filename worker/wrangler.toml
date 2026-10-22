@@ -22,7 +22,7 @@ database_name = "necprep"
 # Filled in by `wrangler d1 create necprep`. Left as a placeholder on purpose:
 # a wrong-but-plausible id here would deploy against someone else's database,
 # so this must fail loudly until a human pastes the real one.
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "9c8e53db-9492-4006-bb29-90424c46ba24"
 migrations_dir = "migrations"
 
 [observability]
@@ -87,11 +87,11 @@ name = "necprep-api"
 ENVIRONMENT = "production"
 # Must be the real deployed frontend origin. Leaving localhost here would set
 # a CORS policy that blocks the actual app.
-APP_ORIGIN = "REPLACE_WITH_FRONTEND_ORIGIN"
+APP_ORIGIN = "https://necprep.pages.dev"
 ANSWER_RETENTION_DAYS = "90"
 
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "necprep"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "9c8e53db-9492-4006-bb29-90424c46ba24"
 migrations_dir = "migrations"
