@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Trophy, Users } from 'lucide-react';
 import { useUser } from '../context/user-context';
@@ -462,6 +462,17 @@ export default function Landing() {
           </div>
           <p className="footer-text">
             © 2026 NECPrep. Built for Nepal Engineering Council License Exam Preparation.
+          </p>
+          {/* Google's consent screen links to /privacy, so it has to be
+              reachable from the site itself too - a policy that exists only as
+              a URL handed to Google is not a policy anyone can find. */}
+          <p className="footer-legal">
+            <Link to="/privacy">Privacy Policy</Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/terms">Terms of Use</Link>
+          </p>
+          <p className="footer-disclaimer">
+            Not affiliated with, endorsed by, or approved by the Nepal Engineering Council.
           </p>
         </div>
       </footer>

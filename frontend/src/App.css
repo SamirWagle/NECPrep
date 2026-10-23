@@ -5148,3 +5148,22 @@ body {
   color: var(--text-primary);
   font-size: 0.9rem;
 }
+
+/* Footer legal links. Google consent screen links to /privacy, so the page
+   has to be findable from the site too - a policy reachable only by a URL
+   handed to Google is not one a student can find. */
+.footer-legal {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+
+.footer-legal a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.footer-disclaimer {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}

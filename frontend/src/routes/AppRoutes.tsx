@@ -27,6 +27,11 @@ const BookPractice             = lazy(() => import('../pages/app/BookPractice'))
 // Sign-in is split too: a returning visitor with a live session cookie never
 // renders it, and a local-only build never reaches it at all.
 const SignIn                   = lazy(() => import('../pages/auth/SignIn'));
+// Public and rarely read, so split: they must never cost a byte on the path
+// to the dashboard. Google links to /privacy from the consent screen, so it
+// has to resolve for someone arriving cold with no session.
+const Privacy                  = lazy(() => import('../pages/legal/Privacy'));
+const Terms                    = lazy(() => import('../pages/legal/Terms'));
 
 function RouteFallback() {
   return (
@@ -48,6 +53,11 @@ export default function AppRoutes() {
             the validation and the accessibility work. */}
         <Route path="/signin" element={<SignIn initialMode="signin" />} />
         <Route path="/signup" element={<SignIn initialMode="signup" />} />
+
+        {/* Outside the guard. Someone deciding whether to trust this with
+            their email must be able to read both without an account. */}
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
 
         {/* The guard wraps the SHELL, not each child route: one decision per
             navigation, and the attempted path is preserved through the
