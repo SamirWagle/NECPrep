@@ -9,13 +9,12 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vite.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SamirWagle/EngineeringLisenseProject/pulls)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://vercel.com)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/SamirWagle/NECPrep/pulls)
+[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
-[Live app](https://lisensepreparation.samirwagle.com.np/) ·
-[Report a bug](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new/choose) ·
-[Report a wrong answer](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new/choose) ·
-[Contributing](CONTRIBUTING.md)
+[🌐 Live Demo](https://lisensepreparation.samirwagle.com.np/) · [🐛 Report a Bug](https://github.com/SamirWagle/NECPrep/issues/new) · [✨ Request a Feature](https://github.com/SamirWagle/NECPrep/issues/new) · [🤝 Contribute](#-contributing)
 
 </div>
 
@@ -229,20 +228,49 @@ position — the shuffle is a safety net, not a licence.
 ## Architecture
 
 ```
-Browser
-  │
-  ├─ static assets (Vercel CDN)
-  │     index.html → entry chunk + react / router / motion / vendor chunks
-  │     route chunks, fetched on navigation (React.lazy)
-  │
-  ├─ fetch /data/books/chN.json          ← the question bank, static files
-  │     └─ localData.ts: parse → 1-based index to 0-based
-  │                      → orderOptions() deterministic reorder
-  │                      → drop quarantined ids
-  │                      → in-memory cache per chapter
-  │
-  └─ localStorage                         ← the only persistence layer
-        userName, progress, bookmarks, quiz history, mock draft
+NECPrep/
+├── frontend/                          # Main React application
+│   ├── public/
+│   │   └── data/
+│   │       ├── *.json                 # Topic-wise question banks
+│   │       ├── all_questions.json     # Aggregated question bank
+│   │       ├── model-question.json    # Model exam questions
+│   │       └── books/
+│   │           └── ch1–ch10.json      # Textbook chapter questions
+│   └── src/
+│       ├── components/
+│       │   └── ThreeBackground.tsx    # Animated 3D landing background
+│       ├── context/
+│       │   └── UserContext.tsx        # Global user state (name, preferences)
+│       ├── data/
+│       │   ├── topics.ts              # Topic & mock test definitions
+│       │   └── bookChapters.generated.ts  # Auto-generated chapter metadata
+│       ├── layout/
+│       │   └── AppShell.tsx           # Persistent sidebar + outlet layout
+│       ├── pages/
+│       │   ├── Landing.tsx            # Public landing page
+│       │   ├── auth/                  # Auth screens
+│       │   └── app/                   # Protected app screens
+│       │       ├── Dashboard.tsx
+│       │       ├── PracticeHub.tsx
+│       │       ├── TopicPractice.tsx
+│       │       ├── ChapterPracticeSelector.tsx
+│       │       ├── QuickPractice.tsx
+│       │       ├── CustomPractice.tsx
+│       │       ├── MockTests.tsx
+│       │       ├── MockTestQuiz.tsx
+│       │       ├── StudyHub.tsx
+│       │       ├── Flashcards.tsx
+│       │       ├── Bookmarks.tsx
+│       │       ├── Progress.tsx
+│       │       ├── BookPractice.tsx
+│       │       └── Settings.tsx
+│       ├── routes/
+│       │   └── AppRoutes.tsx          # Centralized route definitions
+│       └── services/
+│           └── localData.ts           # Data loading & localStorage helpers
+└── scripts/
+    └── sync-chapters.mjs              # Generates bookChapters.generated.ts from JSON files
 ```
 
 Points worth knowing before changing anything:
@@ -295,8 +323,12 @@ still mentions Supabase keys; nothing reads them.)
 Requires **Node 20+** and npm 9+.
 
 ```bash
-git clone https://github.com/SamirWagle/EngineeringLisenseProject.git
-cd EngineeringLisenseProject/frontend
+# 1. Clone the repository
+git clone https://github.com/SamirWagle/NECPrep.git
+cd NECPrep
+
+# 2. Install frontend dependencies
+cd frontend
 npm install
 npm run dev          # http://localhost:5173
 ```
@@ -441,25 +473,38 @@ There is no `src/pages/auth/` directory, and no authentication code of any kind.
 
 ## Contributing
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)** for setup, the commands CI runs, code
-standards, and the PR process. For question data, read
-**[`docs/question-format.md`](docs/question-format.md)** first — the single most
-common mistake is treating `correct_option_index` as 0-based, and it is the one
-error the validator cannot always catch.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and grow. **Any contribution you make is greatly appreciated.**
 
-The highest-value contributions right now:
+### Ways to Contribute
 
-- **Verified answer corrections** for the questions in
-  `frontend/src/data/quarantine.json`. Each needs the correct answer worked out
-  from source material; a correction with a citation can be applied directly.
-- **Duplicate triage** against `frontend/src/data/duplicate-triage.json`.
-- **Explanations** for questions. The bank has answers but no reasoning.
-- **Accessibility and small-screen fixes.** Design target is a 360px viewport on
-  a low-end Android device.
+- 🐛 **Bug Reports** — Found something broken? [Open an issue](https://github.com/SamirWagle/NECPrep/issues/new).
+- ✨ **Feature Requests** — Have an idea? [Start a discussion](https://github.com/SamirWagle/NECPrep/issues/new).
+- 📚 **Question Bank** — Add or improve questions in any topic JSON.
+- 🌐 **Translations** — Help make the platform accessible in Nepali or other languages.
+- 💅 **UI/UX Improvements** — Better layouts, accessibility, responsive design.
+- 🧪 **Tests** — Add unit or integration tests.
 
-Use the issue templates. For a wrong answer, use **Question error report** and
-quote the option *text* — options are reordered per question, so "option B"
-identifies nothing.
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create** your feature branch
+   ```bash
+   git checkout -b feature/your-amazing-feature
+   ```
+3. **Commit** your changes using [Conventional Commits](https://www.conventionalcommits.org/)
+   ```bash
+   git commit -m "feat: add spaced repetition to flashcards"
+   ```
+4. **Push** to your branch
+   ```bash
+   git push origin feature/your-amazing-feature
+   ```
+5. **Open a Pull Request** — describe what you changed and why
+
+Please make sure your PR:
+- Follows the existing code style (TypeScript strict, ESLint rules pass)
+- Doesn't break the existing build (`npm run build` succeeds)
+- Includes relevant updates to data/types if adding new topics
 
 ---
 
@@ -478,8 +523,7 @@ Ordered roughly by priority.
 - [ ] Nepali language support (i18n)
 - [ ] Past exam papers as dedicated mock sets
 
-[Open a feature request](https://github.com/SamirWagle/EngineeringLisenseProject/issues/new/choose)
-if something you need is not here.
+Have a feature idea not listed here? [Open a feature request!](https://github.com/SamirWagle/NECPrep/issues/new)
 
 ---
 
@@ -497,7 +541,9 @@ if something you need is not here.
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE).
+Distributed under the **Apache License 2.0**. See [LICENSE](LICENSE) for more information.
+
+---
 
 <div align="center">
 
@@ -505,6 +551,7 @@ Made by [Samir Wagle](https://github.com/SamirWagle) for every engineer working 
 
 **If NECPrep helped you study, a star genuinely helps others find it.**
 
-[![GitHub stars](https://img.shields.io/github/stars/SamirWagle/EngineeringLisenseProject?style=social)](https://github.com/SamirWagle/EngineeringLisenseProject/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/SamirWagle/NECPrep?style=social)](https://github.com/SamirWagle/NECPrep/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/SamirWagle/NECPrep?style=social)](https://github.com/SamirWagle/NECPrep/network/members)
 
 </div>
