@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { UserProvider } from './context/UserContext';
 import { AuthProvider } from './auth/AuthContext';
+import UpdatePrompt from './components/UpdatePrompt';
 import './App.css';
 
 /**
@@ -20,6 +21,12 @@ function App() {
       <Router>
         <AuthProvider>
           <AppRoutes />
+          {/* Outside the routes: a waiting service worker is a property of the
+              app, not of any page, and the offer must survive navigation.
+              Without this the PWA caches a build and never hands over - every
+              deploy stays invisible to anyone who has opened the site before.
+              See components/UpdatePrompt.tsx. */}
+          <UpdatePrompt />
         </AuthProvider>
       </Router>
     </UserProvider>
