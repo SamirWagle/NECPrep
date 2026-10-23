@@ -240,6 +240,21 @@ export const api = {
 
   logout: () => request<{ ok: true }>('POST', '/api/auth/logout'),
 
+  /**
+   * Asks for a reset link.
+   *
+   * The server answers identically whether or not the account exists, so
+   * there is nothing here to branch on and nothing a caller could learn from
+   * the result. Treat every outcome as "if that address has an account, a
+   * link is on its way".
+   */
+  requestPasswordReset: (email: string) =>
+    request<{ ok: true }>('POST', '/api/auth/password/request', { body: { email } }),
+
+  /** Redeems the emailed token and signs in on this device. */
+  resetPassword: (body: { token: string; password: string }) =>
+    request<SessionResponse>('POST', '/api/auth/password/reset', { body }),
+
   upgradeAnonymous: (body: UpgradeAnonymousRequest) =>
     request<SessionResponse>('POST', '/api/auth/upgrade', { body }),
 

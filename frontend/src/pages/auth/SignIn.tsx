@@ -212,6 +212,14 @@ export default function SignIn({ initialMode = 'signin' }: { initialMode?: Mode 
           <button type="submit" className={styles.submit} disabled={!canSubmit}>
             {busy ? 'Working…' : mode === 'signin' ? 'Sign in' : 'Create account'}
           </button>
+
+          {/* Only on sign-in. Offering it while creating an account invites
+              someone to reset a password they have not set yet. */}
+          {mode === 'signin' && (
+            <p className={styles.swap}>
+              <Link to="/reset-password">Forgot your password?</Link>
+            </p>
+          )}
         </form>
 
         <p className={styles.swap}>

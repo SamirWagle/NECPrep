@@ -27,6 +27,7 @@ const BookPractice             = lazy(() => import('../pages/app/BookPractice'))
 // Sign-in is split too: a returning visitor with a live session cookie never
 // renders it, and a local-only build never reaches it at all.
 const SignIn                   = lazy(() => import('../pages/auth/SignIn'));
+const ResetPassword            = lazy(() => import('../pages/auth/ResetPassword'));
 // Public and rarely read, so split: they must never cost a byte on the path
 // to the dashboard. Google links to /privacy from the consent screen, so it
 // has to resolve for someone arriving cold with no session.
@@ -53,6 +54,9 @@ export default function AppRoutes() {
             the validation and the accessibility work. */}
         <Route path="/signin" element={<SignIn initialMode="signin" />} />
         <Route path="/signup" element={<SignIn initialMode="signup" />} />
+        {/* Both halves of the reset live here: no `?token=` asks for a link,
+            a `?token=` redeems one. The emailed link points at this path. */}
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Outside the guard. Someone deciding whether to trust this with
             their email must be able to read both without an account. */}
