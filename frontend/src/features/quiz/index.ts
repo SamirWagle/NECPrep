@@ -50,6 +50,8 @@ export type {
 
 export { ExplanationPanel } from './components/ExplanationPanel';
 export type { ExplanationPanelProps } from './components/ExplanationPanel';
+export { MarkingStatus } from './components/MarkingStatus';
+export type { MarkingStatusProps } from './components/MarkingStatus';
 export { OptionList } from './components/OptionList';
 export type { OptionListProps } from './components/OptionList';
 export { QuestionCard } from './components/QuestionCard';

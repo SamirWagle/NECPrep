@@ -23,6 +23,20 @@ export interface QuizActionBarProps {
   isLast: boolean;
   /** Label for the terminal action. */
   finishLabel?: string;
+  /**
+   * The committed answer is being marked elsewhere — a server-scored practice
+   * session waiting on `POST /api/practice/answer`.
+   *
+   * It KEEPS the submit button in the primary slot while it is true, disabled
+   * and relabelled, rather than letting the slot fall through to Next. The
+   * alternative was tried and is worse: the button the student just pressed
+   * vanishes and is replaced by a different one, which reads as "that worked,
+   * move on" at the exact moment nothing is known yet. Holding the slot with
+   * `aria-busy` says "still working" to a screen reader too.
+   */
+  submitBusy?: boolean;
+  /** What the submit button says while `submitBusy`. */
+  submitBusyLabel?: string;
 }
 
 export function QuizActionBar({
@@ -35,10 +49,13 @@ export function QuizActionBar({
   canSubmit,
   isLast,
   finishLabel = 'Finish',
+  submitBusy = false,
+  submitBusyLabel = 'Checking…',
 }: QuizActionBarProps) {
-  // Submit takes the primary slot while the current answer is uncommitted;
-  // otherwise it is advance, and on the last question, finish.
-  const showSubmit = onSubmit !== undefined && canSubmit;
+  // Submit takes the primary slot while the current answer is uncommitted, or
+  // while a committed one is still being marked; otherwise it is advance, and
+  // on the last question, finish.
+  const showSubmit = onSubmit !== undefined && (canSubmit || submitBusy);
 
   return (
     <>
@@ -51,8 +68,14 @@ export function QuizActionBar({
       </button>
 
       {showSubmit ? (
-        <button type="button" className={styles.primary} onClick={onSubmit}>
-          Submit
+        <button
+          type="button"
+          className={styles.primary}
+          onClick={onSubmit}
+          disabled={submitBusy}
+          aria-busy={submitBusy || undefined}
+        >
+          {submitBusy ? submitBusyLabel : 'Submit'}
         </button>
       ) : isLast ? (
         <button

@@ -2,19 +2,24 @@
  * CustomPractice — pick chapters and a question count, then practise.
  *
  * Hosts the shared quiz engine; see TopicPractice for why all four quiz pages
- * went from four copies of the state machine to one.
+ * went from four copies of the state machine to one, and for the two paths
+ * (`POST /api/practice/*` with a backend configured, static JSON and local
+ * scoring without one) that `usePracticeSurface` branches between.
  *
  * The config screen stays local to this page: it is this page's whole reason to
- * exist, and the engine has nothing to say about it. The engine is held back
- * with `enabled: false` until the config is submitted, so nothing loads and no
- * draft is written while the user is still choosing.
+ * exist, and the engine has nothing to say about it. Everything is held back
+ * until the config is submitted — `practiceKey` is null until then, so no
+ * paper is loaded, no draft is written, and no server session is opened while
+ * the user is still choosing. That last part matters: a session started at
+ * mount would be counted in the study history whether or not the student ever
+ * answered a question.
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  useQuiz,
   useQuizKeyboard,
+  MarkingStatus,
   QuestionCard,
   QuestionPalette,
   QuizActionBar,
@@ -26,6 +31,7 @@ import { loadQuestionsSlice, saveQuizResult } from '../../services/localData';
 import type { Question, QuizSummary } from '../../features/quiz';
 import { fisherYates } from '../../services/optionOrdering';
 import { useChapters } from '../../hooks/useChapters';
+import { usePracticeSurface } from '../../hooks/usePracticeSurface';
 import { describeReference } from '../../services/questionReference';
 
 export default function CustomPractice() {
@@ -70,18 +76,28 @@ export default function CustomPractice() {
     });
   }, []);
 
-  const quiz = useQuiz({
+  // The chapters the student picked, as the server wants them. A stable
+  // identity so the session-start effect does not re-run on every render.
+  const chapterIds = useMemo(() => started?.topics ?? [], [started]);
+
+  const surface = usePracticeSurface({
     mode: 'custom',
-    attemptKey,
-    loadQuestions,
-    enabled: started !== null,
+    // `custom` and not `chapter`, even for a single-chapter selection: the
+    // server reads `chapterIds` the same way for both, and `chapter` carries a
+    // "pick at least one" guard that a multi-chapter set has no use for.
+    remoteMode: 'custom',
+    practiceKey: attemptKey,
+    chapterIds,
+    questionCount: started?.count ?? 0,
+    loadLocalQuestions: loadQuestions,
     onComplete,
   });
+  const { quiz } = surface;
 
   useQuizKeyboard({
     optionCount: quiz.current?.options.length ?? 0,
     onSelectOption: quiz.selectOption,
-    onSubmitOrAdvance: quiz.submitOrAdvance,
+    onSubmitOrAdvance: surface.submitOrAdvance,
     onPrev: quiz.prev,
     onNext: quiz.next,
     onToggleFlag: quiz.toggleFlag,
@@ -207,15 +223,62 @@ export default function CustomPractice() {
     );
   }
 
-  if (quiz.state.phase === 'loading') {
+  // ── Results ────────────────────────────────────────────────────────────────
+  // Checked before the loading state, so a finish whose reply arrived after a
+  // reload resolves to the server's stored totals rather than to a new set.
+  if (surface.complete) {
     return (
-      <div className="loading-container" role="status" aria-live="polite">
-        <div className="loading-spinner" />
-        <p>Building your {started.count}-question set…</p>
+      <div className="quiz-complete">
+        <ResultSummary
+          summary={surface.summary}
+          title="Custom Practice"
+          actions={
+            <>
+              {/* Back to the config screen, which nulls the practice key and
+                  so abandons this run. `discard` first, so the finished
+                  session's handoff record cannot be resumed by a later run
+                  that happens to choose the same chapters and count. */}
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  surface.discard();
+                  setStarted(null);
+                }}
+              >
+                Build Another
+              </button>
+              <Link to="/app/practice" className="btn-secondary">
+                Back to Practice
+              </Link>
+            </>
+          }
+        />
       </div>
     );
   }
 
+  // A remote session that could not be started. Deliberately NOT a fallback to
+  // local scoring, and routed back to the config screen because the commonest
+  // cause is a selection the server has too little published content for.
+  if (surface.isRemote && surface.error !== null && quiz.state.phase === 'loading') {
+    return (
+      <div className="topic-not-found">
+        <h2>{surface.error}</h2>
+        <button type="button" className="btn-primary" onClick={() => setStarted(null)}>
+          Change selection
+        </button>
+      </div>
+    );
+  }
+
+
+  // `quiz.error` BEFORE `phase === 'loading'`, deliberately.
+  //
+  // `useQuiz` sets `error` when the load rejects and leaves `phase` at
+  // 'loading' — there is no failure phase. Asking "is it loading?" first
+  // therefore makes the error branch below unreachable, and a failed load
+  // spins forever with no way out but a reload.
   if (quiz.error) {
     return (
       <div className="topic-not-found">
@@ -226,24 +289,39 @@ export default function CustomPractice() {
       </div>
     );
   }
+  if (quiz.state.phase === 'loading') {
+    return (
+      <div className="loading-container" role="status" aria-live="polite">
+        <div className="loading-spinner" />
+        <p>Building your {started.count}-question set…</p>
+      </div>
+    );
+  }
 
+  // Remote only: the set is closed and the totals are not in yet. Locally,
+  // `done` always means `complete`, so this is dead.
   if (quiz.state.phase === 'done') {
     return (
       <div className="quiz-complete">
-        <ResultSummary
-          summary={quiz.summary}
-          title="Custom Practice"
-          actions={
-            <>
-              <button type="button" className="btn-primary" onClick={() => setStarted(null)}>
-                Build Another
-              </button>
-              <Link to="/app/practice" className="btn-secondary">
-                Back to Practice
-              </Link>
-            </>
-          }
-        />
+        {surface.error === null ? (
+          <div className="loading-container" role="status" aria-live="polite">
+            <div className="loading-spinner" />
+            <p>Saving your session…</p>
+          </div>
+        ) : (
+          <div className="topic-not-found" role="alert">
+            <h2>{surface.error}</h2>
+            <p>Your answers are recorded on the server. You can ask for the totals again.</p>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={surface.retryFinish}
+              disabled={surface.finishing}
+            >
+              Try again
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -282,26 +360,39 @@ export default function CustomPractice() {
         options={current.options}
         selection={quiz.selection}
         onSelect={quiz.selectOption}
-        correctIndex={current.correctIndex}
-        revealed={quiz.isRevealed}
-        verdict={quiz.verdict}
-        locked={quiz.isSubmitted}
+        correctIndex={surface.card.correctIndex}
+        revealed={surface.card.revealed}
+        verdict={surface.card.verdict}
+        locked={surface.card.locked}
       >
-        {quiz.isRevealed && (
-          <ExplanationPanel context="practice" reference={describeReference(current)} />
+        {surface.awaiting && <MarkingStatus state="checking" />}
+        {surface.answerError !== null && (
+          <MarkingStatus
+            state="failed"
+            message={surface.answerError}
+            onRetry={surface.retryAnswer}
+          />
+        )}
+        {surface.card.revealed && (
+          <ExplanationPanel
+            context="practice"
+            explanation={surface.explanation}
+            reference={describeReference(current)}
+          />
         )}
       </QuestionCard>
 
       <QuizActionBar
         onPrev={quiz.prev}
         onNext={quiz.next}
-        onSubmit={quiz.submitCurrent}
+        onSubmit={surface.commitCurrent}
         onFinish={quiz.submitAll}
         canPrev={quiz.state.currentIndex > 0}
         canNext={!quiz.isLast}
         canSubmit={quiz.canSubmitCurrent}
         isLast={quiz.isLast}
         finishLabel="Finish"
+        submitBusy={surface.awaiting}
       />
 
       <QuestionPalette entries={quiz.palette} onJump={quiz.goTo} />
