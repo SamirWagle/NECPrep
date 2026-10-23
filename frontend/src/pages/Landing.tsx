@@ -1,9 +1,26 @@
-import { useState, type KeyboardEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Trophy, Users } from 'lucide-react';
-import ThreeBackground from '../components/ThreeBackground';
-import { useUser } from '../context/UserContext';
+import { bookChapters } from '../data/bookChapters.generated';
+import styles from './Landing.module.css';
+
+// Live content figures, derived from the generated chapter manifest so the
+// landing page can never drift from what is actually shipped.
+const LIVE_QUESTIONS = bookChapters.reduce((sum, c) => sum + c.questionCount, 0);
+const LIVE_CHAPTERS = bookChapters.length;
+const SYLLABUS_SUBCHAPTERS = 60; // NEC ACtE: 10 chapters x 6 sub-chapters
+
+// TODO(platform-rebuild): a shared <Dialog> primitive is being built under
+// src/components/ui/. When it lands, replace the local focus trap, Escape
+// handler, scroll lock and focus restoration below with it, and delete this
+// selector list along with `focusableWithin`.
+
+function scrollToFeatures() {
+  const el = document.getElementById('features');
+  if (!el) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+}
 
 // Inline brand icon — matches the favicon book+checkmark design
 function NECPrepIcon({ small }: { small?: boolean }) {
@@ -24,10 +41,6 @@ function NECPrepIcon({ small }: { small?: boolean }) {
 
 export default function Landing() {
   const navigate = useNavigate();
-  const { setName } = useUser();
-  const [isNamePortalOpen, setIsNamePortalOpen] = useState(false);
-  const [nameInput, setNameInput] = useState('');
-  const [portalError, setPortalError] = useState('');
 
   const features = [
     {
@@ -47,8 +60,8 @@ export default function Landing() {
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: 'Community Support',
-      description: 'Join thousands of engineers preparing for their license exam.'
+      title: 'Open Source',
+      description: 'Free, MIT-licensed, and improved by the engineers who use it.'
     }
   ];
 
@@ -73,40 +86,9 @@ export default function Landing() {
     }
   };
 
-  const openNamePortal = () => {
-    setIsNamePortalOpen(true);
-    setPortalError('');
-  };
-
-  const closeNamePortal = () => {
-    setIsNamePortalOpen(false);
-    setPortalError('');
-  };
-
-  const handleNamePortalSubmit = () => {
-    const trimmed = nameInput.trim();
-    if (!trimmed) {
-      setPortalError('Please enter your name so we can guide you.');
-      return;
-    }
-
-    setName(trimmed);
-    closeNamePortal();
-    setNameInput('');
-    navigate('/app');
-  };
-
-  const handlePortalKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleNamePortalSubmit();
-    }
-  };
 
   return (
-    <div className="landing-page">
-      <ThreeBackground />
-      
+    <div className={`landing-page ${styles.page}`}>
       {/* Navigation */}
       <nav className="nav-container">
         <div className="nav-content">
@@ -119,18 +101,14 @@ export default function Landing() {
             <NECPrepIcon />
             <span className="logo-text">NECPrep</span>
           </motion.div>
-          
-          <motion.button
-            className="btn-signin"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            onClick={() => navigate('/auth/login')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Sign In
-          </motion.button>
+
+          {/* The login page existed at /signin and nothing linked to it, so
+              the only way to reach it was to type the URL. */}
+          <div className="nav-actions">
+            <Link to="/signin" className="nav-signin">
+              Sign in
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -157,9 +135,13 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Master Your
-            <span className="gradient-text"> NEC License </span>
-            Exam
+            {/* `.gradient-text` ran a three-stop ramp across the two longest
+                words of the largest text on the page, bottoming out at 4.42:1.
+                The accent is now one short word on a measured two-stop ramp
+                whose darkest point is 6.62:1 — see Landing.module.css. */}
+            Master Your{' '}
+            <span className={styles.heroAccent}>NEC</span>{' '}
+            License Exam
           </motion.h1>
           
           <motion.p 
@@ -168,8 +150,8 @@ export default function Landing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            The most comprehensive platform to study, practice, and ace your 
-            NEC license examination. Powered by proven study methods, built by engineers, for engineers.
+            Practise {LIVE_QUESTIONS.toLocaleString()} questions across all {LIVE_CHAPTERS} chapters of the
+            NEC Computer Engineering syllabus. Free, open source, and works offline.
           </motion.p>
           
           <motion.div 
@@ -180,7 +162,7 @@ export default function Landing() {
           >
             <motion.button
               className="btn-primary"
-              onClick={openNamePortal}
+              onClick={() => navigate('/signin')}
               whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(99, 102, 241, 0.5)' }}
               whileTap={{ scale: 0.95 }}
             >
@@ -190,6 +172,8 @@ export default function Landing() {
             
             <motion.button
               className="btn-secondary"
+              type="button"
+              onClick={scrollToFeatures}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -200,7 +184,7 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section className="features-section" id="features">
         <motion.div
           className="features-container"
           variants={containerVariants}
@@ -233,34 +217,45 @@ export default function Landing() {
         </motion.div>
       </section>
 
-      {/* Stats Section */}
-      <section className="stats-section">
+      {/* Goals Section — aspirational targets, explicitly labelled as such,
+          with the actual shipped figures stated directly underneath. */}
+      <section className="stats-section" aria-labelledby="goals-heading">
         <motion.div
-          className="stats-container"
+          className="stats-wrapper"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="stat-item">
-            <span className="stat-number">10,000+</span>
-            <span className="stat-label">Practice Questions</span>
+          <p className="stats-eyebrow" id="goals-heading">Our 2026 goals</p>
+
+          <div className="stats-container">
+            <div className="stat-item">
+              <span className="stat-number">10,000+</span>
+              <span className="stat-label">Practice Questions</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">95%</span>
+              <span className="stat-label">Pass Rate</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">5,000+</span>
+              <span className="stat-label">Students</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat-item">
+              <span className="stat-number">12</span>
+              <span className="stat-label">Subject Areas</span>
+            </div>
           </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">95%</span>
-            <span className="stat-label">Pass Rate</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">5,000+</span>
-            <span className="stat-label">Students</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">12</span>
-            <span className="stat-label">Subject Areas</span>
-          </div>
+
+          <p className="stats-live">
+            <strong>Live today:</strong> {LIVE_QUESTIONS.toLocaleString()} questions
+            {' · '}{LIVE_CHAPTERS} chapters
+            {' · '}{SYLLABUS_SUBCHAPTERS} NEC syllabus sub-chapters
+          </p>
         </motion.div>
       </section>
 
@@ -275,11 +270,11 @@ export default function Landing() {
         >
           <h2 className="cta-title">Ready to Start Your Journey?</h2>
           <p className="cta-description">
-            Join thousands of engineers who have successfully passed their license exam with our platform.
+            Free and open source. No account needed — continue as a guest and start practising in seconds.
           </p>
           <motion.button
             className="btn-primary btn-large"
-            onClick={openNamePortal}
+            onClick={() => navigate('/signin')}
             whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' }}
             whileTap={{ scale: 0.95 }}
           >
@@ -289,55 +284,6 @@ export default function Landing() {
         </motion.div>
       </section>
 
-      {isNamePortalOpen && (
-        <div className="name-portal-overlay" role="dialog" aria-modal="true" aria-label="Welcome portal">
-          <motion.div
-            className="name-portal-card"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <button
-              className="name-portal-close"
-              type="button"
-              aria-label="Close portal"
-              onClick={closeNamePortal}
-            >
-              &times;
-            </button>
-
-            <div className="name-portal-header">
-              <h3>Nice to meet you!</h3>
-              <p>Tell us your name so we can keep this stoplight-ready proof of concept tidy.</p>
-            </div>
-
-            <label htmlFor="namePortalInput" className="name-portal-label">
-              Full name
-            </label>
-            <input
-              id="namePortalInput"
-              className="name-portal-input"
-              type="text"
-              placeholder="e.g. Samir Wagle"
-              value={nameInput}
-              onChange={(event) => setNameInput(event.target.value)}
-              onKeyDown={handlePortalKeyDown}
-            />
-
-            {portalError && <p className="name-portal-error">{portalError}</p>}
-
-            <motion.button
-              className="btn-primary name-portal-submit"
-              onClick={handleNamePortalSubmit}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.96 }}
-            >
-              Continue to login
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </motion.button>
-          </motion.div>
-        </div>
-      )}
 
       {/* Footer */}
       <footer className="footer">
@@ -348,6 +294,17 @@ export default function Landing() {
           </div>
           <p className="footer-text">
             © 2026 NECPrep. Built for Nepal Engineering Council License Exam Preparation.
+          </p>
+          {/* Google's consent screen links to /privacy, so it has to be
+              reachable from the site itself too - a policy that exists only as
+              a URL handed to Google is not a policy anyone can find. */}
+          <p className="footer-legal">
+            <Link to="/privacy">Privacy Policy</Link>
+            <span aria-hidden="true"> · </span>
+            <Link to="/terms">Terms of Use</Link>
+          </p>
+          <p className="footer-disclaimer">
+            Not affiliated with, endorsed by, or approved by the Nepal Engineering Council.
           </p>
         </div>
       </footer>

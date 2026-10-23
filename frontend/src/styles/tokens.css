@@ -1,0 +1,367 @@
+/* ============================================================================
+   NECPrep design tokens
+   ----------------------------------------------------------------------------
+   Layout of this file:
+
+     1. @theme static   — PRIMITIVES. Theme-independent raw values (colour ramps,
+                          type scale, spacing, radii, breakpoints, motion, z-index).
+                          Emitted as CSS custom properties AND registered with
+                          Tailwind v4 so `text-2xl`, `rounded-lg`, `sm:` etc. work.
+     2. :root           — SEMANTIC tokens for the LIGHT theme (the default).
+     3. @media (prefers-color-scheme: dark) :root:not([data-theme="light"])
+                        — SEMANTIC overrides when the OS asks for dark and the
+                          user has not explicitly pinned light.
+     4. :root[data-theme="dark"]
+                        — SEMANTIC overrides when the user explicitly pins dark.
+     5. @theme inline   — maps Tailwind's `--shadow-*` namespace onto the themed
+                          `--ds-shadow-*` values so `shadow-md` follows the theme.
+
+   Three theme states are supported:
+     data-theme="light"  → explicit light  (blocks 3 and 4 do not apply)
+     data-theme="dark"   → explicit dark   (block 4 applies)
+     no attribute        → follow the OS   (block 3 applies in dark)
+
+   NOTE ON NAMING: the semantic tokens (--color-bg, --color-fg-muted, …) live in
+   plain `:root` rules, NOT inside @theme. @theme is hoisted and static — a value
+   defined there cannot be re-declared per theme. Semantic tokens are therefore
+   consumed directly (`color: var(--color-fg-muted)`) or through Tailwind's
+   arbitrary-value syntax (`text-(--color-fg-muted)`, `bg-(--color-surface)`).
+
+   CONTRAST: every foreground/background pair below was measured with the WCAG 2.1
+   relative-luminance formula, not eyeballed. Numbers are in the comments.
+   ========================================================================== */
+
+@theme static {
+  /* --------------------------------------------------------------------------
+     Reset Tailwind's stock theme. The design system is closed: if a value is not
+     declared below, there is deliberately no utility for it.
+     -------------------------------------------------------------------------- */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
+  --spacing: initial;
+  --spacing-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --breakpoint-*: initial;
+  --container-*: initial;
+  --ease-*: initial;
+  --animate-*: initial;
+  --blur-*: initial;
+  --perspective-*: initial;
+  --aspect-*: initial;
+
+  /* ==========================================================================
+     COLOUR PRIMITIVES
+     ========================================================================== */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Neutral ramp */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #3f3f46;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+  --color-neutral-950: #0b0b0f;
+
+  /* Brand ramp (indigo) */
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+
+  /* Status */
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-info-500: #06b6d4;
+  --color-info-600: #0891b2;
+
+  /* ==========================================================================
+     TYPOGRAPHY
+     8 steps + 1 display step. Nothing else. (App.css currently ships 31 distinct
+     font-size values; the migration phase collapses them onto these.)
+     ========================================================================== */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.2;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.1;
+  /* Fluid hero step. Line-height matches 4xl so the two are interchangeable. */
+  --text-display: clamp(2rem, 5vw, 3.5rem);
+  --text-display--line-height: 1.1;
+
+  /* Four weights only. Inter is loaded as a variable font over the 400–700 axis,
+     so every one of these is a real cut — the browser never synthesises. */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ==========================================================================
+     SPACING — 4px base, closed scale
+     ========================================================================== */
+  --spacing-1: 0.25rem; /*  4px */
+  --spacing-2: 0.5rem; /*   8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /*    16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /*  24px */
+  --spacing-8: 2rem; /*    32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /*   48px */
+  --spacing-16: 4rem; /*   64px */
+  --spacing-20: 5rem; /*   80px */
+  --spacing-24: 6rem; /*   96px */
+
+  /* ==========================================================================
+     RADII — exactly 5 (App.css currently has 15 distinct values, incl. a 13px)
+     ========================================================================== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     BREAKPOINTS — mobile-first min-width.
+     App.css ships 8 max-width queries at 4 inconsistent values (1024/768/640/480);
+     everything new is authored against these.
+     ========================================================================== */
+  --breakpoint-sm: 30rem; /*  480px */
+  --breakpoint-md: 48rem; /*  768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+
+  /* ==========================================================================
+     MOTION
+     ========================================================================== */
+  --duration-instant: 0ms;
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ==========================================================================
+     Z-INDEX
+     ========================================================================== */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-overlay: 1200;
+  --z-modal: 1300;
+  --z-toast: 1400;
+
+  /* ==========================================================================
+     FOCUS RING geometry (the ring colour is semantic — see below)
+     ========================================================================== */
+  --ring-width: 2px;
+  --ring-offset: 2px;
+}
+
+/* ============================================================================
+   SEMANTIC TOKENS — LIGHT THEME (default)
+   ========================================================================== */
+:root {
+  --color-bg: var(--color-neutral-50); /* #fafafa */
+  --color-surface: var(--color-white); /* #ffffff */
+  --color-surface-2: var(--color-neutral-100); /* #f4f4f5 */
+  --color-border: var(--color-neutral-200); /* #e4e4e7 */
+  --color-border-strong: var(--color-neutral-300); /* #d4d4d8 */
+
+  --color-fg: var(--color-neutral-900); /* #18181b — 16.97:1 on bg */
+  --color-fg-muted: var(--color-neutral-600); /* #52525b —  7.41:1 on bg, 7.73:1 on surface */
+  /* fg-subtle is 4.63:1 on bg. NOT for body copy — dividers, disabled glyphs,
+     decorative labels at >=24px/>=19px-bold only. */
+  --color-fg-subtle: var(--color-neutral-500); /* #71717a */
+
+  --color-accent: var(--color-brand-600); /* #4f46e5 — 6.02:1 on bg */
+  --color-accent-hover: var(--color-brand-700);
+  --color-accent-fg: var(--color-white); /* 6.29:1 on brand-600 fill */
+  /* Link/body-copy grade accent — 7.57:1 on bg, where --color-accent is 6.02:1. */
+  --color-accent-text: var(--color-brand-700); /* #4338ca */
+
+  --color-ring: var(--color-brand-600);
+
+  /* Status, text-grade. The 500/600 ramp steps are vivid enough for fills, icons
+     and borders but too light for body copy on a light background
+     (success-600 is 3.16:1, warning-600 3.05:1). These darker cuts are what text
+     should use. Measured on --color-bg #fafafa. */
+  --color-success-fg: #15803d; /* 4.81:1 */
+  --color-warning-fg: #b45309; /* 4.81:1 */
+  --color-danger-fg: #b91c1c; /*  6.20:1 */
+  --color-info-fg: #0e7490; /*    5.13:1 */
+
+  /* Scrim behind modals / sheets */
+  --color-overlay: rgba(9, 9, 11, 0.5);
+
+  /* Translucent surfaces (frosted cards, sticky nav). Kept as explicit rgba
+     rather than color-mix() so there is no baseline requirement on older
+     Android WebViews. */
+  --color-surface-translucent: rgba(255, 255, 255, 0.8);
+  --color-surface-translucent-hover: rgba(244, 244, 245, 0.92);
+
+  /* ------------------------------------------------------------------------
+     Shadows. Raw values live here (not in @theme) because they change with the
+     theme; @theme inline at the bottom of this file wires them to Tailwind's
+     shadow-* utilities.
+     ------------------------------------------------------------------------ */
+  --ds-shadow-xs: 0 1px 2px rgba(9, 9, 11, 0.06);
+  --ds-shadow-sm: 0 1px 3px rgba(9, 9, 11, 0.1), 0 1px 2px -1px rgba(9, 9, 11, 0.1);
+  --ds-shadow-md: 0 4px 12px -2px rgba(9, 9, 11, 0.12), 0 2px 6px -2px rgba(9, 9, 11, 0.08);
+  --ds-shadow-lg: 0 16px 40px -8px rgba(9, 9, 11, 0.18), 0 4px 12px -4px rgba(9, 9, 11, 0.12);
+  /* Single glow, reserved for the primary CTA. */
+  --ds-shadow-glow: 0 0 0 1px rgba(79, 70, 229, 0.35), 0 8px 24px -4px rgba(79, 70, 229, 0.4);
+
+  /* ------------------------------------------------------------------------
+     LEGACY accents. Not part of the design system — they exist only because
+     App.css still references them. The migration phase deletes them.
+     ------------------------------------------------------------------------ */
+  --color-legacy-violet: #8b5cf6;
+  --color-legacy-pink: #ec4899;
+}
+
+/* ============================================================================
+   SEMANTIC TOKENS — DARK
+   Declared once as a custom-property group, applied by both selectors below.
+   (CSS has no variable groups, so the block is duplicated verbatim; keep the two
+   copies in sync.)
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: var(--color-neutral-950); /* #0b0b0f */
+    --color-surface: var(--color-neutral-900); /* #18181b */
+    --color-surface-2: #1a1a22;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-strong: rgba(255, 255, 255, 0.18);
+
+    --color-fg: var(--color-neutral-50); /* #fafafa — 18.82:1 on bg */
+    --color-fg-muted: var(--color-neutral-400); /* #a1a1aa —  7.66:1 on bg, 6.91:1 on surface */
+    --color-fg-subtle: var(--color-neutral-500); /* #71717a —  4.06:1 — non-text use only */
+
+    --color-accent: var(--color-brand-500); /* #6366f1 */
+    --color-accent-hover: var(--color-brand-400);
+    --color-accent-fg: var(--color-white);
+    --color-accent-text: var(--color-brand-400); /* #818cf8 — 6.59:1 on bg */
+
+    --color-ring: var(--color-brand-400);
+
+    --color-success-fg: #4ade80; /* 11.27:1 on bg */
+    --color-warning-fg: #fbbf24; /* 11.77:1 on bg */
+    --color-danger-fg: #f87171; /*  7.10:1 on bg */
+    --color-info-fg: #22d3ee; /*   10.87:1 on bg */
+
+    --color-overlay: rgba(0, 0, 0, 0.65);
+
+    --color-surface-translucent: rgba(26, 26, 34, 0.8);
+    --color-surface-translucent-hover: rgba(39, 39, 52, 0.9);
+
+    --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --ds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+    --ds-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+    --ds-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+    --ds-shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.45), 0 8px 28px -4px rgba(99, 102, 241, 0.5);
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: var(--color-neutral-950);
+  --color-surface: var(--color-neutral-900);
+  --color-surface-2: #1a1a22;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+
+  --color-fg: var(--color-neutral-50);
+  --color-fg-muted: var(--color-neutral-400);
+  --color-fg-subtle: var(--color-neutral-500);
+
+  --color-accent: var(--color-brand-500);
+  --color-accent-hover: var(--color-brand-400);
+  --color-accent-fg: var(--color-white);
+  --color-accent-text: var(--color-brand-400);
+
+  --color-ring: var(--color-brand-400);
+
+  --color-success-fg: #4ade80;
+  --color-warning-fg: #fbbf24;
+  --color-danger-fg: #f87171;
+  --color-info-fg: #22d3ee;
+
+  --color-overlay: rgba(0, 0, 0, 0.65);
+
+  --color-surface-translucent: rgba(26, 26, 34, 0.8);
+  --color-surface-translucent-hover: rgba(39, 39, 52, 0.9);
+
+  --ds-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --ds-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.55), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --ds-shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 4px 12px -4px rgba(0, 0, 0, 0.4);
+  --ds-shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.45), 0 8px 28px -4px rgba(99, 102, 241, 0.5);
+}
+
+/* Tell the UA which form controls / scrollbars to paint. */
+:root {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* ============================================================================
+   Wire the themed shadows into Tailwind's shadow-* namespace.
+   `inline` means Tailwind emits `var(--ds-shadow-md)` at the use site instead of
+   minting its own `--shadow-md`, so the utility follows the theme at runtime —
+   and the name `--shadow-lg` stays free for the legacy alias in index.css.
+   ========================================================================== */
+@theme inline {
+  --shadow-xs: var(--ds-shadow-xs);
+  --shadow-sm: var(--ds-shadow-sm);
+  --shadow-md: var(--ds-shadow-md);
+  --shadow-lg: var(--ds-shadow-lg);
+  --shadow-glow: var(--ds-shadow-glow);
+}

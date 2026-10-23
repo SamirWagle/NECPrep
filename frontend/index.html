@@ -1,16 +1,66 @@
 <!doctype html>
-<html lang="en">
+<!--
+  data-theme="dark" is a TEMPORARY PIN, not a design decision.
+
+  tokens.css defines a complete light palette on bare :root and a complete dark
+  palette under both prefers-color-scheme and [data-theme="dark"], so all three
+  theme states work. But App.css (6,175 lines, not yet migrated) hard-codes
+  dark-only values - rgba(255,255,255,.1) borders, rgba(10,10,15,.8) nav chrome,
+  white text inside gradients. Leaving the default to follow the OS would hand
+  every light-mode phone a half-light/half-dark broken UI on the next deploy.
+
+  Pinning dark here keeps today's rendering identical while the mechanism stays
+  fully live: a theme toggle just writes
+  document.documentElement.dataset.theme = "light" | "dark", or deletes the
+  attribute to follow the OS. Remove this attribute once App.css stops
+  hard-coding dark values.
+-->
+<html lang="en" data-theme="dark">
   <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4693315098720016"
-     crossorigin="anonymous"></script>
-<meta name="google-adsense-account" content="ca-pub-4693315098720016">
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEC License Exam</title>
+
+    <title>NECPrep — Nepal Engineering Council License Exam Preparation</title>
+    <meta name="description" content="Free, open-source practice platform for the Nepal Engineering Council (NEC) Computer Engineering licence exam. Chapter practice, timed mock tests, flashcards and progress tracking. Works offline, no account needed." />
+    <!-- Matches the PWA manifest theme_color and --color-neutral-950. A single
+         value while the app is pinned to dark (see the <html> comment above).
+         When the theme toggle ships, split this into the media-qualified pair:
+           theme-color #fafafa for (prefers-color-scheme: light)
+           theme-color #0b0b0f for (prefers-color-scheme: dark)  -->
+    <meta name="theme-color" content="#0b0b0f" />
+    <!-- Declared before any CSS loads so a 3G user never gets a white flash
+         while index.css is still in flight. -->
+    <meta name="color-scheme" content="dark" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- iOS ignores SVG touch icons; it needs a raster one. -->
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NECPrep" />
+
+    <!-- Inter is now self-hosted (src/styles/fonts.css), so the two Google Fonts
+         preconnects are gone: nothing resolves fonts.googleapis.com any more. -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NECPrep" />
+    <meta property="og:title" content="NECPrep — NEC License Exam Preparation" />
+    <meta property="og:description" content="Free, open-source practice platform for the Nepal Engineering Council Computer Engineering licence exam." />
+    <meta property="og:url" content="https://lisensepreparation.samirwagle.com.np/" />
+    <meta name="twitter:card" content="summary" />
+
+    <meta name="google-adsense-account" content="ca-pub-4693315098720016" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Ads load last and async: this previously sat above <meta charset>, so a
+         third-party script blocked the charset declaration. -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4693315098720016"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -1,0 +1,59 @@
+name: Feature request
+description: Propose something the app should do that it does not do yet.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve for someone studying for the NEC exam
+      description: >
+        Describe the situation you are in when you need this, not the feature.
+        The strongest requests come from someone who hit a wall while revising.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like it to do
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do instead today
+      description: The workaround, if there is one.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Does this need a server
+      description: >
+        The app is currently frontend-only: all data is static JSON and all
+        state is in this browser's `localStorage`. Anything needing an account,
+        sync across devices, or a leaderboard depends on the backend work that
+        is still in progress, and will be scheduled behind it.
+      options:
+        - No, it can work entirely in the browser
+        - Yes, it needs accounts or cross-device sync
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints you have considered
+      options:
+        - label: >
+            It does not meaningfully grow the initial page download. CI fails
+            above 180 kB of gzipped initial-load JavaScript, because much of the
+            audience is on entry-level Android over 3G.
+          required: false
+        - label: It works offline, or degrades cleanly without a network.
+          required: false
+        - label: I would be willing to open a PR for this.
+          required: false

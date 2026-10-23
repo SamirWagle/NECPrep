@@ -1,0 +1,132 @@
+name: CI
+
+# Until this file existed there was no automated check of any kind on this
+# repository, which is how 15 ESLint errors reached `main`. Every gate below
+# corresponds to a class of defect that has actually shipped here.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch makes the previous run's answer irrelevant.
+# Cancelling it returns the runner and gets the new answer sooner.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # 22, not 20: scripts/validate-questions.mjs imports the app's option-ordering
+  # module directly from TypeScript so there is only one implementation of it.
+  # Native type stripping landed in Node 22.18; on Node 20 that import fails.
+  NODE_VERSION: '22'
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # The question bank is plain JSON and the validator imports nothing outside
+  # node: builtins, so this job needs no npm install. It is kept separate from
+  # the frontend job for exactly that reason: a bad answer key is reported in
+  # seconds instead of waiting behind a dependency install and a Vite build.
+  # ---------------------------------------------------------------------------
+  question-bank:
+    name: Question bank
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Gates: answer keys that contradict themselves (KEY_CONFLICT),
+      # correct_option_index pointing past the last option (INDEX_RANGE),
+      # identical option text (OPTION_DUPLICATE), missing or non-string fields,
+      # malformed JSON, and answer-position bias measured AFTER the loader's
+      # option reordering. Known-bad rows listed in
+      # frontend/src/data/quarantine.json are reported but do not fail, so the
+      # gate stays usable while that backlog is worked down.
+      # See docs/question-format.md for what each code means and why.
+      - name: Validate question bank
+        run: node scripts/validate-questions.mjs --csv question-bank-triage.csv
+
+      # The validator writes the CSV before it decides its exit code, so the
+      # triage list is available precisely when the job failed and it is needed.
+      - name: Upload triage CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: question-bank-triage
+          path: question-bank-triage.csv
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # ---------------------------------------------------------------------------
+  # Type check, lint, unit tests, production build, bundle budget. One job, one
+  # `npm ci`: every step here needs node_modules, and on a project this size a
+  # second cached install costs more than the steps it would parallelise.
+  # ---------------------------------------------------------------------------
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # `npm ci` and not `npm install`: it installs the locked tree exactly and
+      # fails if package.json and package-lock.json have drifted apart, which is
+      # itself a defect worth failing on.
+      - name: Install dependencies
+        run: npm ci
+
+      # Gates type errors. `tsc -b` honours the project references in
+      # tsconfig.json (tsconfig.app.json + tsconfig.node.json) and emits nothing.
+      - name: Type check
+        run: npx tsc -b
+
+      # Gates lint errors. This is the check whose absence let 15 errors land.
+      - name: Lint
+        run: npm run lint
+
+      # Gates behaviour. Tests live in src/**/__tests__ and run under jsdom.
+      - name: Unit tests
+        run: npx vitest run
+
+      # Gates the production build, which is a stricter path than dev: it
+      # regenerates bookChapters.generated.ts from the chapter JSONs via
+      # scripts/sync-chapters.mjs, re-runs tsc and ESLint, then builds. The
+      # repeat of tsc/lint is deliberate - this is the exact command Vercel
+      # runs, so it is the one whose failure matters.
+      - name: Build
+        run: npm run build
+
+      # Gates payload. Fails if the JavaScript needed before first render
+      # exceeds 180 kB gzipped. The audience is largely on entry-level Android
+      # handsets on 3G in Nepal, where that budget is roughly the difference
+      # between a usable app and an abandoned tab. Route chunks behind
+      # React.lazy() are excluded by design.
+      - name: Initial-load JS budget
+        run: node ../.github/scripts/bundle-budget.mjs --dist frontend/dist --budget 180
+
+      # The generated manifest is committed. If the build rewrote it, the commit
+      # is stale and the counts shown in the app disagree with the JSON on disk.
+      - name: Check generated files are committed
+        run: |
+          if ! git diff --quiet -- src/data/bookChapters.generated.ts; then
+            msg="Out of date. Run 'node scripts/sync-chapters.mjs' and commit the result."
+            echo "::error file=frontend/src/data/bookChapters.generated.ts::$msg"
+            git --no-pager diff -- src/data/bookChapters.generated.ts
+            exit 1
+          fi

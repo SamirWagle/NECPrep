@@ -1,6 +1,27 @@
-import { useState, useRef, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useUser } from '../context/user-context';
+import { useAuth } from '../auth/auth-context';
+import BottomNav from './BottomNav';
+import styles from './AppShell.module.css';
+
+// Matches the `@media (max-width: 1024px)` breakpoint in App.css at which the
+// sidebar becomes an off-canvas drawer (`transform: translateX(-100%)`).
+const NARROW_VIEWPORT_QUERY = '(max-width: 1024px)';
+
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ');
+
+function focusableWithin(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return [];
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+}
 
 // Icon components
 const Icons = {
@@ -83,6 +104,16 @@ const Icons = {
       <line x1="12" y1="10" x2="16" y2="10"/>
     </svg>
   ),
+  // A stopwatch: a mock test is the timed one, and the clock is what makes it
+  // different from practice.
+  Mock: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="13" r="8"/>
+      <path d="M12 9v4l2 2"/>
+      <path d="M5 3 7 5"/>
+      <path d="M19 3l-2 2"/>
+    </svg>
+  ),
   Menu: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <line x1="3" y1="12" x2="21" y2="12"/>
@@ -96,18 +127,6 @@ const Icons = {
       <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
   ),
-  Search: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8"/>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-  ),
-  Bell: () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-    </svg>
-  ),
   ChevronDown: () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="6 9 12 15 18 9"/>
@@ -119,6 +138,10 @@ const Icons = {
 const navItems = [
   { path: '/app', icon: Icons.Dashboard, label: 'Dashboard', end: true },
   { path: '/app/practice', icon: Icons.Practice, label: 'Practice' },
+  // The flagship: a full 100-question, 120-minute rehearsal of the real
+  // paper. It was absent from this list, reachable only from the dashboard
+  // and the practice hub, which is a strange place to hide the product.
+  { path: '/app/mock-tests', icon: Icons.Mock, label: 'Mock Tests' },
   { path: '/app/books', icon: Icons.Books, label: 'Books' },
   { path: '/app/study', icon: Icons.Study, label: 'Study' },
   { path: '/app/flashcards', icon: Icons.Flashcards, label: 'Flashcards' },
@@ -132,12 +155,81 @@ const secondaryNavItems = [
 ];
 
 export default function AppShell() {
-  const { name } = useUser();
+  const { name, setName } = useUser();
+  // The server is the authority on identity; `useUser` only holds a locally
+  // typed-in name, which is all a build with no backend configured has.
+  const { user, status, logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const drawerCloseRef = useRef<HTMLButtonElement>(null);
+
+  // The sidebar is translated off-canvas below 1024px but stays in the DOM, so
+  // without this it contributed ~10 invisible tab stops on every mobile page.
+  // Read once during render (no setState in an effect) and then subscribed to.
+  const [isNarrowViewport, setIsNarrowViewport] = useState(
+    () => window.matchMedia(NARROW_VIEWPORT_QUERY).matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(NARROW_VIEWPORT_QUERY);
+    const handleChange = (event: MediaQueryListEvent) => setIsNarrowViewport(event.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // Closing the drawer must return focus to the control that opened it,
+  // otherwise focus is left on a node that has just gone off-canvas.
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+    mobileToggleRef.current?.focus();
+  }, []);
+
+  // Drawer focus management: move focus in on open, trap Tab inside it while it
+  // is open, and close on Escape. setMobileMenuOpen is only ever called from an
+  // event handler here, never synchronously during the effect body.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    drawerCloseRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMobileMenu();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = focusableWithin(sidebarRef.current);
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (!sidebarRef.current?.contains(active)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+        return;
+      }
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen, closeMobileMenu]);
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -150,10 +242,17 @@ export default function AppShell() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
+  // Close both menus on navigation. The previous effect had empty deps despite
+  // a comment claiming it ran on route change, so the mobile drawer stayed open
+  // after every navigation. Adjusting state during render is React's
+  // recommended pattern for responding to a changed value.
+  const { pathname } = useLocation();
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
     setMobileMenuOpen(false);
-  }, []);
+    setUserMenuOpen(false);
+  }
 
   // Handle keyboard navigation for user menu
   const handleUserMenuKeyDown = (e: React.KeyboardEvent) => {
@@ -163,51 +262,100 @@ export default function AppShell() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
-    navigate('/');
+    // Revoke the SESSION first, then clear the local name.
+    //
+    // This used to do only the second half, which was enough when there was no
+    // backend and a lie once there was: the session is an HttpOnly cookie, so
+    // dropping a local string left a live cookie that the next page load
+    // happily turned back into a signed-in user. `logout()` asks the server to
+    // revoke it.
+    //
+    // Clearing the local name still matters for the same reason it did before:
+    // leaving it set greeted the logged-out visitor by name on the landing
+    // page.
+    void logout().finally(() => {
+      setName('');
+      navigate('/');
+    });
   };
 
-  const displayName = name || 'Guest';
+  // Precedence: what the server knows, then what the visitor typed, then
+  // 'Guest'. An anonymous session has a null `displayName`, so a guest who
+  // typed a name locally still sees it.
+  const displayName = user?.displayName ?? (name || 'Guest');
   const initial = displayName.charAt(0).toUpperCase();
+  // Only true with a backend configured; a local-only build has no concept of
+  // an account to upgrade to.
+  const isGuest = status === 'ready' && user !== null && user.isAnonymous;
+
+  // A real fragment jump would push a hash onto the router history and, in
+  // several browsers, scroll without moving focus. Move focus explicitly;
+  // .focus() scrolls the target into view on its own.
+  const handleSkipToContent = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    mainRef.current?.focus();
+  };
+
+  // Following a drawer link closes the drawer. Focus has to leave with it or it
+  // would be stranded on a node that is about to go off-canvas and inert.
+  const handleNavigateFromDrawer = () => {
+    if (!mobileMenuOpen) return;
+    setMobileMenuOpen(false);
+    mainRef.current?.focus();
+  };
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${styles.shell}`}>
+      {/* First tab stop on every page in the shell. */}
+      <a href="#main-content" className={styles.skipLink} onClick={handleSkipToContent}>
+        Skip to main content
+      </a>
+
       {/* Mobile overlay */}
       {mobileMenuOpen && (
-        <div 
-          className="app-shell-overlay" 
-          onClick={() => setMobileMenuOpen(false)}
+        <div
+          className="app-shell-overlay"
+          onClick={closeMobileMenu}
           aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
-      <aside 
+      <aside
+        id="app-sidebar"
+        ref={sidebarRef}
         className={`app-sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}
         aria-label="Main navigation"
+        // Below 1024px a closed drawer is off-canvas but still in the DOM.
+        // `inert` removes its ten-odd tab stops and hides it from the
+        // accessibility tree until it is actually open.
+        inert={isNarrowViewport && !mobileMenuOpen}
       >
         <div className="sidebar-header">
           <NavLink to="/app" className="sidebar-logo" aria-label="NECPrep Dashboard">
             <Icons.Logo />
             {!sidebarCollapsed && <span>NECPrep</span>}
           </NavLink>
-          <button 
-            className="sidebar-toggle desktop-only"
+          <button
+            className={`sidebar-toggle desktop-only ${styles.iconButton}`}
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-expanded={!sidebarCollapsed}
+            aria-controls="app-sidebar"
           >
             <Icons.Menu />
           </button>
-          <button 
-            className="sidebar-toggle mobile-only"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-label="Close menu"
+          <button
+            ref={drawerCloseRef}
+            className={`sidebar-toggle mobile-only ${styles.iconButton}`}
+            onClick={closeMobileMenu}
+            aria-label="Close navigation menu"
           >
             <Icons.Close />
           </button>
         </div>
 
-        <nav className="sidebar-nav" role="navigation">
+        <nav className="sidebar-nav" aria-label="Sections">
           <ul className="nav-list">
             {navItems.map((item) => (
               <li key={item.path}>
@@ -215,7 +363,8 @@ export default function AppShell() {
                   to={item.path} 
                   end={item.end}
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label={item.label}
+                  onClick={handleNavigateFromDrawer}
                 >
                   <item.icon />
                   {!sidebarCollapsed && <span>{item.label}</span>}
@@ -232,7 +381,8 @@ export default function AppShell() {
                 <NavLink 
                   to={item.path}
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label={item.label}
+                  onClick={handleNavigateFromDrawer}
                 >
                   <item.icon />
                   {!sidebarCollapsed && <span>{item.label}</span>}
@@ -246,6 +396,7 @@ export default function AppShell() {
           <button
             className="nav-link logout-btn"
             onClick={handleLogout}
+            aria-label="Leave"
           >
             <Icons.Logout />
             {!sidebarCollapsed && <span>Leave</span>}
@@ -258,41 +409,36 @@ export default function AppShell() {
         {/* Top bar */}
         <header className="app-topbar">
           <div className="topbar-left">
-            <button 
-              className="mobile-menu-btn mobile-only"
+            <button
+              ref={mobileToggleRef}
+              className={`mobile-menu-btn mobile-only ${styles.iconButton}`}
               onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
+              aria-label="Open navigation menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="app-sidebar"
             >
               <Icons.Menu />
             </button>
-            
-            <div className="search-container">
-              <Icons.Search />
-              <input 
-                type="search" 
-                placeholder="Search topics, questions..." 
-                className="search-input"
-                aria-label="Search"
-              />
-            </div>
+            {/* The search input and notifications bell that used to live here
+                were wired to nothing: two focusable dead ends with no index to
+                search and no notification source to read. Removed rather than
+                faked. */}
           </div>
 
           <div className="topbar-right">
-            <button className="topbar-btn" aria-label="Notifications">
-              <Icons.Bell />
-            </button>
-
             {/* User menu */}
-            <div 
-              className="user-menu-container" 
+            <div
+              className="user-menu-container"
               ref={userMenuRef}
               onKeyDown={handleUserMenuKeyDown}
             >
               <button
-                className="user-menu-trigger"
+                className={`user-menu-trigger ${styles.userMenuTrigger}`}
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 aria-expanded={userMenuOpen}
                 aria-haspopup="true"
+                aria-controls="user-menu"
+                aria-label={`Account menu for ${displayName}`}
               >
                 <div className="user-avatar-placeholder">{initial}</div>
                 <span className="user-name desktop-only">
@@ -302,18 +448,36 @@ export default function AppShell() {
               </button>
 
               {userMenuOpen && (
-                <div className="user-menu" role="menu">
+                <div className="user-menu" role="menu" id="user-menu">
                   <div className="user-menu-header">
                     <div className="user-menu-avatar-placeholder">
                       {initial}
                     </div>
                     <div className="user-menu-info">
                       <span className="user-menu-name">{displayName}</span>
+                      {user?.email && (
+                        <span className="user-menu-email">{user.email}</span>
+                      )}
                     </div>
                   </div>
                   
                   <div className="user-menu-divider" />
-                  
+
+                  {/* A guest's work is already being recorded server-side
+                      against an identity that survives an upgrade, so this is
+                      an invitation rather than a warning. */}
+                  {isGuest && (
+                    <NavLink
+                      to="/signup"
+                      className="user-menu-item"
+                      role="menuitem"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <Icons.Profile />
+                      <span>Create an account to save your progress</span>
+                    </NavLink>
+                  )}
+
                   <NavLink 
                     to="/app/profile" 
                     className="user-menu-item"
@@ -342,7 +506,7 @@ export default function AppShell() {
                     onClick={handleLogout}
                   >
                     <Icons.Logout />
-                    <span>Leave</span>
+                    <span>{user ? 'Sign out' : 'Leave'}</span>
                   </button>
                 </div>
               )}
@@ -351,9 +515,22 @@ export default function AppShell() {
         </header>
 
         {/* Page content */}
-        <main className="app-content">
+        <main
+          id="main-content"
+          ref={mainRef}
+          tabIndex={-1}
+          className={`app-content ${styles.mainContent}`}
+        >
           <Outlet />
         </main>
+
+        {/* Phones only; see BottomNav.module.css. `<main>` carries matching
+            bottom padding so a fixed bar cannot cover the last question of a
+            paper or the submit button under it. */}
+        <BottomNav
+          onOpenMore={() => setMobileMenuOpen(true)}
+          moreOpen={mobileMenuOpen}
+        />
       </div>
     </div>
   );

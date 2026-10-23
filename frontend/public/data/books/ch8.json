@@ -801,15 +801,6 @@
     "correct_option_index": 3
   },
   {
-    "qsns": "The testing in which code is checked",
-    "opt1": "Black box testing",
-    "opt2": "White box testing",
-    "opt3": "Red box testing",
-    "opt4": "Green box testing",
-    "correct_option": "White box testing",
-    "correct_option_index": 2
-  },
-  {
     "qsns": "Testing done without planning and Documentation is called",
     "opt1": "Unit testing",
     "opt2": "Regression testing",

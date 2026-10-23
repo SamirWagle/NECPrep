@@ -405,15 +405,6 @@
     "correct_option_index": 2
   },
   {
-    "qsns": "A semaphore is used for:",
-    "opt1": "Process creation",
-    "opt2": "Memory allocation",
-    "opt3": "Process synchronization",
-    "opt4": "File management",
-    "correct_option": "Process synchronization",
-    "correct_option_index": 3
-  },
-  {
     "qsns": "The difference between a mutex and a semaphore is:",
     "opt1": "A mutex can only be used for mutual exclusion, while a semaphore can be used for both mutual exclusion and synchronization",
     "opt2": "A semaphore can only be used for mutual exclusion, while a mutex can be used for both mutual exclusion and synchronization",

@@ -1,33 +1,37 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
-import { clearAllData } from '../../services/localData';
+import { useUser } from '../../context/user-context';
+import { clearAllData, exportAllData } from '../../services/localData';
+
+const REPO_URL = 'https://github.com/SamirWagle/EngineeringLisenseProject';
 
 export default function Settings() {
-  const { name } = useUser();
+  const { name, setName } = useUser();
   const navigate = useNavigate();
 
-  // Settings state
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    darkMode: true,
-    soundEffects: false,
-    autoAdvance: true
-  });
-
-  const handleSettingChange = (key: keyof typeof settings) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
   const handleLeave = () => {
-    localStorage.removeItem('userName');
+    // Clearing storage alone left the context holding the stale name.
+    setName('');
     navigate('/');
   };
 
   const handleResetProgress = () => {
-    if (window.confirm('This will clear all your progress and bookmarks. Are you sure?')) {
-      clearAllData();
-    }
+    if (!window.confirm('This will clear all your progress, bookmarks and any in-progress mock test. Are you sure?')) return;
+    clearAllData();
+    // The dashboard reads storage on render, so navigating there shows the
+    // cleared state immediately instead of leaving stale figures on screen.
+    navigate('/app');
+  };
+
+  const handleExport = () => {
+    const blob = new Blob([JSON.stringify(exportAllData(), null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `necprep-progress-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -57,77 +61,11 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* Preferences section */}
-      <section className="settings-section">
-        <h2>Preferences</h2>
-        <div className="settings-list">
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-name">Email Notifications</span>
-              <span className="setting-desc">Receive progress reports and reminders</span>
-            </div>
-            <button 
-              className={`toggle ${settings.emailNotifications ? 'on' : ''}`}
-              onClick={() => handleSettingChange('emailNotifications')}
-              role="switch"
-              aria-checked={settings.emailNotifications}
-            >
-              <span className="toggle-slider" />
-            </button>
-          </div>
-
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-name">Dark Mode</span>
-              <span className="setting-desc">Use dark theme throughout the app</span>
-            </div>
-            <button 
-              className={`toggle ${settings.darkMode ? 'on' : ''}`}
-              onClick={() => handleSettingChange('darkMode')}
-              role="switch"
-              aria-checked={settings.darkMode}
-            >
-              <span className="toggle-slider" />
-            </button>
-          </div>
-
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-name">Sound Effects</span>
-              <span className="setting-desc">Play sounds for correct/incorrect answers</span>
-            </div>
-            <button 
-              className={`toggle ${settings.soundEffects ? 'on' : ''}`}
-              onClick={() => handleSettingChange('soundEffects')}
-              role="switch"
-              aria-checked={settings.soundEffects}
-            >
-              <span className="toggle-slider" />
-            </button>
-          </div>
-
-          <div className="setting-item">
-            <div className="setting-info">
-              <span className="setting-name">Auto-Advance Questions</span>
-              <span className="setting-desc">Automatically move to next question after answering</span>
-            </div>
-            <button 
-              className={`toggle ${settings.autoAdvance ? 'on' : ''}`}
-              onClick={() => handleSettingChange('autoAdvance')}
-              role="switch"
-              aria-checked={settings.autoAdvance}
-            >
-              <span className="toggle-slider" />
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Data section */}
       <section className="settings-section">
         <h2>Data & Privacy</h2>
         <div className="settings-list">
-          <button className="setting-action">
+          <button className="setting-action" onClick={handleExport}>
             <div className="setting-info">
               <span className="setting-name">Export Your Data</span>
               <span className="setting-desc">Download all your progress and data</span>
@@ -173,12 +111,15 @@ export default function Settings() {
       {/* App info */}
       <footer className="settings-footer">
         <p>NECPrep v1.0.0</p>
+        <p className="footer-privacy">
+          NECPrep stores everything in this browser. No account, no server, no tracking of your answers.
+        </p>
         <div className="footer-links">
-          <a href="/terms">Terms of Service</a>
+          <a href={REPO_URL} target="_blank" rel="noreferrer">Source</a>
           <span>•</span>
-          <a href="/privacy">Privacy Policy</a>
+          <a href={`${REPO_URL}/issues/new`} target="_blank" rel="noreferrer">Report an issue</a>
           <span>•</span>
-          <a href="/support">Support</a>
+          <a href={`${REPO_URL}/blob/main/LICENSE`} target="_blank" rel="noreferrer">MIT License</a>
         </div>
       </footer>
     </div>

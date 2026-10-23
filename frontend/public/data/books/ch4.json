@@ -512,7 +512,6 @@
     "correct_option": "Mutex is owned by a thread and only that thread can release it",
     "correct_option_index": 3
   },
-  
   {
     "qsns": "What is the main purpose of the Memory Control Unit (MCU) in a computer system?",
     "opt1": "To store instructions that the CPU can execute",
@@ -854,15 +853,6 @@
     "opt4": "The main memory",
     "correct_option": "Logic gates and flip-flops",
     "correct_option_index": 2
-  },
-  {
-    "qsns": "Which of the following is not a component of a control unit?",
-    "opt1": "Instruction register",
-    "opt2": "Control register",
-    "opt3": "Decoder",
-    "opt4": "Arithmetic logic unit",
-    "correct_option": "Arithmetic logic unit",
-    "correct_option_index": 4
   },
   {
     "qsns": "The control unit is responsible for:",
@@ -2440,15 +2430,6 @@
     "correct_option_index": 1
   },
   {
-    "qsns": "What is the purpose of DMA in a computer system?",
-    "opt1": "To manage the memory",
-    "opt2": "To control the CPU",
-    "opt3": "To communicate with peripheral devices",
-    "opt4": "To transfer data between memory and peripheral devices without CPU intervention",
-    "correct_option": "To transfer data between memory and peripheral devices without CPU intervention",
-    "correct_option_index": 4
-  },
-  {
     "qsns": "Which of the following is not a mode of transfer used by DMA?",
     "opt1": "Cycle stealing",
     "opt2": "Burst mode",
@@ -3267,9 +3248,6 @@
     "correct_option": "They are optimized for a specific application.",
     "correct_option_index": 3
   },
-
-
-
   {
     "qsns": "What is the primary advantage of using a custom single-purpose processor over a general-purpose processor in an embedded system?",
     "opt1": "Lower power consumption",

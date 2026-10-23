@@ -11,6 +11,29 @@ frontend/dist/
 .env.*.local
 frontend/.env
 frontend/.env.local
+# The production build's API base URL. A VITE_ variable is public by
+# definition -- it is compiled into the bundle every visitor downloads -- and
+# this one holds only the Worker's URL, so there is nothing here to protect.
+# It stays out of the repo anyway because the stage guard treats every .env
+# file as a secret file, and that rule is worth more than the convenience of
+# building from a clean checkout without one extra step.
+# docs/deploy-cloudflare.md step 6 says how to recreate it.
+frontend/.env.production
+
+# Local secrets for `wrangler dev`. Wrangler reads this file and puts its
+# contents on `env` exactly as deployed secrets arrive, which is what lets the
+# Google flow be tested locally without a deploy. It holds real credentials.
+worker/.dev.vars
+.dev.vars
+
+# Belt and braces for credentials that end up loose in the tree. A secret
+# should never be in a file here at all -- it belongs in `wrangler secret put`,
+# which reads from the terminal and stores it on Cloudflare -- but a wildcard
+# costs nothing and a leaked client secret costs a rotation.
+*secret*
+*.pem
+*.key
+!scripts/*secret*
 
 # Logs
 *.log
@@ -37,3 +60,28 @@ frontend/.vite/
 
 # Debug artifacts
 debug_screenshot.png
+
+# Test / coverage output
+coverage/
+frontend/coverage/
+.vitest/
+
+# Lint cache
+.eslintcache
+
+# Validator and budget reports (generated on demand and in CI)
+question-bank-triage.csv
+*-triage.csv
+bundle-budget.json
+
+# Hosting CLI state
+.vercel
+frontend/.vercel
+
+# Local agent / tool scratch
+.claude/settings.local.json
+
+# Working artefact from scripts/classify-subchapters.mjs --review. Regenerate it
+# rather than committing it: it is 1,536 rows derived from the term lists, so a
+# committed copy is stale the moment a term changes.
+subchapter-review.tsv

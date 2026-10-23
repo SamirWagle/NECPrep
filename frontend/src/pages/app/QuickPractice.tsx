@@ -1,162 +1,129 @@
+/**
+ * QuickPractice — a short mixed set drawn from every chapter.
+ *
+ * Hosts the shared quiz engine; see TopicPractice for why all four quiz pages
+ * went from four copies of the state machine to one.
+ */
+
+import { useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
 import {
-  loadQuestionsSlice,
-  recordAttempt,
-  addBookmark,
-  removeBookmark,
-  isBookmarked,
-  saveQuizResult,
-} from '../../services/localData';
-import type { Question } from '../../services/localData';
-
+  useQuiz,
+  useQuizKeyboard,
+  QuestionCard,
+  QuestionPalette,
+  QuizActionBar,
+  QuizToolbar,
+  ResultSummary,
+  ExplanationPanel,
+} from '../../features/quiz';
+import { loadQuestionsSlice, saveQuizResult } from '../../services/localData';
+import type { Question, QuizSummary } from '../../features/quiz';
+import { fisherYates } from '../../services/optionOrdering';
 import { useChapters } from '../../hooks/useChapters';
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+import { describeReference } from '../../services/questionReference';
 
 export default function QuickPractice() {
-  const ALL_SOURCES = useChapters();
+  const chapters = useChapters();
   const [searchParams] = useSearchParams();
   const count = Math.min(50, Math.max(5, parseInt(searchParams.get('count') || '10', 10)));
 
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState<string | null>(null);
+  // The chapter manifest is static, so an empty list means a broken build
+  // rather than a transient state — surfaced as a render guard below.
+  const noSources = chapters.length === 0;
 
-  const [idx, setIdx]             = useState(0);
-  const [selected, setSelected]   = useState<number | null>(null);
-  const [revealed, setRevealed]   = useState(false);
-  const [score, setScore]         = useState(0);
-  const [answered, setAnswered]   = useState<Set<number>>(new Set());
-  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
-  const [done, setDone]           = useState(false);
+  const loadQuestions = useCallback(async (): Promise<Question[]> => {
+    const perChapter = Math.max(1, Math.ceil(count / chapters.length));
+    const results = await Promise.all(
+      chapters.map((chapter) => loadQuestionsSlice(chapter.id, perChapter))
+    );
+    return fisherYates(results.flat()).slice(0, count);
+  }, [chapters, count]);
 
-  useEffect(() => {
-    if (ALL_SOURCES.length === 0) return;
-    const perTopic = Math.max(1, Math.ceil(count / ALL_SOURCES.length));
-    Promise.all(ALL_SOURCES.map(s => loadQuestionsSlice(s.id, perTopic)))
-      .then(results => {
-        const combined = shuffle(results.flat()).slice(0, count);
-        if (combined.length === 0) setError('No questions available.');
-        else setQuestions(combined);
-      })
-      .catch(() => setError('Failed to load questions. Please try again.'))
-      .finally(() => setLoading(false));
-  }, [ALL_SOURCES.length]);
+  const onComplete = useCallback((summary: QuizSummary) => {
+    saveQuizResult({
+      topicId: 'quick-practice',
+      topicName: 'Quick Practice',
+      score: summary.score,
+      total: summary.total,
+      date: new Date().toISOString(),
+    });
+  }, []);
 
-  useEffect(() => {
-    if (questions.length === 0) return;
-    const id = questions[idx]?.id;
-    if (id && isBookmarked(id)) setBookmarkedIds(p => new Set(p).add(id));
-  }, [idx, questions]);
+  const quiz = useQuiz({
+    mode: 'quick',
+    attemptKey: `quick:${count}`,
+    loadQuestions,
+    enabled: !noSources,
+    onComplete,
+  });
 
-  const handleSelect = (i: number) => {
-    if (answered.has(idx)) return;
-    setSelected(i);
-  };
+  useQuizKeyboard({
+    optionCount: quiz.current?.options.length ?? 0,
+    onSelectOption: quiz.selectOption,
+    onSubmitOrAdvance: quiz.submitOrAdvance,
+    onPrev: quiz.prev,
+    onNext: quiz.next,
+    onToggleFlag: quiz.toggleFlag,
+    onToggleBookmark: quiz.toggleBookmark,
+    enabled: quiz.state.phase === 'active',
+  });
 
-  const handleSubmit = useCallback(() => {
-    if (selected === null || answered.has(idx)) return;
-    const q = questions[idx];
-    const hasAnswer = q.correctIndex >= 0;
-    const correct = hasAnswer && selected === q.correctIndex;
-    setRevealed(true);
-    setAnswered(p => new Set(p).add(idx));
-    if (correct) setScore(s => s + 1);
-    if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
-  }, [selected, idx, answered, questions]);
-
-  const handleToggleBookmark = () => {
-    const id = questions[idx]?.id;
-    if (!id) return;
-    if (bookmarkedIds.has(id)) {
-      removeBookmark(id);
-      setBookmarkedIds(p => { const n = new Set(p); n.delete(id); return n; });
-    } else {
-      addBookmark(id);
-      setBookmarkedIds(p => new Set(p).add(id));
-    }
-  };
-
-  const handleNext = () => {
-    if (idx < questions.length - 1) {
-      setIdx(i => i + 1);
-      setSelected(null);
-      setRevealed(false);
-    } else if (answered.has(idx)) {
-      saveQuizResult({
-        topicId:   'quick-practice',
-        topicName: 'Quick Practice',
-        score,
-        total:     questions.length,
-        date:      new Date().toISOString(),
-      });
-      setDone(true);
-    }
-  };
-
-  const handlePrev = () => {
-    if (idx > 0) {
-      setIdx(i => i - 1);
-      setSelected(null);
-      setRevealed(answered.has(idx - 1));
-    }
-  };
-
-  const optClass = (i: number) => {
-    if (!revealed) return selected === i ? 'selected' : '';
-    const q = questions[idx];
-    if (q.correctIndex < 0) return selected === i ? 'selected' : '';
-    if (i === q.correctIndex) return 'correct';
-    if (selected === i) return 'incorrect';
-    return '';
-  };
-
-  if (loading) return (
-    <div className="loading-container">
-      <div className="loading-spinner" />
-      <p>Picking {count} random questions…</p>
-    </div>
-  );
-
-  if (error) return (
-    <div className="topic-not-found">
-      <h2>{error}</h2>
-      <Link to="/app/practice" className="btn-primary">Back to Practice</Link>
-    </div>
-  );
-
-  if (done) {
-    const pct = Math.round((score / questions.length) * 100);
+  if (noSources) {
     return (
-      <div className="quiz-complete">
-        <div className="quiz-complete-card">
-          <div className="complete-icon">{pct >= 60 ? '🎉' : '📚'}</div>
-          <h2>Quick Practice Done!</h2>
-          <div className="complete-score">
-            <span className="score-number">{score}</span>
-            <span className="score-total">/ {questions.length}</span>
-          </div>
-          <p className="complete-pct">{pct}% accuracy</p>
-          <div className="complete-actions">
-            <Link to="/app/practice/quick" className="btn-primary">Try Again</Link>
-            <Link to="/app/practice" className="btn-secondary">Back to Practice</Link>
-          </div>
-        </div>
+      <div className="topic-not-found">
+        <h2>No question sources available</h2>
+        <p>The chapter manifest is empty. Try rebuilding the app.</p>
+        <Link to="/app/practice" className="btn-primary">
+          Back to Practice
+        </Link>
       </div>
     );
   }
 
-  const q = questions[idx];
-  const isAnswered = answered.has(idx);
-  const isCurrentBookmarked = bookmarkedIds.has(q.id);
+  if (quiz.state.phase === 'loading') {
+    return (
+      <div className="loading-container" role="status" aria-live="polite">
+        <div className="loading-spinner" />
+        <p>Picking {count} random questions…</p>
+      </div>
+    );
+  }
+
+  if (quiz.error) {
+    return (
+      <div className="topic-not-found">
+        <h2>{quiz.error}</h2>
+        <Link to="/app/practice" className="btn-primary">
+          Back to Practice
+        </Link>
+      </div>
+    );
+  }
+
+  if (quiz.state.phase === 'done') {
+    return (
+      <div className="quiz-complete">
+        <ResultSummary
+          summary={quiz.summary}
+          title="Quick Practice"
+          actions={
+            <>
+              <Link to="/app/practice/quick" className="btn-primary" reloadDocument>
+                Another {count}
+              </Link>
+              <Link to="/app/practice" className="btn-secondary">
+                Back to Practice
+              </Link>
+            </>
+          }
+        />
+      </div>
+    );
+  }
+
+  const current = quiz.current;
+  if (!current) return null;
 
   return (
     <div className="topic-practice-page">
@@ -166,92 +133,52 @@ export default function QuickPractice() {
         <span className="current">Quick Practice</span>
       </nav>
 
-      <header className="topic-header">
-        <div className="topic-info">
-          <h1>Quick Practice</h1>
-          <p>Random questions across all topics</p>
+      {quiz.state.resumed && (
+        <div className="mock-resume-notice" role="status">
+          Attempt resumed — your answers were restored.
         </div>
-        <div className="topic-stats">
-          <div className="stat">
-            <span className="value">{idx + 1}/{questions.length}</span>
-            <span className="label">Question</span>
-          </div>
-          <div className="stat">
-            <span className="value">{score}</span>
-            <span className="label">Correct</span>
-          </div>
-          <div className="stat">
-            <span className="value">{answered.size > 0 ? Math.round((score / answered.size) * 100) : 0}%</span>
-            <span className="label">Accuracy</span>
-          </div>
-        </div>
-      </header>
+      )}
 
-      <div className="question-card">
-        <div className="question-header">
-          <div className="question-number">Question {idx + 1}</div>
-          <button
-            className={`bookmark-btn ${isCurrentBookmarked ? 'bookmarked' : ''}`}
-            onClick={handleToggleBookmark}
-            title={isCurrentBookmarked ? 'Remove bookmark' : 'Add bookmark'}
-          >
-            <svg viewBox="0 0 24 24" fill={isCurrentBookmarked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
-          </button>
-        </div>
+      <QuizToolbar
+        index={quiz.state.currentIndex}
+        total={quiz.counts.total}
+        answered={quiz.counts.answered}
+        flagged={quiz.isFlagged}
+        onToggleFlag={() => quiz.toggleFlag()}
+        bookmarked={quiz.isBookmarked}
+        onToggleBookmark={() => quiz.toggleBookmark()}
+      />
 
-        <h2 className="question-text">{q.question}</h2>
-
-        <div className="options-list" role="radiogroup" aria-label="Answer options">
-          {q.options.map((opt, i) => (
-            <button
-              key={i}
-              className={`option-btn ${optClass(i)}`}
-              onClick={() => handleSelect(i)}
-              disabled={isAnswered}
-              role="radio"
-              aria-checked={selected === i}
-            >
-              <span className="option-letter">{String.fromCharCode(65 + i)}</span>
-              <span className="option-text">{opt}</span>
-              {revealed && i === q.correctIndex && q.correctIndex >= 0 && (
-                <svg className="result-icon correct" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              )}
-              {revealed && selected === i && i !== q.correctIndex && (
-                <svg className="result-icon incorrect" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              )}
-            </button>
-          ))}
-        </div>
-
-        {revealed && (
-          <div className={`result-message ${q.correctIndex >= 0 ? (selected === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
-            {q.correctIndex < 0
-              ? <p>Answer recorded. No answer key available for this topic yet.</p>
-              : selected === q.correctIndex
-                ? <p>Correct! Well done.</p>
-                : <p>Incorrect. Correct answer: <strong>{String.fromCharCode(65 + q.correctIndex)}</strong></p>
-            }
-          </div>
+      <QuestionCard
+        index={quiz.state.currentIndex}
+        total={quiz.counts.total}
+        questionText={current.question}
+        options={current.options}
+        selection={quiz.selection}
+        onSelect={quiz.selectOption}
+        correctIndex={current.correctIndex}
+        revealed={quiz.isRevealed}
+        verdict={quiz.verdict}
+        locked={quiz.isSubmitted}
+      >
+        {quiz.isRevealed && (
+          <ExplanationPanel context="practice" reference={describeReference(current)} />
         )}
+      </QuestionCard>
 
-        <div className="question-actions">
-          <button className="btn-secondary" onClick={handlePrev} disabled={idx === 0}>Previous</button>
-          {!isAnswered
-            ? <button className="btn-primary" onClick={handleSubmit} disabled={selected === null}>Submit</button>
-            : <button className="btn-primary" onClick={handleNext}>{idx < questions.length - 1 ? 'Next' : 'Finish'}</button>
-          }
-        </div>
-      </div>
+      <QuizActionBar
+        onPrev={quiz.prev}
+        onNext={quiz.next}
+        onSubmit={quiz.submitCurrent}
+        onFinish={quiz.submitAll}
+        canPrev={quiz.state.currentIndex > 0}
+        canNext={!quiz.isLast}
+        canSubmit={quiz.canSubmitCurrent}
+        isLast={quiz.isLast}
+        finishLabel="Finish"
+      />
 
-      <div className="question-progress-bar">
-        <div className="qpb-fill" style={{ width: `${((idx + 1) / questions.length) * 100}%` }} />
-      </div>
+      <QuestionPalette entries={quiz.palette} onJump={quiz.goTo} />
     </div>
   );
 }

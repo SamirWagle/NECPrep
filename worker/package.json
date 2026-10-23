@@ -1,0 +1,43 @@
+{
+  "name": "necprep-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker + D1 API for NECPrep. Schema in migrations/, Drizzle definitions in db/.",
+  "scripts": {
+    "db:apply:local": "node db/apply.mjs",
+    "db:seed:local": "node --import ../scripts/ts-resolve.mjs db/seed/import-questions.mjs",
+    "db:reference": "node --import ../scripts/ts-resolve.mjs db/seed/generate-reference-sql.mjs",
+    "db:verify": "node db/verify-schema.mjs",
+    "db:measure": "node db/measure.mjs",
+    "db:smoke": "node db/smoke.mjs",
+    "db:export:remote": "node db/seed/export-content-sql.mjs",
+    "db:check": "npm run db:apply:local && npm run db:seed:local && npm run db:verify && npm run db:smoke && npm run typecheck",
+    "dev": "wrangler dev",
+    "dev:setup": "npm run db:apply:local && npm run db:seed:local && npm run db:export:remote && npm run d1:migrate:local && npm run d1:load:local",
+    "d1:load:local": "node db/seed/load-local-d1.mjs",
+    "d1:migrate:local": "wrangler d1 migrations apply necprep --local",
+    "d1:migrate:remote": "wrangler d1 migrations apply necprep --remote",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"src/__tests__/*.test.ts\"",
+    "bundle:check": "wrangler deploy --dry-run --outdir .local/wbuild",
+    "check": "npm run db:check && npm run test && npm run bundle:check",
+    "explain:estimate": "node scripts/generate-explanations.mjs --estimate",
+    "explain:generate": "node scripts/generate-explanations.mjs",
+    "explain:collect": "node scripts/generate-explanations.mjs --collect",
+    "explain:review": "node scripts/review-explanations.mjs",
+    "explain:stats": "node scripts/review-explanations.mjs --stats"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261019.1",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.151.2"
+  }
+}

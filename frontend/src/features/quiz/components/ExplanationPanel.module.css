@@ -1,0 +1,182 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+}
+
+/*
+ * An unreviewed draft is visually distinct from a checked explanation, so the
+ * difference survives a skim that misses the badge text. Warning-toned left
+ * edge rather than a full warning background: the panel still has to be
+ * comfortable to read several paragraphs in.
+ */
+.unreviewed {
+  border-style: solid;
+  border-color: var(--color-border);
+  border-left: 3px solid var(--color-warning-500);
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  justify-content: space-between;
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-fg-muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.15em 0.5em;
+  border: 1px solid var(--color-warning-500);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-warning-fg);
+  white-space: nowrap;
+}
+
+.badgeReviewed {
+  border-color: var(--color-border-strong);
+  color: var(--color-fg-muted);
+}
+
+.disclaimer {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+}
+
+.body {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--color-fg);
+  white-space: pre-wrap;
+}
+
+.empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--color-fg-muted);
+}
+
+.distractors {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-1);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.subheading {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-fg-muted);
+}
+
+.distractorList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.distractorItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+}
+
+.distractorOption {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+.distractorWhy {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+}
+
+.report {
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: var(--spacing-1);
+  padding: 0 var(--spacing-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-xs);
+  color: var(--color-fg-muted);
+  cursor: pointer;
+}
+
+.report:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-fg);
+}
+
+.report:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* Syllabus reference — shown in place of a missing explanation, and as a
+   footer beside one that exists. Visually quieter than the explanation body,
+   because it is a pointer into the syllabus rather than teaching. */
+.reference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-1) var(--spacing-2);
+  margin: 0;
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+}
+
+.referenceLabel {
+  flex-shrink: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-fg-muted);
+}
+
+.referenceValue {
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+/* Wraps onto its own line on a narrow screen rather than squeezing the code
+   it qualifies. */
+.referenceChapter {
+  flex-basis: 100%;
+  color: var(--color-fg-muted);
+}

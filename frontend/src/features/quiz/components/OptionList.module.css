@@ -1,0 +1,54 @@
+/*
+ * Layout only. The shared Radio primitive owns the surface, border and
+ * selected/correct/incorrect colouring; this adds the lettered chip and the
+ * two-column row the quiz uses. All values come from src/styles/tokens.css.
+ */
+
+.group {
+  gap: var(--spacing-2);
+}
+
+.option {
+  /* 44px minimum touch target. Options are what people miss on phones. */
+  min-height: 44px;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+
+.letter {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-fg-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+/* Keyed off the primitive's data-state so the chip tracks the option without
+   duplicating its colour rules. */
+.option[data-state='selected'] .letter,
+.option[data-state='correct'] .letter {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.option[data-state='incorrect'] .letter {
+  background: var(--color-danger-500);
+  color: var(--color-accent-fg);
+}
+
+.text {
+  flex: 1 1 auto;
+  text-align: left;
+  line-height: 1.45;
+}

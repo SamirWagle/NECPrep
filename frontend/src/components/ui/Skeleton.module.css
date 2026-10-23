@@ -1,0 +1,45 @@
+.skeleton {
+  display: block;
+  flex: 0 0 auto;
+  background-color: var(--color-surface-2, #f4f5f7);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--color-fg, #15171a) 7%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skeletonShimmer 1.4s ease-in-out infinite;
+}
+
+.text {
+  height: 0.75em;
+  border-radius: var(--radius-sm, 6px);
+}
+
+.rect {
+  border-radius: var(--radius-md, 10px);
+}
+
+.circle {
+  border-radius: var(--radius-full, 999px);
+}
+
+@keyframes skeletonShimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* A travelling shimmer is exactly the kind of looping motion reduced-motion
+   users ask us to stop; fall back to a static block. */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background-image: none;
+  }
+}

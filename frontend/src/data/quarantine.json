@@ -1,0 +1,1065 @@
+[
+  {
+    "id": "book-ch1_50",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"to regulate the voltage levels of a three-phase supply\" vs \"to regulate the voltage levels of a power distribution system\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_58",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"to regulate the voltage levels of a three-phase supply\" vs \"to regulate the voltage levels of a power distribution system\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_140",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the principle of superposition\" vs \"ohm's law\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_143",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the principle of superposition\" vs \"ohm's law\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_173",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the resistance of the circuit with all voltage sources replaced by their internal resistances.\" vs \"the resistance seen from the output terminals with all voltage sources replaced by their internal resistances\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_183",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the resistance of the circuit with all voltage sources replaced by their internal resistances.\" vs \"the resistance seen from the output terminals with all voltage sources replaced by their internal resistances\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_209",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is infinite\" vs \"it is at a minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_214",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it increases\" vs \"it decreases\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_217",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"r/c\" vs \"rc\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_218",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"infinite\" vs \"zero\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_222",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the impedance is maximum\" vs \"the impedance is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_225",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt3 and opt4 are both \"159.15 Hz\" - two options can be simultaneously correct."
+    ]
+  },
+  {
+    "id": "book-ch1_226",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is maximum\" vs \"it is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_227",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is maximum\" vs \"it is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_228",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"zero\" vs \"unity\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_229",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"zero\" vs \"unity\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_232",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is minimum\" vs \"it is maximum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_235",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"minimum\" vs \"maximum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_246",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they are the same thing\" vs \"they are two different types of power\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_259",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is infinite\" vs \"it is at a minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_262",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it increases\" vs \"it decreases\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_264",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"r/c\" vs \"rc\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_265",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"infinite\" vs \"zero\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_267",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the impedance is maximum\" vs \"the impedance is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_268",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is maximum\" vs \"it is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_269",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is maximum\" vs \"it is minimum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_270",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"zero\" vs \"unity\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_271",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"zero\" vs \"unity\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_272",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is minimum\" vs \"it is maximum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_273",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"minimum\" vs \"maximum\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_275",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they are the same thing\" vs \"they are two different types of power\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_337",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 3 other row(s) keying a different answer (\"the time constant of the rc circuit\" vs \"the slope of the waveform\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch1_347",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 3 other row(s) keying a different answer (\"the time constant of the rc circuit\" vs \"the slope of the waveform\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_16",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"110110\" but correct_option says \"111110\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_18",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 1 points at \"28\" but correct_option says \"2B\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_123",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 3 other row(s) keying a different answer (\"the time constant of the rc circuit\" vs \"the slope of the waveform\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_124",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 3 other row(s) keying a different answer (\"the time constant of the rc circuit\" vs \"the slope of the waveform\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_150",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 3 points at \"110110\" but correct_option says \"110100\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_156",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"0100\" but correct_option says \"11000\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_158",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"10110110\" but correct_option says \"101110110\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_160",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"00000010\" but correct_option says \"10000\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_163",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"1110\" but correct_option says \"1100\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_175",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt3 and opt4 are both \"1001\" - two options can be simultaneously correct."
+    ]
+  },
+  {
+    "id": "book-ch2_198",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"1101\" but correct_option says \"0011\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_200",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"0010\" but correct_option says \"0101\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_203",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 2 points at \"0110\" but correct_option says \"11110\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch2_240",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"secondary storage\" vs \"multiuser\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_253",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"secondary storage\" vs \"multiuser\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_303",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they occur when an isr triggers another interrupt\" vs \"they occur when an isr is triggered while another isr is being serviced\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_305",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the process of handling an interrupt request from an external device\" vs \"the process of handling interrupts\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_312",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the process of handling an interrupt request from an external device\" vs \"the process of handling interrupts\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_315",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is the time between the occurrence of an interrupt and the start of the isr\" vs \"it refers to the time required for an interrupt to be detected and an isr to be initiated\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_320",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they are triggered by the rising or falling edge of a signal\" vs \"they are triggered by a change in the interrupt request signal\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_324",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is the time between the occurrence of an interrupt and the start of the isr\" vs \"it refers to the time required for an interrupt to be detected and an isr to be initiated\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_325",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they occur when an isr triggers another interrupt\" vs \"they occur when an isr is triggered while another isr is being serviced\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch2_330",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"they are triggered by the rising or falling edge of a signal\" vs \"they are triggered by a change in the interrupt request signal\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_59",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.\" vs \"a two-dimensional array has more dimensions than a one-dimensional array\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_69",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a one-dimensional array has one row and multiple columns, whereas a two-dimensional array has multiple rows and multiple columns.\" vs \"a two-dimensional array has more dimensions than a one-dimensional array\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_105",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 4 points at \"4\" but correct_option says \"Undefined\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch3_112",
+    "codes": [
+      "KEY_CONFLICT"
+    ],
+    "notes": [
+      "correct_option_index 3 points at \"11 21 30\" but correct_option says \"10 21 30\" - and that text is not among the options at all."
+    ]
+  },
+  {
+    "id": "book-ch3_157",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt2 and opt3 are both \"array_name[size] struct;\" - two options can be simultaneously correct."
+    ]
+  },
+  {
+    "id": "book-ch3_164",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt1 and opt3 are both \"struct *array_name[size];\" - two options can be simultaneously correct.",
+      "opt2 and opt4 are both \"struct (*array_name)[size];\" - two options can be simultaneously correct."
+    ]
+  },
+  {
+    "id": "book-ch3_190",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is a mechanism for managing the scope of identifiers in large programs\" vs \"a container that holds a group of related variables and functions\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_192",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"you can have multiple namespaces with the same name in the same program\" vs \"namespace members are accessed using the :: operator\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_200",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it is a mechanism for managing the scope of identifiers in large programs\" vs \"a container that holds a group of related variables and functions\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_201",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"you can have multiple namespaces with the same name in the same program\" vs \"namespace members are accessed using the :: operator\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_319",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it points to the object on which the member function is called\" vs \"to refer to the object's own data members\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_338",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"it points to the object on which the member function is called\" vs \"to refer to the object's own data members\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_356",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a data member that is shared among all instances of a class\" vs \"a data member that belongs to the class and not to any instance of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_357",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"using the keyword static before the data type\" vs \"with the keyword 'static' and the data type of the member\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_359",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"using the keyword static before the return type\" vs \"with the keyword 'static' and the return type of the function\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_360",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"they can access only static data members of the class\" vs \"they cannot access non-static data members\" vs \"they cannot be virtual\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_363",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"they can access only static data members of the class\" vs \"they cannot access non-static data members\" vs \"they cannot be virtual\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_366",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a data member that is shared among all instances of a class\" vs \"a data member that belongs to the class and not to any instance of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_367",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"using the keyword static before the data type\" vs \"with the keyword 'static' and the data type of the member\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_368",
+    "codes": [
+      "OPTION_MULTIPLE_TRUE"
+    ],
+    "notes": [
+      "Two options are true: the keyed \"They are initialized to zero by default\", and \"They cannot be initialized inside the class declaration\" - the latter being exactly what book-ch3_362 keys as correct for a non-const, non-inline static data member. A single-answer MCQ cannot have two correct options. Needs the distractor rewritten or the question retired; no re-key fixes it."
+    ]
+  },
+  {
+    "id": "book-ch3_370",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"using the keyword static before the return type\" vs \"with the keyword 'static' and the return type of the function\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_371",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"they can access only static data members of the class\" vs \"they cannot access non-static data members\" vs \"they cannot be virtual\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_375",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a member function that cannot modify any data members of the class\" vs \"a member function that cannot be modified\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_379",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 4 other row(s) keying a different answer (\"they cannot modify any data members of the class\" vs \"they cannot modify the data members of the class\" vs \"they can be created using the const keyword before the object name\" vs \"they cannot call non-constant member functions of the class\" vs \"they can access only constant member functions of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_383",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"a member function that cannot modify any data members of the class\" vs \"a member function that cannot be modified\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_384",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 4 other row(s) keying a different answer (\"they cannot modify any data members of the class\" vs \"they cannot modify the data members of the class\" vs \"they can be created using the const keyword before the object name\" vs \"they cannot call non-constant member functions of the class\" vs \"they can access only constant member functions of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_386",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 4 other row(s) keying a different answer (\"they cannot modify any data members of the class\" vs \"they cannot modify the data members of the class\" vs \"they can be created using the const keyword before the object name\" vs \"they cannot call non-constant member functions of the class\" vs \"they can access only constant member functions of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_387",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 4 other row(s) keying a different answer (\"they cannot modify any data members of the class\" vs \"they cannot modify the data members of the class\" vs \"they can be created using the const keyword before the object name\" vs \"they cannot call non-constant member functions of the class\" vs \"they can access only constant member functions of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch3_388",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 4 other row(s) keying a different answer (\"they cannot modify any data members of the class\" vs \"they cannot modify the data members of the class\" vs \"they can be created using the const keyword before the object name\" vs \"they cannot call non-constant member functions of the class\" vs \"they can access only constant member functions of the class\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_14",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"cache replacement\" vs \"page replacement\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_62",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"volatile memory loses its contents when power is lost, while non-volatile memory retains its contents\" vs \"volatile memory requires power to retain its data, while non-volatile memory retains data even without power\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_130",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"shift left\" vs \"comparison\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_133",
+    "codes": [
+      "OPTION_DUPLICATE"
+    ],
+    "notes": [
+      "opt1 and opt4 are both \"NOT 0 = 0\" - two options can be simultaneously correct."
+    ]
+  },
+  {
+    "id": "book-ch4_136",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"shift left\" vs \"comparison\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_202",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"volatile memory loses its contents when power is lost, while non-volatile memory retains its contents\" vs \"volatile memory requires power to retain its data, while non-volatile memory retains data even without power\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_280",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"sequential execution\" vs \"single processing unit\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_281",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of multiple processors to execute instructions simultaneously\" vs \"the ability to use multiple processors to complete a single task\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_282",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of the system to increase performance as more processors are added\" vs \"the ability to add more processors to the system as needed\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_286",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of the system to maintain consistency of data stored in the caches of multiple processors\" vs \"the ability to maintain consistency of shared data in different processor caches\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_288",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"sequential execution\" vs \"single processing unit\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_289",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of multiple processors to execute instructions simultaneously\" vs \"the ability to use multiple processors to complete a single task\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_290",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of the system to increase performance as more processors are added\" vs \"the ability to add more processors to the system as needed\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_293",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"the ability of the system to maintain consistency of data stored in the caches of multiple processors\" vs \"the ability to maintain consistency of shared data in different processor caches\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_333",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"a computer system that is embedded within a larger device\" vs \"a system designed to perform a specific task\" vs \"a computer system used in industrial control applications\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_342",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"a computer system that is embedded within a larger device\" vs \"a system designed to perform a specific task\" vs \"a computer system used in industrial control applications\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_343",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"general-purpose computing\" vs \"standard operating system\" vs \"high processing speed\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_344",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"home computer\" vs \"personal computer\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_348",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"to manage system resources and scheduling\" vs \"to schedule and manage tasks in real-time.\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_352",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"web-based embedded system\" vs \"mainframe system\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_356",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"general-purpose computing\" vs \"standard operating system\" vs \"high processing speed\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_378",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"a computer system that is embedded within a larger device\" vs \"a system designed to perform a specific task\" vs \"a computer system used in industrial control applications\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_379",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"home computer\" vs \"personal computer\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_381",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 2 other row(s) keying a different answer (\"general-purpose computing\" vs \"standard operating system\" vs \"high processing speed\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_383",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"web-based embedded system\" vs \"mainframe system\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_391",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"to manage system resources and scheduling\" vs \"to schedule and manage tasks in real-time.\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_413",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"tensilica xtensa\" vs \"digital signal processor (dsp)\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch4_417",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"tensilica xtensa\" vs \"digital signal processor (dsp)\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch7_50",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"cache replacement\" vs \"page replacement\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch8_28",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"sequence diagrams\" vs \"state diagrams\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch8_36",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"provides a mechanism for handling runtime errors\" vs \"provides a structured way to handle errors\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch8_61",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"sequence diagrams\" vs \"state diagrams\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  },
+  {
+    "id": "book-ch8_69",
+    "codes": [
+      "DUPLICATE_ANSWER_CONFLICT"
+    ],
+    "notes": [
+      "Shares a stem with 1 other row(s) keying a different answer (\"provides a mechanism for handling runtime errors\" vs \"provides a structured way to handle errors\"). Until one is adjudicated, some students would be marked wrong for a right answer."
+    ]
+  }
+]

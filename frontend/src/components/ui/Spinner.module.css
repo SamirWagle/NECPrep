@@ -1,0 +1,35 @@
+.spinner {
+  display: inline-block;
+  flex: 0 0 auto;
+  border-radius: var(--radius-full, 999px);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  animation: spinnerRotate 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spinnerRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinnerPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Rotation is vestibular-trigger motion. Under reduced motion we still need a
+   "work is happening" signal, so swap to a slow opacity pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: spinnerPulse 1.6s ease-in-out infinite;
+    border-right-color: currentColor;
+  }
+}

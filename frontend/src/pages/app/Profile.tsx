@@ -1,4 +1,4 @@
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/user-context';
 import { getOverallStats } from '../../services/localData';
 
 export default function Profile() {

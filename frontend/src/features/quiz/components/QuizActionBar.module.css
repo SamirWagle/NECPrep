@@ -1,0 +1,74 @@
+.spacer {
+  display: none;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) 0;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  /* 44px minimum, and generous horizontal padding: these are thumb targets. */
+  min-height: 44px;
+  padding: var(--spacing-3) var(--spacing-5);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.primary {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.secondary {
+  background: var(--color-surface);
+  color: var(--color-fg);
+  border-color: var(--color-border);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+.primary:disabled,
+.secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+  .spacer {
+    display: block;
+    height: calc(44px + 2 * var(--spacing-3) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 20;
+    padding: var(--spacing-3) var(--spacing-4);
+    /* Clear of the iOS home indicator. */
+    padding-bottom: calc(var(--spacing-3) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .primary,
+  .secondary {
+    flex: 1 1 0;
+  }
+}

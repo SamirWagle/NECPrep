@@ -1,0 +1,75 @@
+/* Accessibility styles for the landing page. CSS Module because App.css is
+ * owned by another workstream.
+ *
+ * Focus ring: #ffffff, 3px, 3px offset.
+ *   #ffffff on the page background #0a0a0f  = 19.75:1
+ *   #ffffff on the dialog card    ~#101018  = 18.93:1
+ *   #ffffff on --accent-primary   #6366f1   =  4.47:1  (primary buttons)
+ * All above the 3:1 WCAG 1.4.11 minimum. Outline rather than box-shadow
+ * because framer-motion writes boxShadow as an inline style on these
+ * buttons, which would beat any stylesheet rule.
+ */
+
+/* Hero accent word.
+ *
+ * The shipped `.gradient-text` ramp is
+ *   linear-gradient(135deg, #6366f1, #06b6d4, #ec4899)
+ * sampled at 5% steps against #0a0a0f its darkest point is the #6366f1 start
+ * at 4.42:1 — under the 4.5:1 AA floor for normal text.
+ *
+ * This ramp is two stops over a single short word, sampled the same way:
+ *   #818cf8 (0%)   =  6.62:1   <- darkest point of the whole span
+ *   #a5b4fc (100%) =  9.91:1
+ * so no pixel of the accent drops below 6.62:1 — AA and AAA for both normal
+ * and large text.
+ */
+.heroAccent {
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Paint colour for engines without background-clip: text; #a5b4fc = 9.91:1 */
+  color: #a5b4fc;
+}
+
+/* background-clip: text is unreliable in forced-colours mode and a
+ * transparent text fill renders as nothing at all there. */
+@media (forced-colors: active) {
+  .heroAccent {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: CanvasText;
+  }
+}
+
+.page a:focus-visible,
+.page button:focus-visible,
+.page input:focus-visible,
+.page [tabindex]:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* The `.name-portal-input:focus` rule in App.css draws a 2px
+ * rgba(99,102,241,0.5) ring — roughly 1.6:1 on the card. Replace it. */
+.dialogInput:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+  border-color: #a5b4fc;
+}
+
+/* WCAG 2.5.8 target size for the icon-only close control. */
+.dialogClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* The dialog heading moved from <h3> to <h2> to close the h1 -> h3 jump;
+ * App.css only styles `.name-portal-header h3`, so carry the type over. */
+.dialogTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.35rem;
+}

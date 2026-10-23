@@ -1,0 +1,97 @@
+# Cloudflare Worker + D1 configuration for the NECPrep API.
+#
+# Why D1 and not Supabase: docs/adr/0001-cloudflare-d1-over-supabase.md.
+#
+# `main` is owned by the API handlers (worker/src/**). This file, the
+# migrations and worker/db/** are owned by the schema. Keep that boundary:
+# a binding added here is a contract the handlers may rely on, and a binding
+# removed here breaks them at deploy time rather than at review time.
+
+name = "necprep-api"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+# nodejs_compat is needed for node:crypto in the password-hashing and
+# session-token paths. It is NOT needed by anything in worker/db/**.
+compatibility_flags = ["nodejs_compat"]
+
+# D1 is single-threaded per database and serialises writes, so there is no
+# connection pool to size and no Hyperdrive in front of it.
+[[d1_databases]]
+binding = "DB"
+database_name = "necprep"
+# Filled in by `wrangler d1 create necprep`. Left as a placeholder on purpose:
+# a wrong-but-plausible id here would deploy against someone else's database,
+# so this must fail loudly until a human pastes the real one.
+database_id = "9c8e53db-9492-4006-bb29-90424c46ba24"
+migrations_dir = "migrations"
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+
+[vars]
+ENVIRONMENT = "development"
+# Origin the browser app is served from. Drives CORS and the OAuth redirect,
+# and `loadConfig` REQUIRES it -- every request 500s until it is right, which
+# is the correct failure mode for a value that decides who may call this API.
+# Replace with the deployed frontend origin, no trailing slash.
+APP_ORIGIN = "http://localhost:5173"
+# Raw-answer retention for the retention cron. 90 on the free plan (the 500 MB
+# per-database limit holds roughly 4 million answer rows); 180 once on Workers
+# Paid. See the archival note in migrations/0004_assessment.sql and
+# src/jobs/retention.ts. Validated on read: a non-numeric value throws rather
+# than silently becoming the default.
+ANSWER_RETENTION_DAYS = "90"
+
+# Session lifetimes are NOT here. They were, as SESSION_IDLE_TTL_SECONDS and
+# SESSION_ABSOLUTE_TTL_SECONDS, and nothing read them: the real values are
+# `SESSION_IDLE_TTL_MS` and `SESSION_ABSOLUTE_TTL_MS` in src/data/auth.ts, and
+# every session-creating call already takes a per-call override. Config that
+# looks adjustable and is not is worse than no config, so the dead vars are
+# gone rather than left as a trap for whoever next tries to shorten a session.
+
+# NO SECRETS IN THIS FILE. `CONTENT_PERMUTATION_SECRET` and the Google OAuth
+# client secret go in via `wrangler secret put <NAME>` and arrive on `env`. A
+# missing secret must throw at startup, not fall back to a default.
+
+[[migrations]]
+# Placeholder so `wrangler deploy` does not warn on a project with no Durable
+# Object migrations. Durable Objects are a candidate home for attempt_answers
+# if the platform outgrows a single D1 database (see 0004); nothing uses them
+# today.
+tag = "v1"
+new_classes = []
+
+# ---------------------------------------------------------------------------
+# Scheduled jobs. Every one of these exists because of a limit documented in
+# the migrations, not because a cron looked tidy.
+# ---------------------------------------------------------------------------
+[triggers]
+crons = [
+  # 02:10 UTC -- answer retention. Batched: D1 counts index rows as writes, and
+  # the free plan allows 100,000 row writes per day.
+  "10 2 * * *",
+  # 02:40 UTC -- expire in-progress attempts past their deadline, sweep dead
+  # sessions, prune expired notifications.
+  "40 2 * * *",
+  # Hourly -- leaderboard snapshots. Never computed on a request path.
+  "5 * * * *",
+]
+
+[env.production]
+name = "necprep-api"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+# Must be the real deployed frontend origin. Leaving localhost here would set
+# a CORS policy that blocks the actual app.
+APP_ORIGIN = "https://necprep.pages.dev"
+ANSWER_RETENTION_DAYS = "90"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "necprep"
+database_id = "9c8e53db-9492-4006-bb29-90424c46ba24"
+migrations_dir = "migrations"

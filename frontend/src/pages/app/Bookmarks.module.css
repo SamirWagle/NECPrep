@@ -1,0 +1,82 @@
+/* Accessibility styles for the bookmarks page. CSS Module because App.css is
+ * owned by another workstream.
+ *
+ * Focus ring: #ffffff, 3px, 3px offset.
+ *   #ffffff on --bg-primary     #0a0a0f  = 19.75:1
+ *   #ffffff on --bg-card       ~#101018  = 18.93:1
+ *   #ffffff on --accent-primary #6366f1  =  4.47:1  (pressed filter)
+ * All above the 3:1 WCAG 1.4.11 minimum.
+ */
+
+/* The class is doubled on purpose: `.filter-tabs` in App.css sets
+ * `width: fit-content` and the default `flex-wrap: nowrap` with no overflow
+ * handling, so a per-chapter strip simply ran off the viewport. Both
+ * selectors have the same single-class specificity, and CSS Module import
+ * order relative to App.css is not something this file can guarantee, so the
+ * repeated class raises specificity to 0,2,0 and the override is
+ * deterministic. */
+.filterBar.filterBar {
+  width: auto;
+  max-width: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  /* An always-visible thin scrollbar is the scroll affordance; macOS and iOS
+   * hide overlay scrollbars until a gesture starts, which is exactly the
+   * case where the strip looked like it simply ended. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.filterBar.filterBar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.filterBar.filterBar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filterBar.filterBar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+}
+
+/* WCAG 2.5.8 target size: 0.5rem/1rem padding on a 0.875rem label is ~33px. */
+.filterButton.filterButton {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.filterButton:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+}
+
+/* WCAG 2.5.8 target size: the icon actions were 16px glyphs in 0.5rem
+ * padding, i.e. roughly 34x34. */
+.actionButton.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.page a:focus-visible,
+.page button:focus-visible,
+.page [tabindex]:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* The empty-state heading moved from <h3> to <h2> to close the h1 -> h3 jump;
+ * App.css only styles `.empty-state h3`, so carry the type over. */
+.emptyStateTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}

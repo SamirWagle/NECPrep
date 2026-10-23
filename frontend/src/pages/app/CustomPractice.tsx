@@ -1,166 +1,114 @@
+/**
+ * CustomPractice — pick chapters and a question count, then practise.
+ *
+ * Hosts the shared quiz engine; see TopicPractice for why all four quiz pages
+ * went from four copies of the state machine to one.
+ *
+ * The config screen stays local to this page: it is this page's whole reason to
+ * exist, and the engine has nothing to say about it. The engine is held back
+ * with `enabled: false` until the config is submitted, so nothing loads and no
+ * draft is written while the user is still choosing.
+ */
+
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
 import {
-  loadQuestionsSlice,
-  recordAttempt,
-  addBookmark,
-  removeBookmark,
-  isBookmarked,
-  saveQuizResult,
-} from '../../services/localData';
-import type { Question } from '../../services/localData';
-
+  useQuiz,
+  useQuizKeyboard,
+  QuestionCard,
+  QuestionPalette,
+  QuizActionBar,
+  QuizToolbar,
+  ResultSummary,
+  ExplanationPanel,
+} from '../../features/quiz';
+import { loadQuestionsSlice, saveQuizResult } from '../../services/localData';
+import type { Question, QuizSummary } from '../../features/quiz';
+import { fisherYates } from '../../services/optionOrdering';
 import { useChapters } from '../../hooks/useChapters';
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-type Phase = 'config' | 'quiz' | 'done';
+import { describeReference } from '../../services/questionReference';
 
 export default function CustomPractice() {
-  const ALL_SOURCES = useChapters();
-  const [phase, setPhase] = useState<Phase>('config');
+  const chapters = useChapters();
 
-  // ── Config state ───────────────────────────────────────────────────────────
-  // We initialize with empty array on first render, but will sync in effect
-  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
-  
-  // Initialize selected topics once ALL_SOURCES is loaded
-  useEffect(() => {
-    if (selectedTopics.size === 0 && ALL_SOURCES.length > 0) {
-      setSelectedTopics(new Set(ALL_SOURCES.map(t => t.id)));
-    }
-  }, [ALL_SOURCES.length]);
+  // All chapters start selected. The manifest is static, so this is a lazy
+  // initializer rather than a set-state-in-effect round trip.
+  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(
+    () => new Set(chapters.map((t) => t.id))
+  );
   const [count, setCount] = useState(20);
   const [configError, setConfigError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  // ── Quiz state ─────────────────────────────────────────────────────────────
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [idx, setIdx]             = useState(0);
-  const [answer, setAnswer]       = useState<number | null>(null);
-  const [revealed, setRevealed]   = useState(false);
-  const [score, setScore]         = useState(0);
-  const [answered, setAnswered]   = useState<Set<number>>(new Set());
-  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
+  /**
+   * The submitted config. Null means the config screen is still open.
+   *
+   * This is the attempt's identity: starting a new run with different choices
+   * produces a different key, which is what makes the engine abandon the old
+   * attempt instead of mutating it.
+   */
+  const [started, setStarted] = useState<{ topics: string[]; count: number } | null>(null);
 
-  useEffect(() => {
-    if (questions.length === 0) return;
-    const id = questions[idx]?.id;
-    if (id && isBookmarked(id)) setBookmarkedIds(p => new Set(p).add(id));
-  }, [idx, questions]);
+  const attemptKey = started ? `custom:${started.topics.join(',')}:${started.count}` : null;
 
-  // ── Config helpers ─────────────────────────────────────────────────────────
+  const loadQuestions = useCallback(async (): Promise<Question[]> => {
+    if (!started) return [];
+    const sources = chapters.filter((c) => started.topics.includes(c.id));
+    const perChapter = Math.max(1, Math.ceil(started.count / sources.length));
+    const results = await Promise.all(
+      sources.map((source) => loadQuestionsSlice(source.id, perChapter))
+    );
+    return fisherYates(results.flat()).slice(0, started.count);
+  }, [started, chapters]);
+
+  const onComplete = useCallback((summary: QuizSummary) => {
+    saveQuizResult({
+      topicId: 'custom-practice',
+      topicName: 'Custom Practice',
+      score: summary.score,
+      total: summary.total,
+      date: new Date().toISOString(),
+    });
+  }, []);
+
+  const quiz = useQuiz({
+    mode: 'custom',
+    attemptKey,
+    loadQuestions,
+    enabled: started !== null,
+    onComplete,
+  });
+
+  useQuizKeyboard({
+    optionCount: quiz.current?.options.length ?? 0,
+    onSelectOption: quiz.selectOption,
+    onSubmitOrAdvance: quiz.submitOrAdvance,
+    onPrev: quiz.prev,
+    onNext: quiz.next,
+    onToggleFlag: quiz.toggleFlag,
+    onToggleBookmark: quiz.toggleBookmark,
+    enabled: quiz.state.phase === 'active',
+  });
+
   const toggleTopic = (id: string) => {
-    setSelectedTopics(p => {
-      const n = new Set(p);
-      n.has(id) ? n.delete(id) : n.add(id);
-      return n;
+    setSelectedTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
     });
   };
 
-  const handleStart = async () => {
+  const handleStart = () => {
     if (selectedTopics.size === 0) {
       setConfigError('Please select at least one topic.');
       return;
     }
-    setLoading(true);
     setConfigError(null);
-    const sources = ALL_SOURCES.filter(s => selectedTopics.has(s.id));
-    const perTopic = Math.max(1, Math.ceil(count / sources.length));
-    try {
-      const results = await Promise.all(sources.map(s => loadQuestionsSlice(s.id, perTopic)));
-      const combined = shuffle(results.flat()).slice(0, count);
-      if (combined.length === 0) {
-        setConfigError('No questions found for the selected topics.');
-        setLoading(false);
-        return;
-      }
-      setQuestions(combined);
-      setIdx(0);
-      setAnswer(null);
-      setRevealed(false);
-      setScore(0);
-      setAnswered(new Set());
-      setBookmarkedIds(new Set());
-      setPhase('quiz');
-    } catch {
-      setConfigError('Failed to load questions. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ── Quiz helpers ───────────────────────────────────────────────────────────
-  const handleSelect = (i: number) => {
-    if (answered.has(idx)) return;
-    setAnswer(i);
-  };
-
-  const handleSubmit = useCallback(() => {
-    if (answer === null || answered.has(idx)) return;
-    const q = questions[idx];
-    const hasAnswer = q.correctIndex >= 0;
-    const correct = hasAnswer && answer === q.correctIndex;
-    setRevealed(true);
-    setAnswered(p => new Set(p).add(idx));
-    if (correct) setScore(s => s + 1);
-    if (hasAnswer) recordAttempt(q.id, q.topicId, correct);
-  }, [answer, idx, answered, questions]);
-
-  const handleToggleBookmark = () => {
-    const id = questions[idx]?.id;
-    if (!id) return;
-    if (bookmarkedIds.has(id)) {
-      removeBookmark(id);
-      setBookmarkedIds(p => { const n = new Set(p); n.delete(id); return n; });
-    } else {
-      addBookmark(id);
-      setBookmarkedIds(p => new Set(p).add(id));
-    }
-  };
-
-  const handleNext = () => {
-    if (idx < questions.length - 1) {
-      setIdx(i => i + 1);
-      setAnswer(null);
-      setRevealed(false);
-    } else if (answered.has(idx)) {
-      saveQuizResult({
-        topicId:   'custom-practice',
-        topicName: 'Custom Practice',
-        score,
-        total:     questions.length,
-        date:      new Date().toISOString(),
-      });
-      setPhase('done');
-    }
-  };
-
-  const handlePrev = () => {
-    if (idx > 0) {
-      setIdx(i => i - 1);
-      setAnswer(null);
-      setRevealed(answered.has(idx - 1));
-    }
-  };
-
-  const optClass = (i: number) => {
-    if (!revealed) return answer === i ? 'selected' : '';
-    const q = questions[idx];
-    if (q.correctIndex < 0) return answer === i ? 'selected' : '';
-    if (i === q.correctIndex) return 'correct';
-    if (answer === i) return 'incorrect';
-    return '';
+    setStarted({ topics: [...selectedTopics].sort(), count });
   };
 
   // ── Config screen ──────────────────────────────────────────────────────────
-  if (phase === 'config') {
+  if (started === null) {
     return (
       <div className="custom-practice-config">
         <nav className="breadcrumb" aria-label="Breadcrumb">
@@ -177,13 +125,21 @@ export default function CustomPractice() {
             <div className="config-section-header">
               <h3>Topics</h3>
               <div className="config-select-all">
-                <button className="text-btn" onClick={() => setSelectedTopics(new Set(ALL_SOURCES.map(t => t.id)))}>Select All</button>
+                <button
+                  type="button"
+                  className="text-btn"
+                  onClick={() => setSelectedTopics(new Set(chapters.map((t) => t.id)))}
+                >
+                  Select All
+                </button>
                 <span>·</span>
-                <button className="text-btn" onClick={() => setSelectedTopics(new Set())}>Clear</button>
+                <button type="button" className="text-btn" onClick={() => setSelectedTopics(new Set())}>
+                  Clear
+                </button>
               </div>
             </div>
             <div className="config-topics-grid">
-              {ALL_SOURCES.map(t => (
+              {chapters.map((t) => (
                 <label
                   key={t.id}
                   className={`config-topic-chip ${selectedTopics.has(t.id) ? 'active' : ''}`}
@@ -203,9 +159,10 @@ export default function CustomPractice() {
           <div className="config-section">
             <h3>Number of Questions</h3>
             <div className="config-count-row">
-              {[10, 20, 30, 50].map(n => (
+              {[10, 20, 30, 50].map((n) => (
                 <button
                   key={n}
+                  type="button"
                   className={`count-btn ${count === n ? 'active' : ''}`}
                   onClick={() => setCount(n)}
                 >
@@ -217,22 +174,32 @@ export default function CustomPractice() {
                 className="count-input"
                 min={5}
                 max={100}
+                aria-label="Number of questions"
                 value={count}
-                onChange={e => setCount(Math.min(100, Math.max(5, parseInt(e.target.value) || 5)))}
+                onChange={(e) =>
+                  setCount(Math.min(100, Math.max(5, parseInt(e.target.value) || 5)))
+                }
               />
             </div>
           </div>
 
-          {configError && <p className="config-error">{configError}</p>}
+          {configError && (
+            <p className="config-error" role="alert">
+              {configError}
+            </p>
+          )}
 
           <div className="config-actions">
-            <Link to="/app/practice" className="btn-secondary">Cancel</Link>
+            <Link to="/app/practice" className="btn-secondary">
+              Cancel
+            </Link>
             <button
+              type="button"
               className="btn-primary"
               onClick={handleStart}
-              disabled={selectedTopics.size === 0 || loading}
+              disabled={selectedTopics.size === 0}
             >
-              {loading ? 'Loading…' : `Start ${count} Questions`}
+              Start {count} Questions
             </button>
           </div>
         </div>
@@ -240,32 +207,49 @@ export default function CustomPractice() {
     );
   }
 
-  // ── Done screen ────────────────────────────────────────────────────────────
-  if (phase === 'done') {
-    const pct = Math.round((score / questions.length) * 100);
+  if (quiz.state.phase === 'loading') {
     return (
-      <div className="quiz-complete">
-        <div className="quiz-complete-card">
-          <div className="complete-icon">{pct >= 60 ? '🎉' : '📚'}</div>
-          <h2>Custom Practice Done!</h2>
-          <div className="complete-score">
-            <span className="score-number">{score}</span>
-            <span className="score-total">/ {questions.length}</span>
-          </div>
-          <p className="complete-pct">{pct}% accuracy</p>
-          <div className="complete-actions">
-            <button className="btn-primary" onClick={() => setPhase('config')}>Configure Again</button>
-            <Link to="/app/practice" className="btn-secondary">Back to Practice</Link>
-          </div>
-        </div>
+      <div className="loading-container" role="status" aria-live="polite">
+        <div className="loading-spinner" />
+        <p>Building your {started.count}-question set…</p>
       </div>
     );
   }
 
-  // ── Quiz screen ────────────────────────────────────────────────────────────
-  const q = questions[idx];
-  const isAnswered = answered.has(idx);
-  const isCurrentBookmarked = bookmarkedIds.has(q.id);
+  if (quiz.error) {
+    return (
+      <div className="topic-not-found">
+        <h2>{quiz.error}</h2>
+        <button type="button" className="btn-primary" onClick={() => setStarted(null)}>
+          Change selection
+        </button>
+      </div>
+    );
+  }
+
+  if (quiz.state.phase === 'done') {
+    return (
+      <div className="quiz-complete">
+        <ResultSummary
+          summary={quiz.summary}
+          title="Custom Practice"
+          actions={
+            <>
+              <button type="button" className="btn-primary" onClick={() => setStarted(null)}>
+                Build Another
+              </button>
+              <Link to="/app/practice" className="btn-secondary">
+                Back to Practice
+              </Link>
+            </>
+          }
+        />
+      </div>
+    );
+  }
+
+  const current = quiz.current;
+  if (!current) return null;
 
   return (
     <div className="topic-practice-page">
@@ -275,92 +259,52 @@ export default function CustomPractice() {
         <span className="current">Custom Practice</span>
       </nav>
 
-      <header className="topic-header">
-        <div className="topic-info">
-          <h1>Custom Practice</h1>
-          <p>{selectedTopics.size} topic{selectedTopics.size !== 1 ? 's' : ''} · {questions.length} questions</p>
+      {quiz.state.resumed && (
+        <div className="mock-resume-notice" role="status">
+          Attempt resumed — your answers were restored.
         </div>
-        <div className="topic-stats">
-          <div className="stat">
-            <span className="value">{idx + 1}/{questions.length}</span>
-            <span className="label">Question</span>
-          </div>
-          <div className="stat">
-            <span className="value">{score}</span>
-            <span className="label">Correct</span>
-          </div>
-          <div className="stat">
-            <span className="value">{answered.size > 0 ? Math.round((score / answered.size) * 100) : 0}%</span>
-            <span className="label">Accuracy</span>
-          </div>
-        </div>
-      </header>
+      )}
 
-      <div className="question-card">
-        <div className="question-header">
-          <div className="question-number">Question {idx + 1}</div>
-          <button
-            className={`bookmark-btn ${isCurrentBookmarked ? 'bookmarked' : ''}`}
-            onClick={handleToggleBookmark}
-            title={isCurrentBookmarked ? 'Remove bookmark' : 'Add bookmark'}
-          >
-            <svg viewBox="0 0 24 24" fill={isCurrentBookmarked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
-          </button>
-        </div>
+      <QuizToolbar
+        index={quiz.state.currentIndex}
+        total={quiz.counts.total}
+        answered={quiz.counts.answered}
+        flagged={quiz.isFlagged}
+        onToggleFlag={() => quiz.toggleFlag()}
+        bookmarked={quiz.isBookmarked}
+        onToggleBookmark={() => quiz.toggleBookmark()}
+      />
 
-        <h2 className="question-text">{q.question}</h2>
-
-        <div className="options-list" role="radiogroup" aria-label="Answer options">
-          {q.options.map((opt, i) => (
-            <button
-              key={i}
-              className={`option-btn ${optClass(i)}`}
-              onClick={() => handleSelect(i)}
-              disabled={isAnswered}
-              role="radio"
-              aria-checked={answer === i}
-            >
-              <span className="option-letter">{String.fromCharCode(65 + i)}</span>
-              <span className="option-text">{opt}</span>
-              {revealed && i === q.correctIndex && q.correctIndex >= 0 && (
-                <svg className="result-icon correct" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              )}
-              {revealed && answer === i && i !== q.correctIndex && (
-                <svg className="result-icon incorrect" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              )}
-            </button>
-          ))}
-        </div>
-
-        {revealed && (
-          <div className={`result-message ${q.correctIndex >= 0 ? (answer === q.correctIndex ? 'correct' : 'incorrect') : 'selected'}`}>
-            {q.correctIndex < 0
-              ? <p>Answer recorded. No answer key available for this topic yet.</p>
-              : answer === q.correctIndex
-                ? <p>Correct! Well done.</p>
-                : <p>Incorrect. Correct answer: <strong>{String.fromCharCode(65 + q.correctIndex)}</strong></p>
-            }
-          </div>
+      <QuestionCard
+        index={quiz.state.currentIndex}
+        total={quiz.counts.total}
+        questionText={current.question}
+        options={current.options}
+        selection={quiz.selection}
+        onSelect={quiz.selectOption}
+        correctIndex={current.correctIndex}
+        revealed={quiz.isRevealed}
+        verdict={quiz.verdict}
+        locked={quiz.isSubmitted}
+      >
+        {quiz.isRevealed && (
+          <ExplanationPanel context="practice" reference={describeReference(current)} />
         )}
+      </QuestionCard>
 
-        <div className="question-actions">
-          <button className="btn-secondary" onClick={handlePrev} disabled={idx === 0}>Previous</button>
-          {!isAnswered
-            ? <button className="btn-primary" onClick={handleSubmit} disabled={answer === null}>Submit</button>
-            : <button className="btn-primary" onClick={handleNext}>{idx < questions.length - 1 ? 'Next' : 'Finish'}</button>
-          }
-        </div>
-      </div>
+      <QuizActionBar
+        onPrev={quiz.prev}
+        onNext={quiz.next}
+        onSubmit={quiz.submitCurrent}
+        onFinish={quiz.submitAll}
+        canPrev={quiz.state.currentIndex > 0}
+        canNext={!quiz.isLast}
+        canSubmit={quiz.canSubmitCurrent}
+        isLast={quiz.isLast}
+        finishLabel="Finish"
+      />
 
-      <div className="question-progress-bar">
-        <div className="qpb-fill" style={{ width: `${((idx + 1) / questions.length) * 100}%` }} />
-      </div>
+      <QuestionPalette entries={quiz.palette} onJump={quiz.goTo} />
     </div>
   );
 }

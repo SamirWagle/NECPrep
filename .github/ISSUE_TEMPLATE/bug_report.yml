@@ -1,0 +1,97 @@
+name: Bug report
+description: Something in the app behaves differently from what it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a wrong answer key, a duplicated question or a broken question,
+        please use **Question error report** instead — it asks for the chapter
+        and index needed to find the row.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, in one or two sentences.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps starting from a fresh page load.
+      placeholder: |
+        1. Open /app/practice
+        2. Pick Chapter 3
+        3. Answer the first question
+        4. ...
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Page or route
+      placeholder: /app/practice/topic/book-ch3
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the app
+      options:
+        - Landing page
+        - Dashboard
+        - Practice (chapter / topic / quick / custom)
+        - Mock tests
+        - Study hub
+        - Flashcards
+        - Bookmarks
+        - Progress
+        - Profile / Settings
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Device and browser
+      description: >
+        Please be specific. A large share of users are on entry-level Android
+        over mobile data, and several bugs only appear there.
+      placeholder: Android 11, Chrome 120, 3G
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: >
+        Open DevTools (or `chrome://inspect` on Android) and paste anything red.
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: progress-loss
+    attributes:
+      label: Did this lose study progress?
+      description: >
+        All progress lives in this browser's `localStorage`. There is no account
+        and no server copy, so lost progress cannot be recovered — these reports
+        are triaged first.
+      options:
+        - label: Yes, saved progress, bookmarks or quiz history disappeared
+          required: false
