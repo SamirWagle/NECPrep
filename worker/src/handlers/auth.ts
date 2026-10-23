@@ -77,11 +77,33 @@ function emitSessionCookie(ctx: HandlerContext, sessionId: string, maxAgeSeconds
   );
 }
 
+/**
+ * Mint a session, and retire the one the caller arrived with.
+ *
+ * The rotation is the point. Without it, signing in left the previous session
+ * row valid until its own expiry - usually a guest session, occasionally
+ * another account's. The browser overwrites the cookie, so that row is
+ * unreachable in practice; a copy captured beforehand was not. Rotating costs
+ * one write and removes the window entirely.
+ *
+ * `'rotated'` is already in `RevokeReason` - the schema anticipated this and
+ * nothing used it.
+ *
+ * A no-op for `startAnonymousSession`, which only reaches here when there is
+ * no session to retire. NOT used by `upgradeAnonymous`: that keeps the current
+ * session deliberately, because the user id does not change and the device
+ * doing the upgrading should not be signed out by it.
+ */
 async function establishSession(
   ctx: HandlerContext,
   userId: string,
 ): Promise<{ sessionId: string; expiresAt: number }> {
   const now = ctx.clock.now();
+
+  if (ctx.auth) {
+    await revokeSession(ctx.db, ctx.auth.sessionId, now, 'rotated');
+  }
+
   const session = await createSession(ctx.db, {
     userId,
     now,

@@ -19,8 +19,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { createWorld, T0 } from './harness.ts';
-import { readSession, startAnonymousSession } from '../handlers/auth.ts';
+import { readSession, signup, startAnonymousSession } from '../handlers/auth.ts';
 import { ok } from '../handlers/context.ts';
+import { loadSessionByCookie, toSessionUser } from '../data/auth.ts';
 import type { HandlerResult } from '../handlers/context.ts';
 
 /**
@@ -108,4 +109,48 @@ test('T0 is stable, so these assertions do not depend on the clock', () => {
   // Guards against a future refactor making cache lifetimes time-derived,
   // which would make the headers above flaky rather than wrong.
   assert.equal(typeof T0, 'number');
+});
+
+/**
+ * Session rotation.
+ *
+ * Signing in used to leave the session the caller arrived with valid until its
+ * own expiry — usually a guest session. The browser overwrites the cookie, so
+ * that row was unreachable in practice; a copy captured beforehand was not.
+ */
+test('signing in retires the session the caller arrived with', async () => {
+  const world = createWorld();
+
+  // 1. A guest, with a real session row and a real cookie.
+  const anonCtx = { ...world.contextFor(world.makeUser()), auth: null, cookies: [] };
+  await startAnonymousSession(anonCtx);
+  const guestCookie = anonCtx.cookies.join('; ');
+  const guestValue = /necprep_session=([^;]+)/.exec(guestCookie)?.[1];
+  assert.ok(guestValue, 'expected a session cookie');
+
+  const guest = await loadSessionByCookie(anonCtx.db, guestValue, T0);
+  assert.ok(guest, 'the guest session should resolve');
+
+  // 2. That guest signs up, carrying their guest session.
+  const signupCtx = {
+    ...world.contextFor(world.makeUser()),
+    auth: { sessionId: guest.session.id, user: toSessionUser(guest.user) },
+    cookies: [],
+  };
+  await signup(signupCtx, {
+    email: 'rotated@example.test',
+    password: 'a-long-enough-password',
+  });
+
+  // 3. The session they arrived with is gone, and says why.
+  const row = world.d1.raw
+    .prepare('SELECT revoked_at, revoked_reason FROM sessions WHERE id = ?')
+    .get(guest.session.id) as { revoked_at: number | null; revoked_reason: string | null };
+  assert.ok(row.revoked_at !== null, 'the prior session should be revoked');
+  assert.equal(row.revoked_reason, 'rotated');
+
+  // 4. And it no longer resolves, which is the property that matters.
+  assert.equal(await loadSessionByCookie(signupCtx.db, guestValue, T0), null);
+
+  world.close();
 });
