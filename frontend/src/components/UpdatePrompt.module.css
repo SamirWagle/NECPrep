@@ -1,0 +1,86 @@
+/* The update / offline-ready bar.
+ *
+ * Bottom-anchored rather than top: the top of the screen is where a student is
+ * reading a question, and on a phone the bottom is where the thumb already is.
+ * It sits ABOVE the bottom navigation, which is why the inset below adds that
+ * bar's height on small screens — covering the navigation with a notice would
+ * trap someone on whatever page they were on. */
+
+.bar {
+  position: fixed;
+  right: var(--spacing-3);
+  bottom: var(--spacing-3);
+  left: var(--spacing-3);
+  z-index: 60; /* above BottomNav (40), below any modal */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2) var(--spacing-3);
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 640px) {
+  .bar {
+    /* Clear the bottom navigation (44px target + padding) and the home
+       indicator. Matches the reservation in AppShell.module.css. */
+    bottom: calc(60px + var(--spacing-3) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.text {
+  flex: 1 1 14rem;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--spacing-2);
+}
+
+.primary,
+.secondary {
+  /* 44px: this can appear while someone is mid-question, so a mis-tap that
+     reloads the page is exactly what must not happen. */
+  min-height: 44px;
+  padding: 0 var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary {
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+}
+
+.primary:hover {
+  filter: brightness(0.94);
+}
+
+.secondary {
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-fg);
+}
+
+.secondary:hover {
+  border-color: var(--color-ring);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}

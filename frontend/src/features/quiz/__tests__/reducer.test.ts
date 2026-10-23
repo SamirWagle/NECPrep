@@ -12,6 +12,7 @@ import {
   toggleBookmark,
   toggleFlag,
 } from '../actions';
+import { KEY_HELD_BY_SERVER, hasLocalKey, isServerKeyed } from '../answerKey';
 import { createInitialState, quizReducer, timeSpentAt } from '../reducer';
 import {
   selectAnsweredCount,
@@ -149,6 +150,78 @@ describe('quizReducer — feedback modes', () => {
     expect(selectScore(state)).toBe(0);
     expect(selectSummary(state).gradableTotal).toBe(0);
     expect(selectSummary(state).accuracyPct).toBe(0);
+  });
+});
+
+/**
+ * A server-scored mock. The key is `KEY_HELD_BY_SERVER` (-2) and NOT a faked
+ * index, so every guard that already refused to grade an unkeyed question
+ * refuses to grade these too — without the reducer learning a new branch.
+ */
+describe('quizReducer — a paper whose key only the server holds', () => {
+  const serverPaper = () =>
+    start({
+      mode: 'mock',
+      feedback: 'deferred',
+      questions: makeQuestions(3, [KEY_HELD_BY_SERVER, KEY_HELD_BY_SERVER, KEY_HELD_BY_SERVER]),
+      durationMs: 7_200_000,
+    });
+
+  it('names the two sentinels apart', () => {
+    expect(isServerKeyed(KEY_HELD_BY_SERVER)).toBe(true);
+    // A question with no key anywhere is a content defect, not a remote paper.
+    expect(isServerKeyed(-1)).toBe(false);
+    expect(hasLocalKey(KEY_HELD_BY_SERVER)).toBe(false);
+    expect(hasLocalKey(-1)).toBe(false);
+    expect(hasLocalKey(0)).toBe(true);
+  });
+
+  it('reveals no verdict mid-paper, as any deferred attempt would', () => {
+    const state = run(serverPaper(), select(0, 1, T0 + 100));
+    expect(selectVerdict(state, 0)).toBe('pending');
+    expect(selectIsRevealed(state, 0)).toBe(false);
+  });
+
+  it('reports withheld, never correct or incorrect, once the paper is in', () => {
+    const state = run(serverPaper(), select(0, 1, T0 + 100), submitAll(T0 + 60_000));
+
+    // `withheld` and not `unkeyed`: there IS a key and the answer WAS graded,
+    // just not here. Claiming "no answer key is available" would be a lie.
+    expect(selectVerdict(state, 0)).toBe('withheld');
+    expect(selectVerdict(state, 1)).toBe('unanswered');
+  });
+
+  it('scores nothing locally, so no host can accidentally render a tally', () => {
+    const state = run(
+      serverPaper(),
+      select(0, 1, T0 + 100),
+      select(1, 1, T0 + 200),
+      select(2, 1, T0 + 300),
+      submitAll(T0 + 60_000)
+    );
+
+    const summary = selectSummary(state);
+    expect(selectScore(state)).toBe(0);
+    expect(summary.gradableTotal).toBe(0);
+    expect(summary.score).toBe(0);
+    expect(summary.accuracyPct).toBe(0);
+    // Not "incorrect" either. A wrong answer is a claim the client cannot make.
+    expect(summary.incorrect).toBe(0);
+    // The engine still tracks what the student DID, which is what gets posted.
+    expect(summary.answered).toBe(3);
+  });
+
+  it('marks every response record not-correct, so nothing leaks into progress', () => {
+    const state = run(serverPaper(), select(0, 1, T0 + 100), submitAll(T0 + 60_000));
+    expect(state.responses.every((r) => r.correct === false)).toBe(true);
+  });
+
+  it('still enforces the absolute deadline', () => {
+    const state = run(serverPaper(), select(0, 1, T0 + 100));
+    expect(selectTimeLeftMs(state, T0 + 7_200_000)).toBe(0);
+    const expired = run(state, submitAll(T0 + 7_200_001));
+    expect(expired.phase).toBe('done');
+    expect(expired.selections[0]).toBe(1);
   });
 });
 
