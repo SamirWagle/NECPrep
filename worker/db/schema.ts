@@ -251,6 +251,47 @@ export const oauthStates = sqliteTable(
   ]
 );
 
+/**
+ * Password reset tokens.
+ *
+ * A reset link is a bearer credential that arrives over email, sits in an
+ * inbox and is frequently forwarded. The shape follows `sessions`: the PRIMARY
+ * KEY is a SHA-256 of the token, never the token, so a dump of this table
+ * yields nothing anyone can redeem.
+ *
+ * SINGLE USE: `consumedAt` is stamped on redemption and the live index is
+ * partial on `consumed_at IS NULL`, so a forwarded link cannot set a second
+ * password a week later.
+ */
+export const passwordResetTokens = sqliteTable(
+  'password_reset_tokens',
+  {
+    /** sha256 hex of the emailed token. 64 chars, as `sessions.id`. */
+    id: text('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdAt: integer('created_at').notNull().default(nowMs),
+    expiresAt: integer('expires_at').notNull(),
+    /** Set on redemption. Non-NULL means spent. */
+    consumedAt: integer('consumed_at'),
+    /** Salted hash of the requester's address, never the address. */
+    requestedIpHash: text('requested_ip_hash'),
+  },
+  (t) => [
+    index('idx_password_reset_live')
+      .on(t.userId, t.expiresAt)
+      .where(sql`consumed_at IS NULL`),
+    index('idx_password_reset_expires_at').on(t.expiresAt),
+    check('password_reset_tokens_id', sql`length(id) = 64 AND id GLOB '[0-9a-f]*'`),
+    check('password_reset_tokens_expiry_order', sql`expires_at > created_at`),
+    check(
+      'password_reset_tokens_consumed_order',
+      sql`consumed_at IS NULL OR consumed_at >= created_at`
+    ),
+  ]
+);
+
 export const adminAuditLog = sqliteTable(
   'admin_audit_log',
   {

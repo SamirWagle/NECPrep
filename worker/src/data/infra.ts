@@ -156,6 +156,10 @@ export const RATE_LIMITS = {
   signup: { name: 'auth:signup', limit: 5, windowMs: HOUR },
   anonymous: { name: 'auth:anonymous', limit: 10, windowMs: HOUR },
   upgrade: { name: 'auth:upgrade', limit: 5, windowMs: HOUR },
+  // Deliberately tight. Each allowed request sends an email to a third
+  // party, so the quota is a spam budget as much as a security control,
+  // and it is consumed per ADDRESS as well as per IP.
+  passwordReset: { name: 'auth:password-reset', limit: 5, windowMs: HOUR },
   mockStart: { name: 'mock:start', limit: 20, windowMs: HOUR },
   mockSubmit: { name: 'mock:submit', limit: 40, windowMs: HOUR },
   mockSync: { name: 'mock:sync', limit: 240, windowMs: HOUR },

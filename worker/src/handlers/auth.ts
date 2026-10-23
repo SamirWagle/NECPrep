@@ -30,6 +30,8 @@ import {
   rehashStatement,
   revokeAllSessionsForUser,
   revokeSession,
+  createPasswordResetToken,
+  consumePasswordResetToken,
   SESSION_IDLE_TTL_MS,
   toSessionUser,
   touchSessionStatement,
@@ -41,6 +43,8 @@ import { randomToken } from '../lib/ids.ts';
 import { clearSessionCookie, serializeSessionCookie } from '../lib/cookies.ts';
 import { ok, requireUser } from './context.ts';
 import type { HandlerContext, HandlerResult } from './context.ts';
+import type { EmailSender } from '../lib/email.ts';
+import { passwordResetMessage } from '../lib/email.ts';
 import type { GoogleOAuthConfig } from '../env.ts';
 import type { SessionResponse, SessionUser } from '../shared/types.ts';
 import type {
@@ -651,4 +655,133 @@ export async function resolveSession(
 export async function hashIp(ip: string | null, salt: string): Promise<string | null> {
   if (!ip) return null;
   return (await sha256Hex(`${salt}:${ip}`)).slice(0, 32);
+}
+
+/* ------------------------------------------------------------------ *
+ * Password reset.
+ *
+ * Until now there was none, and this platform sends no email, so a forgotten
+ * password meant a permanently lost account - every attempt, bookmark and
+ * streak with it. For a free study tool used by students, that is the single
+ * most likely way to lose one.
+ * ------------------------------------------------------------------ */
+
+/**
+ * POST /api/auth/password/request
+ *
+ * THE RESPONSE IS THE SAME WHETHER OR NOT THE ACCOUNT EXISTS. That is the
+ * whole design. An endpoint that says "no such account" is an address
+ * checker: point a list at it and it returns everyone who has signed up,
+ * which for an exam platform is a list of named candidates.
+ *
+ * So: always 200, always the same sentence, and the work that differs happens
+ * after the decision not to differ.
+ */
+export async function requestPasswordReset(
+  ctx: HandlerContext,
+  input: { email: string },
+  sender: EmailSender | null,
+): Promise<HandlerResult<{ ok: true }>> {
+  const now = ctx.clock.now();
+  const email = normalizeEmail(input.email);
+
+  // With no provider there is nothing to send, and saying "check your inbox"
+  // would leave a student waiting for a message that was never dispatched.
+  // Refused identically for every caller, so it still leaks nothing.
+  if (!sender) {
+    fail('NOT_FOUND', 'Password reset is not available on this deployment yet.');
+  }
+
+  // Per address AND per account: one attacker cannot drain the quota for
+  // everyone, and one inbox cannot be flooded from many addresses.
+  for (const subject of [ipSubject(ctx), `email:${email}`]) {
+    const limit = await consumeRateLimit(ctx.db, RATE_LIMITS.passwordReset, subject, now);
+    if (!limit.allowed) {
+      fail('RATE_LIMITED', 'Too many reset requests. Please wait before trying again.', {
+        retryAfterMs: limit.retryAfterMs,
+      });
+    }
+  }
+
+  const user = await findUserByEmail(ctx.db, email);
+
+  // An anonymous user has no email to send to, and an account with no password
+  // (Google-only) has nothing to reset - it would be a way to attach a
+  // password to someone else's Google account if the mail were intercepted.
+  if (user && user.is_anonymous === 0 && user.password_hash !== null) {
+    const { token, expiresAt } = await createPasswordResetToken(ctx.db, {
+      userId: user.id,
+      now,
+      ipHash: ctx.meta.ipHash,
+    });
+
+    const resetUrl = `${ctx.config.appOrigin}/reset-password?token=${encodeURIComponent(token)}`;
+    try {
+      await sender.send(
+        passwordResetMessage({
+          to: email,
+          resetUrl,
+          expiresInMinutes: Math.round((expiresAt - now) / 60_000),
+        }),
+      );
+    } catch (err) {
+      // Logged, never returned. A provider error that reached the caller
+      // would distinguish "we tried to send to this address" from "we did
+      // nothing", which is the enumeration leak by another route.
+      console.error(
+        `[auth] password reset send failed: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+  }
+
+  return ok({ ok: true as const });
+}
+
+/**
+ * POST /api/auth/password/reset
+ *
+ * Redeems a token and sets the password. Three things happen together, and
+ * the order matters:
+ *
+ *   1. The token is consumed by the same UPDATE that validates it, so two
+ *      simultaneous redemptions cannot both succeed.
+ *   2. The new hash is written.
+ *   3. EVERY session for that user is revoked. Resetting a password is what
+ *      someone does when they believe an account is compromised; leaving the
+ *      attacker's session live would make the reset theatre.
+ */
+export async function resetPassword(
+  ctx: HandlerContext,
+  input: { token: string; password: string },
+): Promise<HandlerResult<SessionResponse>> {
+  const now = ctx.clock.now();
+
+  const limit = await consumeRateLimit(ctx.db, RATE_LIMITS.passwordReset, ipSubject(ctx), now);
+  if (!limit.allowed) {
+    fail('RATE_LIMITED', 'Too many attempts. Please wait before trying again.', {
+      retryAfterMs: limit.retryAfterMs,
+    });
+  }
+
+  const userId = await consumePasswordResetToken(ctx.db, input.token, now);
+  if (!userId) {
+    // Unknown, already used, or expired - deliberately one message. The person
+    // holding a dead link needs the same next step in all three cases.
+    fail('INVALID_CREDENTIALS', 'That reset link is invalid or has expired. Please request another.');
+  }
+
+  const user = await getUserById(ctx.db, userId);
+  if (!user) {
+    fail('INVALID_CREDENTIALS', 'That reset link is invalid or has expired. Please request another.');
+  }
+
+  const passwordHash = await hashPassword(input.password, ctx.config.passwordIterations);
+  await ctx.db.batch([rehashStatement({ userId, passwordHash, now })]);
+
+  // Everywhere, including whoever prompted the reset.
+  await revokeAllSessionsForUser(ctx.db, userId, now, undefined);
+
+  // Signed in on this device, on a brand-new session.
+  const session = await establishSession(ctx, userId);
+  return ok(sessionBody(ctx, toSessionUser(user), session.expiresAt));
 }

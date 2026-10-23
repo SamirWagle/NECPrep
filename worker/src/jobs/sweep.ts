@@ -19,7 +19,11 @@
  *
  *  3. NOTIFICATIONS past `expires_at`, which is what that column is for.
  *
- *  4. IDEMPOTENCY KEYS past their TTL, using the statement `data/infra.ts`
+ *  4. PASSWORD RESET TOKENS past their expiry. Housekeeping rather than
+ *     security - the redeem path already refuses an expired or spent token -
+ *     but one row per "forgot password" click accumulates forever otherwise.
+ *
+ *  5. IDEMPOTENCY KEYS past their TTL, using the statement `data/infra.ts`
  *     already defines. Reusing it rather than writing a second DELETE keeps
  *     one definition of what "expired key" means.
  *
@@ -45,6 +49,7 @@ export interface SweepResult {
   readonly sessionsDeleted: number;
   readonly notificationsDeleted: number;
   readonly idempotencyKeysDeleted: number;
+  readonly resetTokensDeleted: number;
 }
 
 export async function runNightlySweep(db: Db, config: SweepConfig): Promise<SweepResult> {
@@ -113,7 +118,25 @@ export async function runNightlySweep(db: Db, config: SweepConfig): Promise<Swee
     limit,
   );
 
-  // 4. Idempotency keys, via the one statement that defines their TTL.
+  // 4. Expired password reset tokens.
+  //
+  // A spent or expired token is inert - the redeem path checks both - so this
+  // is housekeeping rather than security. It still matters: one row per
+  // "forgot password" click accumulates forever otherwise, and the table is
+  // indexed, so the rows carry index entries with them.
+  const resetTokens = await db.run(
+    `DELETE FROM ${T.passwordResetTokens}
+      WHERE id IN (
+        SELECT id FROM ${T.passwordResetTokens}
+         WHERE expires_at < ?1
+         ORDER BY expires_at
+         LIMIT ?2
+      )`,
+    now,
+    limit,
+  );
+
+  // 5. Idempotency keys, via the one statement that defines their TTL.
   const idem = sweepIdempotencyStatement(now);
   const [idemResult] = await db.batch([idem]);
 
@@ -122,6 +145,7 @@ export async function runNightlySweep(db: Db, config: SweepConfig): Promise<Swee
     sessionsDeleted: sessions.changes ?? 0,
     notificationsDeleted: notifications.changes ?? 0,
     idempotencyKeysDeleted: idemResult?.meta?.changes ?? 0,
+    resetTokensDeleted: resetTokens.changes ?? 0,
   };
 }
 

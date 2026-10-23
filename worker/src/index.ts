@@ -22,6 +22,7 @@ import { loadConfig } from './env.ts';
 import type { Env } from './env.ts';
 import { systemClock } from './lib/time.ts';
 import { handleScheduled, type ScheduledEventLike } from './jobs/index.ts';
+import { resolveEmailSender } from './lib/email.ts';
 import { readCookie, SESSION_COOKIE } from './lib/cookies.ts';
 import { toErrorResponse } from './shared/errors.ts';
 import type { HandlerContext, HandlerResult } from './handlers/context.ts';
@@ -43,6 +44,8 @@ import {
   googleCallbackSchema,
   historyQuerySchema,
   loginSchema,
+  passwordResetRequestSchema,
+  passwordResetSchema,
   mockStartSchema,
   mockSubmitSchema,
   mockSyncSchema,
@@ -279,6 +282,20 @@ app.post('/api/auth/login', async (c) => {
   const ctx = c.get('ctx');
   const input = await readJsonBody(c.req.raw, loginSchema);
   return send(ctx, await auth.login(ctx, input));
+});
+
+app.post('/api/auth/password/request', async (c) => {
+  const ctx = c.get('ctx');
+  const input = await readJsonBody(c.req.raw, passwordResetRequestSchema);
+  // The sender is resolved per request rather than held in `Config`, because
+  // it closes over `fetch` and the tests inject their own.
+  return send(ctx, await auth.requestPasswordReset(ctx, input, resolveEmailSender(c.env)));
+});
+
+app.post('/api/auth/password/reset', async (c) => {
+  const ctx = c.get('ctx');
+  const input = await readJsonBody(c.req.raw, passwordResetSchema);
+  return send(ctx, await auth.resetPassword(ctx, input));
 });
 
 app.post('/api/auth/logout', async (c) => {

@@ -77,6 +77,9 @@ export const T = {
   leaderboardEntries: 'leaderboard_entries',
   notifications: 'notifications',
 
+  // 0011_password_reset. Written only by the reset request and redeem paths.
+  passwordResetTokens: 'password_reset_tokens',
+
   // 0008_api_infrastructure
   idempotencyKeys: 'idempotency_keys',
   rateLimits: 'rate_limits',

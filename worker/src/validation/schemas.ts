@@ -128,6 +128,30 @@ const password = () =>
 const displayName = () =>
   z.string({ error: 'Expected a string.' }).trim().min(1).max(60);
 
+/**
+ * A reset REQUEST carries only an address. No minimum on anything: the
+ * response is identical whether or not the account exists, so there is
+ * nothing a validation message could usefully say that would not also be an
+ * address oracle.
+ */
+export const passwordResetRequestSchema = z.strictObject({
+  email: email(),
+});
+
+/**
+ * A reset REDEMPTION carries the emailed token and the new password.
+ *
+ * `password()` applies the same 8-character floor as signup, because this
+ * sets a password rather than checking one - the argument for no minimum on
+ * login (not telling an attacker their guess was too short) does not apply.
+ */
+export const passwordResetSchema = z.strictObject({
+  // 130 bits of base32 with a prefix; bounded so an oversized body is rejected
+  // before it reaches the hash.
+  token: z.string({ error: 'Expected a string.' }).min(16).max(200),
+  password: password(),
+});
+
 export const signupSchema = z.strictObject({
   email: email(),
   password: password(),

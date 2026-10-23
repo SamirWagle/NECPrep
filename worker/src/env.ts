@@ -38,6 +38,17 @@ export interface Env {
   /** Default 45. Raise to ~900 on the paid plan (1,000 queries/invocation). */
   D1_QUERY_BUDGET?: string;
   /**
+   * Transactional email. BOTH or neither - a key with no sender address
+   * cannot send and an address with no key is decoration, so a
+   * half-configuration is treated as off, exactly as the Google triple is.
+   * Without them the password-reset endpoints refuse plainly rather than
+   * pretending to have sent something. See lib/email.ts.
+   */
+  RESEND_API_KEY?: string;
+  /** e.g. `NECPrep <noreply@yourdomain>`. Must be a verified Resend sender. */
+  EMAIL_FROM?: string;
+
+  /**
    * Raw-answer retention window in days, read by the retention cron. Default
    * 90 on the free plan; 180 once on Workers Paid. See the archival note in
    * migrations/0004_assessment.sql and `src/jobs/index.ts#retentionDays`.

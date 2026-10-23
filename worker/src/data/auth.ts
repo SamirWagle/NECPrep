@@ -589,3 +589,90 @@ export async function claimAnonymousForOAuth(
   ]);
   return (results[0]?.meta.changes ?? 0) === 1;
 }
+
+/* ------------------------------------------------------------------ *
+ * Password reset tokens (0011).
+ *
+ * The same discipline as sessions: what goes in the email is the token, what
+ * goes in the database is its SHA-256. A dump of this table yields nothing
+ * anyone can redeem.
+ * ------------------------------------------------------------------ */
+
+/** One hour. Long enough for a slow mail server, short enough that an old inbox is not a standing key. */
+export const RESET_TOKEN_TTL_MS = 60 * MINUTE;
+
+/** The token hash. Same construction as `hashSessionCookie`, for the same reason. */
+export async function hashResetToken(token: string): Promise<string> {
+  return await sha256Hex(token);
+}
+
+/**
+ * Mint a reset token and retire any the account already had.
+ *
+ * Retiring siblings is what stops a request flood becoming a pile of live
+ * keys: a student who clicks "forgot password" five times should end up with
+ * one usable link, not five. The newest wins because it is the one in the
+ * inbox they are looking at.
+ */
+export async function createPasswordResetToken(
+  db: Db,
+  args: { userId: string; now: number; ipHash: string | null; ttlMs?: number },
+): Promise<{ token: string; expiresAt: number }> {
+  const token = newSecretId('prt');
+  const id = await hashResetToken(token);
+  const expiresAt = args.now + (args.ttlMs ?? RESET_TOKEN_TTL_MS);
+
+  await db.batch([
+    sql(
+      `UPDATE ${T.passwordResetTokens}
+          SET consumed_at = ?2
+        WHERE user_id = ?1 AND consumed_at IS NULL`,
+      args.userId,
+      args.now,
+    ),
+    sql(
+      `INSERT INTO ${T.passwordResetTokens}
+         (id, user_id, created_at, expires_at, consumed_at, requested_ip_hash)
+       VALUES (?1, ?2, ?3, ?4, NULL, ?5)`,
+      id,
+      args.userId,
+      args.now,
+      expiresAt,
+      args.ipHash,
+    ),
+  ]);
+
+  return { token, expiresAt };
+}
+
+/**
+ * Redeem a token, once.
+ *
+ * The UPDATE carries the whole predicate - unconsumed AND unexpired - so the
+ * check and the claim are one statement. Reading first and writing second
+ * would leave a window in which two requests both see an unconsumed row, and
+ * D1 has no interactive transaction to close it with.
+ *
+ * Returns the user id when this call is the one that claimed it, and null for
+ * everything else: unknown token, already used, expired. The caller cannot
+ * tell those apart, and should not - each of them means the same thing to the
+ * person holding the link.
+ */
+export async function consumePasswordResetToken(
+  db: Db,
+  token: string,
+  now: number,
+): Promise<string | null> {
+  const id = await hashResetToken(token);
+  const row = await db.first<{ user_id: string }>(
+    `UPDATE ${T.passwordResetTokens}
+        SET consumed_at = ?2
+      WHERE id = ?1
+        AND consumed_at IS NULL
+        AND expires_at > ?2
+      RETURNING user_id`,
+    id,
+    now,
+  );
+  return row?.user_id ?? null;
+}
