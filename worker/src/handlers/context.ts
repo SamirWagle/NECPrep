@@ -45,6 +45,15 @@ export interface HandlerResult<T> {
   status: number;
   body: T;
   replayed?: boolean;
+  /**
+   * Overrides the default `Cache-Control: no-store`.
+   *
+   * Only set this on a response whose body is identical for every visitor,
+   * signed in or not. Anything derived from `ctx.auth` is not that, however
+   * harmless it looks: a chapter list with a per-user "completed" flag on it
+   * is a personalised response wearing public clothes.
+   */
+  cacheControl?: string;
 }
 
 export function ok<T>(body: T): HandlerResult<T> {

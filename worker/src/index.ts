@@ -122,14 +122,17 @@ function corsHeaders(origin: string | undefined, appOrigin: string): Record<stri
   // Credentials are cookies, so `Access-Control-Allow-Origin` cannot be `*`.
   // An unrecognised origin gets no CORS headers at all, which the browser turns
   // into a blocked request - the correct outcome.
-  if (origin !== appOrigin) return { vary: 'Origin' };
+  // `Cookie` as well as `Origin`: `send` sets both, and this runs afterwards,
+  // so returning only `Origin` here would quietly drop the half that keeps a
+  // personalised response from being shared between sessions.
+  if (origin !== appOrigin) return { vary: 'Origin, Cookie' };
   return {
     'access-control-allow-origin': appOrigin,
     'access-control-allow-credentials': 'true',
     'access-control-allow-methods': 'GET,POST,PUT,DELETE,OPTIONS',
     'access-control-allow-headers': 'content-type',
     'access-control-max-age': '86400',
-    vary: 'Origin',
+    vary: 'Origin, Cookie',
   };
 }
 
@@ -141,10 +144,36 @@ function corsHeaders(origin: string | undefined, appOrigin: string): Record<stri
  * limit is the tightest constraint this platform has, and a number in a
  * response header is the difference between knowing the cost and guessing it.
  */
+/**
+ * Every API response is `no-store` unless a handler says otherwise.
+ *
+ * The default used to be NOTHING - no `Cache-Control` at all, on every
+ * endpoint including `GET /api/auth/session`, which answers "who is signed in
+ * on this browser". A response with no cache directives is not forbidden from
+ * being stored; it is left to heuristics, and the caches that apply those
+ * heuristics include corporate proxies and anything a Cloudflare Cache Rule
+ * might later be pointed at. The failure mode is one student being served
+ * another student's identity, which is the worst bug this platform could
+ * have.
+ *
+ * `no-store` rather than `no-cache`: `no-cache` permits storing and requires
+ * revalidation, which still leaves a copy of a personalised response on disk.
+ *
+ * `Vary: Cookie` is belt and braces. With `no-store` nothing should be stored
+ * at all, but if a future change relaxes an endpoint to `public`, varying on
+ * the session cookie is what stops that relaxation becoming a leak.
+ */
+const PRIVATE_CACHE = 'no-store';
+
 function send<T>(ctx: HandlerContext, result: HandlerResult<T>): Response {
   const headers = new Headers({ 'content-type': 'application/json; charset=utf-8' });
   for (const cookie of ctx.cookies) headers.append('set-cookie', cookie);
   headers.set('x-d1-queries', String(ctx.db.queryCount));
+  headers.set('cache-control', result.cacheControl ?? PRIVATE_CACHE);
+  // `Origin` is already varied on by the CORS layer; `Cookie` is added here so
+  // the two travel together on every response rather than only the ones a
+  // middleware happened to touch.
+  headers.set('vary', 'Origin, Cookie');
   if (result.replayed) headers.set('idempotent-replay', 'true');
 
   // A 302 from `googleStart` / `googleCallback` carries its target in the body.
@@ -165,6 +194,10 @@ app.onError((err, c) => {
   console.error(`[api] ${c.req.method} ${c.req.path} -> ${status}: ${logMessage}`);
 
   const headers = new Headers({ 'content-type': 'application/json; charset=utf-8' });
+  // An error can carry a rate-limit state or a validation message about a
+  // specific account; none of it should be stored anywhere.
+  headers.set('cache-control', PRIVATE_CACHE);
+  headers.set('vary', 'Origin, Cookie');
   const ctx = c.get('ctx') as HandlerContext | undefined;
   if (ctx) {
     for (const cookie of ctx.cookies) headers.append('set-cookie', cookie);
@@ -177,11 +210,18 @@ app.onError((err, c) => {
   return new Response(JSON.stringify(body), { status, headers });
 });
 
+// The 404 needs the same directives as everything else. It is the one
+// response an unauthenticated prober sees most of, and the path it names is
+// attacker-controlled - there is nothing here worth any cache keeping.
 app.notFound(
   () =>
     new Response(JSON.stringify({ error: { code: 'NOT_FOUND', message: 'No such endpoint.' } }), {
       status: 404,
-      headers: { 'content-type': 'application/json; charset=utf-8' },
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        'cache-control': PRIVATE_CACHE,
+        vary: 'Origin, Cookie',
+      },
     }),
 );
 
