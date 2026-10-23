@@ -31,6 +31,7 @@ import {
   toggleBookmark as toggleBookmarkAction,
   toggleFlag as toggleFlagAction,
 } from './actions';
+import { hasLocalKey } from './answerKey';
 import { clearDraft, draftFromState, readDraft, writeDraft } from './draft';
 import { createInitialState, defaultFeedbackFor, quizReducer } from './reducer';
 import {
@@ -74,8 +75,42 @@ export interface UseQuizOptions {
   loadQuestions: () => Promise<Question[]>;
   /** Rebuilds a saved paper from ids. Defaults to `loadQuestionsByIds`. */
   resolveQuestions?: (ids: string[]) => Promise<Question[]>;
+  /**
+   * Answers an AUTHORITATIVE remote store already holds, keyed by question id
+   * and valued as an option index into that question's `options`.
+   *
+   * This is the remote-mock resume path: the Worker returns
+   * `MockAttemptPaper.savedAnswers` so a reload does not depend on
+   * localStorage surviving, and so an attempt can be picked up on a device
+   * that never wrote a draft at all.
+   *
+   * MERGE ORDER IS LOCAL-WINS, which looks backwards until you consider the
+   * clocks: the local draft is written on every answer, the server snapshot
+   * only every autosave, so the draft can legitimately be NEWER. A local value
+   * therefore stands and the server fills only the gaps. Nothing is weakened
+   * by trusting localStorage here — these are option indexes, and the server
+   * re-derives correctness from the refs it is sent at submission.
+   *
+   * Omit it and the restore behaves exactly as before.
+   */
+  restoredSelections?: Readonly<Record<string, number>>;
   /** Migrates a pre-engine `eng_mock_draft_v1:<testId>` draft on first load. */
   legacyMockTestId?: string;
+  /**
+   * Recompute a resumed attempt's deadline from `durationMs` instead of
+   * trusting the one stored in the draft.
+   *
+   * Set by the remote mock path. There, `durationMs` is the time the SERVER
+   * says is left (`expiresAt - serverNow`), while a draft's `endsAt` is an
+   * absolute instant this device wrote against its own clock in an earlier
+   * session. When the two disagree the server is right by definition — it is
+   * the clock that decides what gets scored — and a device whose clock jumped
+   * forward would otherwise cut an exam short.
+   *
+   * Left unset, a draft's stored deadline governs, which is what every local
+   * attempt wants: there is no second opinion to prefer.
+   */
+  deadlineFromDuration?: boolean;
   /** Hold off loading — e.g. while a custom-practice config screen is open. */
   enabled?: boolean;
   /** Write answers through to the per-topic progress store. Default true. */
@@ -184,16 +219,26 @@ export function useQuiz(options: UseQuizOptions): UseQuizResult {
         // A short read means the chapter data changed under us. Discard rather
         // than score against a paper we cannot faithfully rebuild.
         if (restored.length === draft.questionIds.length) {
+          const now = Date.now();
           dispatch(
             hydrate({
               attemptKey,
               questions: restored,
-              at: Date.now(),
+              at: now,
               startedAt: draft.startedAt,
-              endsAt: draft.endsAt,
+              endsAt:
+                callbacksRef.current.deadlineFromDuration === true
+                  ? durationMs === null
+                    ? null
+                    : now + durationMs
+                  : draft.endsAt,
               bookmarked: getBookmarks(),
               resumed: true,
-              selections: draft.selections,
+              selections: mergeSelections(
+                restored,
+                draft.selections,
+                callbacksRef.current.restoredSelections
+              ),
               submitted: draft.submitted,
               flagged: draft.flagged,
               accumulatedMs: draft.accumulatedMs,
@@ -220,6 +265,14 @@ export function useQuiz(options: UseQuizOptions): UseQuizResult {
           startedAt,
           endsAt: durationMs === null ? null : startedAt + durationMs,
           bookmarked: getBookmarks(),
+          // A fresh paper can still arrive with answers: a remote attempt
+          // resumed on a second device has no draft but does have a
+          // server-side snapshot.
+          selections: mergeSelections(
+            questions,
+            undefined,
+            callbacksRef.current.restoredSelections
+          ),
         })
       );
     };
@@ -282,8 +335,11 @@ export function useQuiz(options: UseQuizOptions): UseQuizResult {
     flushedRef.current = new Set();
   }, [attemptKey]);
 
+  // Only questions this process can grade reach local progress. A remote mock
+  // is server-keyed, so this set is empty for one and `recordAttempt` is never
+  // called with a correctness bit the client guessed.
   const keyedIds = useMemo(
-    () => new Set(state.questions.filter((q) => q.correctIndex >= 0).map((q) => q.id)),
+    () => new Set(state.questions.filter((q) => hasLocalKey(q.correctIndex)).map((q) => q.id)),
     [state.questions]
   );
 
@@ -415,6 +471,32 @@ export function useQuiz(options: UseQuizOptions): UseQuizResult {
 }
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Overlays an authoritative remote snapshot under a local draft.
+ *
+ * Returns `undefined` when there is nothing to contribute, so a host that
+ * passes no `restoredSelections` gets byte-identical behaviour to before: the
+ * reducer's own "wrong length means a different paper" check still decides
+ * whether a draft array is trusted.
+ *
+ * An index the paper cannot hold is dropped rather than clamped — a snapshot
+ * that does not fit this paper is not a snapshot of this paper.
+ */
+function mergeSelections(
+  questions: readonly Question[],
+  draft: readonly (number | null)[] | undefined,
+  restored: Readonly<Record<string, number>> | undefined
+): (number | null)[] | undefined {
+  if (restored === undefined) return draft === undefined ? undefined : [...draft];
+  return questions.map((question, index) => {
+    const local = draft?.[index] ?? null;
+    if (local !== null) return local;
+    const remote = restored[question.id];
+    if (remote === undefined) return null;
+    return remote >= 0 && remote < question.options.length ? remote : null;
+  });
+}
 
 /** Lazily imported default so the hook does not force a loader on every host. */
 async function defaultResolve(ids: string[]): Promise<Question[]> {

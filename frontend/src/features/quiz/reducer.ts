@@ -21,6 +21,7 @@
  */
 
 import type { QuizAction, HydratePayload } from './actions';
+import { hasLocalKey } from './answerKey';
 import { markGuesses } from './guess';
 import type {
   FeedbackMode,
@@ -108,10 +109,13 @@ function buildRecord(
 ): ResponseRecord {
   const q = state.questions[index];
   const chosenIndex = state.selections[index] ?? null;
-  // `correctIndex === -1` is the no-answer-key sentinel from localData. Such a
-  // question is never scored as correct, which is why selectors report a
-  // separate gradable total instead of pretending it was wrong.
-  const hasKey = q.correctIndex >= 0;
+  // Both non-index sentinels land here (see answerKey.ts): -1 is a question
+  // the local bank has no key for, -2 is a remote mock whose key only the
+  // server holds. Neither can be scored as correct from this process, which is
+  // why selectors report a separate gradable total instead of pretending the
+  // answer was wrong. For a remote mock EVERY record is `correct: false`; the
+  // true per-question result arrives in `MockSubmitResponse.review`.
+  const hasKey = hasLocalKey(q.correctIndex);
   return {
     questionId: q.id,
     topicId: q.topicId,

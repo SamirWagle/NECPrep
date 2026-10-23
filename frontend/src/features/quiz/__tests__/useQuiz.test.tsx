@@ -15,16 +15,25 @@ function Harness({
   attemptKey,
   questions = QUESTIONS,
   feedback = 'immediate',
+  restoredSelections,
+  durationMs = null,
+  deadlineFromDuration = false,
 }: {
   attemptKey: string;
   questions?: Question[];
   feedback?: FeedbackMode;
+  restoredSelections?: Readonly<Record<string, number>>;
+  durationMs?: number | null;
+  deadlineFromDuration?: boolean;
 }) {
   const quiz = useQuiz({
     mode: 'topic',
     feedback,
     attemptKey,
     autosaveDelayMs: 0,
+    restoredSelections,
+    durationMs,
+    deadlineFromDuration,
     loadQuestions: async () => questions,
     resolveQuestions: async (ids) => {
       const byId = new Map(questions.map((q) => [q.id, q]));
@@ -39,6 +48,7 @@ function Harness({
     <div>
       {quiz.state.resumed && <p>Attempt resumed</p>}
       <p>Score: {quiz.summary.score}</p>
+      <p>EndsAt: {String(quiz.state.timing.endsAt)}</p>
       <p>Answered: {quiz.counts.answered}</p>
       <QuestionCard
         index={quiz.state.currentIndex}
@@ -167,6 +177,81 @@ describe('useQuiz', () => {
       expect(entry.attempted).toEqual(['book-ch1_0']);
       expect(entry.correct).toEqual(['book-ch1_0']);
     });
+  });
+
+  /**
+   * `restoredSelections` is the remote mock's resume path: the Worker returns
+   * the answers it has already accepted, so an attempt survives a device whose
+   * localStorage was never written or was cleared.
+   */
+  it('restores answers an authoritative store holds, with no local draft', async () => {
+    render(<Harness attemptKey="mock:m1" restoredSelections={{ 'book-ch1_1': 2 }} />);
+    await ready();
+
+    expect(screen.getByText('Answered: 1')).toBeInTheDocument();
+    await userEvent.setup().click(screen.getByRole('button', { name: /Next/ }));
+    expect(screen.getByRole('radio', { name: /^C/ })).toBeChecked();
+  });
+
+  it('lets a newer local draft win over the remote snapshot', async () => {
+    const user = userEvent.setup();
+    const key = 'mock:m1';
+    const first = render(<Harness attemptKey={key} />);
+    await ready();
+    await user.click(screen.getByRole('radio', { name: /^D/ }));
+    await waitFor(() => expect(readDraft(key)?.selections).toEqual([3, null, null]));
+    first.unmount();
+
+    // The draft is written on every answer, the server snapshot only every
+    // autosave, so the draft can legitimately be newer. It wins where it has a
+    // value; the server fills only the gaps.
+    render(
+      <Harness
+        attemptKey={key}
+        restoredSelections={{ 'book-ch1_0': 0, 'book-ch1_2': 1 }}
+      />
+    );
+    await ready();
+
+    expect(screen.getByRole('radio', { name: /^D/ })).toBeChecked();
+    expect(screen.getByText('Answered: 2')).toBeInTheDocument();
+  });
+
+  it('ignores a restored index the paper cannot hold', async () => {
+    render(<Harness attemptKey="mock:m1" restoredSelections={{ 'book-ch1_0': 9 }} />);
+    await ready();
+    expect(screen.getByText('Answered: 0')).toBeInTheDocument();
+  });
+
+  it('prefers an authoritative duration over a resumed draft deadline', async () => {
+    const user = userEvent.setup();
+    const key = 'mock:m1';
+    const first = render(<Harness attemptKey={key} durationMs={60_000} />);
+    await ready();
+    await user.click(screen.getByRole('radio', { name: /^B/ }));
+    const stored = await waitFor(() => {
+      const draft = readDraft(key);
+      expect(draft?.endsAt).not.toBeNull();
+      return draft;
+    });
+    first.unmount();
+
+    // Resumed WITHOUT the flag: the draft's own deadline governs, which is what
+    // every local attempt wants.
+    const second = render(<Harness attemptKey={key} durationMs={7_200_000} />);
+    await ready();
+    expect(screen.getByText(`EndsAt: ${String(stored?.endsAt)}`)).toBeInTheDocument();
+    second.unmount();
+
+    // Resumed WITH it: the deadline is recomputed from the duration, because on
+    // a remote paper that duration is the server's remaining time and the
+    // stored instant was written against this device's clock.
+    render(<Harness attemptKey={key} durationMs={7_200_000} deadlineFromDuration />);
+    await ready();
+    expect(screen.queryByText(`EndsAt: ${String(stored?.endsAt)}`)).not.toBeInTheDocument();
+    expect(Number(screen.getByText(/^EndsAt: /).textContent?.slice(8))).toBeGreaterThan(
+      Date.now() + 7_000_000
+    );
   });
 
   it('defers the verdict in deferred mode until the paper is submitted', async () => {

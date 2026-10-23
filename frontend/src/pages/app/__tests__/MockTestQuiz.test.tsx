@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import MockTestQuiz from '../MockTestQuiz';
 import { examFormat, readConfirmed } from '../../../data/examBlueprint';
+import { isBackendConfigured } from '../../../services/api';
 
 /**
  * A mock test is the one place where revealing an answer mid-paper is a real
@@ -11,6 +12,12 @@ import { examFormat, readConfirmed } from '../../../data/examBlueprint';
  * true of this page before it was moved onto the shared quiz engine: feedback
  * was shown per question in some paths, and the submit button went straight to
  * scoring with no count of what had been left blank.
+ *
+ * THIS FILE IS THE NO-BACKEND BUILD. Nothing here mocks `services/api`, so
+ * `VITE_API_BASE_URL` is unset and `isBackendConfigured()` is false — the
+ * static-JSON-plus-localStorage deployment that is live today. The server-scored
+ * path is covered in `MockTestQuiz.remote.test.tsx`; everything asserted here
+ * must keep working without it.
  */
 
 const CH_JSON = [
@@ -58,6 +65,21 @@ beforeEach(() => {
 });
 
 describe('MockTestQuiz', () => {
+  it('runs on the local path, with no backend configured', async () => {
+    renderMock();
+    await waitFor(() => expect(screen.getByRole('timer')).toBeInTheDocument());
+
+    // The premise of every other assertion in this file.
+    expect(isBackendConfigured()).toBe(false);
+    // Every request went to the static question bank; no absolute API origin
+    // was contacted, so the quiz is scoring locally by design.
+    const urls = (globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.map(([url]) =>
+      String(url)
+    );
+    expect(urls.length).toBeGreaterThan(0);
+    expect(urls.every((url) => url.startsWith('/data/'))).toBe(true);
+  });
+
   it('runs the paper at the owner-confirmed 120-minute duration', async () => {
     renderMock();
     await waitFor(() => expect(screen.getByRole('timer')).toBeInTheDocument());

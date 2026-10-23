@@ -16,6 +16,7 @@ export { quizReducer, createInitialState, defaultFeedbackFor, timeSpentAt } from
 export type { InitialQuizConfig } from './reducer';
 
 export * from './actions';
+export * from './answerKey';
 export * from './selectors';
 export * from './guess';
 export * from './format';

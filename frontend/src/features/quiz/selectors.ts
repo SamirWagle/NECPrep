@@ -6,6 +6,7 @@
  * an incremented counter does.
  */
 
+import { hasLocalKey, isServerKeyed } from './answerKey';
 import type {
   PaletteEntry,
   Question,
@@ -44,6 +45,12 @@ export function selectIsRevealed(state: QuizState, index: number): boolean {
  * UI must show the pick without leaking whether it was right. Returning
  * `unanswered` for an untouched question is what stops forward navigation from
  * showing a verdict on a question nobody has answered.
+ *
+ * `withheld` is the remote-mock answer, and the reason this function cannot
+ * simply fall through to `unkeyed`: on a server-scored paper there IS a key,
+ * this client has never held it, and the only truthful verdict the engine can
+ * produce is "the server marked it". The result screen reads the server's
+ * `MockSubmitResponse`; nothing here guesses.
  */
 export function selectVerdict(state: QuizState, index: number): Verdict {
   const q = state.questions[index];
@@ -51,16 +58,23 @@ export function selectVerdict(state: QuizState, index: number): Verdict {
   if (!q) return 'unanswered';
   if (chosen === null) return 'unanswered';
   if (!selectIsRevealed(state, index)) return 'pending';
-  if (q.correctIndex < 0) return 'unkeyed';
+  if (isServerKeyed(q.correctIndex)) return 'withheld';
+  if (!hasLocalKey(q.correctIndex)) return 'unkeyed';
   return chosen === q.correctIndex ? 'correct' : 'incorrect';
 }
 
-/** Derived score: committed answers that match a real answer key. */
+/**
+ * Derived score: committed answers that match a real answer key.
+ *
+ * Returns 0 for a remote mock, where no question carries a key. That is the
+ * honest answer and not a bug: the score for a server-scored paper comes from
+ * `MockSubmitResponse`, so a host on the remote path must not render this.
+ */
 export function selectScore(state: QuizState): number {
   let score = 0;
   for (const index of state.submitted) {
     const q = state.questions[index];
-    if (!q || q.correctIndex < 0) continue;
+    if (!q || !hasLocalKey(q.correctIndex)) continue;
     if (state.selections[index] === q.correctIndex) score++;
   }
   return score;
@@ -68,7 +82,7 @@ export function selectScore(state: QuizState): number {
 
 /** Questions with a usable answer key — the denominator a percentage deserves. */
 export function selectGradableTotal(state: QuizState): number {
-  return state.questions.reduce((n, q) => (q.correctIndex >= 0 ? n + 1 : n), 0);
+  return state.questions.reduce((n, q) => (hasLocalKey(q.correctIndex) ? n + 1 : n), 0);
 }
 
 /** Answered means "has a selection", committed or not. */
@@ -139,7 +153,7 @@ export function selectSummary(state: QuizState): QuizSummary {
     // Wrong answers only: an unanswered question is skipped, not incorrect, and
     // a question with no answer key is neither.
     incorrect: state.questions.reduce<number>((n, q, i) => {
-      if (q.correctIndex < 0) return n;
+      if (!hasLocalKey(q.correctIndex)) return n;
       if (!state.submitted.has(i)) return n;
       const chosen = state.selections[i] ?? null;
       return chosen !== null && chosen !== q.correctIndex ? n + 1 : n;

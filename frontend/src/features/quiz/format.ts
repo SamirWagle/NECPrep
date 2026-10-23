@@ -43,6 +43,10 @@ export function verdictMessage(verdict: Verdict, correctIndex: number): string {
       return `Incorrect. The correct answer is ${optionLetter(correctIndex)}.`;
     case 'unkeyed':
       return 'Answer recorded. No answer key is available for this question yet.';
+    case 'withheld':
+      // Never "correct"/"incorrect": the client has no key to check against,
+      // and inventing a verdict here is the whole failure this engine avoids.
+      return 'Answer submitted. It was marked on the server.';
     case 'pending':
       return 'Answer recorded. It will be marked when you submit the paper.';
     case 'unanswered':

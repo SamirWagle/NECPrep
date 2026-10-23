@@ -147,4 +147,11 @@ export type Verdict =
   | 'correct'
   | 'incorrect'
   /** Answered and revealed, but the bank has no key for this question. */
-  | 'unkeyed';
+  | 'unkeyed'
+  /**
+   * Answered and past the reveal point, but this client never held the key —
+   * a remote mock, where the server did the marking. Deliberately NOT
+   * `unkeyed`: there is a key and the answer was graded, just not here. The
+   * result screen reads the server's verdict; the engine does not guess one.
+   */
+  | 'withheld';
