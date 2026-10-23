@@ -5167,3 +5167,36 @@ body {
   font-size: 0.8rem;
   opacity: 0.75;
 }
+
+/* Sign-in entry point in the landing nav. The login page existed at /signin
+   and nothing linked to it, so the only way in was to type the URL. */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-signin {
+  display: inline-flex;
+  align-items: center;
+  /* 44px, so it is a real target on a phone rather than a word to pinch at. */
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--color-border-strong, rgba(255, 255, 255, 0.25));
+  border-radius: 999px;
+  color: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-signin:hover {
+  border-color: currentColor;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

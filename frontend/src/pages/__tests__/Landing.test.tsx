@@ -1,14 +1,20 @@
-import { describe, it, expect, afterEach, beforeAll, vi } from 'vitest';
+import { describe, it, expect, beforeAll, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import Landing from '../Landing';
 
 /**
- * The name-entry modal declared role="dialog" aria-modal="true" and then did
- * none of the work that claim implies: no initial focus, no focus trap, no
- * Escape handler, no background scroll lock and no focus restoration — Tab
- * walked straight out into the page behind it.
+ * The landing page is the only route a visitor arrives on, so it is the only
+ * place a way in can be missing from — and it was. Nothing here linked to
+ * /signin, and the single call to action opened a modal that collected a
+ * display name into localStorage and navigated to /app, where the session
+ * guard then asked for a sign-in anyway. Two identity prompts in a row, the
+ * first of which decided nothing.
+ *
+ * The modal is gone and /signin does the job properly: guest, Google, or email
+ * and password. These tests cover the ways in, because a login page nobody can
+ * find is the same as no login page.
  */
 
 // framer-motion's `whileInView` needs IntersectionObserver, which jsdom does not
@@ -35,118 +41,70 @@ function renderLanding() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/app" element={<h1>Dashboard</h1>} />
+        <Route path="/signin" element={<h1>Sign-in page</h1>} />
       </Routes>
     </MemoryRouter>
   );
 }
 
-const openers = () => screen.getByRole('button', { name: /Get Started Free/i });
-
-afterEach(() => {
-  document.body.style.overflow = '';
-});
-
-describe('Landing name dialog', () => {
-  it('names itself from its heading and takes initial focus on the input', async () => {
-    const user = userEvent.setup();
+describe('Landing sign-in entry points', () => {
+  it('offers Sign in from the navigation', () => {
     renderLanding();
-
-    await user.click(openers());
-
-    const dialog = screen.getByRole('dialog');
-    expect(dialog).toHaveAttribute('aria-modal', 'true');
-    expect(dialog).toHaveAccessibleName('Nice to meet you!');
-    expect(screen.getByLabelText('Full name')).toHaveFocus();
+    // This link did not exist. /signin was reachable only by typing the URL.
+    expect(screen.getByRole('link', { name: /sign in/i })).toHaveAttribute(
+      'href',
+      '/signin',
+    );
   });
 
-  it('locks background scroll while open and releases it on close', async () => {
+  it('sends the primary call to action to /signin, not straight into the app', async () => {
     const user = userEvent.setup();
     renderLanding();
 
-    expect(document.body.style.overflow).toBe('');
-
-    await user.click(openers());
-    expect(document.body.style.overflow).toBe('hidden');
-
-    await user.keyboard('{Escape}');
-    expect(document.body.style.overflow).toBe('');
+    await user.click(screen.getByRole('button', { name: /Get Started Free/i }));
+    // /signin is where the three real ways in live. It also redirects to /app
+    // on a build with no backend configured, so this works in both modes.
+    expect(await screen.findByText('Sign-in page')).toBeInTheDocument();
   });
 
-  it('traps Tab and Shift+Tab inside the dialog', async () => {
+  it('sends the closing call to action to the same place', async () => {
     const user = userEvent.setup();
     renderLanding();
 
-    await user.click(openers());
-
-    const closeButton = screen.getByRole('button', { name: 'Close' });
-    const input = screen.getByLabelText('Full name');
-    const submit = screen.getByRole('button', { name: /Start studying/i });
-
-    expect(input).toHaveFocus();
-
-    await user.tab();
-    expect(submit).toHaveFocus();
-
-    // Past the last control the trap must wrap to the first, not escape into
-    // the page behind the overlay.
-    await user.tab();
-    expect(closeButton).toHaveFocus();
-
-    await user.tab({ shift: true });
-    expect(submit).toHaveFocus();
+    await user.click(screen.getByRole('button', { name: /Start Preparing Now/i }));
+    expect(await screen.findByText('Sign-in page')).toBeInTheDocument();
   });
 
-  it('closes on Escape and restores focus to the control that opened it', async () => {
-    const user = userEvent.setup();
+  it('no longer asks for a name before letting anyone in', () => {
     renderLanding();
-
-    const trigger = openers();
-    await user.click(trigger);
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    await user.keyboard('{Escape}');
-
+    // The modal promised "no account needed" and then demanded an identity
+    // that decided nothing.
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(trigger).toHaveFocus();
+    expect(screen.queryByLabelText(/your name/i)).not.toBeInTheDocument();
   });
 
-  it('restores focus to whichever trigger opened it', async () => {
-    const user = userEvent.setup();
+  it('still promises a guest route, because /signin provides one', () => {
     renderLanding();
-
-    // The page has two openers; focus must go back to the one that was used.
-    const ctaTrigger = screen.getByRole('button', { name: /Start Preparing Now/i });
-    await user.click(ctaTrigger);
-    await user.click(screen.getByRole('button', { name: 'Close' }));
-
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(ctaTrigger).toHaveFocus();
+    expect(screen.getByText(/continue as a guest/i)).toBeInTheDocument();
   });
 
-  it('wires its validation message to the input', async () => {
-    const user = userEvent.setup();
+  it('links to the privacy policy and terms', () => {
     renderLanding();
-
-    await user.click(openers());
-    await user.click(screen.getByRole('button', { name: /Start studying/i }));
-
-    const alert = screen.getByRole('alert');
-    expect(alert).toHaveTextContent(/Please enter your name/i);
-    const input = screen.getByLabelText('Full name');
-    expect(input).toHaveAttribute('aria-invalid', 'true');
-    expect(input).toHaveAttribute('aria-describedby', alert.id);
+    // Google's consent screen links to /privacy; it has to be findable from
+    // the site too.
+    expect(screen.getByRole('link', { name: /privacy policy/i })).toHaveAttribute(
+      'href',
+      '/privacy',
+    );
+    expect(screen.getByRole('link', { name: /terms of use/i })).toHaveAttribute(
+      'href',
+      '/terms',
+    );
   });
 
-  it('still submits and navigates from the keyboard', async () => {
-    const user = userEvent.setup();
+  it('states it is not affiliated with the examining authority', () => {
     renderLanding();
-
-    await user.click(openers());
-    await user.keyboard('Samir{Enter}');
-
-    expect(await screen.findByRole('heading', { name: 'Dashboard' })).toBeInTheDocument();
-    // The scroll lock must not survive the navigation that unmounts the page.
-    expect(document.body.style.overflow).toBe('');
+    expect(screen.getByText(/not affiliated with/i)).toBeInTheDocument();
   });
 });
 
